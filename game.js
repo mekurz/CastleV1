@@ -6,6 +6,7 @@ function Game()
   this.splat_queue = new Array();
   this.dragging = false;
   this.mouse_start = new Point();
+  this.tooltip = new Tooltip();
   
   var canvas = null;
   this.map_ctx = null;
@@ -109,6 +110,7 @@ function Game()
   this.update = function()
   {
     // MEK TO DO PERFORM ANY NECESSARY LOGIC ROUTINES HERE NOT DIRECTLY ATTACHED TO AN EVENT (I.E. MOVE MONSTERS) 
+    move_monsters();
   };
   
   this.draw = function()
@@ -171,7 +173,7 @@ function Game()
     {
       var mouse_pos = get_mouse_location( canvas[0], evt );
       
-      if( evt.button == 0 )   // Left-click
+      if( evt.button == 0 && !document.game.tooltip.visible )   // Left-click
       {
         document.game.mouse_start.assign( mouse_pos );
         
@@ -184,7 +186,7 @@ function Game()
       }
       else if( evt.button == 2 ) // Right-click
       {
-        show_tooltip( mouse_pos );
+        document.game.tooltip.show_tooltip( mouse_pos );
       }
       
       delete mouse_pos;
@@ -197,16 +199,21 @@ function Game()
   {
     if( !is_processing() )
     {
-      hide_tooltip();
-      
-      if( document.game.dragging )
+      if( evt.button == 0 && !document.game.tooltip.visible )      
       {
-        document.game.end_dragging();
+        if( document.game.dragging )
+        {
+          document.game.end_dragging();
+        }
+        else
+        {
+          process_click( document.game.mouse_start ); 
+          document.game.do_turn();      
+        }
       }
-      else
+      else if( evt.button == 2 ) // Right-click
       {
-        process_click( document.game.mouse_start ); 
-        document.game.do_turn();      
+        document.game.tooltip.hide_tooltip(); 
       }
     }
     
@@ -233,7 +240,7 @@ function Game()
       if( !Player.location.equals( mouse_pos ) )
       {
         var vector = Player.location.get_unit_vector( mouse_pos );
-        var move = new Movement().move_player_with_vector( vector );
+        var move = new Movement().move_actor_with_vector( Player, vector );
         document.game.mouse_start.assign( mouse_pos );
         document.game.do_turn();
         

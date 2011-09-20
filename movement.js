@@ -40,20 +40,25 @@ function Movement()
   this.move_on_keypress = function( key )
   {
     var vector = this.get_vector_for_keypress( key );
-    this.move_player_with_vector( vector );
+    this.move_actor_with_vector( Player, vector );
+    
+    if( !document.game.dragging )
+    {
+      Map.center_map_on_location( Player.location );
+    }
   };
   
-  this.move_player_with_vector = function( vector )
+  this.move_actor_with_vector = function( actor, vector )
   {
-    if( Map.is_valid_move( Player.location, vector ) )
+    if( Map.is_valid_move( actor.location, vector ) )
     {
-      var target = new Point( Player.location.x, Player.location.y );
+      var target = new Point( actor.location.x, actor.location.y );
       target.add_vector( vector );
       var target_item = Movement.is_target_tile_occupied( target );
       
       if( target_item )
       {
-        if( !document.game.dragging )
+        if( !document.game.dragging && this.is_valid_target_for_melee( actor, target_item ) )
         {
           //Don't allow dragging through monsters
           // Assumes the only thing we can bump into other than walls right now is monsters
@@ -63,14 +68,14 @@ function Movement()
       }
       else
       {
-        Player.add_vector( vector ); 
-        
-        if( !document.game.dragging )
-        {
-          Map.center_map_on_location( Player.location );
-        }
+        actor.add_vector( vector ); 
       }
     }
+  };
+  
+  this.is_valid_target_for_melee = function( actor, target_item )
+  {
+    return actor != target_item && !( actor.is_monster && target_item.is_monster ); 
   };
   
   
@@ -79,11 +84,13 @@ function Movement()
 Movement.is_target_tile_occupied = function( target )
 {
   var occupied = null;
-  
+   
   occupied = get_monster_in_tile( target );
   
-  // if( occupied == null )
-  //     blah blah try next collection
+  if( occupied == null && target.equals( Player.location ) )
+  {
+    return Player;
+  }
   
   return occupied;
 };

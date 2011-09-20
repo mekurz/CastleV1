@@ -1,7 +1,7 @@
 function Actor( id )
 {
   this.id           = id;
-  this.description  = "";
+  this.description  = "You";
   this.img          = null;
   this.location     = new Point();
   this.max_hp       = 0;
@@ -9,6 +9,7 @@ function Actor( id )
   this.current_hp   = 0;
   this.current_mana = 0;
   this.ac           = 0;
+  this.is_monster   = false;
 }
 
 Actor.prototype.initialize = function()

@@ -429,7 +429,7 @@ ProjectileSpellEffect.prototype.has_collided_with_unexpected_obstacle = function
 {
   var current_item = Movement.is_target_tile_occupied( current_tile );
   
-  if( current_item != undefined && !current_item.location.equals( this.spell_action.target_tile ) )
+  if( current_item != undefined && !current_item.location.equals( this.source ) && !current_item.location.equals( this.spell_action.target_tile ) )
   {
     Log.debug( "Current tile is occupied. Resetting target to " + current_tile.to_string() );
     return true;

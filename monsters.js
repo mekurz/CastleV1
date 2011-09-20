@@ -27,15 +27,23 @@ function create_single_monster( monster_type, location )
 
 function draw_monsters( ctx )
 {
-  for( i = 0; i < monsters.length; ++i )
+  for( var i = 0; i < monsters.length; ++i )
   {
     monsters[i].draw( ctx );
   } 
 }
 
+function move_monsters( ctx )
+{
+  for( var i = 0; i < monsters.length; ++i )
+  {
+    monsters[i].do_move();
+  } 
+}
+
 function get_monster_in_tile( point )
 {
-  for( i = 0; i < monsters.length; ++i )
+  for( var i = 0; i < monsters.length; ++i )
   {
     if( monsters[i].location.equals( point ) )
     {
@@ -48,7 +56,7 @@ function get_monster_in_tile( point )
 
 function get_monster_ix( monster_id )
 {
-  for( i = 0; i < monsters.length; ++i )
+  for( var i = 0; i < monsters.length; ++i )
   {
     if( monsters[i].id == monster_id )
     {
@@ -59,7 +67,7 @@ function get_monster_ix( monster_id )
 
 function get_monster_by_id( monster_id )
 {
-  for( i = 0; i < monsters.length; ++i )
+  for( var i = 0; i < monsters.length; ++i )
   {
     if( monsters[i].id == monster_id )
     {
@@ -72,6 +80,7 @@ function Monster()
 {
   Monster.base_constructor.call( this, Monster.max_monster_id );
   Monster.max_monster_id++;
+  this.is_monster = true;
 }
 extend( Monster, Actor );
 
@@ -100,5 +109,33 @@ Monster.prototype.kill = function()
 
 Monster.prototype.get_tooltip = function()
 {
-  return "<li>" + this.get_health_term() + " " + this.description + "</li>";
+  var html = "<li>" + this.get_health_term() + " " + this.description;
+  html += " (id=" + this.id + ")";  
+  html += "</li>";
+  
+  return html;
+};
+
+Monster.prototype.do_move = function()
+{
+  if( Map.is_location_visible( this.location ) )
+  {
+    var vector = new Point();
+    vector.x += Math.floor( Math.random() * 3 ) - 1;    // FOR NOW, JUST MOVE MONSTERS RANDOMLY
+    vector.y += Math.floor( Math.random() * 3 ) - 1;
+    
+    if( vector.neither_coord_is_zero() )
+    {
+      Log.debug( "Monster " + this.id + " attempting to advance " + vector.to_string() );
+      var move = new Movement().move_actor_with_vector( this, vector );
+    }
+    else
+    {
+      Log.debug( "Monster " + this.id + " is too lazy to move." ); 
+    }
+  }
+  else
+  {
+    Log.debug( "Monster " + this.id + " not visible. Not moving." ); 
+  }
 };

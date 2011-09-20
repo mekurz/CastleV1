@@ -3,55 +3,73 @@ var TILE_DATA  = [ "{\"src\":\"grass.png\",\"passable\":1}",  // 0
                    "{\"src\":\"stones.png\",\"passable\":1}", // 2
                    "{\"src\":\"wall.png\",\"passable\":0}",   // 3
                  ];
+
 var TOOLTIP_FADE_SPEED = 150;
 var TOOLTIP_SLIDE_SPEED = 200;
 
-var loaded = 0;
-
-function show_tooltip( location )
+function Tooltip()
 {
-  var tooltip = $("#tooltip");
-  var contents = $("#tooltip_contents");
-  var map_location = $("#map").position();
+  this.tooltip = $("#tooltip");
+  this.contents = $("#tooltip_contents");
+  this.map_location = $("#map").position();
+  this.num_items = 0;
+  this.visible = false; 
   
-  var num_items = fill_tooltip_with_monster( contents, location );
-  // TODO LOOP THROUGH OTHER COLLECTIONS OF STUFF (ITEMS, ETC)
+  this.tooltip.hide();
+  this.contents.hide();
   
-  if( num_items == 0 )
+  this.show_tooltip = function( location )
   {
-    contents.append( "<li>nothing</li>" ); 
-  }
+    this.num_items = 0;
+    this.visible = true;
+    this.fill_tooltip_with_monster( location );
+    // TODO LOOP THROUGH OTHER COLLECTIONS OF STUFF (ITEMS, ETC)
+    this.display_empty_message_if_necessary();    
+    
+    this.adjust_position( location );
+    
+    this.tooltip.fadeIn( TOOLTIP_FADE_SPEED, function(){
+      document.game.tooltip.contents.slideDown( TOOLTIP_SLIDE_SPEED );
+    }); 
+  };
   
-  // TODO FANCIER WAY OF SETTING THE LOCATION IN CASE WE GO OFF THE EDGE OF THE WINDOW
-  location.convert_to_raw();
-  tooltip.css( "top", parseInt( location.y ) + map_location.top + TILE_WIDTH );
-  tooltip.css( "left", location.x + map_location.left );
-  
-  tooltip.fadeIn( TOOLTIP_FADE_SPEED, function(){
-    contents.slideDown( TOOLTIP_SLIDE_SPEED );
-  }); 
-}
-
-function fill_tooltip_with_monster( contents, location )
-{
-  var monster = get_monster_in_tile( location );
-  
-  if( monster != null )
+  this.hide_tooltip = function()
   {
-    contents.append( monster.get_tooltip() );
-    return 1;
-  }
+    this.contents.slideUp( TOOLTIP_SLIDE_SPEED, function(){
+      document.game.tooltip.tooltip.fadeOut( TOOLTIP_FADE_SPEED );
+      document.game.tooltip.contents.children().remove();
+    });
+    this.visible = false;
+  };
   
-  return 0;
-}
+  this.adjust_position = function( location )
+  {
+    // TODO FANCIER WAY OF SETTING THE LOCATION IN CASE WE GO OFF THE EDGE OF THE WINDOW
+    location.convert_to_raw();
+    this.tooltip.css( "top", parseInt( location.y ) + this.map_location.top + TILE_WIDTH );
+    this.tooltip.css( "left", location.x + this.map_location.left );
+  };
+  
+  this.fill_tooltip_with_monster = function( location )
+  {
+    var monster = get_monster_in_tile( location );
+    
+    if( monster != null )
+    {
+      this.contents.append( monster.get_tooltip() );
+      this.num_items++;
+    }
+  };
+  
+  this.display_empty_message_if_necessary = function()
+  {
+    if( this.num_items == 0 )
+    {
+      this.contents.append( "<li>nothing</li>" ); 
+    }
+  };
+};
 
-function hide_tooltip()
-{
-  $("#tooltip_contents").slideUp( TOOLTIP_SLIDE_SPEED, function(){
-    $("#tooltip").fadeOut( TOOLTIP_FADE_SPEED );
-    $("#tooltip_contents").children().remove();
-  });
-}
 
 function Tile( ix )
 {
@@ -70,8 +88,6 @@ function ViewPort()
   this.initialize = function()
   {
     this.create_tiles();
-    $("#tooltip").hide();
-    $("#tooltip_contents").hide();
   };
   
   this.create_tiles = function()

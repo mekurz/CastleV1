@@ -68,9 +68,16 @@ Version 11 - 15-Sep-2011
 Version 12 - 18-Sep-2011
 - First version of new tooltips (overrides right-click events on the canvas only).
 
+Version 13 - 19-Sep-2011
+- Moved everything into a Git repository
+- Cleaned up the tooltip code substantially.
+- Preliminary work for enemy AI (monsters will move around randomly or stay put)
+- Monsters could theoretically hit you if they get lucky but it doesn't do anything except trigger a poorly constructed sentence in the log.
+
+
 TODO
 ============
-- Refactor tooltips into a proper class
+- Random canvas clicks on nothing should not trigger game turns
 - Subclass of actor for the player?
 - Area spells need to set their primary target to the last square that they were in, NOT the square where an obstacle is encountered
 - Enemy AI
