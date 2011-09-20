@@ -1,0 +1,66 @@
+
+<html>
+	<head>
+		<title>BROWSER OF THE WINDS CANVAS VERSION</title>
+		<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+		<link href="style.css" rel="stylesheet" type="text/css" />
+		<script type="text/javascript" src="jquery-1.6.2.min.js"></script>
+		<script type="text/javascript" src="jquery.json-2.2.min.js"></script>
+		<script type="text/javascript" src="common.js"></script>
+		<script type="text/javascript" src="logger.js"></script>
+		<script type="text/javascript" src="image_cache.js"></script>
+		<script type="text/javascript" src="game.js"></script>
+		<script type="text/javascript" src="viewport.js"></script>
+		<script type="text/javascript" src="actor.js"></script>
+		<script type="text/javascript" src="mouse.js"></script>
+		<script type="text/javascript" src="movement.js"></script>
+		<script type="text/javascript" src="monsters.js"></script>
+		<script type="text/javascript" src="melee.js"></script>
+		<script type="text/javascript" src="spells.js"></script>
+		<script type="text/javascript" src="debug.js"></script>
+	</head>
+	<body style="margin:0px;">
+	  Use arrows or num pad to move, OR click and drag the man to move. Click on RAT MANS or bump into them to attack! Select a spell from the menu, click Cast and then click a tile!<br/>
+		processing:<input type="text" id="processing" value="0"></input>
+		command:<input type="text" id="command" value="0"></input>
+		<a href="changelog.txt">Change Log</a><br/>
+		TEST: <select id="test_menu">
+		  <option value="0">TEST FIZZLES</option>
+		  <option value="1">TEST SPLAT</option>
+		  <option value="2">TEST PROJECTILES</option>
+		  <option value="3">TEST AREA EFFECT</option>
+		  <option value="4">KILL ALL RAT MANS</option>
+		</select>
+		<input type="submit" value="Run Test" onclick="run_test();"></input>
+		SPELL: <select id="spell_menu">
+      <option value="2">MAGIC MISSILE</option>
+      <option value="3">LIGHTNING BOLT</option>
+      <option value="4">FIREBOLT</option>
+      <option value="5">FIREBALL</option>
+    </select>
+		<input type="submit" value="Cast Spell" onclick="cast_spell( parseInt( $('#spell_menu').val() ) );"></input>
+		<br/><br/>
+		<div id="game_area" style="margin-left:10px;">
+			<canvas id="map" width="960" height="480" style="border:1px solid black;" oncontextmenu="return false;">
+			  Canvas not supported. You must be using Internet Explorer 9, Firefox 4+, Chrome or Safari.
+			</canvas>
+			<div id="log" style="width:960px;height:150px;overflow-x:auto;border:1px solid black;border-top-width:0px;font-family:monospace;font-size:8pt;"></div>
+			<input type="submit" value="Clear Log" onclick="Log.clear();"></input>
+			<div id="tooltip">
+        <div class="TooltipTop">You see:</div>
+        <div id="tooltip_contents"></div>
+        <div class="TooltipBottom"></div>
+			</div>
+		</div>
+	  <script type="text/javascript">
+		  $(document).ready( function()
+		    {
+		      document.game = new Game();
+	        document.game.run();
+	        
+	        set_command( NO_COMMAND );
+          set_finished();
+		    });
+	  </script>
+	</body>
+</html>

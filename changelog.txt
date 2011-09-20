@@ -1,0 +1,79 @@
+Version 1 - 22-Nov-2010
+- Started change log
+- Fixed major bug with Point.adjacent_to()
+- Refactored SpellEffect class hierarchy
+- Added Projectile and Splat spell effects
+- Refactored Actor class hierarchy
+- Added Monster class
+
+Version 2 - 06-Apr-2011
+- Added tooltips for monsters
+- Added hoverIntent library
+
+Vection 3 - 07-Apr-2011
+- ViewPort class (creating tiles, loading map tiles, larger map support, shifting map, more JQuery)
+- Player now uses an instance of Actor
+
+Version 4 - 09-Apr-2011
+- More work on diagonal weirdness
+- KeyDown movement now relies on Vector rather than directly manipulating CSS top/left properties.
+- Added a couple new tiles
+- changed viewport shift threshold to 1 to eliminate some weirdness
+- Spells now use the Player as the source.
+- Monsters will shift and show/hide as the map moves around
+
+Version 5 - 03-Jul-2011
+- Rewritten to support HTML5 and canvas drawing. Most of the JQuery is gone. Actually, most of the code is gone.
+- Map now attempts to centre the player in the viewport after every move. This eliminates all the weird behaviour from the old algorithm.
+
+Version 6 - 04-Jul-2011
+- Sped up logging with JQuery and capped at 1000 lines to prevent performance issues with really big logs.
+- Mouse handling routines added. Needs some refactoring.
+- Click-and-drag functionality for player movement.
+- Clicking for adjacent enemies to make a melee attack.
+- Appears to possibly be a memory leak somewhere (FF5 grows large, IE9 and Chrome look fine... could just be that FF5 is shit)
+- Upgraded JQuery library to 1.6.2 from 1.4.x (seems to have improved the FF5 memory issues) 
+
+Version 7 - 05-Jul-2011
+- HTML5 spell animation engine created.
+- Class structure for spell effects created.
+  - Added fading and fading+rotating effects for single point spells.
+- Added splat animations for monster deaths.
+- Test buttons added to demo new animation features. Death Splat button always tries to animate at (5,5) whether or not that square is visible. Fizzles are displayed at raw coordinates.
+
+Version 8 - 12-Sep-2011
+- Projectile spell effect added.
+- Improvements to animation queue to support chaining spell effects together.
+- Fixed fade spell effect to prevent negative alpha.
+- Test button for projectile spell test in all directions.
+- Magic Missile button added to target a tile by clicking.
+
+Version 9 - 13-Sep-2011
+- Scaling and Area spell effects added
+- Test button for Area effect added
+- Burninate button added to target a tile by clicking.
+
+Version 10 - 14-Sep-2011
+- Refactored how ProjectileSpellEffect handles arriving at a target or encountering an obstacle.
+- Added actions to spell animations allow spells to have consequences upon resolving.
+- Refactored how Monsters are killed.
+- Removed several unnecessary debug messages to reduce log clutter.
+- Cleaned up process_click()
+- Eliminated the remainder of the old JQuery spell system.
+
+Version 11 - 15-Sep-2011
+- Add splat_queue to animate splats after all other animations are completed.
+- Made the main page less ugly.
+
+Version 12 - 18-Sep-2011
+- First version of new tooltips (overrides right-click events on the canvas only).
+
+TODO
+============
+- Refactor tooltips into a proper class
+- Subclass of actor for the player?
+- Area spells need to set their primary target to the last square that they were in, NOT the square where an obstacle is encountered
+- Enemy AI
+- Props (doors, chests, etc)
+- Implement HP/mana counters for Player (i.e. no more invincibility)
+- Items/inventory system

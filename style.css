@@ -1,0 +1,37 @@
+@CHARSET "ISO-8859-1";
+
+body
+{
+  font-family: Verdana;
+  font-size: 10pt;
+}
+
+#tooltip 
+{
+  position: absolute;
+  z-index: 9999;
+  font-size: 8pt;
+  width: 192px;
+}
+
+#tooltip_contents
+{
+  background-image: url(images/scroll_middle.png);
+  background-repeat: repeat-y;
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+.TooltipTop
+{
+	background-image: url(images/scroll_top.png);
+	height: 25px;
+	line-height: 25px;
+	padding-left: 20px;
+}
+
+.TooltipBottom
+{
+  background-image: url(images/scroll_bottom.png);
+  height: 26px;
+}
