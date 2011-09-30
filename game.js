@@ -207,8 +207,10 @@ function Game()
         }
         else
         {
-          process_click( document.game.mouse_start ); 
-          document.game.do_turn();      
+          if( process_click( document.game.mouse_start ) )
+          {
+            document.game.do_turn();
+          }
         }
       }
       else if( evt.button == 2 ) // Right-click

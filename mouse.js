@@ -2,11 +2,12 @@ function process_click( location )
 {
   if( is_processing() ) // Don't allow clicks if we're already processing an event.
   {
-    return;
+    return false;
   }
   
   set_processing();
   var command = get_command();
+  var valid_action = false;
   
   switch( command )
   {
@@ -16,19 +17,20 @@ function process_click( location )
       if( location.adjacent_to( Player.location ) && target_item != null )  // TODO ASSUMES THAT ONLY MONSTERS CAN BE ADJACENT
       {
         new Melee( target_item ).process();
+        valid_action = true;
       }
       
-      set_finished();
+      set_finished();      
       break;
     case MAGIC_MISSILE:
     case LIGHTNING_BOLT:
     case FIREBOLT:
       add_spell_effect( new ProjectileSpellEffect( command, location ),  new Spell( command, location ) );
-      default_cursor();
+      valid_action = true;
       break;    
     case FIREBALL:
       add_spell_effect( new AreaSpellEffect( FIREBOLT, FIREBALL, location ),  new AreaEffectSpell( command, location ) );
-      default_cursor();
+      valid_action = true;
       break;
 
     default:
@@ -37,7 +39,10 @@ function process_click( location )
       break;
   }
 
+  default_cursor();
   set_command( NO_COMMAND );
+  
+  return valid_action;
 }
 
 function get_mouse_location( canvas, event )
