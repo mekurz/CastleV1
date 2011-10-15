@@ -74,13 +74,38 @@ Version 13 - 19-Sep-2011
 - Preliminary work for enemy AI (monsters will move around randomly or stay put)
 - Monsters could theoretically hit you if they get lucky but it doesn't do anything except trigger a poorly constructed sentence in the log.
 
+Version 14 - 14-Oct-2011
+- Bug fixes:
+  - Random clicks no longer cause turns to occur
+  - Tiles are no longer considered adjacent to themselves
+- General
+  - Melee events can have sources other than the Player
+  - Updated melee combat resolution system so that it outputs some messages that are grammatically correct.
+  - Added a method for determining line of sight
+  - Tooltips will state that you cannot see a tile if it is not within line of sight (i.e. blocked by an obstacle)
+  - Various other cleanups
+  - Fixed some serious fuck-ups with dragging the Player around with the mouse which weren't immediately apparent until monsters started doing stuff
+- Monsters:
+  - Added Hill Giant (oh shit!)
+- Enemy AI changes:
+  - Monsters will use line of sight to determine if they can see you
+  - Monsters will move to attack if you are within a certain distance (Rat Mans have bad eyes)
+  - Monsters that don't have line of sight or are too far away from you have a 50% chance of just wandering around
+  - Certain monsters can see far and have a chance of deciding to cast a spell at you rather than move
+- Spell changes:
+  - Spells can now have a source actor that is not the Player
+  - Added the boulder spell effect
+- Debugging
+  - Added a Do Turn debug function to intentionally make a nop turn occur
+  - Added debug options to freeze all monster movement and prevent monster spell casting
+  - Removed several debug messages that were spamming the log
 
 TODO
 ============
-- Random canvas clicks on nothing should not trigger game turns
 - Subclass of actor for the player?
 - Area spells need to set their primary target to the last square that they were in, NOT the square where an obstacle is encountered
-- Enemy AI
+- Handle condition where monsters hit monsters with spells
 - Props (doors, chests, etc)
 - Implement HP/mana counters for Player (i.e. no more invincibility)
 - Items/inventory system
+- Fog of war?

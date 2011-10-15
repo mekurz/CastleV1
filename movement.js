@@ -62,7 +62,7 @@ function Movement()
         {
           //Don't allow dragging through monsters
           // Assumes the only thing we can bump into other than walls right now is monsters
-          var melee_attack = new Melee( target_item );
+          var melee_attack = new Melee( actor, target_item );
           melee_attack.process();
         }
       }
@@ -83,6 +83,7 @@ function Movement()
 
 Movement.is_target_tile_occupied = function( target )
 {
+  // TODO THINK ABOUT REFACTORING THIS??? 
   var occupied = null;
    
   occupied = get_monster_in_tile( target );

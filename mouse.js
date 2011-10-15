@@ -16,7 +16,7 @@ function process_click( location )
       
       if( location.adjacent_to( Player.location ) && target_item != null )  // TODO ASSUMES THAT ONLY MONSTERS CAN BE ADJACENT
       {
-        new Melee( target_item ).process();
+        new Melee( Player, target_item ).process();
         valid_action = true;
       }
       
@@ -25,11 +25,12 @@ function process_click( location )
     case MAGIC_MISSILE:
     case LIGHTNING_BOLT:
     case FIREBOLT:
-      add_spell_effect( new ProjectileSpellEffect( command, location ),  new Spell( command, location ) );
+    case BOULDER:
+      add_spell_effect( new ProjectileSpellEffect( command, Player.location, location ),  new Spell( command, Player, location ) );
       valid_action = true;
       break;    
     case FIREBALL:
-      add_spell_effect( new AreaSpellEffect( FIREBOLT, FIREBALL, location ),  new AreaEffectSpell( command, location ) );
+      add_spell_effect( new AreaSpellEffect( FIREBOLT, FIREBALL, Player.location, location ),  new AreaEffectSpell( command, Player, location ) );
       valid_action = true;
       break;
 
@@ -54,7 +55,7 @@ function get_mouse_location( canvas, event )
   var location = new Point( x, y );
   location.convert_to_tile_coord();
   
-  Log.debug( "Clicked on raw coord (" + x + ", " + y + ") and converted to tile coord " + location.to_string() );
+  //Log.debug( "Clicked on raw coord (" + x + ", " + y + ") and converted to tile coord " + location.to_string() );
   
   return location;
 }

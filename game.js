@@ -7,6 +7,7 @@ function Game()
   this.dragging = false;
   this.mouse_start = new Point();
   this.tooltip = new Tooltip();
+  this.is_player_move = false;
   
   var canvas = null;
   this.map_ctx = null;
@@ -87,24 +88,19 @@ function Game()
   
   this.do_turn = function()
   {
-    if( this.animation_queue.length > 0 )
-    {
-      Log.debug( "Starting spell animations..." );
-      this.draw();
-      this.draw_spells(); 
-    }
-    else if( this.splat_queue.length > 0 )
+    if( this.splat_queue.length > 0 )
     {
       Log.debug( "Processing splats..." );
       this.process_splats();
-      this.draw();
-      this.draw_spells();
     }
-    else
+    else if( this.animation_queue.length == 0 )
     {
+      this.is_player_move = false;
       this.update();
-      this.draw();
     }
+    
+    this.draw();
+    this.draw_spells();
   };
   
   this.update = function()
@@ -175,7 +171,7 @@ function Game()
       
       if( evt.button == 0 && !document.game.tooltip.visible )   // Left-click
       {
-        document.game.mouse_start.assign( mouse_pos );
+        //document.game.mouse_start.assign( mouse_pos );
         
         if( Player.location.equals( mouse_pos ) )
         {
@@ -201,17 +197,20 @@ function Game()
     {
       if( evt.button == 0 && !document.game.tooltip.visible )      
       {
+        var mouse_pos = get_mouse_location( canvas[0], evt );
+        
         if( document.game.dragging )
         {
           document.game.end_dragging();
         }
-        else
+
+        if( process_click( mouse_pos ) )
         {
-          if( process_click( document.game.mouse_start ) )
-          {
-            document.game.do_turn();
-          }
+          document.game.is_player_move = true;
+          document.game.do_turn();
         }
+        
+        Log.debug( "Clicked on " + mouse_pos.to_string() );
       }
       else if( evt.button == 2 ) // Right-click
       {
@@ -226,8 +225,13 @@ function Game()
   {
     document.game.dragging = false;
     default_cursor();
-    Map.center_map_on_location( Player.location );
-    document.game.draw();
+    
+    if( document.game.animation_queue.length == 0 )
+    {
+      Map.center_map_on_location( Player.location );
+      document.game.draw();
+    }
+    
     //Log.debug( "End dragging." );
   };
   
@@ -236,22 +240,20 @@ function Game()
     if( !is_processing() && document.game.dragging )
     {
       //Log.debug( "Dragging player..." ); 
-      
       var mouse_pos = get_mouse_location( canvas[0], evt );
       
       if( !Player.location.equals( mouse_pos ) )
       {
         var vector = Player.location.get_unit_vector( mouse_pos );
         var move = new Movement().move_actor_with_vector( Player, vector );
-        document.game.mouse_start.assign( mouse_pos );
+
         document.game.do_turn();
         
         delete vector;
         delete move;
         
-        if( Map.is_location_on_an_edge( Player.location ) )
+        if( Map.is_location_on_an_edge( Player.location ) || document.game.animation_queue.length > 0 )
         {
-          Log.debug( "Dragging caused player to collide with viewport edge!" );
           document.game.end_dragging();
         }
       }
@@ -264,11 +266,14 @@ function Game()
   
   this.draw_spells = function()
   {
-    set_processing();
-    
-    // Make a backup copy of what the canvas looks like so we can draw spell effects over top without having to always redraw the viewport.
-    this.spell_ctx.drawImage( canvas[0], 0, 0 );
-    document.game.interval_loop = setInterval( this.draw_spells_interval_loop, this.ANIMATION_INTERVAL );
+    if( this.animation_queue.length > 0 )
+    {
+      set_processing();
+      
+      // Make a backup copy of what the canvas looks like so we can draw spell effects over top without having to always redraw the viewport.
+      this.spell_ctx.drawImage( canvas[0], 0, 0 );
+      document.game.interval_loop = setInterval( this.draw_spells_interval_loop, this.ANIMATION_INTERVAL );
+    }
   };
   
   this.draw_spells_interval_loop = function()
@@ -282,7 +287,17 @@ function Game()
     {
       window.clearInterval( document.game.interval_loop );
       document.game.interval_loop = null;
-      document.game.do_turn();
+      
+      if( document.game.is_player_move )
+      {
+        document.game.do_turn();
+      }
+      else
+      {
+        Map.center_map_on_location( Player.location );
+        document.game.draw(); 
+      }
+      
       set_finished();
       set_command( NO_COMMAND );
     }

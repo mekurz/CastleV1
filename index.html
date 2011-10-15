@@ -30,6 +30,7 @@
 		  <option value="2">TEST PROJECTILES</option>
 		  <option value="3">TEST AREA EFFECT</option>
 		  <option value="4">KILL ALL RAT MANS</option>
+		  <option value="5">DO TURN</option>
 		</select>
 		<input type="submit" value="Run Test" onclick="run_test();"></input>
 		SPELL: <select id="spell_menu">
@@ -37,6 +38,7 @@
       <option value="3">LIGHTNING BOLT</option>
       <option value="4">FIREBOLT</option>
       <option value="5">FIREBALL</option>
+      <option value="6">BOULDER</option>
     </select>
 		<input type="submit" value="Cast Spell" onclick="cast_spell( parseInt( $('#spell_menu').val() ) );"></input>
 		<br/><br/>
@@ -47,7 +49,7 @@
 			<div id="log" style="width:960px;height:150px;overflow-x:auto;border:1px solid black;border-top-width:0px;font-family:monospace;font-size:8pt;"></div>
 			<input type="submit" value="Clear Log" onclick="Log.clear();"></input>
 			<div id="tooltip">
-        <div class="TooltipTop">You see:</div>
+        <div id="tooltip_header" class="TooltipTop">You see:</div>
         <div id="tooltip_contents"></div>
         <div class="TooltipBottom"></div>
 			</div>

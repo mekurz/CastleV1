@@ -18,8 +18,10 @@ var MAGIC_MISSILE  = 2;
 var LIGHTNING_BOLT = 3;
 var FIREBOLT       = 4;
 var FIREBALL       = 5;
+var BOULDER        = 6;
 
 var RATMAN = 0;
+var HILLGIANT = 1;
 
 var map1      = [ [ 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3 ],
                   [ 3, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 3 ],
@@ -133,7 +135,7 @@ function Point( x, y )
   
   this.adjacent_to = function( target )
   {
-    return ( Math.abs( this.x - target.x ) <= 1 ) && ( Math.abs( this.y - target.y ) <= 1 );
+    return ( Math.abs( this.x - target.x ) <= 1 ) && ( Math.abs( this.y - target.y ) <= 1 ) && !this.equals( target );
   };
   
   this.add_vector = function( vector )

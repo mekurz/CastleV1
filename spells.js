@@ -8,6 +8,7 @@ var SPELL_DATA =  [  "{\"description\":\"Death Splat\",\"src\":\"splat.png\"}"
                     ,"{\"description\":\"Lightning Bolt\",\"src\":\"lightning.png\",\"mana_cost\":2,\"damage\":4,\"verb\":\"fries\"}"
                     ,"{\"description\":\"Firebolt\",\"src\":\"firebolt.png\",\"mana_cost\":4,\"damage\":7,\"verb\":\"scorches\"}"
                     ,"{\"description\":\"Fireball\",\"src\":\"fireball.png\",\"mana_cost\":8,\"damage\":10,\"splash\":5,\"verb\":\"engulfs\"}"
+                    ,"{\"description\":\"Boulder\",\"src\":\"boulder.png\",\"mana_cost\":0,\"damage\":4,\"verb\":\"crashes into\",\"action\":\"hurls\"}"
                   ];
 
 
@@ -51,9 +52,10 @@ function draw_spells_for_interval( ctx )
   }
 }
 
-function Spell( spell_id, target_tile )
+function Spell( spell_id, source_actor, target_tile )
 {
   this.spell_id = spell_id;
+  this.source_actor = source_actor;
   this.target_tile = new Point( target_tile.x, target_tile.y );
   this.parse_JSON( SPELL_DATA[this.spell_id] );
 }
@@ -66,24 +68,34 @@ Spell.prototype.parse_JSON = function( json )
   this.damage      = obj.damage;
   this.splash      = obj.splash;
   this.verb        = obj.verb;
+  this.action      = obj.action;
 };
 
 Spell.prototype.resolve_miss = function()
 {
+  // Monsters can't miss with spells (yet) so no need to add anything here right now.
   Log.add( "Your " + this.description + " hits an obstacle and fizzles!" ); 
 };
 
 Spell.prototype.resolve_hit = function()
 {
-  var target_item = get_monster_in_tile( this.target_tile );
+  var target_item = Map.get_target_item_in_tile( this.target_tile );
 
   if( target_item == undefined )
   {
-    Log.add( "Your " + this.description + " hits nothing." );
+    Log.add( "Your " + this.description + " hits nothing." ); // Spell targeted an empty tile
   }
   else
   {
-    Log.add( "Your " + this.description + " " + this.verb + " the " + target_item.description + "!" );
+    if( this.source_actor.is_monster )
+    {
+      Log.add( "The " + this.source_actor.description + "'s " + this.description + " " + this.verb + " you!" );   // Monster hits player
+    }
+    else
+    {
+      Log.add( "Your " + this.description + " " + this.verb + " the " + target_item.description + "!" ); // Player hits monster
+    }
+    
     target_item.damage( this.damage );
   }
 };
@@ -93,20 +105,35 @@ Spell.prototype.reassign_target = function( new_target )
   this.target_tile.assign( new_target ); 
 };
 
-function AreaEffectSpell( spell_id, target_tile )
+function AreaEffectSpell( spell_id, source_actor, target_tile )
 {
-  AreaEffectSpell.base_constructor.call( this, spell_id, target_tile );
+  AreaEffectSpell.base_constructor.call( this, spell_id, source_actor, target_tile );
 }
 extend( AreaEffectSpell, Spell );
 
 AreaEffectSpell.prototype.show_no_primary_target_message = function()
 {
+  // Monsters can't miss with spells (yet) so no need to add anything here right now.
   Log.add( "Your " + this.description + " explodes in mid-air!" );
 };
 
 AreaEffectSpell.prototype.show_hit_message = function( target_item )
 {
-  Log.add( "Your " + this.description + " " + this.verb + " the " + target_item.description + "!" );
+  if( target_item.is_monster )
+  {
+    Log.add( "Your " + this.description + " " + this.verb + " the " + target_item.description + "!" );  // Player hits monster
+  }
+  else
+  {
+    if( this.source_actor.is_monster )
+    {
+      Log.add( "The " + this.source_actor.description + "'s " + this.description + " " + this.verb + "you!" ); // Monster hits player
+    }
+    else
+    {
+      Log.add( "You are caught in the blast from your own " + this.description + "!" );  // Player hits self
+    }
+  }
 };
 
 AreaEffectSpell.prototype.resolve_miss = function()
@@ -117,7 +144,7 @@ AreaEffectSpell.prototype.resolve_miss = function()
 
 AreaEffectSpell.prototype.resolve_hit = function()
 {
-  var target_item = get_monster_in_tile( this.target_tile );
+  var target_item = Map.get_target_item_in_tile( this.target_tile );
 
   if( target_item == undefined )
   {
@@ -142,7 +169,7 @@ AreaEffectSpell.prototype.resolve_splash = function()
       {
         if( x >= 0 && x <= map_tiles[0].length && !( x == this.target_tile.x && y == this.target_tile.y ) )
         {
-          var target_item = get_monster_in_tile( new Point( x, y ) );
+          var target_item = Map.get_target_item_in_tile( new Point( x, y ) );
           
           if( target_item != undefined )
           {
@@ -279,14 +306,14 @@ function Splat( target )
 extend( Splat, SinglePointRotatingFadingSpellEffect );
 
 
-function ProjectileSpellEffect( spell_id, target )
+function ProjectileSpellEffect( spell_id, source, target )
 {
   this.MAX_VELOCITY = 15;
   this.MIN_VELOCITY = 3;
   this.ACCELERATION = 2;
   
   ProjectileSpellEffect.base_constructor.call( this, spell_id );
-  this.source = new Point( Player.location.x, Player.location.y );    // MEK TODO ASSUMES THAT ONLY THE PLAYER CAN BE THE SOURCE
+  this.source = new Point( source.x, source.y );
   this.target = new Point( target.x, target.y );
   
   this.raw_source = new Point( this.source.x, this.source.y );
@@ -302,12 +329,13 @@ function ProjectileSpellEffect( spell_id, target )
   this.dy = this.raw_target.y - this.raw_source.y;
   this.rotation = this.get_spell_rotation();
   
-  this.angle = Math.atan2( Math.abs(this.dy), Math.abs(this.dx) );
-  
   this.distance = this.raw_source.distance_to( this.raw_target );
   this.velocity = this.MIN_VELOCITY;
   
-  //Log.debug( "dx = " + this.dx + "  dy = " + this.dy );
+  this.slope_x = this.dx / this.distance;
+  this.slope_y = this.dy / this.distance;
+  
+  //Log.debug( "slope_x = " + this.slope_x + "  slope_y = " + this.slope_y );
   //Log.debug( "rotation = " + this.rotation );
   //Log.debug( "angle = " + this.angle );
 }
@@ -382,14 +410,8 @@ ProjectileSpellEffect.prototype.update_distance_remaining = function()
 
 ProjectileSpellEffect.prototype.update_canvas_location = function()
 {
-  var new_dx = this.distance * Math.cos( this.angle );
-  var new_dy = this.distance * Math.sin( this.angle );
-  
-  this.canvas_x = this.raw_target.x;
-  this.canvas_y = this.raw_target.y;
-  
-  this.canvas_x += ( this.dx < 0 ) ? new_dx : -new_dx;
-  this.canvas_y += ( this.dy < 0 ) ? new_dy : -new_dy;
+  this.canvas_x += ( this.slope_x * this.velocity );
+  this.canvas_y += ( this.slope_y * this.velocity );
 };
 
 ProjectileSpellEffect.prototype.draw = function( ctx )
@@ -486,9 +508,9 @@ ScalingRotatingFadingSpellEffect.prototype.update_angle = function()
   this.angle += 10;
 };
 
-function AreaSpellEffect( projectile_id, area_id, target )
+function AreaSpellEffect( projectile_id, area_id, source, target )
 {
-  AreaSpellEffect.base_constructor.call( this, projectile_id, target );
+  AreaSpellEffect.base_constructor.call( this, projectile_id, source, target );
   this.area_id = area_id;
 }
 extend( AreaSpellEffect, ProjectileSpellEffect );

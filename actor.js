@@ -9,7 +9,11 @@ function Actor( id )
   this.current_hp   = 0;
   this.current_mana = 0;
   this.ac           = 0;
+  this.sight        = 100;
+  this.melee_damage = 2;
+  
   this.is_monster   = false;
+  this.spell        = -1;
 }
 
 Actor.prototype.initialize = function()
@@ -30,12 +34,16 @@ Actor.prototype.draw = function( ctx )
 
 Actor.prototype.parse_JSON = function( json )
 {
+  // TODO This should probably move down to Monster (Player never needs it)
   var obj = $.evalJSON( json );
   this.description = obj.description;
   this.image_name  = obj.image_name;
   this.max_hp      = obj.max_hp;
   this.max_mana    = obj.max_mana;
   this.ac          = obj.ac;
+  this.sight       = obj.sight;
+  this.melee_damage= obj.melee_damage;
+  this.spell       = obj.spell;
 };
 
 Actor.prototype.heal = function( value )
@@ -56,6 +64,11 @@ Actor.prototype.damage = function( value )
 Actor.prototype.is_dead = function()
 {
   return this.current_hp <= 0;
+};
+
+Actor.prototype.would_damage_kill_actor = function( value )
+{
+  return ( this.current_hp - value ) <= 0; 
 };
 
 Actor.prototype.regen_mana = function( value )
@@ -110,4 +123,10 @@ Actor.prototype.move_to = function( location )
 Actor.prototype.add_vector = function( vector )
 {
   this.location.add_vector( vector );
+};
+
+Actor.prototype.get_melee_damage = function()
+{
+  // TODO incorporate inventory here
+  return this.melee_damage;
 };

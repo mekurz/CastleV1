@@ -10,10 +10,12 @@ var TOOLTIP_SLIDE_SPEED = 200;
 function Tooltip()
 {
   this.tooltip = $("#tooltip");
+  this.header = $("#tooltip_header");
   this.contents = $("#tooltip_contents");
   this.map_location = $("#map").position();
   this.num_items = 0;
-  this.visible = false; 
+  this.visible = false;
+  this.has_los = false;
   
   this.tooltip.hide();
   this.contents.hide();
@@ -22,14 +24,27 @@ function Tooltip()
   {
     this.num_items = 0;
     this.visible = true;
-    this.fill_tooltip_with_monster( location );
-    // TODO LOOP THROUGH OTHER COLLECTIONS OF STUFF (ITEMS, ETC)
-    this.display_empty_message_if_necessary();    
+    this.has_los = Map.does_line_of_sight_exist( Player.location, location );
+    
+    if( this.has_los )   // TODO Detection could skip this check OR debug flag
+    {
+      this.header.text( "You see:" );          
+      this.fill_tooltip_with_monster( location );
+      // TODO LOOP THROUGH OTHER COLLECTIONS OF STUFF (ITEMS, ETC)
+      this.display_empty_message_if_necessary();
+    }
+    else
+    {
+      this.header.text( "You cannot see that." );
+    }        
     
     this.adjust_position( location );
     
     this.tooltip.fadeIn( TOOLTIP_FADE_SPEED, function(){
-      document.game.tooltip.contents.slideDown( TOOLTIP_SLIDE_SPEED );
+      if( document.game.tooltip.has_los )
+      {
+        document.game.tooltip.contents.slideDown( TOOLTIP_SLIDE_SPEED );
+      }
     }); 
   };
   
@@ -135,11 +150,16 @@ function ViewPort()
     
     if( this.is_location_visible( new_pos ) ) 
     {
-      var tile_ix = map_tiles[new_pos.y][new_pos.x];
-      return this.tiles[tile_ix].passable; 
+      return this.is_location_passable( new_pos );
     }
     
     return false;
+  };
+  
+  this.is_location_passable = function( location )
+  {
+    var tile_ix = map_tiles[location.y][location.x];
+    return this.tiles[tile_ix].passable;  
   };
   
   this.is_location_visible = function( point )
@@ -194,4 +214,46 @@ function ViewPort()
     return to_return;
   };
   
+  this.does_line_of_sight_exist = function( start, end )
+  {
+    var to_return = true;
+    
+    var raw_start = new Point( start.x, start.y );
+    var raw_end   = new Point( end.x, end.y );
+    raw_start.convert_to_raw_tile_center();
+    raw_end.convert_to_raw_tile_center();
+    
+    var steps    = Math.floor( raw_start.distance_to( raw_end ) / 5 ); // Check every 5 pixels
+    var slope_x  = ( raw_end.x - raw_start.x ) / steps;
+    var slope_y  = ( raw_end.y - raw_start.y ) / steps;
+    
+    for( var ix = 0; ix <= steps; ix++ )
+    {
+      raw_start.x += slope_x;
+      raw_start.y += slope_y;
+      
+      var current_tile = new Point( raw_start.x, raw_start.y );
+      current_tile.convert_to_tile_coord();
+      
+      if( !this.is_location_passable( current_tile ) && !current_tile.equals( end ) )
+      {
+        to_return = false;
+        break;
+      }
+    }
+    
+    return to_return;
+  };
+  
+  this.get_target_item_in_tile = function( target )
+  {
+    var target_item = get_monster_in_tile( target );
+    
+    if( target_item == null && target.equals( Player.location ) )
+    {
+      return Player;
+    }
+    
+    return target_item;
+  };
 };
