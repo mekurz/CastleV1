@@ -9,6 +9,7 @@ var SPELL_DATA =  [  "{\"description\":\"Death Splat\",\"src\":\"splat.png\"}"
                     ,"{\"description\":\"Firebolt\",\"src\":\"firebolt.png\",\"mana_cost\":4,\"damage\":7,\"verb\":\"scorches\"}"
                     ,"{\"description\":\"Fireball\",\"src\":\"fireball.png\",\"mana_cost\":8,\"damage\":10,\"splash\":5,\"verb\":\"engulfs\"}"
                     ,"{\"description\":\"Boulder\",\"src\":\"boulder.png\",\"mana_cost\":0,\"damage\":4,\"verb\":\"crashes into\",\"action\":\"hurls\"}"
+                    ,"{\"description\":\"Fire Breath\",\"src\":\"cone_fire.png\",\"mana_cost\":0,\"damage\":10,\"splash\":5,\"verb\":\"engulfs\"}"
                   ];
 
 
@@ -537,3 +538,95 @@ AreaSpellEffect.prototype.handle_unexpected_target_collision = function( current
   this.resolve_hit();
 };
 
+function ConeSpellEffect( spell_id, source, target )
+{
+  ConeSpellEffect.base_constructor.call( this, spell_id );
+  
+  this.GROWTH_RATE = 4;
+  
+  this.source = new Point( source.x, source.y );
+  this.target = new Point( target.x, target.y );
+  
+  this.raw_target = new Point( this.target.x, this.target.y );
+  this.raw_target.convert_to_raw_tile_center();
+  
+  this.canvas_x = this.raw_target.x;
+  this.canvas_y = this.raw_target.y;
+  
+  this.scale = 0;
+  this.alpha = 0.40;
+  this.size = TILE_WIDTH;
+  this.angle = this.get_spell_rotation();
+}
+extend( ConeSpellEffect, SpellEffect );
+
+ConeSpellEffect.prototype.is_finished = function()
+{
+  return this.scale >= 1.0;
+};
+
+ConeSpellEffect.prototype.update_frame = function( ctx )
+{
+  this.update_alpha( ctx );
+  this.update_position();
+  this.update_scale();
+  
+  ctx.translate( this.canvas_x, this.canvas_y );
+  ctx.scale( this.scale, this.scale );
+  ctx.rotate( this.angle * Math.PI / 180 );
+};
+
+ConeSpellEffect.prototype.update_alpha = function( ctx )
+{
+  this.alpha = Math.min( 1.0, this.alpha + 0.08 );
+  ctx.globalAlpha = this.alpha;
+};
+
+ConeSpellEffect.prototype.update_position = function()
+{
+  switch( this.angle )
+  {
+    case 0:
+      this.canvas_y -= this.GROWTH_RATE/2;
+      break;
+    case 180:
+      this.canvas_y += this.GROWTH_RATE/2;
+      break;
+    case 90:
+      this.canvas_x += this.GROWTH_RATE/2;
+      break;
+    case 270:
+      this.canvas_x -= this.GROWTH_RATE/2;
+      break;
+  }
+};
+
+ConeSpellEffect.prototype.update_scale = function()
+{  
+  this.size += this.GROWTH_RATE;
+  this.scale = this.size / AREA_SPELL_WIDTH;
+};
+
+ConeSpellEffect.prototype.draw = function( ctx )
+{
+  ctx.save();
+  
+  this.update_frame( ctx );
+  ctx.drawImage( this.img, -(AREA_SPELL_WIDTH/2), -(AREA_SPELL_WIDTH/2) );
+ 
+  ctx.restore();
+};
+
+ConeSpellEffect.prototype.get_spell_rotation = function()
+{
+  var direction = this.source.get_unit_vector( this.target );
+  
+  if( Math.abs( direction.x ) > Math.abs( direction.y ) )
+  {
+    return direction.x <= 0 ? 270 : 90;
+  }
+  else
+  {
+    return direction.y <= 0 ? 0 : 180;
+  }
+};

@@ -93,12 +93,19 @@ Version 14 - 14-Oct-2011
   - Monsters that don't have line of sight or are too far away from you have a 50% chance of just wandering around
   - Certain monsters can see far and have a chance of deciding to cast a spell at you rather than move
 - Spell changes:
+  - New method for calculating positioning for ProjectileSpellEffect
   - Spells can now have a source actor that is not the Player
   - Added the boulder spell effect
 - Debugging
   - Added a Do Turn debug function to intentionally make a nop turn occur
   - Added debug options to freeze all monster movement and prevent monster spell casting
   - Removed several debug messages that were spamming the log
+  
+Version 15 - 23-Oct-2011
+- Bug fixes
+  - Right-clicking on the Player no longer causes a NaN error with the line of sight code
+- Spell changes:
+  - Added ConeSpellEffect for cones in cardinal directions
 
 TODO
 ============
@@ -109,3 +116,6 @@ TODO
 - Implement HP/mana counters for Player (i.e. no more invincibility)
 - Items/inventory system
 - Fog of war?
+- Random map generation
+- Diagonal cone spells
+- Refactor draw functions for SpellEffects (most of them are ending up being identical)

@@ -19,6 +19,7 @@ var LIGHTNING_BOLT = 3;
 var FIREBOLT       = 4;
 var FIREBALL       = 5;
 var BOULDER        = 6;
+var FIRE_BREATH    = 7;
 
 var RATMAN = 0;
 var HILLGIANT = 1;

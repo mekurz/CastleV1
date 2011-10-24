@@ -13,6 +13,7 @@ function run_test()
     case 3: test_aoe(); break;
     case 4: kill_all_monsters(); break;
     case 5: document.game.do_turn(); break;
+    case 6: test_cones(); break;
   }
 }
 
@@ -69,4 +70,16 @@ function kill_all_monsters()
   }
   
   document.game.do_turn();
+}
+
+function test_cones()
+{
+  if( !is_processing() )
+  {
+    add_spell_effect( new ConeSpellEffect( FIRE_BREATH, Player.location, new Point( Player.location.x, Player.location.y - 1 ) ) );
+    add_spell_effect( new ConeSpellEffect( FIRE_BREATH, Player.location, new Point( Player.location.x, Player.location.y + 1 ) ) );
+    add_spell_effect( new ConeSpellEffect( FIRE_BREATH, Player.location, new Point( Player.location.x - 1, Player.location.y ) ) );
+    add_spell_effect( new ConeSpellEffect( FIRE_BREATH, Player.location, new Point( Player.location.x + 1, Player.location.y ) ) );
+    document.game.draw_spells();
+  }
 }

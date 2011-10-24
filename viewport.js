@@ -216,6 +216,11 @@ function ViewPort()
   
   this.does_line_of_sight_exist = function( start, end )
   {
+    if( start.equals( end ) )
+    {
+      return true;
+    }
+    
     var to_return = true;
     
     var raw_start = new Point( start.x, start.y );
