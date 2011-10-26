@@ -171,13 +171,10 @@ function Game()
       
       if( evt.button == 0 && !document.game.tooltip.visible )   // Left-click
       {
-        //document.game.mouse_start.assign( mouse_pos );
-        
         if( Player.location.equals( mouse_pos ) )
         {
           document.game.dragging = true;
           move_cursor();
-          //Log.debug( "Begin dragging." ); 
         }
       }
       else if( evt.button == 2 ) // Right-click
@@ -240,7 +237,7 @@ function Game()
     if( !is_processing() && document.game.dragging )
     {
       //Log.debug( "Dragging player..." ); 
-      var mouse_pos = get_mouse_location( canvas[0], evt );
+      var mouse_pos = get_mouse_location_for_dragging( canvas[0], evt );
       
       if( !Player.location.equals( mouse_pos ) )
       {

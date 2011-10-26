@@ -4,6 +4,7 @@ var VIEWPORT_SHIFT  = 2;
 var MIN_X = 0;
 var MIN_Y = 0;
 var TILE_WIDTH = 48;
+var TILE_DRAG_BUFFER = 12;
 var MAX_X = VIEWPORT_WIDTH * TILE_WIDTH;
 var MAX_Y = VIEWPORT_HEIGHT * TILE_WIDTH;
 var Log = null;

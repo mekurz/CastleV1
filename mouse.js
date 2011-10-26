@@ -46,18 +46,38 @@ function process_click( location )
   return valid_action;
 }
 
-function get_mouse_location( canvas, event )
+function get_raw_mouse_location( canvas, event )
 {
   var canoffset = $(canvas).offset();
   var x = event.clientX + document.body.scrollLeft + document.documentElement.scrollLeft - Math.floor(canoffset.left);
   var y = event.clientY + document.body.scrollTop + document.documentElement.scrollTop - Math.floor(canoffset.top) + 1;
   
-  var location = new Point( x, y );
+  return new Point( x, y );
+}
+
+function get_mouse_location( canvas, event )
+{
+  var location = get_raw_mouse_location( canvas, event );
   location.convert_to_tile_coord();
   
   //Log.debug( "Clicked on raw coord (" + x + ", " + y + ") and converted to tile coord " + location.to_string() );
-  
   return location;
+}
+
+function get_mouse_location_for_dragging( canvas, event )
+{
+  var actual_pos = get_raw_mouse_location( canvas, event );
+  var tile_center = new Point( actual_pos.x, actual_pos.y );
+  tile_center.convert_to_tile_coord();
+  tile_center.convert_to_raw_tile_center();
+  
+  if( actual_pos.distance_to( tile_center ) <= TILE_DRAG_BUFFER )
+  {
+    tile_center.convert_to_tile_coord();
+    return tile_center;
+  }
+  
+  return Player.location;
 }
 
 function crosshairs_cursor()

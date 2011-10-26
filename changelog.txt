@@ -106,6 +106,10 @@ Version 15 - 23-Oct-2011
   - Right-clicking on the Player no longer causes a NaN error with the line of sight code
 - Spell changes:
   - Added ConeSpellEffect for cones in cardinal directions
+  
+Version 16 - 25-Oct-2011
+- General
+  - You must drag the mouse cursor at least 12 pixels into a tile before the Player will move. This prevents needing surgical precision to drag the Player diagonally.
 
 TODO
 ============
