@@ -21,6 +21,7 @@ var FIREBOLT       = 4;
 var FIREBALL       = 5;
 var BOULDER        = 6;
 var FIRE_BREATH    = 7;
+var FIRE_BREATH_D  = 8;
 
 var RATMAN = 0;
 var HILLGIANT = 1;
@@ -101,24 +102,24 @@ function extend( sub_class, base_class )
 
 function Point( x, y )
 {
-  this.x = 0;
-  this.y = 0;
-  
-  if( x != undefined )
-  {
-    this.x = x;
-  }
-  
-  if( y != undefined )
-  {
-    this.y = y;
-  }
-  
   this.assign = function( point )
   {
     this.x = point.x;
     this.y = point.y;
   };
+  
+  this.x = 0;
+  this.y = 0;
+  
+  if( y != undefined )
+  {
+    this.x = x;
+    this.y = y;
+  }
+  else if( x != undefined )
+  {
+    this.assign( x );    
+  }
   
   this.distance_to = function( end )
   {

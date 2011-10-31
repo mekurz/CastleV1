@@ -1,6 +1,6 @@
 function process_click( location )
 {
-  if( is_processing() ) // Don't allow clicks if we're already processing an event.
+  if( is_processing() || location.equals( Player.location ) ) // Don't allow clicks if we're already processing an event.
   {
     return false;
   }
@@ -31,6 +31,10 @@ function process_click( location )
       break;    
     case FIREBALL:
       add_spell_effect( new AreaSpellEffect( FIREBOLT, FIREBALL, Player.location, location ),  new AreaEffectSpell( command, Player, location ) );
+      valid_action = true;
+      break;
+    case FIRE_BREATH:
+      process_cone_spell( command, Player, location );
       valid_action = true;
       break;
 

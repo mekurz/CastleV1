@@ -14,6 +14,7 @@ function run_test()
     case 4: kill_all_monsters(); break;
     case 5: document.game.do_turn(); break;
     case 6: test_cones(); break;
+    case 7: test_diagonal_cones(); break;
   }
 }
 
@@ -80,6 +81,18 @@ function test_cones()
     add_spell_effect( new ConeSpellEffect( FIRE_BREATH, Player.location, new Point( Player.location.x, Player.location.y + 1 ) ) );
     add_spell_effect( new ConeSpellEffect( FIRE_BREATH, Player.location, new Point( Player.location.x - 1, Player.location.y ) ) );
     add_spell_effect( new ConeSpellEffect( FIRE_BREATH, Player.location, new Point( Player.location.x + 1, Player.location.y ) ) );
+    document.game.draw_spells();
+  }
+}
+
+function test_diagonal_cones()
+{
+  if( !is_processing() )
+  {
+    add_spell_effect( new DiagonalConeSpellEffect( FIRE_BREATH_D, Player.location, new Point( Player.location.x + 1, Player.location.y - 1 ) ) );
+    add_spell_effect( new DiagonalConeSpellEffect( FIRE_BREATH_D, Player.location, new Point( Player.location.x - 1, Player.location.y - 1 ) ) );
+    add_spell_effect( new DiagonalConeSpellEffect( FIRE_BREATH_D, Player.location, new Point( Player.location.x - 1, Player.location.y + 1 ) ) );
+    add_spell_effect( new DiagonalConeSpellEffect( FIRE_BREATH_D, Player.location, new Point( Player.location.x + 1, Player.location.y + 1) ) );
     document.game.draw_spells();
   }
 }

@@ -9,7 +9,8 @@ var SPELL_DATA =  [  "{\"description\":\"Death Splat\",\"src\":\"splat.png\"}"
                     ,"{\"description\":\"Firebolt\",\"src\":\"firebolt.png\",\"mana_cost\":4,\"damage\":7,\"verb\":\"scorches\"}"
                     ,"{\"description\":\"Fireball\",\"src\":\"fireball.png\",\"mana_cost\":8,\"damage\":10,\"splash\":5,\"verb\":\"engulfs\"}"
                     ,"{\"description\":\"Boulder\",\"src\":\"boulder.png\",\"mana_cost\":0,\"damage\":4,\"verb\":\"crashes into\",\"action\":\"hurls\"}"
-                    ,"{\"description\":\"Fire Breath\",\"src\":\"cone_fire.png\",\"mana_cost\":0,\"damage\":10,\"splash\":5,\"verb\":\"engulfs\"}"
+                    ,"{\"description\":\"Fire Breath\",\"src\":\"cone_fire.png\",\"mana_cost\":0,\"damage\":10,\"splash\":5,\"verb\":\"blasts\"}"
+                    ,"{\"description\":\"Fire Breath\",\"src\":\"cone_fire_d.png\",\"mana_cost\":0,\"damage\":8,\"verb\":\"blasts\"}"
                   ];
 
 
@@ -50,6 +51,22 @@ function draw_spells_for_interval( ctx )
       document.game.animation_queue[x] = null;
       document.game.animation_queue.splice( x, 1 );    
     }
+  }
+}
+
+function process_cone_spell( spell_id, source_actor, target )
+{
+  var vector = source_actor.location.get_unit_vector( target );
+  target.assign( source_actor.location );
+  target.add_vector( vector );
+  
+  if( vector.neither_coord_is_zero() )  
+  {
+    add_spell_effect( new DiagonalConeSpellEffect( spell_id + 1, source_actor.location, target ), new ConeEffectSpell( spell_id, source_actor, target ) );
+  }
+  else
+  {
+    add_spell_effect( new ConeSpellEffect( spell_id, source_actor.location, target ), new ConeEffectSpell( spell_id, source_actor, target ) );
   }
 }
 
@@ -181,6 +198,86 @@ AreaEffectSpell.prototype.resolve_splash = function()
       }
     }
   }
+};
+
+function ConeEffectSpell( spell_id, source_actor, target_tile )
+{
+  ConeEffectSpell.base_constructor.call( this, spell_id, source_actor, target_tile );
+  
+  this.num_hits = 0;
+}
+extend( ConeEffectSpell, Spell );
+
+ConeEffectSpell.prototype.show_no_primary_target_message = function()
+{
+  // Monsters can't miss with spells (yet) so no need to add anything here right now.
+  Log.add( "Your " + this.description + " hits nothing!" );
+};
+
+ConeEffectSpell.prototype.show_hit_message = function( target_item )
+{
+  if( target_item.is_monster )
+  {
+    Log.add( "Your " + this.description + " " + this.verb + " the " + target_item.description + "!" );  // Player hits monster
+  }
+  else if( this.source_actor.is_monster )
+  {
+    Log.add( "The " + this.source_actor.description + "'s " + this.description + " " + this.verb + "you!" ); // Monster hits player
+  }
+};
+
+ConeEffectSpell.prototype.resolve_miss = function()
+{
+  // Cones don't miss.
+};
+
+ConeEffectSpell.prototype.resolve_hit = function()
+{
+  var current_tile = this.get_top_left_for_cone();
+  
+  for( var y = current_tile.y; y <= current_tile.y + 2; y++ )
+  {
+    if( y >= 0 && y <= map_tiles.length )
+    {
+      for( var x = current_tile.x; x <= current_tile.x + 2; x++ )
+      {
+        if( x >= 0 && x <= map_tiles[0].length )
+        {
+          var target_item = Map.get_target_item_in_tile( new Point( x, y ) );
+          
+          if( target_item != undefined )
+          {
+            this.show_hit_message( target_item );
+            target_item.damage( this.splash );
+          }
+        }
+      }
+    }
+  }
+};
+
+ConeEffectSpell.prototype.get_top_left_for_cone = function()
+{
+  var top_left = this.source_actor.location.get_unit_vector( this.target_tile );
+  top_left.x = this.adjust_cone_vector_coord( top_left.x );
+  top_left.y = this.adjust_cone_vector_coord( top_left.y );
+  top_left.add_vector( this.source_actor.location );
+  
+  return top_left;
+};
+
+ConeEffectSpell.prototype.adjust_cone_vector_coord = function( value )
+{
+  if( value < 0 )
+  {
+    value = -3; 
+  }
+  else if( value == 0 )
+  {
+    value = -1; 
+  }
+
+  return value; 
 };
 
 //
@@ -562,7 +659,13 @@ extend( ConeSpellEffect, SpellEffect );
 
 ConeSpellEffect.prototype.is_finished = function()
 {
-  return this.scale >= 1.0;
+  if( this.scale >= 1.0 )
+  {
+    this.resolve_hit();
+    return true;
+  }
+  
+  return false;
 };
 
 ConeSpellEffect.prototype.update_frame = function( ctx )
@@ -628,5 +731,49 @@ ConeSpellEffect.prototype.get_spell_rotation = function()
   else
   {
     return direction.y <= 0 ? 0 : 180;
+  }
+};
+
+function DiagonalConeSpellEffect( spell_id, source, target )
+{
+  DiagonalConeSpellEffect.base_constructor.call( this, spell_id, source, target );
+  
+}
+extend( DiagonalConeSpellEffect, ConeSpellEffect );
+
+DiagonalConeSpellEffect.prototype.get_spell_rotation = function()
+{
+  var direction = this.source.get_unit_vector( this.target );
+  
+  if( direction.x >= 0 )
+  {
+    return direction.y >= 0 ? 90 : 0;
+  }
+  else
+  {
+    return direction.y <= 0 ? 270 : 180;
+  }
+};
+
+DiagonalConeSpellEffect.prototype.update_position = function()
+{
+  switch( this.angle )
+  {
+    case 0:
+      this.canvas_y -= this.GROWTH_RATE/2;
+      this.canvas_x += this.GROWTH_RATE/2;
+      break;
+    case 180:
+      this.canvas_y += this.GROWTH_RATE/2;
+      this.canvas_x -= this.GROWTH_RATE/2;
+      break;
+    case 90:
+      this.canvas_y += this.GROWTH_RATE/2;
+      this.canvas_x += this.GROWTH_RATE/2;
+      break;
+    case 270:
+      this.canvas_y -= this.GROWTH_RATE/2;
+      this.canvas_x -= this.GROWTH_RATE/2;
+      break;
   }
 };

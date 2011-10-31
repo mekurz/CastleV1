@@ -4,7 +4,7 @@
 		<title>BROWSER OF THE WINDS CANVAS VERSION</title>
 		<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
 		<link href="style.css" rel="stylesheet" type="text/css" />
-		<script type="text/javascript" src="jquery-1.6.2.min.js"></script>
+		<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
 		<script type="text/javascript" src="jquery.json-2.2.min.js"></script>
 		<script type="text/javascript" src="common.js"></script>
 		<script type="text/javascript" src="logger.js"></script>
@@ -32,6 +32,7 @@
 		  <option value="4">KILL ALL RAT MANS</option>
 		  <option value="5">DO TURN</option>
 		  <option value="6">TEST CONES</option>
+		  <option value="7">TEST DIAGONAL CONES</option>
 		</select>
 		<input type="submit" value="Run Test" onclick="run_test();"></input>
 		SPELL: <select id="spell_menu">
@@ -40,6 +41,7 @@
       <option value="4">FIREBOLT</option>
       <option value="5">FIREBALL</option>
       <option value="6">BOULDER</option>
+      <option value="7">FIRE BREATH</option>
     </select>
 		<input type="submit" value="Cast Spell" onclick="cast_spell( parseInt( $('#spell_menu').val() ) );"></input>
 		<br/><br/>

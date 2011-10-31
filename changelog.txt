@@ -110,6 +110,15 @@ Version 15 - 23-Oct-2011
 Version 16 - 25-Oct-2011
 - General
   - You must drag the mouse cursor at least 12 pixels into a tile before the Player will move. This prevents needing surgical precision to drag the Player diagonally.
+  
+Version 17 - 30-Oct-2011
+- Spell changes
+  - Added DiagonalConeSpellEffect for cones in diagonal directions
+  - Added support for cone spells to do damage
+  - Added FIRE BREATH to the spell menu!
+- General
+  - Switched to Google CDN for JQuery host so I don't have to maintain a copy of the latest release
+  - Allowed Points to be constructed by passing in another Point as the first parameter to the constructor
 
 TODO
 ============
@@ -121,5 +130,5 @@ TODO
 - Items/inventory system
 - Fog of war?
 - Random map generation
-- Diagonal cone spells
 - Refactor draw functions for SpellEffects (most of them are ending up being identical)
+- Switch config stuff to XML from JSON
