@@ -1,0 +1,21 @@
+
+<html>
+  <head>
+    <title>BROWSER OF THE WINDS CANVAS VERSION</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <link href="..\style.css" rel="stylesheet" type="text/css" />
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.6.4/jquery.min.js"></script>
+    <script type="text/javascript" src="..\common.js"></script>
+    <script type="text/javascript" src="mapgen.js"></script>
+  </head>
+  <body>
+    <pre id="map"></pre>
+    <script type="text/javascript">
+      $(document).ready( function()
+        {
+          var mapgen = new MapGenerator();
+          mapgen.generate_map();
+        });
+    </script>
+  </body>
+</html>
