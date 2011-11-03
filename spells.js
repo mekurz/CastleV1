@@ -1,6 +1,5 @@
 var SPELL_WIDTH = 12;
-var AREA_SPELL_WIDTH = 144;
-var SPELL_BOUNDING = ( TILE_WIDTH - SPELL_WIDTH ) / 2;
+var AREA_SPELL_WIDTH = TILE_WIDTH * 3;
 
 var SPELL_DATA =  [  "{\"description\":\"Death Splat\",\"src\":\"splat.png\"}"
                     ,"{\"description\":\"Spell Fizzle\",\"src\":\"fizzle.png\"}"
@@ -107,7 +106,14 @@ Spell.prototype.resolve_hit = function()
   {
     if( this.source_actor.is_monster )
     {
-      Log.add( "The " + this.source_actor.description + "'s " + this.description + " " + this.verb + " you!" );   // Monster hits player
+      if( target_item.is_monster )
+      {
+        Log.add( "The " + this.source_actor.description + "'s " + this.description + " " + this.verb + " the " + target_item.description + "!" );   // Monster hits monster
+      }
+      else
+      {
+        Log.add( "The " + this.source_actor.description + "'s " + this.description + " " + this.verb + " you!" );   // Monster hits player
+      }
     }
     else
     {

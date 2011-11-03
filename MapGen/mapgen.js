@@ -37,10 +37,8 @@ function Room()
   };
   
   this.location = new Point();
-  //this.height = this.generate_random_dimension();
-  //this.width  = this.generate_random_dimension();
-  this.height = 5;
-  this.width  = 7;
+  this.height = this.generate_random_dimension();
+  this.width  = this.generate_random_dimension();
   
   this.room_id = max_room_id;
   max_room_id++;
@@ -134,23 +132,21 @@ function MapGenerator()
 // DRAW MAP FUNCTIONS BELOW
   this.draw_map = function()
   {
-    for( var y = 0; y < MAP_HEIGHT; y++ )
+    for( var row = 0; row < MAP_HEIGHT; row++ )
     {
       var row_output = "";
       
-      for( var x = 0; x < MAP_WIDTH; x++ )
+      for( var col = 0; col < MAP_WIDTH; col++ )
       {
-        row_output += this.get_cell_character( y, x );
+        row_output += this.get_cell_character( this.map[row][col] );
       }
       
       this.div.append( row_output + "<br/>" );
     }
   };
   
-  this.get_cell_character = function( row, col )
+  this.get_cell_character = function( cell )
   {
-    var cell = this.map[row][col];
-    
     if( cell.blocked )
     {
       return BLOCKED_CHAR;

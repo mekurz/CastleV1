@@ -119,12 +119,22 @@ Version 17 - 30-Oct-2011
 - General
   - Switched to Google CDN for JQuery host so I don't have to maintain a copy of the latest release
   - Allowed Points to be constructed by passing in another Point as the first parameter to the constructor
+  
+Version 18 - 02-Nov-2011
+- Graphics
+  - Scaled tile size down to 32x32. It's a more standard size and easier to get tile graphics and makes the player and monsters look closer together when adjacent.
+- Spell changes
+  - The condition where a monster hits another monster with a projectile will have a proper message in the log.
+- Map Generator
+  - First generation of random map generator accessible via the "Map Generator" link
+- General
+  - Added QUnit testing library
 
 TODO
 ============
+- Mouse dragging doesn't appear to trigger monster melee attacks
 - Subclass of actor for the player?
 - Area spells need to set their primary target to the last square that they were in, NOT the square where an obstacle is encountered
-- Handle condition where monsters hit monsters with spells
 - Props (doors, chests, etc)
 - Implement HP/mana counters for Player (i.e. no more invincibility)
 - Items/inventory system
