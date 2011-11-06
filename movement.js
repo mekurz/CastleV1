@@ -58,19 +58,23 @@ function Movement()
       
       if( target_item )
       {
-        if( !document.game.dragging && this.is_valid_target_for_melee( actor, target_item ) )
+        if( ( actor.is_monster || !document.game.dragging ) && this.is_valid_target_for_melee( actor, target_item ) )
         {
-          //Don't allow dragging through monsters
+          // Monsters can hit us if we drag past them, but don't allow the Player to drag into a monster
           // Assumes the only thing we can bump into other than walls right now is monsters
           var melee_attack = new Melee( actor, target_item );
           melee_attack.process();
+          return true;
         }
       }
       else
       {
-        actor.add_vector( vector ); 
+        actor.add_vector( vector );
+        return true;
       }
     }
+    
+    return false;
   };
   
   this.is_valid_target_for_melee = function( actor, target_item )

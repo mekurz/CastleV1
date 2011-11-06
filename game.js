@@ -242,20 +242,23 @@ function Game()
       if( !Player.location.equals( mouse_pos ) )
       {
         var vector = Player.location.get_unit_vector( mouse_pos );
-        var move = new Movement().move_actor_with_vector( Player, vector );
-
-        document.game.do_turn();
         
-        delete vector;
-        delete move;
-        
-        if( Map.is_location_on_an_edge( Player.location ) || document.game.animation_queue.length > 0 )
+        if( Map.is_valid_move( Player.location, vector ) )
         {
-          document.game.end_dragging();
+          var move = new Movement();
+          var valid = move.move_actor_with_vector( Player, vector );
+  
+          if( valid )
+          {
+            document.game.do_turn();
+            
+            if( Map.is_location_on_an_edge( Player.location ) || document.game.animation_queue.length > 0 )
+            {
+              document.game.end_dragging();
+            }
+          }
         }
       }
-      
-      delete mouse_pos;
     }
     
     return false;

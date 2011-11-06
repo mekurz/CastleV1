@@ -2,8 +2,10 @@ function run_unit_tests()
 {
   MapGenerator_allocate_map();
   MapGenerator_get_cell_character();
-  
-  
+  MapGenerator_block_map_edge();
+ 
+  Room_contains_point();
+  Room_fits_on_map();
 }
 
 function MapGenerator_allocate_map()
@@ -67,5 +69,140 @@ function MapGenerator_get_cell_character()
   {  
     var cell = new Cell();
     equals( mapgen.get_cell_character( cell ), NOTHING_CHAR, "Check Cell character - Nothing" );
+  });
+}
+
+function MapGenerator_block_map_edge()
+{
+  module( "MapGenerator - block_map_edge" );
+  var mapgen = new MapGenerator();
+  mapgen.allocate_map();
+  mapgen.block_map_edge();
+  
+  test( "Horizontals", function()  
+  {  
+    var all_cells = true;
+     
+    for( var col = 0; col < MAP_WIDTH; col++ )
+    {
+      if( !mapgen.map[0][col].blocked || !mapgen.map[MAP_HEIGHT-1][col].blocked )
+      {
+        all_cells = false;
+        break;
+      }
+    }
+    
+    ok( all_cells, "Check that top and bottom rows are blocked" );
+  });
+  
+  test( "Verticals", function()  
+  {  
+    var all_cells = true;
+     
+    for( var row = 0; row < MAP_HEIGHT; row++ )
+    {
+      if( !mapgen.map[row][0].blocked || !mapgen.map[row][MAP_WIDTH-1].blocked )
+      {
+        all_cells = false;
+        break;
+      }
+    }
+    
+    ok( all_cells, "Check that left and right columns are blocked" );
+  });
+}
+
+function Room_contains_point()
+{
+  module( "Room - contains_point" );
+  var room = new Room();
+  room.top_left = new Point( 1, 1 );
+  room.width = 5;
+  room.height = 7;
+  
+  test( "Outer cells", function()  
+  {  
+    ok( !room.contains_point( 7, 9 ), "Check (7,9)" );
+    ok( !room.contains_point( 0, 0 ), "Check (0,0)" );
+    ok( !room.contains_point( 100, 100 ), "Check (100,100)" );
+    ok( !room.contains_point( -10, -10 ), "Check (-10,-10)" );
+  });
+  
+  test( "Contains all internal cells", function()  
+  {  
+    var all_cells = true;
+     
+    for( var row = room.top_left.y; row < room.top_left.y + room.height && all_cells; row++ )
+    {
+      for( var col = room.top_left.x; col < room.top_left.x + room.width && all_cells; col++ )
+      {
+        if( !room.contains_point( col, row ) )
+        {
+          all_cells = false;
+        }
+      }
+    }
+    
+    ok( all_cells, "Check that all cells inside the room count as contained by the room" );
+  });
+}
+
+function Room_fits_on_map()
+{
+  module( "Room - fits_on_map" );
+  
+  test( "Room fits completely", function()  
+  {  
+    var room = new Room();
+    room.top_left = new Point( 1, 1 );
+    room.width = 5;
+    room.height = 7;
+    
+    ok( room.fits_on_map(), "Room fits on map" );
+  });
+  
+  test( "Room overlaps TOP", function()  
+  {  
+    var room = new Room();
+    room.top_left = new Point( 51, -1 );
+    room.width = 5;
+    room.height = 7; 
+    ok( !room.fits_on_map(), "Room fits on map" );
+  });
+
+  test( "Room overlaps BOTTOM", function()  
+  {  
+    var room = new Room();
+    room.top_left = new Point( 51, MAP_HEIGHT - 11 );
+    room.width = 5;
+    room.height = 13; 
+    ok( !room.fits_on_map(), "Room fits on map" );
+  });
+  
+  test( "Room overlaps RIGHT", function()  
+  {  
+    var room = new Room();
+    room.top_left = new Point( -2, 51 );
+    room.width = 5;
+    room.height = 7; 
+    ok( !room.fits_on_map(), "Room fits on map" );
+  });
+  
+  test( "Room overlaps LEFT", function()  
+  {  
+    var room = new Room();
+    room.top_left = new Point( MAP_WIDTH - 7, 51 );
+    room.width = 13;
+    room.height = 7; 
+    ok( !room.fits_on_map(), "Room fits on map" );
+  });
+  
+  test( "Room overlaps BOTTOM and LEFT", function()  
+  {  
+    var room = new Room();
+    room.top_left = new Point( MAP_WIDTH - 7, MAP_HEIGHT - 7 );
+    room.width = 13;
+    room.height = 13; 
+    ok( !room.fits_on_map(), "Room fits on map" );
   });
 }
