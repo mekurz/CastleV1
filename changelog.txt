@@ -134,6 +134,7 @@ Version 19 - 06-Nov-2011
 - General
   - Fixed issue where dragging the Player into an obstacle or monster triggered multiple game turns
   - Fixed issue where dragging the Player adjacent to a monster did not result in the monster attempting to make a melee attack
+  - Started using a Javascript minimizer for all script files
 - Map Generator
   - Implemented more unit tests
   - Rooms will be generated at random sizes and fill the map using the "pack rooms" layout
