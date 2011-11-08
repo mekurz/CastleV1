@@ -16,9 +16,17 @@ function Cell()
   this.is_corridor = false;
   this.is_entrance = false;
   
-  this.is_blocked = function()
+  this.is_a_room = function()
   {
-    return this.blocked || this.room_id != -1;
+    return this.room_id != -1;
+  };
+  
+  this.set_as_perimeter = function()
+  {
+    if( !this.blocked && !this.is_a_room() )
+    {
+      this.is_perimeter = true;
+    }
   };
 }
 
@@ -41,19 +49,6 @@ function Room()
     return size;
   };
   
-  this.generate_random_location = function( max_dimension )
-  {
-    var value = Math.floor( Math.random() * max_dimension );
-    
-    if( value % 2 == 0 )
-    {
-      value++; 
-    }
-    
-    return value;
-  };
-  
-  //this.top_left = new Point( this.generate_random_location( MAP_WIDTH ), this.generate_random_location( MAP_HEIGHT ) );
   this.top_left = new Point();
   this.height = this.generate_random_dimension();
   this.width  = this.generate_random_dimension();
@@ -72,7 +67,7 @@ function Room()
     {
       for( var col = this.top_left.x; col <= this.top_left.x + this.width; col++ )
       {
-        if( map[row][col].is_blocked() )
+        if( map[row][col].blocked || map[row][col].is_a_room() )
         {
           return true;
         }
@@ -89,6 +84,38 @@ function Room()
         && this.top_left.y >= 0
         && this.top_left.y + this.height < MAP_HEIGHT; 
   };
+  
+  this.place_room = function( map )
+  {
+    this.draw_perimeter( map );
+    this.fill_room( map );
+  };
+  
+  this.draw_perimeter = function( map )
+  {
+    for( var col = this.top_left.x - 1; col < this.top_left.x + this.width + 1; col++ )
+    {
+      map[this.top_left.y - 1][col].set_as_perimeter();
+      map[this.top_left.y + this.height][col].set_as_perimeter();
+    }
+    
+    for( var row = this.top_left.y - 1; row < this.top_left.y + this.height + 1; row++ )
+    {
+      map[row][this.top_left.x - 1].set_as_perimeter();
+      map[row][this.top_left.x + this.width].set_as_perimeter();
+    }
+  };
+  
+  this.fill_room = function( map )
+  {
+    for( var row = 0; row < this.height; row++ )
+    {
+      for( var col = 0; col < this.width; col++ )
+      {
+        map[row + this.top_left.y][col + this.top_left.x].room_id = this.room_id;
+      }
+    }
+  };
 }
 
 var max_room_id = 0;
@@ -101,6 +128,7 @@ function MapGenerator()
 {
   this.div = $("#map");
   this.map = null;
+  this.rooms_list = new Array();
   
   this.generate_map = function()
   {
@@ -143,24 +171,7 @@ function MapGenerator()
   
   this.place_rooms = function()
   {
-    // TODO CALCULATE APPROPRIATE NUMBER OF ROOMS?
-   /* var num_rooms = 0;
-    
-    while( num_rooms < 10 )
-    {
-      var room = new Room();
-      
-      if( room.fits_on_map() && !room.contains_any_blocked_cell( this.map ) )
-      {
-        this.place_single_room( room );
-        num_rooms++;
-      }
-      else
-      {
-        delete room;
-      }
-    } */
-    
+    // Pack Rooms algorithm
     for( var row = 0; row < MAP_HEIGHT/2; row++ )
     {
       for( var col = 0; col < MAP_WIDTH/2; col++ )
@@ -173,12 +184,12 @@ function MapGenerator()
           
           if( room.fits_on_map() && !room.contains_any_blocked_cell( this.map ) )
           {
-            this.place_single_room( room );
+            room.place_room( this.map );
+            this.rooms_list.push( room );
           }
         }
       }
     }
-    
   };
   
   this.place_single_room = function( room )

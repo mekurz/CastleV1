@@ -4,8 +4,12 @@ function run_unit_tests()
   MapGenerator_get_cell_character();
   MapGenerator_block_map_edge();
  
+  Cell_is_a_room();
+  Cell_set_as_perimeter();
+  
   Room_contains_point();
   Room_fits_on_map();
+  Room_contains_any_blocked_cell();
 }
 
 function MapGenerator_allocate_map()
@@ -112,6 +116,59 @@ function MapGenerator_block_map_edge()
   });
 }
 
+function Cell_is_a_room()
+{
+  module( "Cell - is_a_room" );
+    
+  test( "Default", function()  
+  {  
+    var cell = new Cell();
+    equals( cell.room_id, -1, "Default room_id is -1" );
+    ok( !cell.is_a_room(), "New cells are not rooms" );
+  });
+
+  test( "Room ID set", function()  
+  {  
+    var cell = new Cell();
+    cell.room_id = 999;
+    ok( cell.is_a_room(), "Check that cell is a room" );
+  });
+}
+
+function Cell_set_as_perimeter()
+{
+  module( "Cell - set_as_perimeter" );
+    
+  test( "Default", function()  
+  {  
+    var cell = new Cell();
+    equals( cell.room_id, -1, "Default room_id is -1" );
+    equals( cell.blocked, false, "Cell is not blocked" );
+    
+    cell.set_as_perimeter();
+    ok( cell.is_perimeter, "Unblocked non-room cells can be marked as a perimeter" );
+  });
+  
+  test( "Blocked Cells", function()  
+  {  
+    var cell = new Cell();
+    equals( cell.room_id, -1, "Default room_id is -1" );
+    cell.blocked = true;    
+    cell.set_as_perimeter();
+    ok( !cell.is_perimeter, "Blocked cells cannot be marked as a perimeter" );
+  });
+
+  test( "Room Cells", function()  
+  {  
+    var cell = new Cell();
+    equals( cell.blocked, false, "Cell is not blocked" );
+    
+    cell.room_id = 999;
+    cell.set_as_perimeter();
+    ok( !cell.is_perimeter, "Blocked cells cannot be marked as a perimeter" );
+  });
+}
+
 function Room_contains_point()
 {
   module( "Room - contains_point" );
@@ -204,5 +261,41 @@ function Room_fits_on_map()
     room.width = 13;
     room.height = 13; 
     ok( !room.fits_on_map(), "Room fits on map" );
+  });
+}
+
+function Room_contains_any_blocked_cell()
+{
+  module( "Room - contains_any_blocked_cell" );
+  var mapgen = new MapGenerator();
+  mapgen.allocate_map();
+  mapgen.map[10][10].blocked = true;  // Block a cell  
+  mapgen.map[10][30].room_id = 999;  // Make a cell part of a room  
+  
+  test( "Room is unblocked", function()  
+  {  
+    var room = new Room();
+    room.top_left = new Point( 20, 20 );
+    room.width = 5;
+    room.height = 5; 
+    ok( !room.contains_any_blocked_cell( mapgen.map ), "All cells are unblocked" );
+  });
+  
+  test( "Blocked cell", function()  
+  {  
+    var room = new Room();
+    room.top_left = new Point( 8, 8 );
+    room.width = 5;
+    room.height = 5; 
+    ok( room.contains_any_blocked_cell( mapgen.map ), "Check that room is blocked" );
+  });
+  
+  test( "Blocked by another room", function()  
+  {  
+    var room = new Room();
+    room.top_left = new Point( 28, 8 );
+    room.width = 5;
+    room.height = 5; 
+    ok( room.contains_any_blocked_cell( mapgen.map ), "Check that room is blocked" );
   });
 }

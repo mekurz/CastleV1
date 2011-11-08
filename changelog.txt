@@ -139,9 +139,14 @@ Version 19 - 06-Nov-2011
   - Implemented more unit tests
   - Rooms will be generated at random sizes and fill the map using the "pack rooms" layout
 
+Version 20 - 07-Nov-2011
+- General
+  - Streamlined some aspects of the publishing script
+- Map Generator
+  - More unit tests and refactoring
+
 TODO
 ============
-- Mouse dragging doesn't appear to trigger monster melee attacks
 - Subclass of actor for the player?
 - Area spells need to set their primary target to the last square that they were in, NOT the square where an obstacle is encountered
 - Props (doors, chests, etc)
