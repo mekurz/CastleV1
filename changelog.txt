@@ -144,6 +144,11 @@ Version 20 - 07-Nov-2011
   - Streamlined some aspects of the publishing script
 - Map Generator
   - More unit tests and refactoring
+  
+Version 21 - 09-Nov-2011
+- Map Generator
+  - More unit tests and refactoring
+  - Added DoorMaker and some preliminary rules for adding entrances to rooms
 
 TODO
 ============
