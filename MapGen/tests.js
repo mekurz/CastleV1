@@ -1,5 +1,8 @@
 function run_unit_tests()
 {
+  MAP_HEIGHT = 100;
+  MAP_WIDTH = 100;
+  
   MapGenerator_allocate_map();
   MapGenerator_get_cell_character();
   MapGenerator_block_map_edge();
@@ -452,12 +455,12 @@ function DoorMaker_add_valid_horizontal_sills()
     
     room.top_left = new Point( 8, 3 );
     doors.add_north_sills();
-    equals( doors.sills.length, 5, "Check that Room has 5 NORTH sills at ROW 3" );
+    equals( doors.sills.length, 3, "Check that Room has 3 NORTH sills at ROW 3" );
     doors.sills = new Array();
     
     room.top_left = new Point( 8, 8 );
     doors.add_north_sills();
-    equals( doors.sills.length, 5, "Check that Room has 5 NORTH sills at ROW 8" );
+    equals( doors.sills.length, 3, "Check that Room has 3 NORTH sills at ROW 8" );
     doors.sills = new Array();
   });
   
@@ -483,20 +486,20 @@ function DoorMaker_add_valid_horizontal_sills()
     doors.sills = new Array();
   });
   
-  test( "NORTH has 2 sills", function()
+  test( "NORTH has 1 sill", function()
   {
     var room = new Room();
     var doors = new DoorMaker( mapgen.map, room );
        
-    room.top_left = new Point( 8, 8 );
-    room.width = 5;
+    room.top_left = new Point( 7, 7 );
+    room.width = 7;
     
-    mapgen.map[7][8].blocked = true;    // One perimeter cell is blocked
-    mapgen.map[7][10].is_entrance = true;   // One perimeter cell is already an entrance (i.e. from a different room)
-    mapgen.map[6][11].blocked = true;   // One possible entrance would open onto a blocked cell
+    mapgen.map[6][7].blocked = true;    // One perimeter cell is blocked
+    mapgen.map[6][9].is_entrance = true;   // One perimeter cell is already an entrance (i.e. from a different room)
+    mapgen.map[5][11].blocked = true;   // One possible entrance would open onto a blocked cell
     
     doors.add_north_sills();
-    equals( doors.sills.length, 2, "Check that Room has 2 NORTH sills" );
+    equals( doors.sills.length, 1, "Check that Room has 1 NORTH sill" );
   });
   
   test( "All SOUTH is valid", function()
@@ -508,12 +511,12 @@ function DoorMaker_add_valid_horizontal_sills()
     
     room.top_left = new Point( 8, MAP_HEIGHT-2 );
     doors.add_south_sills();
-    equals( doors.sills.length, 5, "Check that Room has 5 SOUTH sills at ROW MAP_HEIGHT-2" );
+    equals( doors.sills.length, 3, "Check that Room has 3 SOUTH sills at ROW MAP_HEIGHT-2" );
     doors.sills = new Array();
     
     room.top_left = new Point( 8, 8 );
     doors.add_south_sills();
-    equals( doors.sills.length, 5, "Check that Room has 5 SOUTH sills at ROW 8" );
+    equals( doors.sills.length, 3, "Check that Room has 3 SOUTH sills at ROW 8" );
     doors.sills = new Array();
   });
   
@@ -535,21 +538,21 @@ function DoorMaker_add_valid_horizontal_sills()
     doors.sills = new Array();
   });
   
-  test( "SOUTH has 2 sills", function()
+  test( "SOUTH has 1 sill", function()
   {
     var room = new Room();
     var doors = new DoorMaker( mapgen.map, room );
        
-    room.top_left = new Point( 8, 8 );
-    room.width = 5;
+    room.top_left = new Point( 7, 7 );
+    room.width = 7;
     room.height = 5;
     
-    mapgen.map[13][8].blocked = true;    // One perimeter cell is blocked
-    mapgen.map[13][10].is_entrance = true;   // One perimeter cell is already an entrance (i.e. from a different room)
-    mapgen.map[14][11].blocked = true;   // One possible entrance would open onto a blocked cell
+    mapgen.map[12][7].blocked = true;    // One perimeter cell is blocked
+    mapgen.map[12][9].is_entrance = true;   // One perimeter cell is already an entrance (i.e. from a different room)
+    mapgen.map[13][11].blocked = true;   // One possible entrance would open onto a blocked cell
     
     doors.add_south_sills();
-    equals( doors.sills.length, 2, "Check that Room has 2 SOUTH sills" );
+    equals( doors.sills.length, 1, "Check that Room has 1 SOUTH sill" );
   });
 
 }

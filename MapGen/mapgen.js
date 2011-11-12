@@ -2,12 +2,14 @@ var MAP_WIDTH  = 100;
 var MAP_HEIGHT = 100;
 var MIN_ROOM_SIZE = 5;
 var MAX_ROOM_SIZE = 13;
+var TUNNEL_LENGTH = 3;
 
 var BLOCKED_CHAR = "B";
 var NOTHING_CHAR = "#";
 var ROOM_CHAR    = ".";
-var PERIMETER_CHAR = "O";
+var PERIMETER_CHAR = "#";
 var ENTRANCE_CHAR = "E";
+var TUNNEL_CHAR = " ";
 
 var max_room_id = 0;
 
@@ -30,6 +32,11 @@ function Cell()
     {
       this.is_perimeter = true;
     }
+  };
+  
+  this.is_clear_for_tunnel = function()
+  {
+    return !this.blocked && !this.is_perimeter && !this.is_corridor;
   };
 }
 
@@ -195,7 +202,7 @@ function DoorMaker( map, room )
   {
     if( row <= 1 || row >= MAP_HEIGHT-1 ) return;
     
-    for( var col = this.room.top_left.x; col < this.room.top_left.x + this.room.width; col++ )
+    for( var col = this.room.top_left.x; col < this.room.top_left.x + this.room.width; col += 2 )
     {
       if( !this.map[row][col].blocked && !this.map[row][col].is_entrance && !this.map[row + direction][col].blocked )
       {
@@ -208,7 +215,7 @@ function DoorMaker( map, room )
   {
     if( col <= 1 || col >= MAP_WIDTH-1 ) return;
     
-    for( var row = this.room.top_left.y; row < this.room.top_left.y + this.room.height; row++ )
+    for( var row = this.room.top_left.y; row < this.room.top_left.y + this.room.height; row += 2 )
     {
       if( !this.map[row][col].blocked && !this.map[row][col].is_entrance && !this.map[row][col + direction].blocked )
       {
@@ -226,10 +233,105 @@ function DoorMaker( map, room )
     {
       var sill_num = Math.floor( Math.random() * this.sills.length );
       this.sills[sill_num].is_entrance = true;
-      //this.sills.remove( sill_num );
     }
   };
-};
+}
+
+function TunnelMaker( map )
+{
+  this.map = map;
+  this.count = 0;
+  
+  var NORTH = new Point( -1,  0 );
+  var SOUTH = new Point(  1,  0 );
+  var EAST  = new Point(  0, -1 );
+  var WEST  = new Point(  0,  1 );
+  
+  this.create_tunnels = function()
+  {
+    for( var row = 0; row < MAP_HEIGHT/2; row++ )
+    {
+      for( var col = 0; col < MAP_WIDTH/2; col++ )
+      {
+        var next_row = ( row * 2 ) + 1;
+        var next_col = ( col * 2 ) + 1;
+        
+        if( this.map[next_row][next_col].is_clear_for_tunnel() )
+        {
+          this.tunnel( next_row, next_col );
+        }
+      }
+    }
+  };
+  
+  this.tunnel = function( row, col )
+  {
+    var directions = this.get_tunnel_directions();
+    
+    for( var dir = 0; dir < 4; dir++ )
+    {
+      if( this.make_tunnel( row, col, directions[dir] ) )
+      {
+        var next_row = this.get_next_tunnel_position( row, directions[dir].x );
+        var next_col = this.get_next_tunnel_position( col, directions[dir].y );
+        this.tunnel( next_row, next_col );
+      }
+    }
+  };
+  
+  this.get_next_tunnel_position = function( value, move )
+  {
+    return value + ( move * TUNNEL_LENGTH ) + -move;
+  };
+  
+  this.get_tunnel_directions = function()
+  {
+    return [ NORTH, SOUTH, EAST, WEST ].shuffle(); 
+  };
+  
+  this.make_tunnel = function( row, col, direction )
+  {
+    if( this.is_tunnel_clear( row, col, direction ) )
+    {
+      this.dig_tunnel( row, col, direction );
+      return true;
+    }
+    
+    return false;
+  };
+  
+  this.is_tunnel_clear = function( row, col, direction )
+  {
+    for( var ix = 1; ix < TUNNEL_LENGTH; ix++ )
+    {
+      var next_row = row + ( direction.x * ix );
+      var next_col = col + ( direction.y * ix );
+      
+      if( next_row <= 0 || next_row >= MAP_HEIGHT || next_col <= 0 || next_col >= MAP_WIDTH )
+      {
+        return false;
+      }
+      
+      if( !this.map[next_row][next_col].is_clear_for_tunnel() )
+      {
+        return false;
+      }
+    }
+    
+    return true;
+  };
+  
+  this.dig_tunnel = function( row, col, direction )
+  {
+    for( var ix = 0; ix < TUNNEL_LENGTH; ix++ )
+    {
+      var next_row = row + ( direction.x * ix );
+      var next_col = col + ( direction.y * ix );
+      this.map[next_row][next_col].is_corridor = true;
+    }
+  };
+
+}
 
 //----------------------------------------------------------------------------------------------
 // MAP GENERATOR
@@ -246,8 +348,7 @@ function MapGenerator()
     this.allocate_map();
     this.block_map_edge();
     this.place_rooms();
-    
-    this.draw_map();
+    this.build_tunnels();
   };
   
   this.allocate_map = function()
@@ -306,6 +407,12 @@ function MapGenerator()
     }
   };
   
+  this.build_tunnels = function()
+  {
+    var tunnels = new TunnelMaker( this.map );
+    tunnels.create_tunnels();
+  };
+  
   
 // DRAW MAP FUNCTIONS BELOW
   this.draw_map = function()
@@ -340,6 +447,10 @@ function MapGenerator()
     else if( cell.room_id != -1 )
     {
       return ROOM_CHAR; 
+    }
+    else if( cell.is_corridor )
+    {
+      return TUNNEL_CHAR;
     }
     else
     {
