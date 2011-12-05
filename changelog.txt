@@ -154,6 +154,16 @@ Version 22 - 11-Nov-2011
 - Map Generator
   - Updated DoorMaker so that doors can no longer be adjacent to each other
   - Added TunnelMaker
+  
+Version 23 - 04-Dec-2011
+- General
+  - Upgraded to jQuery 1.7.1
+- Map Generator
+  - Fixed a major problem with TunnelMaker that was creating tunnels within the boundaries of every room
+  - Added TunnelCrusher to collapse deadend tunnels 50% of the time
+- Debugging
+  - Added a "Switch to Random Map" button to demonstrate large maps. Only two tiles are currently used in the conversion step right now.
+    - Things look a little funny since certain tiles are meant to hold doors eventually, and the switch process can get you stuck inside a wall. Keep clicking until it works.
 
 TODO
 ============
@@ -163,6 +173,6 @@ TODO
 - Implement HP/mana counters for Player (i.e. no more invincibility)
 - Items/inventory system
 - Fog of war?
-- Random map generation
 - Refactor draw functions for SpellEffects (most of them are ending up being identical)
 - Switch config stuff to XML from JSON
+- More complete representation of a level with doors, rooms, etc for use by Viewport

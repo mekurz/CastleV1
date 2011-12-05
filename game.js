@@ -278,7 +278,7 @@ function Game()
   
   this.draw_spells_interval_loop = function()
   {
-    //Log.debug( "Running spell animation interval..." );
+    Log.debug( "Running spell animation interval..." );
     document.game.buffer_ctx.drawImage( document.game.spell_buffer, 0, 0 );    // Draw the backup of the map without any spell effects.
     draw_spells_for_interval( document.game.buffer_ctx );
     document.game.map_ctx.drawImage( document.game.buffer, 0, 0 );

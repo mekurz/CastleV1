@@ -96,3 +96,13 @@ function test_diagonal_cones()
     document.game.draw_spells();
   }
 }
+
+function random_map()
+{
+  var mapgen = new MapGenerator();
+  mapgen.generate_map();
+  map_tiles = null;
+  map_tiles = mapgen.convert_to_tiles();
+  
+  document.game.do_turn();
+}
