@@ -23,8 +23,8 @@
 	  Use arrows or num pad to move, OR click and drag the man to move. Click on RAT MANS or bump into them to attack! Select a spell from the menu, click Cast and then click a tile!<br/>
 		processing:<input type="text" id="processing" value="0"></input>
 		command:<input type="text" id="command" value="0"></input>
-		<a href="changelog.txt">Change Log</a> <a href="MapGen/test.html">Map Generator</a>
-		<input type="submit" value="Switch to Random Map" onclick="random_map();"></input><br/>
+		<a href="changelog.txt">Change Log</a> | <a href="MapGen/test.html">Map Generator</a> | <a href="Inventory/test.html">Inventory TPOC</a>
+		<br/>
 		TEST: <select id="test_menu">
 		  <option value="0">TEST FIZZLES</option>
 		  <option value="1">TEST SPLAT</option>
@@ -45,6 +45,7 @@
       <option value="7">FIRE BREATH</option>
     </select>
 		<input type="submit" value="Cast Spell" onclick="cast_spell( parseInt( $('#spell_menu').val() ) );"></input>
+		<input type="submit" value="Switch to Random Map" onclick="random_map();"></input>
 		<br/><br/>
 		<div id="game_area" style="margin-left:10px;">
 			<canvas id="map" width="960" height="480" style="border:1px solid black;" oncontextmenu="return false;">

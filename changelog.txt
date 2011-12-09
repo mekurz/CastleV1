@@ -165,6 +165,10 @@ Version 23 - 04-Dec-2011
   - Added a "Switch to Random Map" button to demonstrate large maps. Only two tiles are currently used in the conversion step right now.
     - Things look a little funny since certain tiles are meant to hold doors eventually, and the switch process can get you stuck inside a wall. Keep clicking until it works.
 
+Version 24 - 08-Dec-2011
+- Inventory
+  - Proof of concept work with jQueryUI for creating an inventory system (click the "Inventory TPOC" link on the main page)
+  
 TODO
 ============
 - Subclass of actor for the player?
