@@ -32,20 +32,6 @@ Actor.prototype.draw = function( ctx )
   }   
 };
 
-Actor.prototype.parse_JSON = function( json )
-{
-  // TODO This should probably move down to Monster (Player never needs it)
-  var obj = $.evalJSON( json );
-  this.description = obj.description;
-  this.image_name  = obj.image_name;
-  this.max_hp      = obj.max_hp;
-  this.max_mana    = obj.max_mana;
-  this.ac          = obj.ac;
-  this.sight       = obj.sight;
-  this.melee_damage= obj.melee_damage;
-  this.spell       = obj.spell;
-};
-
 Actor.prototype.heal = function( value )
 {
   this.current_hp += value;

@@ -1,19 +1,6 @@
 var SPELL_WIDTH = 12;
 var AREA_SPELL_WIDTH = TILE_WIDTH * 3;
 
-var SPELL_DATA =  [  "{\"description\":\"Death Splat\",\"src\":\"splat.png\"}"
-                    ,"{\"description\":\"Spell Fizzle\",\"src\":\"fizzle.png\"}"
-                    ,"{\"description\":\"Magic Missile\",\"src\":\"missile.png\",\"mana_cost\":1,\"damage\":2,\"verb\":\"slams into\"}"
-                    ,"{\"description\":\"Lightning Bolt\",\"src\":\"lightning.png\",\"mana_cost\":2,\"damage\":4,\"verb\":\"fries\"}"
-                    ,"{\"description\":\"Firebolt\",\"src\":\"firebolt.png\",\"mana_cost\":4,\"damage\":7,\"verb\":\"scorches\"}"
-                    ,"{\"description\":\"Fireball\",\"src\":\"fireball.png\",\"mana_cost\":8,\"damage\":10,\"splash\":5,\"verb\":\"engulfs\"}"
-                    ,"{\"description\":\"Boulder\",\"src\":\"boulder.png\",\"mana_cost\":0,\"damage\":4,\"verb\":\"crashes into\",\"action\":\"hurls\"}"
-                    ,"{\"description\":\"Fire Breath\",\"src\":\"cone_fire.png\",\"mana_cost\":0,\"damage\":10,\"splash\":5,\"verb\":\"blasts\"}"
-                    ,"{\"description\":\"Fire Breath\",\"src\":\"cone_fire_d.png\",\"mana_cost\":0,\"damage\":8,\"verb\":\"blasts\"}"
-                  ];
-
-
-
 function cast_spell( spell )
 {
 	if( !is_processing() )
@@ -74,18 +61,19 @@ function Spell( spell_id, source_actor, target_tile )
   this.spell_id = spell_id;
   this.source_actor = source_actor;
   this.target_tile = new Point( target_tile.x, target_tile.y );
-  this.parse_JSON( SPELL_DATA[this.spell_id] );
+  this.load_from_xml();
 }
 
-Spell.prototype.parse_JSON = function( json )
+Spell.prototype.load_from_xml = function()
 {
-  var obj = $.evalJSON( json );
-  this.description = obj.description;
-  this.mana_cost   = obj.mana_cost;
-  this.damage      = obj.damage;
-  this.splash      = obj.splash;
-  this.verb        = obj.verb;
-  this.action      = obj.action;
+  var xml = Loader.get_spell_data( this.spell_id );
+  
+  this.description = xml.find("Description").text();
+  this.mana_cost   = xml.find("Mana").text();
+  this.damage      = xml.find("Damage").text();
+  this.splash      = xml.find("Splash").text();
+  this.verb        = xml.find("Verb").text();
+  this.action      = xml.find("Action").text();
 };
 
 Spell.prototype.resolve_miss = function()

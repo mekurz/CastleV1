@@ -20,9 +20,12 @@ function Game()
   {
     Log = new Logger();
     Log.debug( "Initializing..." );
-          
+
+    Loader = new DataLoader();
     Images = new ImageCache();
-    Images.initialize();
+    
+    Loader.initialize();
+
     canvas = $("#map");
     
     if( canvas && canvas[0].getContext )
@@ -38,17 +41,10 @@ function Game()
       this.spell_buffer.height = canvas[0].height;
       this.spell_ctx = this.spell_buffer.getContext("2d");
       
-      Map = new ViewPort();
-      Map.initialize();
-      
-      initialize_player();
-      
       canvas.bind( "mousedown", this.on_mouse_down );
       canvas.bind( "mouseup", this.on_mouse_up );
       canvas.bind( "mouseleave", this.on_mouse_leave );
       canvas.bind( "mousemove", this.on_mouse_move );
-          
-      Log.debug( "Done initialization." );
       
       return true;
     }
@@ -71,18 +67,24 @@ function Game()
   {
     if( Images.is_loaded() )
     {
-      Player.img = Images.PLAYER_IMAGE;
+      Log.debug( "Image preload complete." );
+      
+      Map = new ViewPort();
+      Map.initialize();
+      
+      initialize_player();
+      
       Map.center_map_on_location( Player.location );
       create_monsters();
       
-      Log.debug( "Image preload complete." );
       document.game.draw();
-      
       clearInterval( document.game.interval_loop );
       document.game.interval_loop = null;
       
       set_finished();
       set_command( NO_COMMAND );
+      
+      Log.debug( "Done initialization." );
     }
   };
   
@@ -122,6 +124,7 @@ function Game()
   {
     Player = new Actor();
     Player.id = "man";
+    Player.img = Images.PLAYER_IMAGE;
     Player.move_to( new Point( 10, 7 ) );
   }
   
@@ -278,7 +281,7 @@ function Game()
   
   this.draw_spells_interval_loop = function()
   {
-    Log.debug( "Running spell animation interval..." );
+    //Log.debug( "Running spell animation interval..." );
     document.game.buffer_ctx.drawImage( document.game.spell_buffer, 0, 0 );    // Draw the backup of the map without any spell effects.
     draw_spells_for_interval( document.game.buffer_ctx );
     document.game.map_ctx.drawImage( document.game.buffer, 0, 0 );

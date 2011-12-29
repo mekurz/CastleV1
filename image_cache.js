@@ -8,29 +8,10 @@ function ImageCache()
   this.SPELL_IMAGES = new Array();
   this.PLAYER_IMAGE = null;
   
-  
-  this.initialize = function()
-  {
-    loaded = 0;
-    
-    this.load_player();
-    load_images( TILE_DATA, this.TILE_IMAGES );
-    load_images( MONSTER_DATA, this.MONSTER_IMAGES );
-    load_images( SPELL_DATA, this.SPELL_IMAGES );
-  };
-  
   this.is_loaded = function()
   {
-    return loaded == need_to_load; 
+    return loaded == need_to_load && need_to_load > 0; 
   };
-
-  function load_images( source, dest )
-  {
-    for( var x = 0; x < source.length; ++x )
-    {
-      dest.push( load_single_image( $.evalJSON( source[x] ).src ) );
-    }
-  }
   
   function load_single_image( src )
   {
@@ -48,8 +29,30 @@ function ImageCache()
     return img;
   }
   
+  function load_images_from_xml( xml, dest )
+  {
+    xml.each( function(){
+      dest.push( load_single_image( $(this).attr("src") ) );
+    });
+  }
+  
   this.load_player = function()
   {
     this.PLAYER_IMAGE = load_single_image( "man.gif" ); 
+  };
+  
+  this.load_tile_images = function( xml )
+  {
+    load_images_from_xml( xml, this.TILE_IMAGES ); 
+  };
+  
+  this.load_spell_images = function( xml )
+  {
+    load_images_from_xml( xml, this.SPELL_IMAGES ); 
+  };
+  
+  this.load_monster_images = function( xml )
+  {
+    load_images_from_xml( xml, this.MONSTER_IMAGES ); 
   };
 };

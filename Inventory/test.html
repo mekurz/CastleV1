@@ -8,28 +8,51 @@
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js"></script>
     <style>
-      .Item { width:48px;height:48px;border:1px solid blue;float:left;margin:1px;background:white;zIndex=100; }
+      .Item { width:75px;height:75px;border:1px solid blue;float:left;margin:1px;background:white;text-align:center;overflow-y:hidden; }
+      .Item span { font-family:verdana;font-size:7pt; }
       .BlankSlotItem { display:none; }
+      .ItemSlot { width:79px;height:79px;border:1px solid black;background:white;display:inline-block;margin:0px;position:absolute; }
     </style>
   </head>
   <body>
     <button id="launch">Inventory</button>
     
     <div id="dialog" title="Inventory">
-      Bag:
-		  <div id="bag" style="border:1px solid black;margin-bottom:10px;height:104px;overflow:auto" class="ItemContainer"></div>
-		  Equipped:
-		  <div id="gear" style="border:1px solid black;margin-bottom:10px;height:104px;overflow:auto">
-		    <div style="float:left;margin-left:5px">
-		      1:<div id="Slot1" style="border:1px dashed black;width:52px;height:52px;" class="ItemContainer"></div>
+      <div style="position:relative;">
+	      <div style="background:white;width:401px;height:481px;position:relative;">
+	        <div class="ItemSlot" style="left:0px;top:0px;"></div>
+	        <div id="Back" class="ItemSlot ItemContainer" style="left:80px;top:0px;background:url(../images/inv_back.png);"></div>
+	        <div id="Head" class="ItemSlot ItemContainer" style="left:160px;top:0px;background:url(../images/inv_head.png);"></div>
+	        <div id="Neck" class="ItemSlot ItemContainer" style="left:240px;top:0px;background:url(../images/inv_neck.png);"></div>
+	        <div class="ItemSlot" style="left:320px;top:0px;"></div>
+	        <div id="Chest" class="ItemSlot ItemContainer" style="left:0px;top:80px;background:url(../images/inv_chest.png);"></div>
+	        <div class="ItemSlot" style="left:320px;top:80px;"></div>
+	        <div id="Arms" class="ItemSlot ItemContainer" style="left:0px;top:160px;background:url(../images/inv_arms.png);"></div>
+	        <div id="Hands" class="ItemSlot ItemContainer" style="left:320px;top:160px;background:url(../images/inv_hands.png);"></div>
+	        <div id="Weapon" class="ItemSlot ItemContainer" style="left:0px;top:240px;background:url(../images/inv_weapon.png);"></div>
+	        <div id="Shield" class="ItemSlot ItemContainer" style="left:320px;top:240px;background:url(../images/inv_shield.png);"></div>
+	        <div id="RightRing" class="ItemSlot ItemContainer" style="left:0px;top:320px;background:url(../images/inv_rightring.png);"></div>
+	        <div id="LeftRing" class="ItemSlot ItemContainer" style="left:320px;top:320px;background:url(../images/inv_leftring.png);"></div>
+	        <div id="Waist" class="ItemSlot ItemContainer" style="left:0px;top:400px;background:url(../images/inv_waist.png);"></div>
+	        <div id="Feet" class="ItemSlot ItemContainer" style="left:320px;top:400px;background:url(../images/inv_feet.png);"></div>
+	        <img src="../images/paperdoll.png" style="position:absolute;left:81px;top:81px;"/>
+	      </div>
+	      <div style="padding-left:10px;width:415px;position:absolute;left:405px;top:0px;">
+		      Bag:
+				  <div id="bag" style="border:1px solid black;margin-bottom:10px;height:230px;overflow:auto" class="ItemContainer"></div>
+				  Floor:
+		      <div id="floor" style="border:1px solid black;height:195px;overflow:auto" class="ItemContainer">
+		       <div id="item1" class="Item Feet">
+		         <img src="../images/items/leather_boots.png"/><br/>
+		         <span>Leather Boots</span>
+		       </div>
+		       <div id="item2" class="Item Feet">
+             <img src="../images/items/leather_boots.png"/><br/>
+             <span>Fancy Boots</span>
+           </div>
+		      </div>
 		    </div>
-		    <div style="float:left;margin-left:5px">
-          10 or 15:<div id="Slot2" style="border:1px dashed black;width:52px;height:52px;" class="ItemContainer"></div>
-        </div>
 		  </div>
-		  Floor:
-      <div id="floor" style="border:1px solid black;margin-bottom:10px;height:104px;overflow:auto" class="ItemContainer">
-      </div>
 		</div>
     
     <script type="text/javascript">
@@ -38,22 +61,13 @@
 	        $( "#dialog" ).dialog({ autoOpen: false,
 	                                resizable: false,
 	                                modal: true,
-	                                width: 500,
-	                                height: 500,
+	                                width: 870,
+	                                height: 550,
 	                              });
 	        
 	        $("#launch").button().click( function(){
 	             $( "#dialog" ).dialog("open");
 	           });
-	        
-	        for( var ix = 1; ix <= 20; ix++ )
-	        {
-	         $("#bag").append( "<div id='item" + ix + "' class='Item'>" + ix + "</div>" ); 
-	        }
-	        
-	        $("#item1").addClass( "Slot1" );
-	        $("#item10").addClass( "Slot2" );
-	        $("#item15").addClass( "Slot2" );
 	        
 	        $("#bag").sortable({ items: ".Item",
 	                             placeholder: "BlankSlotItem",
@@ -69,38 +83,27 @@
                                cursor: "move"
             });
 	        
-	        $("#Slot1").sortable({ items: ".Item",
-                               placeholder: "BlankSlotItem",
-                               connectWith: ".ItemContainer",
-                               tolerance: "pointer",
-                               cursor: "move",
-                               receive: function(event, ui) {
-															            var $this = $(this);
-															            if( $this.children().length > 1 || !$(ui.item).hasClass( $this.attr("id") ) ) {
-															                $(ui.sender).sortable("cancel");
-															            }
-				                                }
-            });
+	        var item_slot_options = { items: ".Item",
+			                              placeholder: "BlankSlotItem",
+			                              connectWith: ".ItemContainer",
+			                              tolerance: "pointer",
+			                              cursor: "move",
+			                              receive: function(event, ui) {
+			                                          var $this = $(this);
+			                                          if( !$(ui.item).hasClass( $this.attr("id") ) ) // Doesn't belong in this slot
+			                                          {
+			                                            $(ui.sender).sortable("cancel");
+			                                          }
+			                                          else if( $this.children().length > 1 ) // Already something here, so perform a swap
+			                                          {
+			                                            var item = $this.children( "div:not(#" + ui.item[0].id + ")" ).detach();
+			                                            $(ui.sender).append( item );
+			                                          }
+			                                        }
+	                                };
 	        
-	        $("#Slot2").sortable({ items: ".Item",
-                               placeholder: "BlankSlotItem",
-                               connectWith: ".ItemContainer",
-                               tolerance: "pointer",
-                               cursor: "move",
-                               receive: function(event, ui) {
-                                          var $this = $(this);
-                                          if( !$(ui.item).hasClass( $this.attr("id") ) ) // Doesn't belong in this slot
-                                          {
-                                            $(ui.sender).sortable("cancel");
-                                          }
-                                          else if( $this.children().length > 1 ) // Already something here, so perform a swap
-                                          {
-                                            var item = $this.children( "div:not(#" + ui.item[0].id + ")" ).detach();
-                                            $(ui.sender).append( item );
-                                          }
-                                        }
-            });
-	        
+	        $("#Feet").sortable( item_slot_options );
+
         });
     </script>  
   </body>

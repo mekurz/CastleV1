@@ -8,6 +8,7 @@ var TILE_DRAG_BUFFER = 12;
 var MAX_X = VIEWPORT_WIDTH * TILE_WIDTH;
 var MAX_Y = VIEWPORT_HEIGHT * TILE_WIDTH;
 var Log = null;
+var Loader = null;
 var Images = null;
 var Map = null;
 var Player = null;

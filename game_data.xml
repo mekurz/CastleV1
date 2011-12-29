@@ -1,0 +1,79 @@
+<Game>
+  <Tiles>
+    <Tile id="0" src="grass.png"/>
+    <Tile id="1" src="dirt.png"/>
+    <Tile id="2" src="stones.png"/>
+    <Tile id="3" src="wall.png"/>
+  </Tiles>
+  <Spells>
+    <Spell id="0" src="splat.png">
+      <Description>Death Splat</Description>
+    </Spell>
+    <Spell id="1" src="fizzle.png">
+      <Description>Spell Fizzle</Description>
+    </Spell>
+    <Spell id="2" src="missile.png">
+      <Description>Magic Missile</Description>
+      <Mana>1</Mana>
+      <Damage>2</Damage>
+      <Verb>slams into</Verb>
+    </Spell>
+    <Spell id="3" src="lightning.png">
+      <Description>Lightning Bolt</Description>
+      <Mana>2</Mana>
+      <Damage>3</Damage>
+      <Verb>fries</Verb>
+    </Spell>
+    <Spell id="4" src="firebolt.png">
+      <Description>Firebolt</Description>
+      <Mana>4</Mana>
+      <Damage>7</Damage>
+      <Verb>scorches</Verb>
+    </Spell>
+    <Spell id="5" src="fireball.png">
+      <Description>Fireball</Description>
+      <Mana>8</Mana>
+      <Damage>10</Damage>
+      <Splash>5</Splash>
+      <Verb>engulfs</Verb>
+    </Spell>
+    <Spell id="6" src="boulder.png">
+      <Description>Boulder</Description>
+      <Mana>0</Mana>
+      <Damage>4</Damage>
+      <Verb>crashes into</Verb>
+      <Action>hurls</Action>
+    </Spell>
+    <Spell id="7" src="cone_fire.png">
+      <Description>Fire Breath</Description>
+      <Mana>0</Mana>
+      <Damage>10</Damage>
+      <Verb>blasts</Verb>
+    </Spell>
+    <Spell id="8" src="cone_fire_d.png">
+      <Description>Fire Breath</Description>
+      <Mana>0</Mana>
+      <Damage>10</Damage>
+      <Verb>blasts</Verb>
+    </Spell>
+  </Spells>
+  <Monsters>
+    <Monster id="0" src="ratman.png">
+      <Description>Rat Man</Description>
+      <HP>7</HP>
+      <Mana>0</Mana>
+      <AC>10</AC>
+      <Sight>3</Sight>
+      <Melee>1</Melee>
+    </Monster>
+    <Monster id="1" src="hillgiant.png">
+      <Description>Hill Giant</Description>
+      <HP>30</HP>
+      <Mana>0</Mana>
+      <AC>10</AC>
+      <Sight>6</Sight>
+      <Melee>4</Melee>
+      <SpellCast id="6"/>
+    </Monster>
+  </Monsters>
+</Game>

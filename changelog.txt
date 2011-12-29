@@ -169,6 +169,14 @@ Version 24 - 08-Dec-2011
 - Inventory
   - Proof of concept work with jQueryUI for creating an inventory system (click the "Inventory TPOC" link on the main page)
   
+Version 25 - 26-Dec-2011
+- General
+  - Switched to XML configuration file with an AJAX pre-loader instead of JSON
+  - Cleaned up the game load sequence
+  - Moved Monster initialization to the proper location
+- Inventory
+  - Updated Inventory layout
+  
 TODO
 ============
 - Subclass of actor for the player?
@@ -178,5 +186,6 @@ TODO
 - Items/inventory system
 - Fog of war?
 - Refactor draw functions for SpellEffects (most of them are ending up being identical)
-- Switch config stuff to XML from JSON
+
 - More complete representation of a level with doors, rooms, etc for use by Viewport
+- Passable tiles should not be checking the tile image

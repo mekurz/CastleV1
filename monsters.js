@@ -1,7 +1,3 @@
-var MONSTER_DATA = [ "{\"description\":\"Rat Man\",\"src\":\"ratman.png\",\"location\":null,\"max_hp\":7,\"max_mana\":0,\"ac\":10,\"sight\":3,\"melee_damage\":1}"
-                    ,"{\"description\":\"Hill Giant\",\"src\":\"hillgiant.png\",\"location\":null,\"max_hp\":30,\"max_mana\":0,\"ac\":10,\"sight\":6,\"melee_damage\":4,\"spell\":6}" 
-                    ];
-
 var monsters = new Array();
 
 function create_monsters()
@@ -15,13 +11,9 @@ function create_monsters()
 
 function create_single_monster( monster_type, location )
 {
-  var json = MONSTER_DATA[monster_type];
-  var monster = new Monster();
-  monster.parse_JSON( json );
+  var monster = new Monster( monster_type );
   monster.move_to( location );
-  monster.img = Images.MONSTER_IMAGES[monster_type];
 
-  monster.initialize();
   monsters.push( monster );
 }
 
@@ -79,15 +71,39 @@ function get_monster_by_id( monster_id )
   } 
 }
 
-function Monster()
+function Monster( type )
 {
   Monster.base_constructor.call( this, Monster.max_monster_id );
   Monster.max_monster_id++;
+  
+  this.type       = type;
   this.is_monster = true;
+  this.img        = Images.MONSTER_IMAGES[this.type];
+  
+  this.load_from_xml();
+  Monster.super_class.initialize.call( this );
 }
 extend( Monster, Actor );
 
 Monster.max_monster_id = 0;
+
+Monster.prototype.load_from_xml = function()
+{
+  var xml = Loader.get_monster_data( this.type );
+  
+  this.description = xml.find("Description").text();
+  this.max_hp      = xml.find("HP").text();
+  this.max_mana    = xml.find("Mana").text();
+  this.ac          = xml.find("AC").text();
+  this.sight       = xml.find("Sight").text();
+  this.melee_damage= xml.find("Melee").text();
+  this.spell       = xml.find("SpellCast").attr("id");
+  
+  if( this.spell == "" )
+  {
+    this.spell = undefined;    
+  }
+};
 
 Monster.prototype.damage = function( value )
 {
