@@ -8,54 +8,151 @@
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js"></script>
     <style>
-      .Item { width:75px;height:75px;border:1px solid blue;float:left;margin:1px;background:white;text-align:center;overflow-y:hidden; }
-      .Item span { font-family:verdana;font-size:7pt; }
+      .NonEquipped { border:1px solid black;overflow:auto; }
+      .Item { width:67px;height:75px;border:1px solid blue;float:left;margin:1px;background:white;text-align:center;overflow-y:hidden;padding-left:4px;padding-right:4px;cursor:move; }
+      .Item h1 { font-family:verdana;font-size:7pt;font-weight:normal; }
       .BlankSlotItem { display:none; }
-      .ItemSlot { width:79px;height:79px;border:1px solid black;background:white;display:inline-block;margin:0px;position:absolute; }
+      .ItemSlot { width:79px;height:79px;border:1px solid black;background:white;margin:0px;position:absolute; }
+      
+      .Row0 { top:0px; }
+      .Row1 { top:80px; }
+      .Row2 { top:160px; }
+      .Row3 { top:240px; }
+      .Row4 { top:320px; }
+      .Row5 { top:400px; }
+      
+      .Col0 { left:0px; }
+      .Col1 { left:80px; }
+      .Col2 { left:160px; }
+      .Col3 { left:240px; }
+      .Col4 { left:320px; }
     </style>
   </head>
   <body>
     <button id="launch">Inventory</button>
     
-    <div id="dialog" title="Inventory">
+    <div id="dialog" title="Inventory" style="overflow:hidden;">
       <div style="position:relative;">
 	      <div style="background:white;width:401px;height:481px;position:relative;">
-	        <div class="ItemSlot" style="left:0px;top:0px;"></div>
-	        <div id="Back" class="ItemSlot ItemContainer" style="left:80px;top:0px;background:url(../images/inv_back.png);"></div>
-	        <div id="Head" class="ItemSlot ItemContainer" style="left:160px;top:0px;background:url(../images/inv_head.png);"></div>
-	        <div id="Neck" class="ItemSlot ItemContainer" style="left:240px;top:0px;background:url(../images/inv_neck.png);"></div>
-	        <div class="ItemSlot" style="left:320px;top:0px;"></div>
-	        <div id="Chest" class="ItemSlot ItemContainer" style="left:0px;top:80px;background:url(../images/inv_chest.png);"></div>
-	        <div class="ItemSlot" style="left:320px;top:80px;"></div>
-	        <div id="Arms" class="ItemSlot ItemContainer" style="left:0px;top:160px;background:url(../images/inv_arms.png);"></div>
-	        <div id="Hands" class="ItemSlot ItemContainer" style="left:320px;top:160px;background:url(../images/inv_hands.png);"></div>
-	        <div id="Weapon" class="ItemSlot ItemContainer" style="left:0px;top:240px;background:url(../images/inv_weapon.png);"></div>
-	        <div id="Shield" class="ItemSlot ItemContainer" style="left:320px;top:240px;background:url(../images/inv_shield.png);"></div>
-	        <div id="RightRing" class="ItemSlot ItemContainer" style="left:0px;top:320px;background:url(../images/inv_rightring.png);"></div>
-	        <div id="LeftRing" class="ItemSlot ItemContainer" style="left:320px;top:320px;background:url(../images/inv_leftring.png);"></div>
-	        <div id="Waist" class="ItemSlot ItemContainer" style="left:0px;top:400px;background:url(../images/inv_waist.png);"></div>
-	        <div id="Feet" class="ItemSlot ItemContainer" style="left:320px;top:400px;background:url(../images/inv_feet.png);"></div>
+	        <div class="ItemSlot Row0 Col0"></div>
+	        <div id="Back" class="ItemSlot ItemContainer Row0 Col1" style="background:url(../images/inv_back.png);"></div>
+	        <div id="Head" class="ItemSlot ItemContainer Row0 Col2" style="background:url(../images/inv_head.png);"></div>
+	        <div id="Neck" class="ItemSlot ItemContainer Row0 Col3" style="background:url(../images/inv_neck.png);"></div>
+	        <div class="ItemSlot Row0 Col4"></div>
+	        <div id="Chest" class="ItemSlot ItemContainer Row1 Col0" style="background:url(../images/inv_chest.png);"></div>
+	        <div class="ItemSlot Row1 Col4"></div>
+	        <div id="Arms" class="ItemSlot ItemContainer Row2 Col0" style="background:url(../images/inv_arms.png);"></div>
+	        <div id="Hands" class="ItemSlot ItemContainer Row2 Col4" style="background:url(../images/inv_hands.png);"></div>
+	        <div id="Weapon" class="ItemSlot ItemContainer Row3 Col0" style="background:url(../images/inv_weapon.png);"></div>
+	        <div id="Shield" class="ItemSlot ItemContainer Row3 Col4" style="background:url(../images/inv_shield.png);"></div>
+	        <div id="RightRing" class="ItemSlot ItemContainer Row4 Col0" style="background:url(../images/inv_rightring.png);"></div>
+	        <div id="LeftRing" class="ItemSlot ItemContainer Row4 Col4" style="background:url(../images/inv_leftring.png);"></div>
+	        <div id="Waist" class="ItemSlot ItemContainer Row5 Col0" style="background:url(../images/inv_waist.png);"></div>
+	        <div id="Feet" class="ItemSlot ItemContainer Row5 Col4" style="background:url(../images/inv_feet.png);"></div>
 	        <img src="../images/paperdoll.png" style="position:absolute;left:81px;top:81px;"/>
 	      </div>
 	      <div style="padding-left:10px;width:415px;position:absolute;left:405px;top:0px;">
 		      Bag:
-				  <div id="bag" style="border:1px solid black;margin-bottom:10px;height:230px;overflow:auto" class="ItemContainer"></div>
+				  <div id="bag" style="margin-bottom:10px;height:230px;" class="NonEquipped ItemContainer">
+				    <div id="item3" class="Item Feet">
+             <img src="../images/items/green_boots.png"/><br/>
+             <h1>Green Boots of Magic</h1>
+            </div>
+            <div id="item4" class="Item RightRing LeftRing">
+             <img src="../images/items/ruby_ring.png"/><br/>
+             <h1>Ruby Ring</h1>
+            </div>
+            <div id="item5" class="Item RightRing LeftRing">
+             <img src="../images/items/emerald_ring.png"/><br/>
+             <h1>Emerald Ring</h1>
+            </div>
+            <div id="item5" class="Item Back">
+             <img src="../images/items/purple_cloak.png"/><br/>
+             <h1>Pimp Cloak</h1>
+            </div>
+            <div id="item5" class="Item Chest">
+             <img src="../images/items/leather_armour1.png"/><br/>
+             <h1>Leather Armour</h1>
+            </div>
+            <div id="item7" class="Item Neck">
+             <img src="../images/items/amulet1.png"/><br/>
+             <h1>Amulet of Protection</h1>
+            </div>
+            <div id="item10" class="Item Weapon">
+             <img src="../images/items/dagger.png"/><br/>
+             <h1>Puny Dagger</h1>
+            </div>
+            <div id="item13" class="Item Waist">
+             <img src="../images/items/belt1.png"/><br/>
+             <h1>Crappy Belt</h1>
+            </div>
+				  </div>
 				  Floor:
-		      <div id="floor" style="border:1px solid black;height:195px;overflow:auto" class="ItemContainer">
+		      <div id="floor" style="height:195px;" class="NonEquipped ItemContainer">
 		       <div id="item1" class="Item Feet">
 		         <img src="../images/items/leather_boots.png"/><br/>
-		         <span>Leather Boots</span>
+		         <h1>Leather Boots</h1>
 		       </div>
 		       <div id="item2" class="Item Feet">
-             <img src="../images/items/leather_boots.png"/><br/>
-             <span>Fancy Boots</span>
+             <img src="../images/items/fancy_boots.png"/><br/>
+             <h1>Fancy Boots</h1>
            </div>
+           <div id="item6" class="Item Head">
+             <img src="../images/items/full_plate_helmet.png"/><br/>
+             <h1>Wicked Helmet</h1>
+           </div>
+           <div id="item8" class="Item Neck">
+             <img src="../images/items/amulet2.png"/><br/>
+             <h1>Amulet of Health</h1>
+            </div>
+            <div id="item9" class="Item Hands">
+             <img src="../images/items/glove1.png"/><br/>
+             <h1>Oven Mitt of Doom</h1>
+            </div>
+            <div id="item11" class="Item Weapon">
+             <img src="../images/items/long_sword1.png"/><br/>
+             <h1>Big Sword of Smashing</h1>
+            </div>
+            <div id="item12" class="Item Shield">
+             <img src="../images/items/buckler1.png"/><br/>
+             <h1>Wooden Buckler</h1>
+            </div>
+            <div id="item13" class="Item Shield">
+             <img src="../images/items/shield1.png"/><br/>
+             <h1>Tower Shield</h1>
+            </div>
+            <div id="item13" class="Item Arms">
+             <img src="../images/items/bracers1.png"/><br/>
+             <h1>Bracers</h1>
+            </div>
 		      </div>
 		    </div>
 		  </div>
 		</div>
     
     <script type="text/javascript">
+      function equipped( obj )
+      {
+        obj.css("border-color", "white");
+      }
+      
+      function unequipped( obj )
+      {
+        obj.css("border-color", "blue");
+      }
+      
+      function set_border_based_on_container( container, obj )
+      {
+        if( container.hasClass("NonEquipped") )
+        {
+          unequipped( obj );
+        }
+        else
+        {
+          equipped( obj );
+        }
+      }
+    
       $(document).ready( function()
         {
 	        $( "#dialog" ).dialog({ autoOpen: false,
@@ -90,19 +187,34 @@
 			                              cursor: "move",
 			                              receive: function(event, ui) {
 			                                          var $this = $(this);
-			                                          if( !$(ui.item).hasClass( $this.attr("id") ) ) // Doesn't belong in this slot
+			                                          if( !ui.item.hasClass( $this.attr("id") ) ) // Doesn't belong in this slot
 			                                          {
-			                                            $(ui.sender).sortable("cancel");
+			                                            ui.sender.sortable("cancel");
+			                                            set_border_based_on_container( ui.sender, ui.item );
+			                                            return;
 			                                          }
 			                                          else if( $this.children().length > 1 ) // Already something here, so perform a swap
 			                                          {
 			                                            var item = $this.children( "div:not(#" + ui.item[0].id + ")" ).detach();
-			                                            $(ui.sender).append( item );
+			                                            ui.sender.append( item );
+			                                            set_border_based_on_container( ui.sender, item );
 			                                          }
-			                                        }
+			                                          
+			                                          set_border_based_on_container( $this, ui.item );
+			                                        },
+			                              start: function(event, ui) {
+			                                          unequipped( ui.item );			                                          
+			                                        },
+			                              stop: function(event, ui) {
+			                                          set_border_based_on_container( ui.item.parent(), ui.item );
+                                              }
 	                                };
 	        
-	        $("#Feet").sortable( item_slot_options );
+	        $("div.ItemSlot").each( function() {
+	               $(this).sortable( item_slot_options );
+	           });
+	        
+	        
 
         });
     </script>  

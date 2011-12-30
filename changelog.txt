@@ -177,6 +177,13 @@ Version 25 - 26-Dec-2011
 - Inventory
   - Updated Inventory layout
   
+Version 26 - 30-Dec-2011
+- Inventory
+  - Refactored some of the jQuery UI code for moving items between sortable containers
+  - Borders for equipped items are now hidden
+  - Cleaned up CSS styles
+  - Added a bunch of dummy items to make a more useful demo
+  
 TODO
 ============
 - Subclass of actor for the player?
