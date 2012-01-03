@@ -35,3 +35,59 @@ body
   background-image: url(images/scroll_bottom.png);
   height: 26px;
 }
+
+.NonEquipped 
+{
+	border: 1px solid black;
+	overflow: auto;
+}
+
+.Item
+{ 
+	width: 67px;
+	height: 75px;
+	border: 1px solid blue;
+	float: left;
+	background: white;
+	text-align: center;
+	overflow-y: hidden;
+	margin: 1px;
+	padding-left: 4px;
+	padding-right: 4px;
+	cursor: move;
+}
+
+.Item h1 
+{
+	font-family: verdana;
+	font-size: 7pt;
+	font-weight: normal;
+}
+
+.BlankItemSlot 
+{
+	display: none;
+}
+
+.ItemSlot
+{
+	width: 79px;
+	height: 79px;
+	border: 1px solid black;
+	background: white;
+	margin: 0px;
+	position: absolute;
+}
+
+.Row0 { top:0px; }
+.Row1 { top:80px; }
+.Row2 { top:160px; }
+.Row3 { top:240px; }
+.Row4 { top:320px; }
+.Row5 { top:400px; }
+
+.Col0 { left:0px; }
+.Col1 { left:80px; }
+.Col2 { left:160px; }
+.Col3 { left:240px; }
+.Col4 { left:320px; }

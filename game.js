@@ -21,6 +21,9 @@ function Game()
     Log = new Logger();
     Log.debug( "Initializing..." );
 
+    Inventory = new InventoryManager();
+    Inventory.initialize();
+    
     Loader = new DataLoader();
     Images = new ImageCache();
     
@@ -76,6 +79,7 @@ function Game()
       
       Map.center_map_on_location( Player.location );
       create_monsters();
+      create_items();      
       
       document.game.draw();
       clearInterval( document.game.interval_loop );
@@ -113,18 +117,27 @@ function Game()
   
   this.draw = function()
   {
-    Map.draw_map( this.buffer_ctx );
+    Map.draw_map( this.buffer_ctx ); // First layer: Map tiles
+            
+    this.draw_collection( items, this.buffer_ctx );     // Second layer: Items
+    // TODO: widgets go here
+    this.draw_collection( monsters, this.buffer_ctx );  // Third layer: Monsters and Player    
     Player.draw( this.buffer_ctx );
-    draw_monsters( this.buffer_ctx );
     
     this.map_ctx.drawImage( this.buffer, 0, 0 );
   };
   
+  this.draw_collection = function( collection, ctx )
+  {
+    for( var i = 0; i < collection.length; ++i )
+    {
+      collection[i].draw( ctx );
+    } 
+  };
+  
   function initialize_player()      // MEK TODO THIS SHOULD BE A SUBCLASS EVENTUALLY
   {
-    Player = new Actor();
-    Player.id = "man";
-    Player.img = Images.PLAYER_IMAGE;
+    Player = new PlayerActor();
     Player.move_to( new Point( 10, 7 ) );
   }
   
@@ -150,6 +163,13 @@ function Game()
         case 27: // esc
           set_command( NO_COMMAND );
           default_cursor();
+          break;
+        case 73: // I
+          Inventory.open();
+          break;
+        case 84: // G
+          Inventory.take_all();
+          document.game.draw();
           break;
         default:
           Log.debug( "Unknown key = " + evt.keyCode );

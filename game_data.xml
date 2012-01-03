@@ -76,4 +76,38 @@
       <SpellCast id="6"/>
     </Monster>
   </Monsters>
+  <Items>
+    <Images>
+      <Image id="0" src="amulet1.png"/>
+      <Image id="1" src="amulet2.png"/>
+      <Image id="2" src="armour1.png"/>
+      <Image id="3" src="belt1.png"/>
+      <Image id="4" src="boots1.png"/>
+      <Image id="5" src="boots2.png"/>
+      <Image id="6" src="boots3.png"/>
+      <Image id="7" src="bracers1.png"/>
+      <Image id="8" src="buckler1.png"/>
+      <Image id="0" src="cloak1.png"/>
+      <Image id="10" src="dagger1.png"/>
+      <Image id="11" src="gloves1.png"/>
+      <Image id="12" src="helmet1.png"/>
+      <Image id="13" src="long_sword1.png"/>
+      <Image id="14" src="ring1.png"/>
+      <Image id="15" src="ring2.png"/>
+      <Image id="16" src="shield1.png"/>
+    </Images>
+    <Neck>
+      <Item id="neck1" img_id="0">
+        <Description>Amulet of Protection</Description>
+      </Item>
+      <Item id="neck2" img_id="1">
+        <Description>Amulet of Health</Description>
+      </Item>
+    </Neck>
+    <Feet>
+      <Item id="feet1" img_id="5">
+        <Description>Giant Green Boots</Description>
+      </Item>
+    </Feet>
+  </Items>
 </Game>

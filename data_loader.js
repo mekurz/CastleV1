@@ -21,6 +21,7 @@ function DataLoader()
     Images.load_tile_images( this.xml.find("Tile") );
     Images.load_spell_images( this.xml.find("Spell") );
     Images.load_monster_images( this.xml.find("Monster") );
+    Images.load_item_images( this.xml.find("Items").find("Image") );
     
     Images.load_player();
   };
@@ -38,6 +39,11 @@ function DataLoader()
   this.get_monster_data = function( id )
   {
     return this.get_data( "Monster", id );
+  };
+  
+  this.get_item_data = function( id )
+  {
+    return this.get_data( "Item", id );
   };
   
 }

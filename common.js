@@ -12,6 +12,7 @@ var Loader = null;
 var Images = null;
 var Map = null;
 var Player = null;
+var Inventory = null;
 
 var NO_COMMAND     = "0";
 var SPLAT          = 0;
@@ -206,3 +207,26 @@ function Point( x, y )
   };
 }
 
+function get_element_by_id( id, collection )
+{
+  for( var i = 0; i < collection.length; ++i )
+  {
+    if( collection[i].id == id )
+    {
+      return collection[i];
+    }
+  } 
+}
+
+function get_element_ix( id, collection )
+{
+  for( var i = 0; i < collection.length; ++i )
+  {
+    if( collection[i].id == id )
+    {
+      return i;
+    }
+  }
+  
+  return -1;
+}

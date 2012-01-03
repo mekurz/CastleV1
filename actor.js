@@ -116,3 +116,14 @@ Actor.prototype.get_melee_damage = function()
   // TODO incorporate inventory here
   return this.melee_damage;
 };
+
+function PlayerActor()
+{
+  PlayerActor.base_constructor.call( this, "man" );
+    
+  PlayerActor.super_class.initialize.call( this );
+  
+  this.img = Images.PLAYER_IMAGE;     // TODO Replace this with something to draw on the canvas and push img down to Monster
+  this.bag = new Array();
+}
+extend( PlayerActor, Actor );

@@ -3,14 +3,16 @@
     <title>BROWSER OF THE WINDS CANVAS VERSION</title>
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <link href="style.css" rel="stylesheet" type="text/css" />
+    <link href="css/overcast/jquery-ui-1.8.16.custom.css" rel="stylesheet" type="text/css"/>
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js"></script>
     <script type="text/javascript" src="jquery.json-2.2.min.js"></script>
     <script type="text/javascript" src="full.min.js"></script>
   </head>
   <body style="margin:0px;">
     Use arrows or num pad to move, OR click and drag the man to move. Click on RAT MANS or bump into them to attack! Select a spell from the menu, click Cast and then click a tile!<br/>
-    processing:<input type="text" id="processing" value="0"></input>
-    command:<input type="text" id="command" value="0"></input>
+    <input type="hidden" id="processing" value="0"></input>
+    <input type="hidden" id="command" value="0"></input>
     <a href="changelog.txt">Change Log</a> | <a href="MapGen/test.html">Map Generator</a> | <a href="Inventory/test.html">Inventory TPOC</a>
     <br/>
     TEST: <select id="test_menu">
@@ -34,6 +36,8 @@
     </select>
     <input type="submit" value="Cast Spell" onclick="cast_spell( parseInt( $('#spell_menu').val() ) );"></input>
     <input type="submit" value="Switch to Random Map" onclick="random_map();"></input>
+    <input type="submit" value="Inventory" onclick="Inventory.open();"></input>
+    <input type="submit" value="Shortcuts" onclick="$('#shortcuts').dialog('open');"></input>
     <br/><br/>
     <div id="game_area" style="margin-left:10px;">
       <canvas id="map" width="960" height="480" style="border:1px solid black;" oncontextmenu="return false;">
@@ -41,15 +45,59 @@
       </canvas>
       <div id="log" style="width:960px;height:150px;overflow-x:auto;border:1px solid black;border-top-width:0px;font-family:monospace;font-size:8pt;"></div>
       <input type="submit" value="Clear Log" onclick="Log.clear();"></input>
+      <div id="shortcuts" title="Keyboard Shortcuts">
+        <ul>
+          <li>Arrows/Numpad - Move/attack
+          <li>ESC - Cancel current action/close dialog
+          <li>I - Open Inventory
+          <li>T - Take all items at current location 
+        </ul>
+      </div>
       <div id="tooltip">
         <div id="tooltip_header" class="TooltipTop">You see:</div>
         <div id="tooltip_contents"></div>
         <div class="TooltipBottom"></div>
       </div>
-    </div>
+			<div id="inventory" title="Inventory" style="overflow:hidden;">
+        <div style="position:relative;">
+          <div style="background:white;width:401px;height:481px;position:relative;">
+						<div class="ItemSlot Row0 Col0"></div>
+						<div id="back" class="ItemSlot ItemContainer Row0 Col1" style="background:url(images/inv_back.png);"></div>
+						   <div id="head" class="ItemSlot ItemContainer Row0 Col2" style="background:url(images/inv_head.png);"></div>
+						   <div id="neck" class="ItemSlot ItemContainer Row0 Col3" style="background:url(images/inv_neck.png);"></div>
+						   <div class="ItemSlot Row0 Col4"></div>
+						   <div id="chest" class="ItemSlot ItemContainer Row1 Col0" style="background:url(images/inv_chest.png);"></div>
+						   <div class="ItemSlot Row1 Col4"></div>
+						   <div id="arms" class="ItemSlot ItemContainer Row2 Col0" style="background:url(images/inv_arms.png);"></div>
+						   <div id="hands" class="ItemSlot ItemContainer Row2 Col4" style="background:url(images/inv_hands.png);"></div>
+						   <div id="weapon" class="ItemSlot ItemContainer Row3 Col0" style="background:url(images/inv_weapon.png);"></div>
+						   <div id="shield" class="ItemSlot ItemContainer Row3 Col4" style="background:url(images/inv_shield.png);"></div>
+						   <div id="rightring" class="ItemSlot ItemContainer Row4 Col0" style="background:url(images/inv_rightring.png);"></div>
+						   <div id="leftring" class="ItemSlot ItemContainer Row4 Col4" style="background:url(images/inv_leftring.png);"></div>
+						   <div id="waist" class="ItemSlot ItemContainer Row5 Col0" style="background:url(images/inv_waist.png);"></div>
+						   <div id="feet" class="ItemSlot ItemContainer Row5 Col4" style="background:url(images/inv_feet.png);"></div>
+						<img src="images/paperdoll.png" style="position:absolute;left:81px;top:81px;"/>
+          </div>
+					<div style="padding-left:10px;width:415px;position:absolute;left:405px;top:0px;">
+						Bag:
+						<div id="bag" style="margin-bottom:10px;height:230px;" class="NonEquipped ItemContainer"></div>
+						Floor:
+						<div id="floor" style="height:195px;" class="NonEquipped ItemContainer"></div>
+          </div>
+        </div>
+      </div>
+	  </div>
     <script type="text/javascript">
       $(document).ready( function()
         {
+          $( "#shortcuts" ).dialog({ autoOpen: false,
+                               resizable: false,
+                               modal: true,
+                               close: function(event, ui) {
+                                        document.game.draw();
+                                      }
+                            });   
+        
           document.game = new Game();
           document.game.run();
           

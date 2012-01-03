@@ -184,15 +184,33 @@ Version 26 - 30-Dec-2011
   - Cleaned up CSS styles
   - Added a bunch of dummy items to make a more useful demo
   
+Version 27 - 02-Jan-2012
+- General
+  - Incorporated the Inventory TPOC into the main application. Click the Inventory button or press "I" to launch the dialog.
+  - Added PlayerActor class 
+  - Refactored how Monsters are drawn so the same code can be used for Items that are on the floor
+  - Added list of keyboard shortcuts
+- Inventory
+  - Implemented basic inventory system for tracking items on the floor and items that are equipped or in the Player's bag
+  - Added InventoryManager and Item
+  - Implemented XML data for Items and Item images
+  
+  
 TODO
 ============
-- Subclass of actor for the player?
 - Area spells need to set their primary target to the last square that they were in, NOT the square where an obstacle is encountered
 - Props (doors, chests, etc)
 - Implement HP/mana counters for Player (i.e. no more invincibility)
-- Items/inventory system
 - Fog of war?
 - Refactor draw functions for SpellEffects (most of them are ending up being identical)
-
+- Item stats, etc
 - More complete representation of a level with doors, rooms, etc for use by Viewport
 - Passable tiles should not be checking the tile image
+- Reorganize images into subdirectories
+- Spell types/images should be specified the same way as Items (i.e. need to be able to combine any projectile with any AOE)
+- Mini-icons associated with the equipped gear 
+- Dungeon map (scaled down version of the full map)
+- Handle multiple items in the same location with a special icon
+- Map tooltips need to list items
+- Items in the inventory need detailed tooltips
+- Get rid of the ugly tooltip graphics and animation. It's fucking annoying

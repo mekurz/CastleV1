@@ -7,6 +7,7 @@ function ImageCache()
   this.MONSTER_IMAGES = new Array();
   this.SPELL_IMAGES = new Array();
   this.PLAYER_IMAGE = null;
+  this.ITEM_IMAGES = new Array();
   
   this.is_loaded = function()
   {
@@ -29,10 +30,15 @@ function ImageCache()
     return img;
   }
   
-  function load_images_from_xml( xml, dest )
+  function load_images_from_xml( xml, dest, folder )
   {
+    if( folder == undefined )
+    {
+      folder = "";      
+    }
+    
     xml.each( function(){
-      dest.push( load_single_image( $(this).attr("src") ) );
+      dest.push( load_single_image( folder + "/" + $(this).attr("src") ) );
     });
   }
   
@@ -54,5 +60,10 @@ function ImageCache()
   this.load_monster_images = function( xml )
   {
     load_images_from_xml( xml, this.MONSTER_IMAGES ); 
+  };
+  
+  this.load_item_images = function( xml )
+  {
+    load_images_from_xml( xml, this.ITEM_IMAGES, "items" );
   };
 };
