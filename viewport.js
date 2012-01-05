@@ -5,7 +5,6 @@ var TILE_DATA  = [ "{\"src\":\"grass.png\",\"passable\":1}",  // 0
                  ];
 
 var TOOLTIP_FADE_SPEED = 150;
-var TOOLTIP_SLIDE_SPEED = 200;
 
 function Tooltip()
 {
@@ -18,7 +17,6 @@ function Tooltip()
   this.has_los = false;
   
   this.tooltip.hide();
-  this.contents.hide();
   
   this.show_tooltip = function( location )
   {
@@ -27,10 +25,9 @@ function Tooltip()
     this.has_los = Map.does_line_of_sight_exist( Player.location, location );
     
     if( this.has_los )   // TODO Detection could skip this check OR debug flag
-    {
-      this.header.text( "You see:" );          
+    { 
       this.fill_tooltip_with_monster( location );
-      // TODO LOOP THROUGH OTHER COLLECTIONS OF STUFF (ITEMS, ETC)
+      this.fill_tooltip_with_items( location );
       this.display_empty_message_if_necessary();
     }
     else
@@ -40,19 +37,13 @@ function Tooltip()
     
     this.adjust_position( location );
     
-    this.tooltip.fadeIn( TOOLTIP_FADE_SPEED, function(){
-      if( document.game.tooltip.has_los )
-      {
-        document.game.tooltip.contents.slideDown( TOOLTIP_SLIDE_SPEED );
-      }
-    }); 
+    this.tooltip.fadeIn( TOOLTIP_FADE_SPEED ); 
   };
   
   this.hide_tooltip = function()
   {
-    this.contents.slideUp( TOOLTIP_SLIDE_SPEED, function(){
-      document.game.tooltip.tooltip.fadeOut( TOOLTIP_FADE_SPEED );
-      document.game.tooltip.contents.children().remove();
+    this.tooltip.fadeOut( TOOLTIP_FADE_SPEED, function(){
+      document.game.tooltip.contents.empty();
     });
     this.visible = false;
   };
@@ -76,11 +67,29 @@ function Tooltip()
     }
   };
   
+  this.fill_tooltip_with_items = function( location )
+  {
+    var floor_items = get_items_in_tile( location );
+    
+    for( var i = 0; i < floor_items.length; ++i )
+    {
+      this.contents.append( floor_items[i].get_tooltip() );
+      this.num_items++;
+    }
+    
+    this.num_items += floor_items.length;
+    floor_items = [];
+  };
+  
   this.display_empty_message_if_necessary = function()
   {
-    if( this.num_items == 0 )
+    if( this.num_items > 0 )
     {
-      this.contents.append( "<li>nothing</li>" ); 
+      this.header.text( "You see:" );
+    }
+    else
+    {
+      this.header.text( "You see nothing." );
     }
   };
 };

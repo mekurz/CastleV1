@@ -37,7 +37,6 @@
     <input type="submit" value="Cast Spell" onclick="cast_spell( parseInt( $('#spell_menu').val() ) );"></input>
     <input type="submit" value="Switch to Random Map" onclick="random_map();"></input>
     <input type="submit" value="Inventory" onclick="Inventory.open();"></input>
-    <input type="submit" value="Shortcuts" onclick="$('#shortcuts').dialog('open');"></input>
     <br/><br/>
     <div id="game_area" style="margin-left:10px;">
       <canvas id="map" width="960" height="480" style="border:1px solid black;" oncontextmenu="return false;">
@@ -45,6 +44,7 @@
       </canvas>
       <div id="log" style="width:960px;height:150px;overflow-x:auto;border:1px solid black;border-top-width:0px;font-family:monospace;font-size:8pt;"></div>
       <input type="submit" value="Clear Log" onclick="Log.clear();"></input>
+      <input type="submit" value="Shortcuts" onclick="$('#shortcuts').dialog('open');"></input>      
       <div id="shortcuts" title="Keyboard Shortcuts">
         <ul>
           <li>Arrows/Numpad - Move/attack
@@ -54,9 +54,8 @@
         </ul>
       </div>
       <div id="tooltip">
-        <div id="tooltip_header" class="TooltipTop">You see:</div>
-        <div id="tooltip_contents"></div>
-        <div class="TooltipBottom"></div>
+        <div id="tooltip_header" class="TooltipHeader">You see:</div>
+        <ul id="tooltip_contents"></ul>
       </div>
 			<div id="inventory" title="Inventory" style="overflow:hidden;">
         <div style="position:relative;">

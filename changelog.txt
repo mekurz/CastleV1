@@ -195,6 +195,12 @@ Version 27 - 02-Jan-2012
   - Added InventoryManager and Item
   - Implemented XML data for Items and Item images
   
+Version 28 - 04-Jan-2012
+- General
+  - Simplified tooltips so they are less annoying to use.
+  - Items on the ground are now listed in tooltips
+  - Moved Shortcuts button down to beneath the log to save some space
+  
   
 TODO
 ============
@@ -211,6 +217,4 @@ TODO
 - Mini-icons associated with the equipped gear 
 - Dungeon map (scaled down version of the full map)
 - Handle multiple items in the same location with a special icon
-- Map tooltips need to list items
 - Items in the inventory need detailed tooltips
-- Get rid of the ugly tooltip graphics and animation. It's fucking annoying

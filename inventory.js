@@ -1,5 +1,7 @@
 var items = new Array();
 
+var MULTIPLE_IMG = 17;
+
 function create_items()
 {
   create_single_item( "neck1", new Point( 1, 1 ) );
@@ -102,6 +104,11 @@ function Item( stat_id, pos )
   {
     this.location = null;
     Log.add( "You pick up " + this.description + "." );
+  };
+  
+  this.get_tooltip = function()
+  {
+    return "<li>" + this.description + "</li>";
   };
 }
 

@@ -8,32 +8,27 @@ body
 
 #tooltip 
 {
+  border: 1px solid black;
+  background: white;
   position: absolute;
   z-index: 9999;
-  font-size: 8pt;
-  width: 192px;
+  font-size: 7pt;
+  padding: 5px;
 }
 
-#tooltip_contents
+#tooltip ul
 {
-  background-image: url(images/scroll_middle.png);
-  background-repeat: repeat-y;
-  padding-left: 20px;
-  padding-right: 20px;
+  list-style-type:none;
+	padding:0px;
+	margin:0px;
 }
 
-.TooltipTop
+#tooltip li
 {
-	background-image: url(images/scroll_top.png);
-	height: 25px;
-	line-height: 25px;
-	padding-left: 20px;
-}
-
-.TooltipBottom
-{
-  background-image: url(images/scroll_bottom.png);
-  height: 26px;
+	background-image:url("images/dash.gif");
+	background-repeat:no-repeat;
+	background-position:0px 3px; 
+	padding-left:10px;
 }
 
 .NonEquipped 

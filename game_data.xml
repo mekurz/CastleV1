@@ -95,6 +95,7 @@
       <Image id="14" src="ring1.png"/>
       <Image id="15" src="ring2.png"/>
       <Image id="16" src="shield1.png"/>
+      <Image id="17" src="multiple.png"/>
     </Images>
     <Neck>
       <Item id="neck1" img_id="0">
