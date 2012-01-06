@@ -6,56 +6,61 @@
     <Tile id="3" src="wall.png"/>
   </Tiles>
   <Spells>
-    <Spell id="0" src="splat.png">
-      <Description>Death Splat</Description>
-    </Spell>
-    <Spell id="1" src="fizzle.png">
-      <Description>Spell Fizzle</Description>
-    </Spell>
-    <Spell id="2" src="missile.png">
-      <Description>Magic Missile</Description>
-      <Mana>1</Mana>
-      <Damage>2</Damage>
-      <Verb>slams into</Verb>
-    </Spell>
-    <Spell id="3" src="lightning.png">
-      <Description>Lightning Bolt</Description>
-      <Mana>2</Mana>
-      <Damage>3</Damage>
-      <Verb>fries</Verb>
-    </Spell>
-    <Spell id="4" src="firebolt.png">
-      <Description>Firebolt</Description>
-      <Mana>4</Mana>
-      <Damage>7</Damage>
-      <Verb>scorches</Verb>
-    </Spell>
-    <Spell id="5" src="fireball.png">
-      <Description>Fireball</Description>
-      <Mana>8</Mana>
-      <Damage>10</Damage>
-      <Splash>5</Splash>
-      <Verb>engulfs</Verb>
-    </Spell>
-    <Spell id="6" src="boulder.png">
-      <Description>Boulder</Description>
-      <Mana>0</Mana>
-      <Damage>4</Damage>
-      <Verb>crashes into</Verb>
-      <Action>hurls</Action>
-    </Spell>
-    <Spell id="7" src="cone_fire.png">
-      <Description>Fire Breath</Description>
-      <Mana>0</Mana>
-      <Damage>10</Damage>
-      <Verb>blasts</Verb>
-    </Spell>
-    <Spell id="8" src="cone_fire_d.png">
-      <Description>Fire Breath</Description>
-      <Mana>0</Mana>
-      <Damage>10</Damage>
-      <Verb>blasts</Verb>
-    </Spell>
+    <Images>
+      <Image id="0" src="splat.png"/>
+      <Image id="1" src="fizzle.png"/>
+      <Image id="2" src="missile.png"/>
+      <Image id="3" src="lightning.png"/>
+      <Image id="4" src="firebolt.png"/>
+      <Image id="5" src="fireball.png"/>
+      <Image id="6" src="boulder.png"/>
+      <Image id="7" src="cone_fire.png"/>
+      <Image id="8" src="cone_fire_d.png"/>
+    </Images>
+    <Projectile>
+	    <Spell id="p1" projectile_id="2">
+	      <Description>Magic Missile</Description>
+	      <Mana>1</Mana>
+	      <Damage>2</Damage>
+	      <Verb>slams into</Verb>
+	    </Spell>
+	    <Spell id="p2" projectile_id="3">
+	      <Description>Lightning Bolt</Description>
+	      <Mana>2</Mana>
+	      <Damage>3</Damage>
+	      <Verb>fries</Verb>
+	    </Spell>
+	    <Spell id="p3" projectile_id="4">
+	      <Description>Firebolt</Description>
+	      <Mana>4</Mana>
+	      <Damage>7</Damage>
+	      <Verb>scorches</Verb>
+	    </Spell>
+	    <Spell id="p4" projectile_id="6">
+	     <Description>Boulder</Description>
+	     <Mana>0</Mana>
+	     <Damage>4</Damage>
+	     <Verb>crashes into</Verb>
+	     <Action>hurls</Action>
+	   </Spell>
+    </Projectile>
+    <AreaEffect>
+	    <Spell id="a1" projectile_id="4" area_id="5">
+	      <Description>Fireball</Description>
+	      <Mana>8</Mana>
+	      <Damage>10</Damage>
+	      <Splash>5</Splash>
+	      <Verb>engulfs</Verb>
+	    </Spell>
+    </AreaEffect>
+    <ConeEffect>
+	    <Spell id="c1" cardinal_id="7" diagonal_id="8">
+	      <Description>Fire Breath</Description>
+	      <Mana>0</Mana>
+	      <Damage>10</Damage>
+	      <Verb>blasts</Verb>
+	    </Spell>
+    </ConeEffect>
   </Spells>
   <Monsters>
     <Monster id="0" src="ratman.png">
@@ -73,9 +78,22 @@
       <AC>10</AC>
       <Sight>6</Sight>
       <Melee>4</Melee>
-      <SpellCast id="6"/>
+      <SpellCast id="p4"/>
     </Monster>
   </Monsters>
+  <Paperdoll>
+    <Image id="0" src="base.png"/>
+    <Image id="1" src="back1.png"/>
+    <Image id="2" src="feet1.png"/>
+    <Image id="3" src="head1.png"/>
+    <Image id="4" src="hands1.png"/>
+    <Image id="5" src="weapon1.png"/>
+    <Image id="6" src="weapon2.png"/>
+    <Image id="7" src="shield1.png"/>
+    <Image id="8" src="shield2.png"/>
+    <Image id="9" src="chest1.png"/>
+    <Image id="10" src="legs1.png"/>
+  </Paperdoll>
   <Items>
     <Images>
       <Image id="0" src="amulet1.png"/>
@@ -87,7 +105,7 @@
       <Image id="6" src="boots3.png"/>
       <Image id="7" src="bracers1.png"/>
       <Image id="8" src="buckler1.png"/>
-      <Image id="0" src="cloak1.png"/>
+      <Image id="9" src="cloak1.png"/>
       <Image id="10" src="dagger1.png"/>
       <Image id="11" src="gloves1.png"/>
       <Image id="12" src="helmet1.png"/>
@@ -97,6 +115,31 @@
       <Image id="16" src="shield1.png"/>
       <Image id="17" src="multiple.png"/>
     </Images>
+    <Back>
+      <Item id="back1" img_id="9" doll_id="1">
+        <Description>Pimp Cloak</Description>
+      </Item>
+    </Back>
+    <Chest>
+      <Item id="chest1" img_id="2" doll_id="9" legs_id="10">
+        <Description>Leather Armour</Description>
+      </Item>
+    </Chest>
+    <Feet>
+      <Item id="feet1" img_id="5" doll_id="2">
+        <Description>Giant Green Boots</Description>
+      </Item>
+    </Feet>
+    <Hands>
+      <Item id="hands1" img_id="11" doll_id="4">
+        <Description>Oven Mitt of Doom</Description>
+      </Item>
+    </Hands>
+    <Head>
+      <Item id="head1" img_id="12" doll_id="3">
+        <Description>Wicked Helmet</Description>
+      </Item>
+    </Head>
     <Neck>
       <Item id="neck1" img_id="0">
         <Description>Amulet of Protection</Description>
@@ -105,10 +148,21 @@
         <Description>Amulet of Health</Description>
       </Item>
     </Neck>
-    <Feet>
-      <Item id="feet1" img_id="5">
-        <Description>Giant Green Boots</Description>
+    <Shield>
+      <Item id="shield1" img_id="8" doll_id="7">
+        <Description>Wooden Buckler</Description>
       </Item>
-    </Feet>
+      <Item id="shield2" img_id="16" doll_id="8">
+        <Description>Large Steel Shield</Description>
+      </Item>
+    </Shield>
+    <Weapon>
+      <Item id="weapon1" img_id="10" doll_id="5">
+        <Description>Puny Dagger</Description>
+      </Item>
+      <Item id="weapon2" img_id="13" doll_id="6">
+        <Description>Big Sword of Smashing</Description>
+      </Item>
+    </Weapon>
   </Items>
 </Game>

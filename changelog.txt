@@ -200,7 +200,18 @@ Version 28 - 04-Jan-2012
   - Simplified tooltips so they are less annoying to use.
   - Items on the ground are now listed in tooltips
   - Moved Shortcuts button down to beneath the log to save some space
-  
+
+Version 29 - 04-Jan-2012
+- Bug fixes
+  - ConeEffectSpell was incorrectly using splash damage as its damage value 
+- Inventory
+  - Multiple items on the same floor tile will now be displayed as a special icon
+  - Ported over several more dummy items from the Inventory TPOC
+  - Equipping items will now affect how your character looks!
+- Spells
+  - Refactored spell images to be the same structure as item images
+  - Refactored SpellEffect instantiation to be more generic
+
   
 TODO
 ============
@@ -208,13 +219,10 @@ TODO
 - Props (doors, chests, etc)
 - Implement HP/mana counters for Player (i.e. no more invincibility)
 - Fog of war?
-- Refactor draw functions for SpellEffects (most of them are ending up being identical)
 - Item stats, etc
 - More complete representation of a level with doors, rooms, etc for use by Viewport
 - Passable tiles should not be checking the tile image
 - Reorganize images into subdirectories
-- Spell types/images should be specified the same way as Items (i.e. need to be able to combine any projectile with any AOE)
-- Mini-icons associated with the equipped gear 
 - Dungeon map (scaled down version of the full map)
-- Handle multiple items in the same location with a special icon
 - Items in the inventory need detailed tooltips
+- Rings need to be handled as a special item for multiple slots

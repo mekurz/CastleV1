@@ -68,7 +68,7 @@ function set_command( value )
 
 function get_command()
 {
-  return parseInt( $("#command").val() );
+  return $("#command").val();
 }
 
 function set_processing()

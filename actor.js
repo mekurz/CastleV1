@@ -123,7 +123,12 @@ function PlayerActor()
     
   PlayerActor.super_class.initialize.call( this );
   
-  this.img = Images.PLAYER_IMAGE;     // TODO Replace this with something to draw on the canvas and push img down to Monster
   this.bag = new Array();
+  this.paperdoll = new Paperdoll();
+  
+  this.draw = function( ctx )
+  {
+    this.paperdoll.draw( ctx );
+  };
 }
 extend( PlayerActor, Actor );

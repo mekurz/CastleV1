@@ -7,6 +7,14 @@ function create_items()
   create_single_item( "neck1", new Point( 1, 1 ) );
   create_single_item( "neck2", new Point( 11, 7 ) );
   create_single_item( "feet1", new Point( 18, 10 ) );
+  create_single_item( "back1", new Point( 11, 7 ) );
+  create_single_item( "head1", new Point( 5, 5 ) );
+  create_single_item( "hands1", new Point( 26, 14 ) );
+  create_single_item( "chest1", new Point( 6, 4 ) );
+  create_single_item( "weapon1", new Point( 6, 14 ) );
+  create_single_item( "weapon2", new Point( 26, 14 ) );
+  create_single_item( "shield1", new Point( 16, 8 ) );
+  create_single_item( "shield2", new Point( 24, 5 ) );
 }
 
 function equipped( obj )
@@ -52,6 +60,21 @@ function get_items_in_tile( point )
   return loot;
 }
 
+function count_items_in_tile( point )
+{
+  var num = 0;
+  
+  for( var i = 0; i < items.length; ++i )
+  {
+    if( items[i].location.equals( point ) )
+    {
+      num++;
+    }
+  }
+  
+  return num;
+}
+
 function Item( stat_id, pos )
 {
   this.id        = Item.max_item_id;
@@ -60,6 +83,8 @@ function Item( stat_id, pos )
   this.description = "";
   this.location  = null;
   this.icon      = null;
+  this.doll_icon = null;
+  this.legs_icon = null;
   this.equipped  = false;
   
   if( pos != undefined )
@@ -78,6 +103,22 @@ function Item( stat_id, pos )
     
     var img_id = data.attr("img_id");
     this.icon = Images.ITEM_IMAGES[img_id];
+    
+    var doll_id = data.attr("doll_id");
+    if( doll_id != undefined )
+    {
+      this.doll_icon = Images.PAPERDOLL_IMAGES[doll_id];   
+    }
+    
+    // Special case for Chest items. We could have a Leg image to go with it.
+    if( this.slot == "chest" )
+    {
+      var legs_id = data.attr("legs_id");
+      if( legs_id != undefined )
+      {
+        this.legs_icon = Images.PAPERDOLL_IMAGES[legs_id];   
+      }
+    }
   };
   
   this.initialize();
@@ -88,7 +129,16 @@ function Item( stat_id, pos )
     if( Map.is_location_visible( this.location ) )
     {
       var view_pos = Map.translate_map_coord_to_viewport( this.location );
-      ctx.drawImage( this.icon, convert_ix_to_raw_coord( view_pos.x ), convert_ix_to_raw_coord( view_pos.y ) );
+      
+      if( count_items_in_tile( this.location ) > 1 )
+      {
+        ctx.drawImage( Images.ITEM_IMAGES[MULTIPLE_IMG], convert_ix_to_raw_coord( view_pos.x ), convert_ix_to_raw_coord( view_pos.y ) );
+      }
+      else
+      {
+        ctx.drawImage( this.icon, convert_ix_to_raw_coord( view_pos.x ), convert_ix_to_raw_coord( view_pos.y ) );
+      }
+      
       delete view_pos;
     }   
   };
@@ -130,6 +180,7 @@ function InventoryManager()
                                width: 870,
                                height: 550,
                                close: function(event, ui) {
+                                        Player.paperdoll.construct_paperdoll();
                                         document.game.draw();
                                       }
                             }); 
@@ -276,6 +327,19 @@ function InventoryManager()
       Player.bag[item_ix].equipped = equip;
       Log.debug( "Item " + item_id + " is equipped: " + equip );
     }
+  };
+  
+  this.find_equipped_item_for_slot = function( slot )
+  {
+    for( var i = 0; i < Player.bag.length; ++i )
+    {
+      if( Player.bag[i].equipped && Player.bag[i].slot == slot )
+      {
+        return Player.bag[i];
+      }      
+    }
+    
+    return null;
   };
   
   this.move_item_between_collections = function( item_id, $sender, $receiver )

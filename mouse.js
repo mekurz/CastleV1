@@ -9,39 +9,29 @@ function process_click( location )
   var command = get_command();
   var valid_action = false;
   
-  switch( command )
+  if( command == "0" )
   {
-    case 0:
-      var target_item = Movement.is_target_tile_occupied( location );
-      
-      if( location.adjacent_to( Player.location ) && target_item != null )  // TODO ASSUMES THAT ONLY MONSTERS CAN BE ADJACENT
-      {
-        new Melee( Player, target_item ).process();
-        valid_action = true;
-      }
-      
-      set_finished();      
-      break;
-    case MAGIC_MISSILE:
-    case LIGHTNING_BOLT:
-    case FIREBOLT:
-    case BOULDER:
-      add_spell_effect( new ProjectileSpellEffect( command, Player.location, location ),  new Spell( command, Player, location ) );
+    var target_item = Movement.is_target_tile_occupied( location );
+    
+    if( location.adjacent_to( Player.location ) && target_item != null )  // TODO ASSUMES THAT ONLY MONSTERS CAN BE ADJACENT
+    {
+      new Melee( Player, target_item ).process();
       valid_action = true;
-      break;    
-    case FIREBALL:
-      add_spell_effect( new AreaSpellEffect( FIREBOLT, FIREBALL, Player.location, location ),  new AreaEffectSpell( command, Player, location ) );
-      valid_action = true;
-      break;
-    case FIRE_BREATH:
-      process_cone_spell( command, Player, location );
-      valid_action = true;
-      break;
-
-    default:
+    }
+    
+    set_finished();      
+  }
+  else
+  {
+    if( create_spell( command, Player, location ) )
+    {
+      valid_action = true; 
+    }
+    else
+    {
       Log.debug( "Unrecognized command.");
       set_finished();
-      break;
+    }
   }
 
   default_cursor();

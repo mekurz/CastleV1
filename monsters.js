@@ -151,7 +151,7 @@ Monster.prototype.do_move = function()
       // Monsters that can cast spells have a 50% chance to cast it at the Player instead of moving if they are not adjacent to the player
       if( this.spell != undefined && !this.location.adjacent_to( Player.location ) && ( Math.random() * 100 ) > 50 && MONSTER_SPELLS )
       {
-        add_spell_effect( new ProjectileSpellEffect( this.spell, this.location, Player.location ),  new Spell( this.spell, this, Player.location ) );
+        create_spell( this.spell, this, Player.location );
       }
       else
       {

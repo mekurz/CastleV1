@@ -139,6 +139,7 @@ function Game()
   {
     Player = new PlayerActor();
     Player.move_to( new Point( 10, 7 ) );
+    Player.paperdoll.construct_paperdoll();
   }
   
   this.key_handler = function( evt )

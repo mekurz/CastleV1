@@ -10,6 +10,32 @@ function cast_spell( spell )
 	}
 }
 
+function create_spell( spell_id, source_actor, target )
+{
+  var xml = Loader.get_spell_data( spell_id );
+  var type = xml.parent()[0].nodeName.toLowerCase();
+  
+  if( type == "projectile" )
+  {
+    add_spell_effect( new ProjectileSpellEffect( xml.attr("projectile_id"), source_actor.location, target ),  new Spell( spell_id, source_actor, target ) );
+  }
+  else if( type == "areaeffect" )
+  {
+    add_spell_effect( new AreaSpellEffect( xml.attr("projectile_id"), xml.attr("area_id"), source_actor.location, target ),  new AreaEffectSpell( spell_id, source_actor, target ) );
+  }
+  else if( type == "coneeffect" )
+  {
+    process_cone_spell( xml, source_actor, target );
+  }
+  else
+  {
+    Log.debug( "Unrecognized command." );
+    return false;
+  }
+  
+  return true;
+}
+
 function add_spell_effect( effect, spell )
 {
   // TODO Do mana check here.
@@ -40,7 +66,7 @@ function draw_spells_for_interval( ctx )
   }
 }
 
-function process_cone_spell( spell_id, source_actor, target )
+function process_cone_spell( xml, source_actor, target )
 {
   var vector = source_actor.location.get_unit_vector( target );
   target.assign( source_actor.location );
@@ -48,11 +74,11 @@ function process_cone_spell( spell_id, source_actor, target )
   
   if( vector.neither_coord_is_zero() )  
   {
-    add_spell_effect( new DiagonalConeSpellEffect( spell_id + 1, source_actor.location, target ), new ConeEffectSpell( spell_id, source_actor, target ) );
+    add_spell_effect( new DiagonalConeSpellEffect( xml.attr("diagonal_id"), source_actor.location, target ), new ConeEffectSpell( xml.attr("id"), source_actor, target ) );
   }
   else
   {
-    add_spell_effect( new ConeSpellEffect( spell_id, source_actor.location, target ), new ConeEffectSpell( spell_id, source_actor, target ) );
+    add_spell_effect( new ConeSpellEffect( xml.attr("cardinal_id"), source_actor.location, target ), new ConeEffectSpell( xml.attr("id"), source_actor, target ) );
   }
 }
 
@@ -67,7 +93,7 @@ function Spell( spell_id, source_actor, target_tile )
 Spell.prototype.load_from_xml = function()
 {
   var xml = Loader.get_spell_data( this.spell_id );
-  
+
   this.description = xml.find("Description").text();
   this.mana_cost   = xml.find("Mana").text();
   this.damage      = xml.find("Damage").text();
@@ -242,7 +268,7 @@ ConeEffectSpell.prototype.resolve_hit = function()
           if( target_item != undefined )
           {
             this.show_hit_message( target_item );
-            target_item.damage( this.splash );
+            target_item.damage( this.damage );
           }
         }
       }
