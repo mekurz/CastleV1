@@ -90,7 +90,7 @@ Movement.is_target_tile_occupied = function( target )
   // TODO THINK ABOUT REFACTORING THIS??? 
   var occupied = null;
    
-  occupied = get_monster_in_tile( target );
+  occupied = Dungeon.get_monster_in_tile( target );
   
   if( occupied == null && target.equals( Player.location ) )
   {

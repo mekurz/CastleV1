@@ -1,76 +1,3 @@
-var monsters = new Array();
-
-function create_monsters()
-{
-  create_single_monster( RATMAN, new Point(  3, 3 ) );
-  create_single_monster( RATMAN, new Point( 10, 2 ) );
-  create_single_monster( RATMAN, new Point(  6,14 ) );
-  create_single_monster( RATMAN, new Point( 12,14 ) );
-  create_single_monster( HILLGIANT, new Point( 19, 9 ) );
-}
-
-function create_single_monster( monster_type, location )
-{
-  var monster = new Monster( monster_type );
-  monster.move_to( location );
-
-  monsters.push( monster );
-}
-
-function draw_monsters( ctx )
-{
-  for( var i = 0; i < monsters.length; ++i )
-  {
-    monsters[i].draw( ctx );
-  } 
-}
-
-function move_monsters( ctx )
-{
-  if( !FREEZE_MONSTERS )
-  {
-    for( var i = 0; i < monsters.length; ++i )
-    {
-      monsters[i].do_move();
-    }
-  }
-}
-
-function get_monster_in_tile( point )
-{
-  for( var i = 0; i < monsters.length; ++i )
-  {
-    if( monsters[i].location.equals( point ) )
-    {
-      return monsters[i];
-    }
-  } 
-  
-  return null;
-}
-
-function get_monster_ix( monster_id )
-{
-  for( var i = 0; i < monsters.length; ++i )
-  {
-    if( monsters[i].id == monster_id )
-    {
-      return i;
-    }
-  } 
-}
-
-function get_monster_by_id( monster_id )
-{
-  for( var i = 0; i < monsters.length; ++i )
-  {
-    if( monsters[i].id == monster_id )
-    {
-      return monsters[i];
-    }
-  } 
-}
-
 function Monster( type )
 {
   Monster.base_constructor.call( this, Monster.max_monster_id );
@@ -121,8 +48,8 @@ Monster.prototype.kill = function()
   
   document.game.add_splat( this.location );
   
-  monsters.splice( get_monster_ix( this.id ), 1 );
-  
+  Dungeon.kill_monster( this.id );
+    
   // TODO DROP LOOT, GIVE XP, BLAH BLAH BLAH  
 };
 

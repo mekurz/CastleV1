@@ -65,6 +65,8 @@ function test_aoe()
 
 function kill_all_monsters()
 {
+  var monsters = Dungeon.get_monsters();
+  
   for( i = monsters.length - 1; i >= 0; --i )
   {
     monsters[i].kill();
@@ -100,9 +102,61 @@ function test_diagonal_cones()
 function random_map()
 {
   var mapgen = new MapGenerator();
+  var level = Dungeon.get_current_level();
   mapgen.generate_map();
-  map_tiles = null;
-  map_tiles = mapgen.convert_to_tiles();
+  level.map_tiles = null;
+  level.map_tiles = mapgen.convert_to_tiles();
   
   document.game.do_turn();
+}
+
+function create_debug_monsters()
+{
+  var level = Dungeon.get_current_level();
+  level.create_single_monster( RATMAN, new Point(  3, 3 ) );
+  level.create_single_monster( RATMAN, new Point( 10, 2 ) );
+  level.create_single_monster( RATMAN, new Point(  6,14 ) );
+  level.create_single_monster( RATMAN, new Point( 12,14 ) );
+  level.create_single_monster( HILLGIANT, new Point( 19, 9 ) );
+}
+
+function create_debug_items()
+{
+  var level = Dungeon.get_current_level();
+  level.create_single_item( "neck1", new Point( 1, 1 ) );
+  level.create_single_item( "neck2", new Point( 11, 7 ) );
+  level.create_single_item( "feet1", new Point( 18, 10 ) );
+  level.create_single_item( "back1", new Point( 11, 7 ) );
+  level.create_single_item( "head1", new Point( 5, 5 ) );
+  level.create_single_item( "hands1", new Point( 26, 14 ) );
+  level.create_single_item( "chest1", new Point( 6, 4 ) );
+  level.create_single_item( "weapon1", new Point( 6, 14 ) );
+  level.create_single_item( "weapon2", new Point( 26, 14 ) );
+  level.create_single_item( "shield1", new Point( 16, 8 ) );
+  level.create_single_item( "shield2", new Point( 24, 5 ) );
+}
+
+function create_debug_level()
+{
+  var new_level = new Level();
+  
+  new_level.map_tiles = [ [ 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3 ],
+                          [ 3, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 3 ],
+                          [ 3, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 3 ],
+                          [ 3, 1, 1, 1, 1, 1, 3, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 1, 2, 1, 2, 1, 1, 3 ],
+                          [ 3, 1, 1, 1, 1, 1, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 1, 2, 1, 1, 1, 3 ],
+                          [ 3, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 1, 2, 1, 2, 1, 1, 3 ],
+                          [ 3, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 1, 2, 1, 1, 1, 3 ],
+                          [ 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 2, 1, 2, 1, 2, 1, 1, 3 ],
+                          [ 3, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 3, 3, 3, 3, 3, 1, 1, 1, 1, 1, 1, 1, 3 ],
+                          [ 3, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 3, 2, 2, 2, 2, 1, 1, 1, 1, 1, 1, 1, 3 ],
+                          [ 3, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 3, 2, 2, 3, 3, 1, 1, 1, 1, 1, 1, 1, 3 ],
+                          [ 3, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 3, 3, 3, 3, 1, 1, 1, 1, 1, 1, 1, 1, 3 ],
+                          [ 3, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 3 ],
+                          [ 3, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 3 ],
+                          [ 3, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 3 ],
+                          [ 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3 ]
+                        ];
+  
+  Dungeon.levels.push( new_level );
 }

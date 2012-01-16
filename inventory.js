@@ -1,22 +1,3 @@
-var items = new Array();
-
-var MULTIPLE_IMG = 17;
-
-function create_items()
-{
-  create_single_item( "neck1", new Point( 1, 1 ) );
-  create_single_item( "neck2", new Point( 11, 7 ) );
-  create_single_item( "feet1", new Point( 18, 10 ) );
-  create_single_item( "back1", new Point( 11, 7 ) );
-  create_single_item( "head1", new Point( 5, 5 ) );
-  create_single_item( "hands1", new Point( 26, 14 ) );
-  create_single_item( "chest1", new Point( 6, 4 ) );
-  create_single_item( "weapon1", new Point( 6, 14 ) );
-  create_single_item( "weapon2", new Point( 26, 14 ) );
-  create_single_item( "shield1", new Point( 16, 8 ) );
-  create_single_item( "shield2", new Point( 24, 5 ) );
-}
-
 function equipped( obj )
 {
   obj.css("border-color", "white");
@@ -39,42 +20,6 @@ function set_border_based_on_container( container, obj )
   }
 }
 
-function create_single_item( stat_id, point )
-{
-  var item = new Item( stat_id, point );
-  items.push( item );
-}
-
-function get_items_in_tile( point )
-{
-  var loot = new Array();
-  
-  for( var i = 0; i < items.length; ++i )
-  {
-    if( items[i].location.equals( point ) )
-    {
-      loot.push( items[i] );
-    }
-  }
-  
-  return loot;
-}
-
-function count_items_in_tile( point )
-{
-  var num = 0;
-  
-  for( var i = 0; i < items.length; ++i )
-  {
-    if( items[i].location.equals( point ) )
-    {
-      num++;
-    }
-  }
-  
-  return num;
-}
-
 function Item( stat_id, pos )
 {
   this.id        = Item.max_item_id;
@@ -86,6 +31,7 @@ function Item( stat_id, pos )
   this.doll_icon = null;
   this.legs_icon = null;
   this.equipped  = false;
+  var MULTIPLE_IMG = 17;
   
   if( pos != undefined )
   {
@@ -130,7 +76,7 @@ function Item( stat_id, pos )
     {
       var view_pos = Map.translate_map_coord_to_viewport( this.location );
       
-      if( count_items_in_tile( this.location ) > 1 )
+      if( Dungeon.count_items_in_tile( this.location ) > 1 )
       {
         ctx.drawImage( Images.ITEM_IMAGES[MULTIPLE_IMG], convert_ix_to_raw_coord( view_pos.x ), convert_ix_to_raw_coord( view_pos.y ) );
       }
@@ -250,7 +196,7 @@ function InventoryManager()
   
   this.update_floor_items = function()
   {
-    var floor_items = get_items_in_tile( Player.location );
+    var floor_items = Dungeon.get_items_in_tile( Player.location );
     
     for( var i = 0; i < floor_items.length; ++i )
     {
@@ -276,6 +222,7 @@ function InventoryManager()
   
   this.take = function( item_id )
   {
+    var items = Dungeon.get_items();
     var item_ix = this.convert_html_id_to_item_ix( item_id, items );
     
     if( item_ix > -1 )
@@ -289,7 +236,8 @@ function InventoryManager()
   
   this.take_all = function()
   {
-    var floor_items = get_items_in_tile( Player.location );
+    var items = Dungeon.get_items();
+    var floor_items = Dungeon.get_items_in_tile( Player.location );
     
     for( var i = 0; i < floor_items.length; ++i )
     {
@@ -307,6 +255,7 @@ function InventoryManager()
   
   this.drop = function( item_id )
   {
+    var items = Dungeon.get_items();
     var item_ix = this.convert_html_id_to_item_ix( item_id, Player.bag );
     
     if( item_ix > -1 )

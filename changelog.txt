@@ -211,6 +211,12 @@ Version 29 - 05-Jan-2012
 - Spells
   - Refactored spell images to be the same structure as item images
   - Refactored SpellEffect instantiation to be more generic
+  
+Version 30 - 15-Jan-2012
+- General
+  - Added DungeonManager and Level classes
+  - Refactored map tiles, monsters and items collections so Levels have their own contents (removed the old global arrays)
+  - Refactored some debugging code to create the default debug Level
 
   
 TODO

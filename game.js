@@ -72,14 +72,17 @@ function Game()
     {
       Log.debug( "Image preload complete." );
       
+      Dungeon = new DungeonManager();
       Map = new ViewPort();
       Map.initialize();
       
       initialize_player();
       
+      create_debug_level();
+      
       Map.center_map_on_location( Player.location );
-      create_monsters();
-      create_items();      
+      create_debug_monsters();
+      create_debug_items();      
       
       document.game.draw();
       clearInterval( document.game.interval_loop );
@@ -112,16 +115,17 @@ function Game()
   this.update = function()
   {
     // MEK TO DO PERFORM ANY NECESSARY LOGIC ROUTINES HERE NOT DIRECTLY ATTACHED TO AN EVENT (I.E. MOVE MONSTERS) 
-    move_monsters();
+    Dungeon.move_monsters();
   };
   
   this.draw = function()
   {
+    var level = Dungeon.get_current_level();
+    
     Map.draw_map( this.buffer_ctx ); // First layer: Map tiles
-            
-    this.draw_collection( items, this.buffer_ctx );     // Second layer: Items
+    this.draw_collection( level.items, this.buffer_ctx );     // Second layer: Items
     // TODO: widgets go here
-    this.draw_collection( monsters, this.buffer_ctx );  // Third layer: Monsters and Player    
+    this.draw_collection( level.monsters, this.buffer_ctx );  // Third layer: Monsters and Player    
     Player.draw( this.buffer_ctx );
     
     this.map_ctx.drawImage( this.buffer, 0, 0 );

@@ -4,8 +4,6 @@ var TILE_DATA  = [ "{\"src\":\"grass.png\",\"passable\":1}",  // 0
                    "{\"src\":\"wall.png\",\"passable\":0}",   // 3
                  ];
 
-var TOOLTIP_FADE_SPEED = 150;
-
 function Tooltip()
 {
   this.tooltip = $("#tooltip");
@@ -15,7 +13,8 @@ function Tooltip()
   this.num_items = 0;
   this.visible = false;
   this.has_los = false;
-  
+  var TOOLTIP_FADE_SPEED = 150;
+
   this.tooltip.hide();
   
   this.show_tooltip = function( location )
@@ -36,7 +35,6 @@ function Tooltip()
     }        
     
     this.adjust_position( location );
-    
     this.tooltip.fadeIn( TOOLTIP_FADE_SPEED ); 
   };
   
@@ -58,7 +56,7 @@ function Tooltip()
   
   this.fill_tooltip_with_monster = function( location )
   {
-    var monster = get_monster_in_tile( location );
+    var monster = Dungeon.get_monster_in_tile( location );
     
     if( monster != null )
     {
@@ -74,7 +72,6 @@ function Tooltip()
     for( var i = 0; i < floor_items.length; ++i )
     {
       this.contents.append( floor_items[i].get_tooltip() );
-      this.num_items++;
     }
     
     this.num_items += floor_items.length;
@@ -131,6 +128,7 @@ function ViewPort()
   {
     var canvas_x = 0;
     var canvas_y = 0;
+    var map_tiles = Dungeon.get_map_tiles();
  
     for( var y = 0; y < VIEWPORT_HEIGHT; y++ )
     {
@@ -167,7 +165,7 @@ function ViewPort()
   
   this.is_location_passable = function( location )
   {
-    var tile_ix = map_tiles[location.y][location.x];
+    var tile_ix = Dungeon.get_map_tiles()[location.y][location.x];
     return this.tiles[tile_ix].passable;  
   };
   
@@ -191,6 +189,7 @@ function ViewPort()
   this.center_map_on_location = function( center )
   {
     var new_corner = new Point();
+    var map_tiles = Dungeon.get_map_tiles();
     
     new_corner.x = Math.max( 0, center.x - Math.floor( VIEWPORT_WIDTH / 2 ) );
     new_corner.y = Math.max( 0, center.y - Math.floor( VIEWPORT_HEIGHT / 2 ) );
@@ -261,7 +260,7 @@ function ViewPort()
   
   this.get_target_item_in_tile = function( target )
   {
-    var target_item = get_monster_in_tile( target );
+    var target_item = Dungeon.get_monster_in_tile( target );
     
     if( target_item == null && target.equals( Player.location ) )
     {
