@@ -218,17 +218,36 @@ Version 30 - 15-Jan-2012
   - Refactored map tiles, monsters and items collections so Levels have their own contents (removed the old global arrays)
   - Refactored some debugging code to create the default debug Level
 
+Version 31 - 18-Jan-2012
+- General
+  - Eliminated last remaining JSON config (tile) and jQuery plugin for parsing (it's built into the recent versions anyways for future use)
+  - Refactored Tile to separate passable from the image
+  - Added explored, lit and room_id flags to tiles
+  - Updated draw_map to draw white squares for unexplored tiles and overlay a 50% alpha black square for unlit tiles
+  - Tiles adjacent to the player are marked as explored as you move around.
+  - Level now contains a list of room locations 
+- Map Generator
+  - Redefined how room_id is specified on a room.
+  - Room lighting is a 50% chance of lit vs unlit
+  - Expanded functionality for creating an entire Level out of a map generation run
+- Debugging
+  - Expanded test map to include some unexplored tiles
+  - Expanded the Test Level creation to accommodate MapGenerator and Tile changes.
+  
   
 TODO
 ============
 - Area spells need to set their primary target to the last square that they were in, NOT the square where an obstacle is encountered
 - Props (doors, chests, etc)
 - Implement HP/mana counters for Player (i.e. no more invincibility)
-- Fog of war?
 - Item stats, etc
 - More complete representation of a level with doors, rooms, etc for use by Viewport
-- Passable tiles should not be checking the tile image
 - Reorganize images into subdirectories
 - Dungeon map (scaled down version of the full map)
 - Items in the inventory need detailed tooltips
 - Rings need to be handled as a special item for multiple slots
+- Debug map should contain lit room squares, unlit squares
+- Monster visibility based on lit vs dark tiles vs adjacent dark tiles
+- Seeing a monster in a lit tile should mark it as explored (NOT THE ENTIRE ROOM, just the one tile)... i.e. looking down a hallway
+- Enhance tooltip to describe dark tiles, explored tiles (i.e. "Your map shows") and unexplored tiles
+- What should spells that go into unexplored territory do?

@@ -1,9 +1,3 @@
-var TILE_DATA  = [ "{\"src\":\"grass.png\",\"passable\":1}",  // 0
-                   "{\"src\":\"dirt.png\",\"passable\":1}",   // 1
-                   "{\"src\":\"stones.png\",\"passable\":1}", // 2
-                   "{\"src\":\"wall.png\",\"passable\":0}",   // 3
-                 ];
-
 function Tooltip()
 {
   this.tooltip = $("#tooltip");
@@ -67,7 +61,7 @@ function Tooltip()
   
   this.fill_tooltip_with_items = function( location )
   {
-    var floor_items = get_items_in_tile( location );
+    var floor_items = Dungeon.get_items_in_tile( location );
     
     for( var i = 0; i < floor_items.length; ++i )
     {
@@ -94,41 +88,29 @@ function Tooltip()
 
 function Tile( ix )
 {
-  var obj = $.evalJSON( TILE_DATA[ix] );
-  this.src       = obj.src;
-  this.passable  = obj.passable;
-  this.img       = Images.TILE_IMAGES[ix];
+  this.tile_ix   = ix;
+  this.passable  = false;
+  this.explored  = false;
+  this.is_lit    = false;
+  this.room_id   = -1;
+  
+  this.is_lit_room = function()
+  {
+    return this.is_lit && this.room_id != -1;
+  };
 };
 
 
 function ViewPort()
 {
-  this.tiles     = new Array();
   this.top_left  = new Point( 0, 0 );
-  
-  this.initialize = function()
-  {
-    this.create_tiles();
-  };
-  
-  this.create_tiles = function()
-  {
-    Log.debug( "Creating tiles..." );
-    
-    for( var x = 0; x < TILE_DATA.length; ++x )
-    {
-      var new_tile = new Tile( x ); 
-      this.tiles.push( new_tile );
-    }
-    
-    Log.debug( "Done creating tiles" );
-  };
     
   this.draw_map = function( ctx )
   {
     var canvas_x = 0;
     var canvas_y = 0;
     var map_tiles = Dungeon.get_map_tiles();
+    ctx.save();
  
     for( var y = 0; y < VIEWPORT_HEIGHT; y++ )
     {
@@ -136,14 +118,31 @@ function ViewPort()
    
       for( var x = 0; x < VIEWPORT_WIDTH; x++ )
       {
-        var tile_ix = map_tiles[this.top_left.y + y][this.top_left.x + x];
+        var tile = map_tiles[this.top_left.y + y][this.top_left.x + x];
         
-        ctx.drawImage( this.tiles[tile_ix].img, canvas_x, canvas_y );
+        if( tile.explored )
+        {
+          ctx.drawImage( Images.TILE_IMAGES[tile.tile_ix], canvas_x, canvas_y );
+          
+          if( tile.passable && !tile.is_lit )
+          {
+            ctx.fillStyle = "rgba(0,0,0,0.5)";
+            ctx.fillRect( canvas_x, canvas_y, TILE_WIDTH, TILE_WIDTH );
+          }
+        }
+        else
+        {
+          ctx.fillStyle = "rgb(255,255,255)";
+          ctx.fillRect( canvas_x, canvas_y, TILE_WIDTH, TILE_WIDTH );
+        }
+        
         canvas_x += TILE_WIDTH;
       }
    
       canvas_y += TILE_WIDTH;
     }
+    
+    ctx.restore();
   };
   
   this.is_valid_move = function( point, vector )
@@ -165,8 +164,7 @@ function ViewPort()
   
   this.is_location_passable = function( location )
   {
-    var tile_ix = Dungeon.get_map_tiles()[location.y][location.x];
-    return this.tiles[tile_ix].passable;  
+    return Dungeon.get_map_tiles()[location.y][location.x].passable;  
   };
   
   this.is_location_visible = function( point )

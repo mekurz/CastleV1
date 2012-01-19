@@ -1,8 +1,9 @@
 function Level()
 {
-  this.map_tiles = null;
+  this.map_tiles = new Array();
   this.monsters = new Array();
   this.items = new Array();
+  this.rooms = new Array();
   
   this.create_single_monster = function( monster_type, location )
   {
@@ -123,5 +124,47 @@ function DungeonManager()
     }
     
     return num;
+  };
+  
+  this.explore_at_location = function( point )
+  {
+    var map_tiles = this.get_map_tiles();
+    var tile = map_tiles[point.y][point.x];
+    
+    if( tile.is_lit_room() )
+    {
+      this.explore_lit_room( map_tiles, tile.room_id );
+    }
+    else
+    {
+      explore_adjacent( map_tiles, point );
+    }
+  };
+  
+  function explore_adjacent( map_tiles, point )
+  {
+    for( var row = point.y - 1; row <= point.y + 1; ++row )
+    {
+      for( var col = point.x - 1; col <= point.x + 1; ++col )
+      {
+        if( row >= 0 && row < map_tiles.length && col >= 0 && col < map_tiles[0].length )
+        {
+          map_tiles[row][col].explored = true;
+        }
+      }
+    }
+  }
+  
+  this.explore_lit_room = function( map_tiles, room_id )
+  {
+    var room = this.get_current_level().rooms[room_id];
+    
+    for( var row = room.top_left.y - 1; row <= room.top_left.y + room.height; ++row )
+    {
+      for( var col = room.top_left.x - 1; col <= room.top_left.x + room.width; ++col )
+      {
+        map_tiles[row][col].explored = true;
+      }
+    }
   };
 }

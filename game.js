@@ -74,7 +74,6 @@ function Game()
       
       Dungeon = new DungeonManager();
       Map = new ViewPort();
-      Map.initialize();
       
       initialize_player();
       

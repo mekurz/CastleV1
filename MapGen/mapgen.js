@@ -17,8 +17,6 @@ var SOUTH = new Point(  1,  0 );
 var EAST  = new Point(  0, -1 );
 var WEST  = new Point(  0,  1 );
 
-var max_room_id = 0;
-
 function Cell()
 {
   this.blocked = false;
@@ -27,6 +25,7 @@ function Cell()
   this.is_corridor = false;
   this.is_entrance = false;
   this.is_deadend = false;
+  this.is_lit = false;
   
   this.is_a_room = function()
   {
@@ -74,9 +73,7 @@ function Room()
   this.top_left = new Point();
   this.height = this.generate_random_dimension();
   this.width  = this.generate_random_dimension();
-  
-  this.room_id = max_room_id;
-  max_room_id++;
+  this.room_id = -1;
   
   this.contains_point = function( x, y )
   {
@@ -129,13 +126,21 @@ function Room()
     }
   };
   
+  function should_room_be_lit()
+  {
+    return Math.floor( Math.random() * 100 ) > 50; 
+  }
+  
   this.fill_room = function( map )
   {
+    var light_room = should_room_be_lit();
+    
     for( var row = 0; row < this.height; row++ )
     {
       for( var col = 0; col < this.width; col++ )
       {
         map[row + this.top_left.y][col + this.top_left.x].room_id = this.room_id;
+        map[row + this.top_left.y][col + this.top_left.x].is_lit = light_room;
       }
     }
   };
@@ -458,7 +463,6 @@ function TunnelCrusher( map )
 
 function MapGenerator()
 {
-  this.div = $("#map");
   this.map = null;
   this.rooms_list = new Array();
   
@@ -516,6 +520,7 @@ function MapGenerator()
           
           if( room.fits_on_map() && !room.contains_any_blocked_cell( this.map ) )     // TODO check for doors on the corners... don't allow!
           {
+            room.room_id = this.rooms_list.length;
             room.place_room( this.map );
             this.rooms_list.push( room );
             
@@ -552,21 +557,38 @@ function MapGenerator()
       {
         if( this.map[y][x].is_a_room() || this.map[y][x].is_corridor || this.map[y][x].is_entrance )
         {
-          tiles[y][x] = 2;  // Floor
+          tiles[y][x] = new Tile(2);  // Floor
+          tiles[y][x].passable = true;
+          tiles[y][x].is_lit = this.map[y][x].is_lit;
         }
         else
         {
-          tiles[y][x] = 3; // Wall
+          tiles[y][x] = new Tile(3); // Wall          
         }
+        
+        tiles[y][x].room_id = this.map[y][x].room_id;
       }
     }
     
     return tiles;
   };
   
+  this.create_new_level = function()
+  {
+    var level = new Level();
+    
+    this.generate_map();
+    level.map_tiles = this.convert_to_tiles();
+    level.rooms = this.rooms_list;
+    
+    return level;
+  };
+  
 // DRAW MAP FUNCTIONS (FOR DEBUGGING) BELOW
   this.draw_map = function()
   {
+    var div = $("#map");
+    
     for( var row = 0; row < MAP_HEIGHT; row++ )
     {
       var row_output = "";
@@ -576,7 +598,7 @@ function MapGenerator()
         row_output += this.get_cell_character( this.map[row][col] );
       }
       
-      this.div.append( row_output + "<br/>" );
+      div.append( row_output + "<br/>" );
     }
   };
   

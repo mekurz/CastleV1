@@ -70,6 +70,12 @@ function Movement()
       else
       {
         actor.add_vector( vector );
+        
+        if( !actor.is_monster )
+        {
+          Dungeon.explore_at_location( actor.location );
+        }
+        
         return true;
       }
     }
@@ -81,13 +87,10 @@ function Movement()
   {
     return actor != target_item && !( actor.is_monster && target_item.is_monster ); 
   };
-  
-  
 }
 
 Movement.is_target_tile_occupied = function( target )
 {
-  // TODO THINK ABOUT REFACTORING THIS??? 
   var occupied = null;
    
   occupied = Dungeon.get_monster_in_tile( target );
