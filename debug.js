@@ -1,5 +1,10 @@
 var FREEZE_MONSTERS = 0;      // Stop all monsters from moving and attacking
 var MONSTER_SPELLS = 1;       // Allow applicable monsters to cast spells
+var DETECT_MONSTERS = 0;      // Detect all monsters
+
+var FIREBALL = 5;
+var FIRE_BREATH = 7;
+var FIRE_BREATH_D = 8;
 
 function run_test()
 {
@@ -15,6 +20,7 @@ function run_test()
     case 5: document.game.do_turn(); break;
     case 6: test_cones(); break;
     case 7: test_diagonal_cones(); break;
+    case 8: reveal_map(); break;
   }
 }
 
@@ -104,6 +110,22 @@ function random_map()
   var mapgen = new MapGenerator();
   Dungeon.levels[0] = null;
   Dungeon.levels[0] = mapgen.create_new_level();
+  Dungeon.explore_at_location( Player.location );
+  document.game.do_turn();
+}
+
+function reveal_map()
+{
+  var map_tiles = Dungeon.get_map_tiles();
+  
+  for( var row = 0; row < map_tiles.length; ++row )
+  {
+    for( var col = 0; col < map_tiles[0].length; ++col )
+    {
+      map_tiles[row][col].explored = true;
+    }
+  }
+  
   document.game.do_turn();
 }
 
@@ -115,6 +137,8 @@ function create_debug_monsters()
   level.create_single_monster( RATMAN, new Point(  6,14 ) );
   level.create_single_monster( RATMAN, new Point( 12,14 ) );
   level.create_single_monster( HILLGIANT, new Point( 19, 9 ) );
+  level.create_single_monster( RATMAN, new Point( 22,20 ) );  // in dark
+  level.create_single_monster( RATMAN, new Point( 10,20 ) );  // in unexplored
 }
 
 function create_debug_items()
@@ -131,6 +155,8 @@ function create_debug_items()
   level.create_single_item( "weapon2", new Point( 26, 14 ) );
   level.create_single_item( "shield1", new Point( 16, 8 ) );
   level.create_single_item( "shield2", new Point( 24, 5 ) );
+  level.create_single_item( "shield2", new Point( 10, 20 ) ); // in unexplored
+  level.create_single_item( "shield2", new Point( 19, 22 ) ); // in dark
 }
 
 function create_debug_level()
@@ -151,15 +177,15 @@ function create_debug_level()
                           [ 3, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 3, 3, 3, 3, 1, 1, 1, 1, 1, 1, 1, 1, 3 ],
                           [ 3, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 3 ],
                           [ 3, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 3 ],
-                          [ 3, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 3 ],
-                          [ 3, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 3 ],
-                          [ 3, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 3 ],
-                          [ 3, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 3 ],
-                          [ 3, 1, 1, 1, 1, 1, 1, 1, 4, 4, 4, 4, 4, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 3 ],
-                          [ 3, 1, 1, 1, 1, 1, 1, 1, 4, 4, 1, 4, 4, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 3 ],
-                          [ 3, 1, 1, 1, 1, 1, 1, 1, 4, 4, 4, 4, 4, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 3 ],
-                          [ 3, 1, 1, 1, 1, 1, 1, 1, 4, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 3 ],
-                          [ 3, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 3 ],
+                          [ 3, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 3, 1, 3, 1, 1, 1, 1, 1, 3 ],
+                          [ 3, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 3, 1, 3, 1, 1, 1, 1, 1, 3 ],
+                          [ 3, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 3, 3, 3, 3, 5, 3, 1, 1, 1, 1, 1, 3 ],
+                          [ 3, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 3, 5, 5, 5, 5, 3, 3, 3, 3, 1, 1, 3 ],
+                          [ 3, 1, 1, 1, 1, 1, 1, 1, 4, 4, 4, 4, 4, 1, 1, 1, 1, 1, 3, 5, 5, 5, 5, 5, 5, 5, 3, 1, 1, 3 ],
+                          [ 3, 1, 1, 1, 1, 1, 1, 1, 4, 4, 4, 4, 4, 1, 1, 1, 1, 1, 3, 5, 5, 5, 5, 5, 5, 5, 3, 1, 1, 3 ],
+                          [ 3, 1, 1, 1, 1, 1, 1, 1, 4, 4, 4, 4, 4, 1, 1, 1, 1, 1, 3, 5, 5, 5, 5, 5, 5, 5, 3, 1, 1, 3 ],
+                          [ 3, 1, 1, 1, 1, 1, 1, 1, 4, 4, 4, 4, 4, 1, 1, 1, 1, 1, 3, 5, 5, 5, 5, 5, 5, 5, 3, 1, 1, 3 ],
+                          [ 3, 1, 1, 1, 1, 1, 1, 1, 4, 4, 4, 4, 4, 1, 1, 1, 1, 1, 3, 5, 5, 5, 5, 5, 5, 5, 3, 1, 1, 3 ],
                           [ 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3, 3 ]
                         ];
  
@@ -181,7 +207,10 @@ function create_debug_level()
         new_level.map_tiles[row][col].explored = true;
       }
       
-      new_level.map_tiles[row][col].is_lit = true;
+      if( map_tiles[row][col] != 5 )
+      {
+        new_level.map_tiles[row][col].is_lit = true;
+      }
     }
   }
   

@@ -17,16 +17,8 @@ function Tooltip()
     this.visible = true;
     this.has_los = Map.does_line_of_sight_exist( Player.location, location );
     
-    if( this.has_los )   // TODO Detection could skip this check OR debug flag
-    { 
-      this.fill_tooltip_with_monster( location );
-      this.fill_tooltip_with_items( location );
-      this.display_empty_message_if_necessary();
-    }
-    else
-    {
-      this.header.text( "You cannot see that." );
-    }        
+    this.fill_content( location );
+    this.fill_header( location );    
     
     this.adjust_position( location );
     this.tooltip.fadeIn( TOOLTIP_FADE_SPEED ); 
@@ -46,6 +38,19 @@ function Tooltip()
     location.convert_to_raw();
     this.tooltip.css( "top", parseInt( location.y ) + this.map_location.top + TILE_WIDTH );
     this.tooltip.css( "left", location.x + this.map_location.left );
+  };
+  
+  this.fill_content = function( location )
+  {
+    if( ( this.has_los && ( Dungeon.is_location_lit( location ) || Player.location.adjacent_to( location ) ) ) || DETECT_MONSTERS )
+    { 
+      this.fill_tooltip_with_monster( location );
+    }
+    
+    if( Dungeon.is_location_explored( location ) )
+    {
+      this.fill_tooltip_with_items( location );
+    }
   };
   
   this.fill_tooltip_with_monster = function( location )
@@ -72,16 +77,52 @@ function Tooltip()
     floor_items = [];
   };
   
-  this.display_empty_message_if_necessary = function()
+  this.fill_header = function( location )
   {
+    var str = "";
+    
     if( this.num_items > 0 )
     {
-      this.header.text( "You see:" );
+      if( this.has_los )
+      {
+        str = "You see:";
+      }
+      else if( DETECT_MONSTERS )
+      {
+        str = "You detect:";
+      }
+      else
+      {
+        str = "Your map shows:";
+      }
     }
     else
     {
-      this.header.text( "You see nothing." );
+      if( Dungeon.is_location_explored( location ) )
+      {
+        if( this.has_los )
+        {
+          if( Dungeon.is_location_lit( location ) || Player.location.adjacent_to( location ) )
+          {
+            str = "You see nothing.";
+          }
+          else
+          {
+            str = "It is too dark to see that!";
+          }
+        }
+        else
+        {
+          str = "Your map shows nothing.";
+        }
+      }
+      else
+      {
+        str = "You haven't seen that location!";
+      }
     }
+    
+    this.header.text( str );
   };
 };
 
@@ -98,6 +139,16 @@ function Tile( ix )
   {
     return this.is_lit && this.room_id != -1;
   };
+  
+  this.is_darkened = function()
+  {
+    return this.passable && !this.is_lit;
+  };
+  
+  this.is_lit_unexplored = function()
+  {
+    return this.is_lit && !this.explored;
+  };
 };
 
 
@@ -107,42 +158,40 @@ function ViewPort()
     
   this.draw_map = function( ctx )
   {
-    var canvas_x = 0;
-    var canvas_y = 0;
-    var map_tiles = Dungeon.get_map_tiles();
     ctx.save();
  
-    for( var y = 0; y < VIEWPORT_HEIGHT; y++ )
+    for( var row = 0; row < VIEWPORT_HEIGHT; ++row )
     {
-      canvas_x = 0;
-   
-      for( var x = 0; x < VIEWPORT_WIDTH; x++ )
+      for( var col = 0; col < VIEWPORT_WIDTH; ++col )
       {
-        var tile = map_tiles[this.top_left.y + y][this.top_left.x + x];
-        
-        if( tile.explored )
-        {
-          ctx.drawImage( Images.TILE_IMAGES[tile.tile_ix], canvas_x, canvas_y );
-          
-          if( tile.passable && !tile.is_lit )
-          {
-            ctx.fillStyle = "rgba(0,0,0,0.5)";
-            ctx.fillRect( canvas_x, canvas_y, TILE_WIDTH, TILE_WIDTH );
-          }
-        }
-        else
-        {
-          ctx.fillStyle = "rgb(255,255,255)";
-          ctx.fillRect( canvas_x, canvas_y, TILE_WIDTH, TILE_WIDTH );
-        }
-        
-        canvas_x += TILE_WIDTH;
+        this.draw_single_tile( row, col, ctx );
       }
-   
-      canvas_y += TILE_WIDTH;
     }
     
     ctx.restore();
+  };
+  
+  this.draw_single_tile = function( row, col, ctx, force_draw )
+  {
+    var tile = Dungeon.get_map_tiles()[this.top_left.y + row][this.top_left.x + col];
+    var canvas_x = convert_ix_to_raw_coord( col );
+    var canvas_y = convert_ix_to_raw_coord( row );
+        
+    if( tile.explored || force_draw != undefined )
+    {
+      ctx.drawImage( Images.TILE_IMAGES[tile.tile_ix], canvas_x, canvas_y );
+      
+      if( tile.is_darkened() )
+      {
+        ctx.fillStyle = "rgba(0,0,0,0.5)";
+        ctx.fillRect( canvas_x, canvas_y, TILE_WIDTH, TILE_WIDTH );
+      }
+    }
+    else
+    {
+      ctx.fillStyle = "rgb(255,255,255)";
+      ctx.fillRect( canvas_x, canvas_y, TILE_WIDTH, TILE_WIDTH );
+    }
   };
   
   this.is_valid_move = function( point, vector )

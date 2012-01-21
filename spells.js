@@ -199,21 +199,22 @@ AreaEffectSpell.prototype.resolve_hit = function()
 
 AreaEffectSpell.prototype.resolve_splash = function()
 {
-  for( var y = this.target_tile.y - 1; y <= this.target_tile.y + 1; y++ )
+  var map_tiles = Dungeon.get_map_tiles();
+  
+  for( var row = this.target_tile.y - 1; row <= this.target_tile.y + 1; ++row )
   {
-    if( y >= 0 && y <= map_tiles.length )
+    for( var col = this.target_tile.x - 1; col <= this.target_tile.x + 1; ++col )
     {
-      for( var x = this.target_tile.x - 1; x <= this.target_tile.x + 1; x++ )
+      var location = new Point( col, row );
+      
+      if( row >= 0 && row <= map_tiles.length && col >= 0 && col <= map_tiles[0].length && !this.target_tile.equals( location ) )
       {
-        if( x >= 0 && x <= map_tiles[0].length && !( x == this.target_tile.x && y == this.target_tile.y ) )
+        var target_item = Map.get_target_item_in_tile( location );
+        
+        if( target_item != undefined )
         {
-          var target_item = Map.get_target_item_in_tile( new Point( x, y ) );
-          
-          if( target_item != undefined )
-          {
-            this.show_hit_message( target_item );
-            target_item.damage( this.splash );
-          }
+          this.show_hit_message( target_item );
+          target_item.damage( this.splash );
         }
       }
     }
@@ -253,23 +254,21 @@ ConeEffectSpell.prototype.resolve_miss = function()
 
 ConeEffectSpell.prototype.resolve_hit = function()
 {
+  var map_tiles = Dungeon.get_map_tiles();
   var current_tile = this.get_top_left_for_cone();
   
-  for( var y = current_tile.y; y <= current_tile.y + 2; y++ )
+  for( var row = current_tile.y; row <= current_tile.y + 2; ++row )
   {
-    if( y >= 0 && y <= map_tiles.length )
+    for( var col = current_tile.x; col <= current_tile.x + 2; ++col )
     {
-      for( var x = current_tile.x; x <= current_tile.x + 2; x++ )
+      if( row >= 0 && row <= map_tiles.length && col >= 0 && col <= map_tiles[0].length )
       {
-        if( x >= 0 && x <= map_tiles[0].length )
+        var target_item = Map.get_target_item_in_tile( new Point( col, row ) );
+        
+        if( target_item != undefined )
         {
-          var target_item = Map.get_target_item_in_tile( new Point( x, y ) );
-          
-          if( target_item != undefined )
-          {
-            this.show_hit_message( target_item );
-            target_item.damage( this.damage );
-          }
+          this.show_hit_message( target_item );
+          target_item.damage( this.damage );
         }
       }
     }

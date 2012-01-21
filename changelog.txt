@@ -234,6 +234,22 @@ Version 31 - 18-Jan-2012
   - Expanded test map to include some unexplored tiles
   - Expanded the Test Level creation to accommodate MapGenerator and Tile changes.
   
+Version 32 - 20-Jan-2012
+- Bug fixes
+  - Fixed an undefined value error with AreaSpellEffect and ConeSpellEffect when resolving damage values.
+- General
+  - Refactored draw_map()
+  - Monsters are only drawn if you have a) line of sight and they are in a lit tile OR b) they are directly adjacent to you.
+  - For Monsters in category A above, tiles between the Player and the Monster will NOT be revealed
+  - Enhanced tooltips to provide more information based on line of sight and exploration
+- Debugging
+  - Fixed AoE and Cone tests to support the Level changes
+  - Expanded the test map to include some dark tiles with Monsters and items.
+  - Added some Monsters and Items to unexplored tiles.
+  - Added Reveal Map test option
+  - Added DETECT_MONSTERS debug flag
+  - Added Debug Flags popup to allow for setting flag values without having to edit the code constantly.
+  
   
 TODO
 ============
@@ -241,13 +257,10 @@ TODO
 - Props (doors, chests, etc)
 - Implement HP/mana counters for Player (i.e. no more invincibility)
 - Item stats, etc
-- More complete representation of a level with doors, rooms, etc for use by Viewport
-- Reorganize images into subdirectories
+- Reorganize images into subdirectories (only tiles remain)
 - Dungeon map (scaled down version of the full map)
 - Items in the inventory need detailed tooltips
 - Rings need to be handled as a special item for multiple slots
-- Debug map should contain lit room squares, unlit squares
-- Monster visibility based on lit vs dark tiles vs adjacent dark tiles
-- Seeing a monster in a lit tile should mark it as explored (NOT THE ENTIRE ROOM, just the one tile)... i.e. looking down a hallway
-- Enhance tooltip to describe dark tiles, explored tiles (i.e. "Your map shows") and unexplored tiles
-- What should spells that go into unexplored territory do?
+- Tooltips need to be split into two sections (one for detection and one for seeing/map showing)... split off num_items?
+- Spawn monsters/items inside rooms
+- Look into reducing the number of tunnels or make the map size smaller

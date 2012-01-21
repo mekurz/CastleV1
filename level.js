@@ -62,6 +62,21 @@ function DungeonManager()
     return this.levels[this.level_ix].monsters;
   };
   
+  this.is_location_lit = function( location )
+  {
+    return this.levels[this.level_ix].map_tiles[location.y][location.x].is_lit;
+  };
+  
+  this.is_location_lit_unexplored = function( location )
+  {
+    return this.levels[this.level_ix].map_tiles[location.y][location.x].is_lit_unexplored();
+  };
+  
+  this.is_location_explored = function( location )
+  {
+    return this.levels[this.level_ix].map_tiles[location.y][location.x].explored;
+  };
+  
   this.move_monsters = function()
   {
     if( !FREEZE_MONSTERS )

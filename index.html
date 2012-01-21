@@ -35,10 +35,12 @@
 		  <option value="1">TEST SPLAT</option>
 		  <option value="2">TEST PROJECTILES</option>
 		  <option value="3">TEST AREA EFFECT</option>
-		  <option value="4">KILL ALL RAT MANS</option>
-		  <option value="5">DO TURN</option>
 		  <option value="6">TEST CONES</option>
 		  <option value="7">TEST DIAGONAL CONES</option>
+		  <option value="-1">------------------</option>
+      <option value="4">KILL ALL RAT MANS</option>
+      <option value="5">DO TURN</option>
+		  <option value="8">REVEAL MAP</option>
 		</select>
 		<input type="submit" value="Run Test" onclick="run_test();"></input>
 		SPELL: <select id="spell_menu">
@@ -60,6 +62,7 @@
 			<div id="log" style="width:960px;height:150px;overflow-x:auto;border:1px solid black;border-top-width:0px;font-family:monospace;font-size:8pt;"></div>
 			<input type="submit" value="Clear Log" onclick="Log.clear();"></input>
 			<input type="submit" value="Shortcuts" onclick="$('#shortcuts').dialog('open');"></input>
+			<input type="submit" value="Debug Flags" onclick="$('#debug_flags').dialog('open');"></input>
 			<div id="shortcuts" title="Keyboard Shortcuts">
         <ul>
           <li>Arrows/Numpad - Move/attack
@@ -68,8 +71,16 @@
           <li>T - Take all items at current location 
         </ul>
       </div>
+      <div id="debug_flags" title="Debug Flags">
+        <input type="checkbox" id="freeze" onclick="FREEZE_MONSTERS = this.checked;"/>
+        <label for="freeze">Freeze monster movement</label><br/>
+        <input type="checkbox" id="mspells" onclick="MONSTER_SPELLS = this.checked;"/>
+        <label for="mspells">Monsters can cast spells</label><br/>
+        <input type="checkbox" id="detect" onclick="DETECT_MONSTERS = this.checked;"/>
+        <label for="detect">Detect monsters</label>
+      </div>
 			<div id="tooltip">
-        <div id="tooltip_header" class="TooltipHeader">You see:</div>
+        <div id="tooltip_header"></div>
         <ul id="tooltip_contents"></ul>
 			</div>
 			<div id="inventory" title="Inventory" style="overflow:hidden;">
@@ -105,13 +116,22 @@
 	  <script type="text/javascript">
 		  $(document).ready( function()
 		    {
-		      $( "#shortcuts" ).dialog({ autoOpen: false,
+		      $("#shortcuts").dialog({ autoOpen: false,
                                resizable: false,
                                modal: true,
                                close: function(event, ui) {
                                         document.game.draw();
                                       }
                             }); 
+		      
+		      $("#debug_flags").dialog({ autoOpen: false,
+                               resizable: false,
+                               modal: true
+                            });
+		      
+		      $("#freeze").prop( "checked", FREEZE_MONSTERS );
+		      $("#mspells").prop( "checked", MONSTER_SPELLS );
+		      $("#detect").prop( "checked", DETECT_MONSTERS );
 		    
 		      document.game = new Game();
 	        document.game.run();

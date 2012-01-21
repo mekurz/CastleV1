@@ -72,7 +72,7 @@ function Item( stat_id, pos )
   
   this.draw = function( ctx )
   {
-    if( Map.is_location_visible( this.location ) )
+    if( this.should_draw_item() )
     {
       var view_pos = Map.translate_map_coord_to_viewport( this.location );
       
@@ -87,6 +87,11 @@ function Item( stat_id, pos )
       
       delete view_pos;
     }   
+  };
+  
+  this.should_draw_item = function()
+  {
+    return Map.is_location_visible( this.location ) && Dungeon.is_location_explored( this.location );
   };
   
   this.drop = function( point )

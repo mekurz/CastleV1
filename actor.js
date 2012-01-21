@@ -24,12 +24,29 @@ Actor.prototype.initialize = function()
 
 Actor.prototype.draw = function( ctx )
 {
-  if( Map.is_location_visible( this.location ) )
+  if( this.should_draw_actor() )
   {
     var view_pos = Map.translate_map_coord_to_viewport( this.location );
+    
+    if( Dungeon.is_location_lit_unexplored( this.location ) )
+    {
+      Map.draw_single_tile( view_pos.y, view_pos.x, ctx, true );
+    }
+    
     ctx.drawImage( this.img, convert_ix_to_raw_coord( view_pos.x ), convert_ix_to_raw_coord( view_pos.y ) );
-    delete view_pos;
   }   
+};
+
+Actor.prototype.should_draw_actor = function()
+{
+  // Draw Actor if:
+  //  - its location is in the viewport
+  //  - it is on a lit tile OR directly adjacent to the Player
+  //  - line of sight exists (leave to the end since it is the most expensive check)
+  return DETECT_MONSTERS || 
+         ( Map.is_location_visible( this.location )
+      && ( Dungeon.is_location_lit( this.location ) || this.location.adjacent_to( Player.location ) ) 
+      && Map.does_line_of_sight_exist( Player.location, this.location ) );
 };
 
 Actor.prototype.heal = function( value )

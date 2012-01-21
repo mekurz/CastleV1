@@ -5,6 +5,7 @@
     <Tile id="2" src="stones.png"/>
     <Tile id="3" src="wall.png"/>
     <Tile id="4" src="stones2.png"/>
+    <Tile id="5" src="stones2.png"/>
   </Tiles>
   <Spells>
     <Images>
