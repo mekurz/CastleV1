@@ -4,6 +4,7 @@ function Level()
   this.monsters = new Array();
   this.items = new Array();
   this.rooms = new Array();
+  this.doors = new Array();
   
   this.create_single_monster = function( monster_type, location )
   {
@@ -181,5 +182,35 @@ function DungeonManager()
         map_tiles[row][col].explored = true;
       }
     }
+  };
+  
+  this.search_at_location = function( point )
+  {
+    var find_chance = 50;   // TODO Player stats should change this value
+    
+    var doors = this.get_current_level().doors;
+    for( var ix = 0; ix < doors.length; ++ix )
+    {
+      if( point.adjacent_to( doors[ix].location ) && !doors[ix].is_visible() )
+      {
+        doors[ix].find_door();
+        Log.add( "You found a secret door!" );
+      }
+    }
+  };
+  
+  this.get_door_in_tile = function( point )
+  {
+    var level = this.get_current_level();
+    
+    for( var i = 0; i < level.doors.length; ++i )
+    {
+      if( level.doors[i].location.equals( point ) )
+      {
+        return level.doors[i];
+      }
+    } 
+    
+    return null;
   };
 }

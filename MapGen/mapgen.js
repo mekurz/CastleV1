@@ -409,7 +409,7 @@ function TunnelCrusher( map )
     
     for( var ix = 0; ix < num_deadends; ix++ )
     {
-      if( Math.floor( Math.random() * 100 ) > 50 )
+      if( Math.floor( Math.random() * 100 ) > 10 )
       {
         this.collapse_single_tunnel( this.deadends[ix] );
       }
@@ -452,6 +452,69 @@ function TunnelCrusher( map )
       {
         return new Point( current_cell.x, current_cell.y );
       }
+    }
+  };
+};
+
+function Door( type, cover_ix, row, col )
+{
+  var OPEN_DOOR_IMG = 6;
+  var CLOSED_DOOR_IMG = 7;
+  
+  this.is_door = true;
+  this.type = type;
+  this.is_open = false;
+  this.cover_ix = cover_ix;
+  this.location = new Point( col, row );
+  
+  this.draw = function( ctx )
+  {
+    var view_pos = Map.translate_map_coord_to_viewport( this.location );
+    
+    if( this.is_visible() )
+    {
+      var tile_ix = this.is_open() ? CLOSED_DOOR_IMG : OPEN_DOOR_IMG;
+      ctx.drawImage( Images.TILE_IMAGES[tile_ix], convert_ix_to_raw_coord( view_pos.x ), convert_ix_to_raw_coord( view_pos.y ) );
+    }
+    else
+    {
+      ctx.drawImage( Images.TILE_IMAGES[this.cover_ix], convert_ix_to_raw_coord( view_pos.x ), convert_ix_to_raw_coord( view_pos.y ) );
+    }
+  };
+  
+  this.is_visible = function()
+  {
+    return this.type != SECRET;
+  };
+  
+  this.is_open = function()
+  {
+    return this.type == OPEN;
+  };
+  
+  this.find_door = function()
+  {
+    this.type = CLOSED;
+  };
+  
+  this.set_open = function()
+  {
+    this.type = OPEN;
+  };
+  
+  this.get_tooltip = function()
+  {
+    if( this.type == SECRET )
+    {
+      return "";
+    }
+    else if( this.type == OPEN )
+    {
+      return "<li>an open door</li>";
+    }
+    else
+    {
+      return "<li>a closed door</li>";
     }
   };
 };
@@ -518,7 +581,7 @@ function MapGenerator()
           room.top_left.x = ( col * 2 ) + 1;
           room.top_left.y = ( row * 2 ) + 1;
           
-          if( room.fits_on_map() && !room.contains_any_blocked_cell( this.map ) )     // TODO check for doors on the corners... don't allow!
+          if( room.fits_on_map() && !room.contains_any_blocked_cell( this.map ) )
           {
             room.room_id = this.rooms_list.length;
             room.place_room( this.map );
@@ -545,32 +608,37 @@ function MapGenerator()
   };
   
 // PRELIMINARY CONVERSION FUNCTION
-  this.convert_to_tiles = function()
+  this.convert_to_tiles = function( level )
   {
-    var tiles = new Array();
-    
-    for( var y = 0; y < MAP_HEIGHT; y++ )
+    for( var row = 0; row < MAP_HEIGHT; ++row )
     {
-      tiles[y] = new Array();
+      level.map_tiles[row] = new Array();
       
-      for( var x = 0; x < MAP_WIDTH; x++ )
+      for( var col = 0; col < MAP_WIDTH; ++col )
       {
-        if( this.map[y][x].is_a_room() || this.map[y][x].is_corridor || this.map[y][x].is_entrance )
+        // Setup the tile we should be drawing here.
+        if( this.map[row][col].is_a_room() || this.map[row][col].is_corridor || this.map[row][col].is_entrance )
         {
-          tiles[y][x] = new Tile(2);  // Floor
-          tiles[y][x].passable = true;
-          tiles[y][x].is_lit = this.map[y][x].is_lit;
+          level.map_tiles[row][col] = new Tile(2);  // Floor
+          level.map_tiles[row][col].passable = true;
+          level.map_tiles[row][col].is_lit = this.map[row][col].is_lit;
         }
         else
         {
-          tiles[y][x] = new Tile(3); // Wall          
+          level.map_tiles[row][col] = new Tile(3); // Wall          
         }
         
-        tiles[y][x].room_id = this.map[y][x].room_id;
+        // Create a door if necessary
+        if( this.map[row][col].is_entrance )
+        {
+          var door_type =  (Math.floor( Math.random() * 100 ) > 20 ) ? CLOSED : SECRET;
+          
+          level.doors.push( new Door( door_type, 3, row, col ) );
+        }
+        
+        level.map_tiles[row][col].room_id = this.map[row][col].room_id;
       }
     }
-    
-    return tiles;
   };
   
   this.create_new_level = function()
@@ -578,7 +646,7 @@ function MapGenerator()
     var level = new Level();
     
     this.generate_map();
-    level.map_tiles = this.convert_to_tiles();
+    this.convert_to_tiles( level );
     level.rooms = this.rooms_list;
     
     return level;
@@ -608,6 +676,10 @@ function MapGenerator()
     {
       return DEADEND_CHAR;
     }
+    else if( cell.is_entrance )
+    {
+      return ENTRANCE_CHAR;
+    }
     else if( cell.is_corridor )
     {
       return TUNNEL_CHAR;
@@ -615,11 +687,7 @@ function MapGenerator()
     else if( cell.blocked )
     {
       return BLOCKED_CHAR;
-    }
-    else if( cell.is_entrance )
-    {
-      return ENTRANCE_CHAR;
-    }
+    }    
     else if( cell.is_perimeter )
     {
       return PERIMETER_CHAR; 

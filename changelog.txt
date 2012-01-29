@@ -250,17 +250,29 @@ Version 32 - 20-Jan-2012
   - Added DETECT_MONSTERS debug flag
   - Added Debug Flags popup to allow for setting flag values without having to edit the code constantly.
   
+Version 33 - 28-Jan-2012
+- General
+  - Added the Verbs menu and preliminary system for handling actions that are not casting or melee attacks
+  - Added Search action to check tiles that are adjacent to the Player for secret doors and reveal them!
+  - Moved the final images into organized sub-directories
+  - Refactored tooltips to handle listing items more generically
+  - Line-of-sight will now check what is "transparent" rather than if a tile is passable (i.e closed doors are passable but not transparent)
+- Map Generator
+  - Added Doors (open, closed, secret) along with appropriate changes to obstacles, etc
+  
   
 TODO
 ============
 - Area spells need to set their primary target to the last square that they were in, NOT the square where an obstacle is encountered
-- Props (doors, chests, etc)
+- Props (traps, chests, etc)
 - Implement HP/mana counters for Player (i.e. no more invincibility)
 - Item stats, etc
-- Reorganize images into subdirectories (only tiles remain)
 - Dungeon map (scaled down version of the full map)
 - Items in the inventory need detailed tooltips
 - Rings need to be handled as a special item for multiple slots
 - Tooltips need to be split into two sections (one for detection and one for seeing/map showing)... split off num_items?
 - Spawn monsters/items inside rooms
 - Look into reducing the number of tunnels or make the map size smaller
+- Enhance doors (don't draw when not explored, break when hit with a spell?)
+- Open/Close verbs
+- Create a common function for determining random chances of stuff

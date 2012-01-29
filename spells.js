@@ -570,8 +570,15 @@ ProjectileSpellEffect.prototype.has_collided_with_unexpected_obstacle = function
   
   if( current_item != undefined && !current_item.location.equals( this.source ) && !current_item.location.equals( this.spell_action.target_tile ) )
   {
-    Log.debug( "Current tile is occupied. Resetting target to " + current_tile.to_string() );
-    return true;
+    if( current_item.is_door && current_item.is_open() )    // Open doors do not count as obstacles for projectiles
+    {
+      return false;
+    }
+    else
+    {
+      Log.debug( "Current tile is occupied. Resetting target to " + current_tile.to_string() );
+      return true;
+    }
   }
   
   return false;

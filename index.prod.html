@@ -38,6 +38,10 @@
     <input type="submit" value="Cast Spell" onclick="cast_spell( $('#spell_menu').val() );"></input>
     <input type="submit" value="Switch to Random Map" onclick="random_map();"></input>
     <input type="submit" value="Inventory" onclick="Inventory.open();"></input>
+    VERB: <select id="verb_menu">
+      <option value="search">SEARCH</option>
+    </select>
+    <input type="submit" value="Do Verb" onclick="perform_action( $('#verb_menu').val() );"></input>
     <br/><br/>
     <div id="game_area" style="margin-left:10px;">
       <canvas id="map" width="960" height="480" style="border:1px solid black;" oncontextmenu="return false;">

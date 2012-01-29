@@ -44,7 +44,7 @@ function ImageCache()
   
   this.load_tile_images = function( xml )
   {
-    load_images_from_xml( xml, this.TILE_IMAGES ); 
+    load_images_from_xml( xml, this.TILE_IMAGES, "tiles" ); 
   };
   
   this.load_spell_images = function( xml )
@@ -54,7 +54,7 @@ function ImageCache()
   
   this.load_monster_images = function( xml )
   {
-    load_images_from_xml( xml, this.MONSTER_IMAGES ); 
+    load_images_from_xml( xml, this.MONSTER_IMAGES, "monsters" ); 
   };
   
   this.load_item_images = function( xml )

@@ -44,26 +44,30 @@ function Tooltip()
   {
     if( ( this.has_los && ( Dungeon.is_location_lit( location ) || Player.location.adjacent_to( location ) ) ) || DETECT_MONSTERS )
     { 
-      this.fill_tooltip_with_monster( location );
+      this.fill_tooltip_with_single_object( Dungeon.get_monster_in_tile( location ) );
     }
     
     if( Dungeon.is_location_explored( location ) )
     {
+      this.fill_tooltip_with_single_object( Dungeon.get_door_in_tile( location ) );
       this.fill_tooltip_with_items( location );
     }
   };
   
-  this.fill_tooltip_with_monster = function( location )
+  this.fill_tooltip_with_single_object = function( obj )
   {
-    var monster = Dungeon.get_monster_in_tile( location );
-    
-    if( monster != null )
+    if( obj != null )
     {
-      this.contents.append( monster.get_tooltip() );
-      this.num_items++;
+      var text = obj.get_tooltip();
+      
+      if( text != "" )
+      {
+        this.contents.append( obj.get_tooltip() );
+        this.num_items++;
+      }
     }
   };
-  
+    
   this.fill_tooltip_with_items = function( location )
   {
     var floor_items = Dungeon.get_items_in_tile( location );
@@ -213,7 +217,36 @@ function ViewPort()
   
   this.is_location_passable = function( location )
   {
-    return Dungeon.get_map_tiles()[location.y][location.x].passable;  
+    if( Dungeon.get_map_tiles()[location.y][location.x].passable )
+    {
+      // Can't go through secret doors that have not been found yet
+      var door = Dungeon.get_door_in_tile( location );
+      if( door && !door.is_visible() )
+      {
+        return false;
+      }
+      
+      return true;
+    }
+    
+    return false;
+  };
+  
+  this.is_location_transparent = function( location )
+  {
+    if( Dungeon.get_map_tiles()[location.y][location.x].passable )
+    {
+      // Can't see through closed doors
+      var door = Dungeon.get_door_in_tile( location );
+      if( door && !door.is_open() )
+      {
+        return false;
+      }
+      
+      return true;
+    }
+    
+    return false;
   };
   
   this.is_location_visible = function( point )
@@ -295,7 +328,7 @@ function ViewPort()
       var current_tile = new Point( raw_start.x, raw_start.y );
       current_tile.convert_to_tile_coord();
       
-      if( !this.is_location_passable( current_tile ) && !current_tile.equals( end ) )
+      if( !this.is_location_transparent( current_tile ) && !current_tile.equals( end ) )
       {
         to_return = false;
         break;

@@ -121,9 +121,12 @@ function Game()
   {
     var level = Dungeon.get_current_level();
     
-    Map.draw_map( this.buffer_ctx ); // First layer: Map tiles
+    Map.draw_map( this.buffer_ctx ); // First layer: Map tiles and doors
+    this.draw_collection( level.doors, this.buffer_ctx );
+    
     this.draw_collection( level.items, this.buffer_ctx );     // Second layer: Items
     // TODO: widgets go here
+    
     this.draw_collection( level.monsters, this.buffer_ctx );  // Third layer: Monsters and Player    
     Player.draw( this.buffer_ctx );
     
@@ -138,7 +141,7 @@ function Game()
     } 
   };
   
-  function initialize_player()      // MEK TODO THIS SHOULD BE A SUBCLASS EVENTUALLY
+  function initialize_player() 
   {
     Player = new PlayerActor();
     Player.move_to( new Point( 10, 7 ) );
@@ -174,6 +177,9 @@ function Game()
         case 84: // G
           Inventory.take_all();
           document.game.draw();
+          break;
+        case 83: // S
+          handle_action( "search" );
           break;
         default:
           Log.debug( "Unknown key = " + evt.keyCode );

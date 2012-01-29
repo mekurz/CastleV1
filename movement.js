@@ -66,16 +66,16 @@ function Movement()
           melee_attack.process();
           return true;
         }
+        else if( target_item.is_door )
+        {
+          target_item.set_open();
+          apply_vector_to_actor( actor, vector );
+          return true;
+        }
       }
       else
       {
-        actor.add_vector( vector );
-        
-        if( !actor.is_monster )
-        {
-          Dungeon.explore_at_location( actor.location );
-        }
-        
+        apply_vector_to_actor( actor, vector );
         return true;
       }
     }
@@ -85,15 +85,28 @@ function Movement()
   
   this.is_valid_target_for_melee = function( actor, target_item )
   {
-    return actor != target_item && !( actor.is_monster && target_item.is_monster ); 
+    return actor != target_item && !( actor.is_monster && target_item.is_monster ) && !target_item.is_door; 
   };
+  
+  function apply_vector_to_actor( actor, vector )
+  {
+    actor.add_vector( vector );
+        
+    if( !actor.is_monster )
+    {
+      Dungeon.explore_at_location( actor.location );
+    }
+  }
 }
 
 Movement.is_target_tile_occupied = function( target )
 {
-  var occupied = null;
-   
-  occupied = Dungeon.get_monster_in_tile( target );
+  var occupied = Dungeon.get_monster_in_tile( target );
+  
+  if( occupied == null )    // No monster, try looking for a door
+  {
+    occupied = Dungeon.get_door_in_tile( target );
+  }
   
   if( occupied == null && target.equals( Player.location ) )
   {
