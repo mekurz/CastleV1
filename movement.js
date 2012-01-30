@@ -54,21 +54,24 @@ function Movement()
     {
       var target = new Point( actor.location.x, actor.location.y );
       target.add_vector( vector );
-      var target_item = Movement.is_target_tile_occupied( target );
+      var target_item = Map.get_target_item_in_tile( target );
       
       if( target_item )
       {
         if( ( actor.is_monster || !document.game.dragging ) && this.is_valid_target_for_melee( actor, target_item ) )
         {
           // Monsters can hit us if we drag past them, but don't allow the Player to drag into a monster
-          // Assumes the only thing we can bump into other than walls right now is monsters
           var melee_attack = new Melee( actor, target_item );
           melee_attack.process();
           return true;
         }
         else if( target_item.is_door )
         {
-          target_item.set_open();
+          if( !target_item.is_open() )
+          {
+            target_item.set_open();
+          }
+          
           apply_vector_to_actor( actor, vector );
           return true;
         }
@@ -98,20 +101,3 @@ function Movement()
     }
   }
 }
-
-Movement.is_target_tile_occupied = function( target )
-{
-  var occupied = Dungeon.get_monster_in_tile( target );
-  
-  if( occupied == null )    // No monster, try looking for a door
-  {
-    occupied = Dungeon.get_door_in_tile( target );
-  }
-  
-  if( occupied == null && target.equals( Player.location ) )
-  {
-    return Player;
-  }
-  
-  return occupied;
-};

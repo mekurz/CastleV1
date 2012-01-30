@@ -120,7 +120,7 @@ function Game()
   this.draw = function()
   {
     var level = Dungeon.get_current_level();
-    
+
     Map.draw_map( this.buffer_ctx ); // First layer: Map tiles and doors
     this.draw_collection( level.doors, this.buffer_ctx );
     
@@ -171,15 +171,21 @@ function Game()
           set_command( NO_COMMAND );
           default_cursor();
           break;
+        case 67: // C
+          perform_action( "close" );
+          break;
         case 73: // I
           Inventory.open();
+          break;
+        case 79: // O
+          perform_action( "open" );
           break;
         case 84: // G
           Inventory.take_all();
           document.game.draw();
           break;
         case 83: // S
-          handle_action( "search" );
+          perform_action( "search" );
           break;
         default:
           Log.debug( "Unknown key = " + evt.keyCode );
@@ -316,23 +322,28 @@ function Game()
     draw_spells_for_interval( document.game.buffer_ctx );
     document.game.map_ctx.drawImage( document.game.buffer, 0, 0 );
     
-    if( document.game.animation_queue.length == 0 )
+    if( document.game.animation_queue.length == 0 && document.game.is_player_move )
     {
-      window.clearInterval( document.game.interval_loop );
-      document.game.interval_loop = null;
-      
-      if( document.game.is_player_move )
+      stop_animations();
+      document.game.do_turn();
+    }
+    else
+    { 
+      // If the animation queue is empty, but we have some splats queued up, add them to the animation queue.
+      if( document.game.animation_queue.length == 0 && document.game.splat_queue.length > 0 )
       {
-        document.game.do_turn();
+        document.game.draw();
+        document.game.spell_ctx.drawImage( canvas[0], 0, 0 );   // Make sure we refresh the spell buffer to remove any dead monsters!
+        document.game.process_splats();
       }
-      else
+      
+      // If all animations are done (no more splats), clean everything up.
+      if( document.game.animation_queue.length == 0 )
       {
+        stop_animations(); 
         Map.center_map_on_location( Player.location );
-        document.game.draw(); 
+        document.game.draw();
       }
-      
-      set_finished();
-      set_command( NO_COMMAND );
     }
   };
   
@@ -351,3 +362,11 @@ function Game()
     this.splat_queue = new Array();
   };
 };
+
+function stop_animations()
+{
+  window.clearInterval( document.game.interval_loop );
+  document.game.interval_loop = null;
+  set_finished();
+  set_command( NO_COMMAND );
+}

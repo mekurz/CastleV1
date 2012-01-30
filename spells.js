@@ -58,7 +58,7 @@ function draw_spells_for_interval( ctx )
     
     if( document.game.animation_queue[x].is_finished() )
     {
-      Log.debug( "Spell " + document.game.animation_queue[x].spell_id + " is finished!" );
+      //Log.debug( "Spell " + document.game.animation_queue[x].spell_id + " is finished!" );
       document.game.animation_queue[x].resolve();
       document.game.animation_queue[x] = null;
       document.game.animation_queue.splice( x, 1 );    
@@ -131,7 +131,14 @@ Spell.prototype.resolve_hit = function()
     }
     else
     {
-      Log.add( "Your " + this.description + " " + this.verb + " the " + target_item.description + "!" ); // Player hits monster
+      if( target_item.is_door )
+      {
+        Log.add( "Your " + this.description + " blasts open the door!" );
+      }
+      else
+      {
+        Log.add( "Your " + this.description + " " + this.verb + " the " + target_item.description + "!" ); // Player hits monster
+      }
     }
     
     target_item.damage( this.damage );
@@ -160,6 +167,10 @@ AreaEffectSpell.prototype.show_hit_message = function( target_item )
   if( target_item.is_monster )
   {
     Log.add( "Your " + this.description + " " + this.verb + " the " + target_item.description + "!" );  // Player hits monster
+  }
+  else if( target_item.is_door )
+  {
+    Log.add( "Your " + this.description + " blasts open the door!" );
   }
   else
   {
@@ -240,6 +251,10 @@ ConeEffectSpell.prototype.show_hit_message = function( target_item )
   if( target_item.is_monster )
   {
     Log.add( "Your " + this.description + " " + this.verb + " the " + target_item.description + "!" );  // Player hits monster
+  }
+  else if( target_item.is_door )
+  {
+    Log.add( "Your " + this.description + " blasts open the door!" );
   }
   else if( this.source_actor.is_monster )
   {
@@ -566,7 +581,7 @@ ProjectileSpellEffect.prototype.has_collided_with_map_obstacle = function( curre
 
 ProjectileSpellEffect.prototype.has_collided_with_unexpected_obstacle = function( current_tile )
 {
-  var current_item = Movement.is_target_tile_occupied( current_tile );
+  var current_item = Map.get_target_item_in_tile( current_tile );
   
   if( current_item != undefined && !current_item.location.equals( this.source ) && !current_item.location.equals( this.spell_action.target_tile ) )
   {

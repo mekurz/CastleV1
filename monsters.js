@@ -76,7 +76,7 @@ Monster.prototype.do_move = function()
     if( Map.does_line_of_sight_exist( this.location, Player.location ) && this.is_location_within_sight( Player.location ) )
     {
       // Monsters that can cast spells have a 50% chance to cast it at the Player instead of moving if they are not adjacent to the player
-      if( this.spell != undefined && !this.location.adjacent_to( Player.location ) && ( Math.random() * 100 ) > 50 && MONSTER_SPELLS )
+      if( this.spell != undefined && !this.location.adjacent_to( Player.location ) && chance( 50 ) && MONSTER_SPELLS )
       {
         create_spell( this.spell, this, Player.location );
       }
@@ -86,7 +86,7 @@ Monster.prototype.do_move = function()
         vector = this.location.get_unit_vector( Player.location );
       }
     }
-    else if( ( Math.random() * 100 ) > 50 )   // 50% chance of wandering randomly if they cannot see the player.
+    else if( chance( 50 ) )   // 50% chance of wandering randomly if they cannot see the player.
     {
       //Log.debug( "Monster " + this.id + " doesn't see Player and wanders aimlessly." );
       var vector = new Point();

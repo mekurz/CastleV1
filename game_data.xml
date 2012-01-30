@@ -8,6 +8,7 @@
     <Tile id="5" src="stones2.png"/>
     <Tile id="6" src="closed_door.png"/>
     <Tile id="7" src="open_door.png"/>
+    <Tile id="8" src="broken_door.png"/>
   </Tiles>
   <Spells>
     <Images>

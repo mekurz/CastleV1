@@ -340,13 +340,24 @@ function ViewPort()
   
   this.get_target_item_in_tile = function( target )
   {
-    var target_item = Dungeon.get_monster_in_tile( target );
-    
-    if( target_item == null && target.equals( Player.location ) )
+    if( target.equals( Player.location ) )
     {
       return Player;
     }
     
+    var target_item = Dungeon.get_monster_in_tile( target );
+    
+    if( target_item == null )    // No monster, try looking for a door
+    {
+      target_item = Dungeon.get_door_in_tile( target );
+      
+      if( target_item && ( !target_item.is_visible() || target_item.is_broken() ) )
+      {
+        target_item = null;   // Broken and secret doors cannot be targetted by anything
+      }
+    }
+    
     return target_item;
+    
   };
 };

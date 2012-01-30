@@ -40,6 +40,8 @@
     <input type="submit" value="Inventory" onclick="Inventory.open();"></input>
     VERB: <select id="verb_menu">
       <option value="search">SEARCH</option>
+      <option value="open">OPEN</option>
+      <option value="close">CLOSE</option>
     </select>
     <input type="submit" value="Do Verb" onclick="perform_action( $('#verb_menu').val() );"></input>
     <br/><br/>
@@ -52,10 +54,13 @@
       <input type="submit" value="Shortcuts" onclick="$('#shortcuts').dialog('open');"></input>      
       <div id="shortcuts" title="Keyboard Shortcuts">
         <ul>
-          <li>Arrows/Numpad - Move/attack
-          <li>ESC - Cancel current action/close dialog
-          <li>I - Open Inventory
-          <li>T - Take all items at current location 
+          <li>Arrows/Numpad - Move/attack</li>
+          <li>ESC - Cancel current action/close dialog</li>
+          <li>I - Open Inventory</li>
+          <li>T - Take all items at current location</li>
+          <li>S - Search</li>
+          <li>O - Open</li>
+          <li>C - Close</li>
         </ul>
       </div>
       <div id="debug_flags" title="Debug Flags">

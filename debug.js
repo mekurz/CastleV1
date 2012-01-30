@@ -2,6 +2,7 @@ var FREEZE_MONSTERS = 0;      // Stop all monsters from moving and attacking
 var MONSTER_SPELLS = 1;       // Allow applicable monsters to cast spells
 var DETECT_MONSTERS = 0;      // Detect all monsters
 
+var MAGIC_MISSILE = 2;
 var FIREBALL = 5;
 var FIRE_BREATH = 7;
 var FIRE_BREATH_D = 8;

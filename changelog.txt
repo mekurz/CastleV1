@@ -260,11 +260,25 @@ Version 33 - 28-Jan-2012
 - Map Generator
   - Added Doors (open, closed, secret) along with appropriate changes to obstacles, etc
   
+Version 34 - 29-Jan-2012
+- General
+  - Added a common function to standardize how random events are determined
+  - Doors that have not been discovered will no longer be drawn on the map.
+  - Monsters can no longer occupy the same tile as the Player when the Player is in a door tile (oops)
+  - Fixed an issue where clicking on a door would trigger a melee attack on "undefined."
+  - Added Open verb to open doors that are adjacent to the Player.
+  - Added Close verb to close doors that are adjacent to the Player.
+    - Doors can be blocked from being closed by a monster or items on the floor.
+  - Updated Shortcuts popup with new keyboard shortcut information
+  - Doors can be smashed to bits by spells!
+- Bug fixes
+  - Fixed an issue where Splats resulting from a Monster-on-Monster kill (hill giant boulders) would not animate until the Player did something
+  
   
 TODO
 ============
 - Area spells need to set their primary target to the last square that they were in, NOT the square where an obstacle is encountered
-- Props (traps, chests, etc)
+- Props (traps, widgets, etc)
 - Implement HP/mana counters for Player (i.e. no more invincibility)
 - Item stats, etc
 - Dungeon map (scaled down version of the full map)
@@ -273,6 +287,4 @@ TODO
 - Tooltips need to be split into two sections (one for detection and one for seeing/map showing)... split off num_items?
 - Spawn monsters/items inside rooms
 - Look into reducing the number of tunnels or make the map size smaller
-- Enhance doors (don't draw when not explored, break when hit with a spell?)
-- Open/Close verbs
-- Create a common function for determining random chances of stuff
+- Texture bundles to make tiles less monotonous

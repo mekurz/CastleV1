@@ -25,6 +25,7 @@ var HILLGIANT = 1;
 var CLOSED = 0;
 var OPEN   = 1;
 var SECRET = 2;
+var BROKEN = 3;
 
 // Array Remove - By John Resig (MIT Licensed)
 Array.prototype.remove = function(from, to)
@@ -207,4 +208,9 @@ function get_element_ix( id, collection )
   }
   
   return -1;
+}
+
+function chance( pct )
+{
+  return Math.floor( Math.random() * 100 ) <= pct; 
 }

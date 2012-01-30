@@ -11,9 +11,9 @@ function process_click( location )
   
   if( command == "0" )
   {
-    var target_item = Movement.is_target_tile_occupied( location );
+    var target_item = Map.get_target_item_in_tile( location );
     
-    if( location.adjacent_to( Player.location ) && target_item != null )  // TODO ASSUMES THAT ONLY MONSTERS CAN BE ADJACENT
+    if( location.adjacent_to( Player.location ) && target_item != null && target_item.is_monster )
     {
       new Melee( Player, target_item ).process();
       valid_action = true;
@@ -23,7 +23,11 @@ function process_click( location )
   }
   else
   {
-    if( create_spell( command, Player, location ) )
+    if( is_action( command ) )
+    {
+      valid_action = handle_action( command, location );
+    }
+    else if( create_spell( command, Player, location ) )
     {
       valid_action = true; 
     }

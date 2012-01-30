@@ -128,7 +128,7 @@ function Room()
   
   function should_room_be_lit()
   {
-    return Math.floor( Math.random() * 100 ) > 50; 
+    return chance( 50 ); 
   }
   
   this.fill_room = function( map )
@@ -409,7 +409,7 @@ function TunnelCrusher( map )
     
     for( var ix = 0; ix < num_deadends; ix++ )
     {
-      if( Math.floor( Math.random() * 100 ) > 10 )
+      if( chance( 90 ) )
       {
         this.collapse_single_tunnel( this.deadends[ix] );
       }
@@ -458,8 +458,9 @@ function TunnelCrusher( map )
 
 function Door( type, cover_ix, row, col )
 {
-  var OPEN_DOOR_IMG = 6;
-  var CLOSED_DOOR_IMG = 7;
+  var OPEN_DOOR_IMG = 7;
+  var CLOSED_DOOR_IMG = 6;
+  var BROKEN_DOOR_IMG = 8;
   
   this.is_door = true;
   this.type = type;
@@ -469,16 +470,25 @@ function Door( type, cover_ix, row, col )
   
   this.draw = function( ctx )
   {
-    var view_pos = Map.translate_map_coord_to_viewport( this.location );
-    
-    if( this.is_visible() )
+    if( Dungeon.is_location_explored( this.location ) )
     {
-      var tile_ix = this.is_open() ? CLOSED_DOOR_IMG : OPEN_DOOR_IMG;
+      var view_pos = Map.translate_map_coord_to_viewport( this.location );
+      var tile_ix = this.cover_ix;
+      
+      switch( this.type )
+      {
+        case 1:
+          tile_ix = OPEN_DOOR_IMG;
+          break;
+        case 0:
+          tile_ix = CLOSED_DOOR_IMG;
+          break;
+        case 3:
+          tile_ix = BROKEN_DOOR_IMG;
+          break;
+      }
+
       ctx.drawImage( Images.TILE_IMAGES[tile_ix], convert_ix_to_raw_coord( view_pos.x ), convert_ix_to_raw_coord( view_pos.y ) );
-    }
-    else
-    {
-      ctx.drawImage( Images.TILE_IMAGES[this.cover_ix], convert_ix_to_raw_coord( view_pos.x ), convert_ix_to_raw_coord( view_pos.y ) );
     }
   };
   
@@ -489,7 +499,12 @@ function Door( type, cover_ix, row, col )
   
   this.is_open = function()
   {
-    return this.type == OPEN;
+    return this.type == OPEN || this.type == BROKEN;
+  };
+  
+  this.is_broken = function()
+  {
+    return this.type == BROKEN;
   };
   
   this.find_door = function()
@@ -502,6 +517,16 @@ function Door( type, cover_ix, row, col )
     this.type = OPEN;
   };
   
+  this.set_closed = function()
+  {
+    this.type = CLOSED;
+  };
+  
+  this.damage = function()
+  {
+    this.type = BROKEN;
+  };
+  
   this.get_tooltip = function()
   {
     if( this.type == SECRET )
@@ -511,6 +536,10 @@ function Door( type, cover_ix, row, col )
     else if( this.type == OPEN )
     {
       return "<li>an open door</li>";
+    }
+    else if( this.type == BROKEN )
+    {
+      return "<li>a broken door</li>";
     }
     else
     {
@@ -575,7 +604,7 @@ function MapGenerator()
     {
       for( var col = 0; col < MAP_WIDTH/2; col++ )
       {
-        if( this.map[row][col].room_id == -1 && Math.floor( Math.random() * 100 ) > 50 )
+        if( this.map[row][col].room_id == -1 && chance( 50 ) )
         {
           var room = new Room();
           room.top_left.x = ( col * 2 ) + 1;
@@ -631,7 +660,7 @@ function MapGenerator()
         // Create a door if necessary
         if( this.map[row][col].is_entrance )
         {
-          var door_type =  (Math.floor( Math.random() * 100 ) > 20 ) ? CLOSED : SECRET;
+          var door_type = chance( 20 ) ? CLOSED : SECRET;
           
           level.doors.push( new Door( door_type, 3, row, col ) );
         }

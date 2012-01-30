@@ -360,6 +360,7 @@ function Room_fill_room()
   
   var room = new Room();
   room.top_left = new Point( 8, 8 );
+  room.room_id = 1;
   room.width = 5;
   room.height = 5;
   
