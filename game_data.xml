@@ -9,7 +9,21 @@
     <Tile id="6" src="closed_door.png"/>
     <Tile id="7" src="open_door.png"/>
     <Tile id="8" src="broken_door.png"/>
+    <Tile id="9" src="stones3.png"/>
+    <Tile id="10" src="wall2.png"/>
+    <Tile id="11" src="wall3.png"/>
+    <Tile id="12" src="wall4.png"/>
+    <Tile id="13" src="wall5.png"/>
+    <Tile id="14" src="wall6.png"/>
+    <Tile id="15" src="wall7.png"/>
+    <Tile id="16" src="stones4.png"/>
   </Tiles>
+  <Textures>
+    <Texture id="1">
+      <Floor value="2,2,2,2,2,4,4,4,4,4,9,9,9,16,16"/>
+      <Walls value="3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,10,11,12,13,14,15"/>
+    </Texture>
+  </Textures>
   <Spells>
     <Images>
       <Image id="0" src="splat.png"/>

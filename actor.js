@@ -143,9 +143,47 @@ function PlayerActor()
   this.bag = new Array();
   this.paperdoll = new Paperdoll();
   
+  // TODO: THESE ARE TEMPORARY SETTINGS
+  this.max_hp = 10;
+  this.current_hp = this.max_hp;
+  this.max_mana = 15;
+  this.current_mana = this.max_mana;
+  // TODO END TEMPORARY
+  
   this.draw = function( ctx )
   {
     this.paperdoll.draw( ctx );
+  };
+  
+  this.damage = function( value )
+  {
+    PlayerActor.super_class.damage.call( this, value );
+    this.update_hp();
+  };
+  
+  this.update_stats = function()
+  {
+    this.update_hp();
+    this.update_mana();
+  };
+  
+  this.update_hp = function()
+  {
+    $("#hp").text( this.current_hp + "/" + this.max_hp );
+    
+    if( ( this.current_hp / this.max_hp ) <= 0.25 )
+    {
+      $("#hp").css( "color", "red" );
+    }
+    else
+    {
+      $("#hp").css( "color", "black" );
+    }
+  };
+  
+  this.update_mana = function()
+  {
+    $("#mana").text( this.current_mana + "/" + this.max_mana );
   };
 }
 extend( PlayerActor, Actor );

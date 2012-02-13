@@ -66,10 +66,18 @@
       <canvas id="map" width="960" height="480" style="border:1px solid black;" oncontextmenu="return false;">
 			  Canvas not supported. You must be using Internet Explorer 9, Firefox 4+, Chrome or Safari.
 			</canvas>
-			<div id="log" style="width:960px;height:150px;overflow-x:auto;border:1px solid black;border-top-width:0px;font-family:monospace;font-size:8pt;"></div>
-			<input type="submit" value="Clear Log" onclick="Log.clear();"></input>
-			<input type="submit" value="Shortcuts" onclick="$('#shortcuts').dialog('open');"></input>
-			<input type="submit" value="Debug Flags" onclick="$('#debug_flags').dialog('open');"></input>
+			<div id="log" class="Information" style="width:810px;height:150px;"></div>
+			<div id="stats" class="Information" style="width:143px;height:144px;border-left-width:0px;padding:3px;">
+			  <span style="float:left;">Hit Points</span>
+			  <span id="hp" style="float:right;"></span><br/>
+			  <span style="float:left;">Mana</span>
+			  <span id="mana" style="float:right;color:blue;"></span>
+			</div>
+			<div style="clear:left;">
+				<input type="submit" value="Clear Log" onclick="Log.clear();"></input>
+				<input type="submit" value="Shortcuts" onclick="$('#shortcuts').dialog('open');"></input>
+				<input type="submit" value="Debug Flags" onclick="$('#debug_flags').dialog('open');"></input>
+		  </div>
 			<div id="shortcuts" title="Keyboard Shortcuts">
         <ul>
           <li>Arrows/Numpad - Move/attack</li>
@@ -144,7 +152,7 @@
 		      $("#detect").prop( "checked", DETECT_MONSTERS );
 		    
 		      document.game = new Game();
-	        document.game.run();
+	        document.game.run(1);
 	        
 	        set_command( NO_COMMAND );
           set_finished();

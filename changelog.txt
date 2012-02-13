@@ -273,13 +273,18 @@ Version 34 - 29-Jan-2012
   - Doors can be smashed to bits by spells!
 - Bug fixes
   - Fixed an issue where Splats resulting from a Monster-on-Monster kill (hill giant boulders) would not animate until the Player did something
-  
+
+Version 35 - 12-Feb-2012
+- General
+  - Added texture bundles to provide some variety in the type of images that get displayed for floors and walls
+  - Inverted the chance for a door to be marked as secret (literally everything was showing up as a secret door)
+  - In Prod mode, the map will now default to starting the Player in the center of a random room rather than on the debug level
+  - Added area to display HP and Mana values
   
 TODO
 ============
 - Area spells need to set their primary target to the last square that they were in, NOT the square where an obstacle is encountered
 - Props (traps, widgets, etc)
-- Implement HP/mana counters for Player (i.e. no more invincibility)
 - Item stats, etc
 - Dungeon map (scaled down version of the full map)
 - Items in the inventory need detailed tooltips
@@ -287,4 +292,10 @@ TODO
 - Tooltips need to be split into two sections (one for detection and one for seeing/map showing)... split off num_items?
 - Spawn monsters/items inside rooms
 - Look into reducing the number of tunnels or make the map size smaller
-- Texture bundles to make tiles less monotonous
+- BUG: Some wall tiles get marked as "too dark to see" based on what's on one side vs the other... need some kind of directional tooltip?
+- Stairs
+- Double-clicking in inventory to take/drop items
+- Track time to regen HP and mana
+- Rest verb (interruptable if monsters come into view)
+- Light spell
+- Player death animation (i.e. Game Over screen)

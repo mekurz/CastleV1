@@ -55,8 +55,10 @@ function Game()
     return false;
   };
   
-  this.run = function()
+  this.run = function( debug )
   {
+    DEBUGGING = debug;
+    
     if( this.initialize() )
     {
       $(document).bind( "keydown", this.key_handler );
@@ -65,6 +67,14 @@ function Game()
       set_processing();
     }
   };
+  
+  function setup_debug_level()
+  {
+    Player.move_to( new Point( 10, 7 ) );
+    create_debug_level();  
+    create_debug_monsters();
+    create_debug_items();
+  }
   
   this.initial_draw_loop = function()
   {
@@ -77,11 +87,19 @@ function Game()
       
       initialize_player();
       
-      create_debug_level();
+      if( DEBUGGING )
+      {
+        setup_debug_level();
+      }
+      else
+      {
+        var mapgen = new MapGenerator();
+        Dungeon.levels[0] = mapgen.create_new_level();
+        Player.location = Dungeon.levels[0].get_starting_location();
+        Dungeon.explore_at_location( Player.location );
+      }
       
       Map.center_map_on_location( Player.location );
-      create_debug_monsters();
-      create_debug_items();      
       
       document.game.draw();
       clearInterval( document.game.interval_loop );
@@ -144,8 +162,8 @@ function Game()
   function initialize_player() 
   {
     Player = new PlayerActor();
-    Player.move_to( new Point( 10, 7 ) );
     Player.paperdoll.construct_paperdoll();
+    Player.update_stats();
   }
   
   this.key_handler = function( evt )

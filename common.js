@@ -19,9 +19,6 @@ var NO_COMMAND     = "0";
 var SPLAT          = 0;
 var FIZZLE         = 1;
 
-var RATMAN = 0;
-var HILLGIANT = 1;
-
 var CLOSED = 0;
 var OPEN   = 1;
 var SECRET = 2;

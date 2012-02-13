@@ -45,4 +45,9 @@ function DataLoader()
     return this.get_data( "Item", id );
   };
   
+  this.get_texture = function( id )
+  {
+    return this.get_data( "Texture", id );
+  };
+  
 }

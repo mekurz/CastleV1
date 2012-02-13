@@ -31,6 +31,16 @@ body
 	padding-left:10px;
 }
 
+.Information
+{
+  overflow-x: auto;
+  border: 1px solid black;
+  border-top-width: 0px;
+  font-family: monospace;
+  font-size: 8pt;
+  float: left;
+}
+
 .NonEquipped 
 {
 	border: 1px solid black;

@@ -29,6 +29,12 @@ function Level()
       }
     } 
   };
+  
+  this.get_starting_location = function()
+  {
+    var room_ix = Math.floor( Math.random() * this.rooms.length );
+    return this.rooms[room_ix].get_room_center();
+  };
 }
 
 function DungeonManager()

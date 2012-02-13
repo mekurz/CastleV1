@@ -152,6 +152,15 @@ function Room()
     map[this.top_left.y + this.height][this.top_left.x - 1].blocked = true;
     map[this.top_left.y + this.height][this.top_left.x + this.width].blocked = true;
   };
+  
+  this.get_room_center = function()
+  {
+    var center = new Point();
+    center.x = this.top_left.x + Math.floor( this.width / 2 );
+    center.y = this.top_left.y + Math.floor( this.height / 2 );
+    
+    return center;
+  };
 }
 
 function DoorMaker( map, room )
@@ -548,6 +557,32 @@ function Door( type, cover_ix, row, col )
   };
 };
 
+function Texture()
+{
+  function init_tile_indexes( data, node )
+  {
+    return data.find( node ).attr("value").split(",");
+  }
+  
+  var data = Loader.get_texture( 1 );   // TODO: change up how we get textures based on level ranges
+  this.walls = init_tile_indexes( data, "Walls" );
+  this.floor = init_tile_indexes( data, "Floor" );
+  
+  function get_random_index( array )
+  {
+    return array[Math.floor( Math.random() * array.length )];
+  }
+  
+  this.get_wall_ix = function()
+  {
+    return get_random_index( this.walls );
+  };
+  
+  this.get_floor_ix = function()
+  {
+    return get_random_index( this.floor );
+  };
+}
 
 //----------------------------------------------------------------------------------------------
 // MAP GENERATOR
@@ -639,6 +674,8 @@ function MapGenerator()
 // PRELIMINARY CONVERSION FUNCTION
   this.convert_to_tiles = function( level )
   {
+    var texture = new Texture();
+    
     for( var row = 0; row < MAP_HEIGHT; ++row )
     {
       level.map_tiles[row] = new Array();
@@ -648,19 +685,19 @@ function MapGenerator()
         // Setup the tile we should be drawing here.
         if( this.map[row][col].is_a_room() || this.map[row][col].is_corridor || this.map[row][col].is_entrance )
         {
-          level.map_tiles[row][col] = new Tile(2);  // Floor
+          level.map_tiles[row][col] = new Tile( texture.get_floor_ix() );  // Floor
           level.map_tiles[row][col].passable = true;
           level.map_tiles[row][col].is_lit = this.map[row][col].is_lit;
         }
         else
         {
-          level.map_tiles[row][col] = new Tile(3); // Wall          
+          level.map_tiles[row][col] = new Tile( texture.get_wall_ix() ); // Wall          
         }
         
         // Create a door if necessary
         if( this.map[row][col].is_entrance )
         {
-          var door_type = chance( 20 ) ? CLOSED : SECRET;
+          var door_type = chance( 80 ) ? CLOSED : SECRET;
           
           level.doors.push( new Door( door_type, 3, row, col ) );
         }

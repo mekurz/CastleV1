@@ -15,6 +15,7 @@ function run_unit_tests()
   Room_contains_any_blocked_cell();
   Room_draw_perimeter();
   Room_fill_room();
+  Room_get_room_center();
   
   DoorMaker_count_existing_doors_for_room();
   DoorMaker_add_valid_horizontal_sills();
@@ -386,6 +387,41 @@ function Room_fill_room()
     }
     
     ok( all_cells, "Check that the room is filled correctly" );
+  });
+}
+
+function Room_get_room_center()
+{
+  module( "Room - get_room_center" );
+ 
+  var room = new Room();
+  room.top_left = new Point( 8, 8 );
+  
+  test( "Square room", function()
+  {
+    room.width = 5;
+    room.height = 5;
+    var center = room.get_room_center();
+    equals( center.x, 10, "Check that X is correct" );
+    equals( center.y, 10, "Check that Y is correct" );
+  });
+  
+  test( "Wide room", function()
+  {
+    room.width = 11;
+    room.height = 5;
+    var center = room.get_room_center();
+    equals( center.x, 13, "Check that X is correct" );
+    equals( center.y, 10, "Check that Y is correct" );
+  });
+  
+  test( "Tall room", function()
+  {
+    room.width = 5;
+    room.height = 13;
+    var center = room.get_room_center();
+    equals( center.x, 10, "Check that X is correct" );
+    equals( center.y, 14, "Check that Y is correct" );
   });
 }
 
