@@ -27,6 +27,13 @@ function create_spell( spell_id, source_actor, target )
   {
     process_cone_spell( xml, source_actor, target );
   }
+  else if( type == "utility" )
+  {
+    if( spell_id == "u1" )
+    {
+      add_spell_effect( new ProjectileSpellEffect( xml.attr("projectile_id"), source_actor.location, target ),  new LightSpell( spell_id, source_actor, target ) );
+    }
+  }
   else
   {
     Log.debug( "Unrecognized command." );
@@ -148,6 +155,41 @@ Spell.prototype.resolve_hit = function()
 Spell.prototype.reassign_target = function( new_target )
 {
   this.target_tile.assign( new_target ); 
+};
+
+function LightSpell( spell_id, source_actor, target_tile )
+{
+  LightSpell.base_constructor.call( this, spell_id, source_actor, target_tile );
+  
+  this.light_target = function()
+  {
+    var map_tiles = Dungeon.get_map_tiles();
+    
+    if( map_tiles[this.target_tile.y][this.target_tile.x].is_a_room() )
+    {
+      // Light up and explore the entire room
+      var room_id = map_tiles[this.target_tile.y][this.target_tile.x].room_id;
+      Dungeon.update_room_tiles( map_tiles, room_id, explore_tile );
+      Dungeon.update_room_tiles( map_tiles, room_id, light_tile );
+    }
+    else
+    {
+      // Light up the square and its neigbours
+      Dungeon.update_adjacent_tiles( map_tiles, this.target_tile, explore_tile );
+      Dungeon.update_adjacent_tiles( map_tiles, this.target_tile, light_tile );
+    }
+  };
+}
+extend( LightSpell, Spell );
+
+LightSpell.prototype.resolve_miss = function()
+{
+  this.light_target();
+};
+
+LightSpell.prototype.resolve_hit = function()
+{
+  this.light_target();
 };
 
 function AreaEffectSpell( spell_id, source_actor, target_tile )
@@ -399,6 +441,35 @@ SinglePointFadingSpellEffect.prototype.update_frame = function( ctx )
   ctx.globalAlpha = this.alpha;
 };
 
+
+function MapFadeOut()
+{
+  MapFadeOut.base_constructor.call( this, 0 );
+  this.alpha = 0.0;
+}
+extend( MapFadeOut, SpellEffect );
+
+MapFadeOut.prototype.is_finished = function()
+{
+  return this.alpha >= 1.0; 
+};
+
+MapFadeOut.prototype.update_frame = function( ctx )
+{
+  this.alpha = Math.min( 1.0, this.alpha + 0.10 );
+  ctx.fillStyle = "rgba(0,0,0," + this.alpha + ")";
+};
+
+MapFadeOut.prototype.draw = function( ctx )
+{
+  ctx.save();
+  
+  this.update_frame( ctx );
+  ctx.fillRect( 0, 0, VIEWPORT_WIDTH * TILE_WIDTH, VIEWPORT_HEIGHT * TILE_WIDTH );
+  
+  ctx.restore();
+};
+
 function SinglePointRotatingFadingSpellEffect( spell_id, raw_target )
 {
   SinglePointRotatingFadingSpellEffect.base_constructor.call( this, spell_id, raw_target );
@@ -485,7 +556,7 @@ ProjectileSpellEffect.prototype.is_finished = function()
   }
   else if( this.has_collided_with_map_obstacle( current_tile ) )
   {   
-    this.handle_obstacle_collision();
+    this.handle_obstacle_collision( current_tile );
     return true;
   }
   else if( this.spell_action != undefined && this.has_collided_with_unexpected_obstacle( current_tile ) )
@@ -502,9 +573,10 @@ ProjectileSpellEffect.prototype.handle_arrived_at_target = function( current_til
   this.resolve_hit();
 };
 
-ProjectileSpellEffect.prototype.handle_obstacle_collision = function()
+ProjectileSpellEffect.prototype.handle_obstacle_collision = function( current_tile )
 {
   add_spell_effect( new SinglePointFadingSpellEffect( FIZZLE, new Point( this.canvas_x - (TILE_WIDTH/2), this.canvas_y - (TILE_WIDTH/2) ) ) );
+  this.spell_action.reassign_target( current_tile );
   this.resolve_miss();
 };
 

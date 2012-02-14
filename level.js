@@ -155,15 +155,15 @@ function DungeonManager()
     
     if( tile.is_lit_room() )
     {
-      this.explore_lit_room( map_tiles, tile.room_id );
+      this.update_room_tiles( map_tiles, tile.room_id, explore_tile );
     }
     else
     {
-      explore_adjacent( map_tiles, point );
+      this.update_adjacent_tiles( map_tiles, point, explore_tile );
     }
   };
   
-  function explore_adjacent( map_tiles, point )
+  this.update_adjacent_tiles = function( map_tiles, point, callback )
   {
     for( var row = point.y - 1; row <= point.y + 1; ++row )
     {
@@ -171,13 +171,13 @@ function DungeonManager()
       {
         if( row >= 0 && row < map_tiles.length && col >= 0 && col < map_tiles[0].length )
         {
-          map_tiles[row][col].explored = true;
+          callback( map_tiles, row, col );
         }
       }
     }
-  }
+  };
   
-  this.explore_lit_room = function( map_tiles, room_id )
+  this.update_room_tiles = function( map_tiles, room_id, callback )
   {
     var room = this.get_current_level().rooms[room_id];
     
@@ -185,7 +185,7 @@ function DungeonManager()
     {
       for( var col = room.top_left.x - 1; col <= room.top_left.x + room.width; ++col )
       {
-        map_tiles[row][col].explored = true;
+        callback( map_tiles, row, col );
       }
     }
   };
@@ -219,4 +219,15 @@ function DungeonManager()
     
     return null;
   };
+}
+
+// Callbacks for affecting map tiles in various ways
+function explore_tile( map_tiles, row, col )
+{
+  map_tiles[row][col].explored = true;
+}
+
+function light_tile( map_tiles, row, col )
+{
+  map_tiles[row][col].is_lit = true;
 }

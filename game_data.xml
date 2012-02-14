@@ -35,6 +35,7 @@
       <Image id="6" src="boulder.png"/>
       <Image id="7" src="cone_fire.png"/>
       <Image id="8" src="cone_fire_d.png"/>
+      <Image id="9" src="light.png"/>
     </Images>
     <Projectile>
 	    <Spell id="p1" projectile_id="2">
@@ -56,13 +57,22 @@
 	      <Verb>scorches</Verb>
 	    </Spell>
 	    <Spell id="p4" projectile_id="6">
-	     <Description>Boulder</Description>
-	     <Mana>0</Mana>
-	     <Damage>4</Damage>
-	     <Verb>crashes into</Verb>
-	     <Action>hurls</Action>
-	   </Spell>
+				<Description>Boulder</Description>
+				<Mana>0</Mana>
+				<Damage>4</Damage>
+				<Verb>crashes into</Verb>
+				<Action>hurls</Action>
+	    </Spell>
     </Projectile>
+    <Utility>
+      <Spell id="u1" projectile_id="9">
+        <Description>Light</Description>
+        <Mana>2</Mana>
+        <Damage>0</Damage>
+        <Verb></Verb>
+        <Action></Action>
+      </Spell>
+    </Utility>
     <AreaEffect>
 	    <Spell id="a1" projectile_id="4" area_id="5">
 	      <Description>Fireball</Description>

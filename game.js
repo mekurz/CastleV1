@@ -114,6 +114,11 @@ function Game()
   
   this.do_turn = function()
   {
+    /*if( Player.is_dead() )    // No more turns if the Player is dead
+    {
+      return;
+    } */
+    
     if( this.splat_queue.length > 0 )
     {
       Log.debug( "Processing splats..." );
@@ -137,6 +142,11 @@ function Game()
   
   this.draw = function()
   {
+    /*if( Player.is_dead() )    // No more drawing if the Player is dead
+    {
+      return;
+    }*/
+    
     var level = Dungeon.get_current_level();
 
     Map.draw_map( this.buffer_ctx ); // First layer: Map tiles and doors
@@ -170,7 +180,7 @@ function Game()
   {
     evt = ( evt ) ? evt : ( ( window.event ) ? event : null );
   
-    if( evt && !is_processing() )
+    if( evt && !is_processing() /*&& !Player.is_dead() */ )
     {
       switch( evt.keyCode )
       {
@@ -222,7 +232,7 @@ function Game()
   
   this.on_mouse_down = function( evt )
   {
-    if( !is_processing() )
+    if( !is_processing() /*&& !Player.is_dead()*/ )
     {
       var mouse_pos = get_mouse_location( canvas[0], evt );
       

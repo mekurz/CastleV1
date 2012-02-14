@@ -153,6 +153,11 @@ function Tile( ix )
   {
     return this.is_lit && !this.explored;
   };
+  
+  this.is_a_room = function()
+  {
+    return this.room_id != -1;
+  };
 };
 
 

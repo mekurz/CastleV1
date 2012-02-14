@@ -26,6 +26,7 @@ function run_test()
     case 6: test_cones(); break;
     case 7: test_diagonal_cones(); break;
     case 8: reveal_map(); break;
+    case 9: test_game_over(); break;
   }
 }
 
@@ -132,6 +133,16 @@ function reveal_map()
   }
   
   document.game.do_turn();
+}
+
+function test_game_over()
+{
+  if( !is_processing() )
+  {
+    Player.current_hp = 0;
+    add_spell_effect( new MapFadeOut() );
+    document.game.draw_spells();
+  }
 }
 
 function create_debug_monsters()

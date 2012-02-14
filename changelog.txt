@@ -280,22 +280,29 @@ Version 35 - 12-Feb-2012
   - Inverted the chance for a door to be marked as secret (literally everything was showing up as a secret door)
   - In Prod mode, the map will now default to starting the Player in the center of a random room rather than on the debug level
   - Added area to display HP and Mana values
+
+Version 36 - 13-Feb-2012
+- General
+  - Refactored some Dungeon code to use callbacks to manipulate tiles (no more duplicated loops)
+- Spells
+  - Added MapFadeOut and GAME OVER MAN test for eventual Player death usage. You have to refresh once you run this test.
+  - Added Light spell to light up rooms or adjacent tiles around the target tile
+
   
 TODO
 ============
 - Area spells need to set their primary target to the last square that they were in, NOT the square where an obstacle is encountered
+- BUG: Some wall tiles get marked as "too dark to see" based on what's on one side vs the other... need some kind of directional tooltip?
+- BUG: Double right-clicking on a cell that contains something will display a tooltip that contains no information
 - Props (traps, widgets, etc)
-- Item stats, etc
-- Dungeon map (scaled down version of the full map)
 - Items in the inventory need detailed tooltips
-- Rings need to be handled as a special item for multiple slots
+- Item stats, etc
+- Double-clicking in inventory to take/drop items
 - Tooltips need to be split into two sections (one for detection and one for seeing/map showing)... split off num_items?
+- Rings need to be handled as a special item for multiple slots
+- Dungeon map (scaled down version of the full map)
 - Spawn monsters/items inside rooms
 - Look into reducing the number of tunnels or make the map size smaller
-- BUG: Some wall tiles get marked as "too dark to see" based on what's on one side vs the other... need some kind of directional tooltip?
 - Stairs
-- Double-clicking in inventory to take/drop items
-- Track time to regen HP and mana
 - Rest verb (interruptable if monsters come into view)
-- Light spell
-- Player death animation (i.e. Game Over screen)
+- Track time to regen HP and mana
