@@ -41,6 +41,7 @@ function Movement()
   {
     var vector = this.get_vector_for_keypress( key );
     this.move_actor_with_vector( Player, vector );
+    Time.add_time( TIME_STANDARD_MOVE );
     
     if( !document.game.dragging )
     {

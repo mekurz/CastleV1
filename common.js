@@ -14,6 +14,7 @@ var Map = null;
 var Player = null;
 var Inventory = null;
 var Dungeon = null;
+var Time = null;
 
 var NO_COMMAND     = "0";
 var SPLAT          = 0;
@@ -23,6 +24,8 @@ var CLOSED = 0;
 var OPEN   = 1;
 var SECRET = 2;
 var BROKEN = 3;
+
+var TIME_STANDARD_MOVE = 3;
 
 // Array Remove - By John Resig (MIT Licensed)
 Array.prototype.remove = function(from, to)
@@ -210,4 +213,64 @@ function get_element_ix( id, collection )
 function chance( pct )
 {
   return Math.floor( Math.random() * 100 ) <= pct; 
+}
+
+function GameTime()
+{
+  this.time = 0;
+  this.span = $("#time");
+  
+  this.update_time = function()
+  {
+    this.span.text( this.get_time() );
+  };
+  
+  this.add_time = function( secs )
+  {
+    this.time += secs;
+  };
+  
+  this.get_time = function()
+  {
+    var time = this.time;
+    
+    var days = Math.floor( time / 86400 );
+    time -= days * 86400;
+    
+    var hours = Math.floor( time / 3600 );
+    time -= hours * 3600;
+    
+    var mins = Math.floor( time / 60 );
+    var secs =  time % 60;
+    
+    return build_timestamp( days, hours, mins, secs );
+  };
+  
+  function pad_num( num )
+  {
+    return ( num.length < 2 ) ? "0" + num : num;
+  }
+  
+  function build_timestamp( days, hours, mins, secs )
+  {
+    var result = "";
+    
+    hours = pad_num( hours.toString() );
+    mins = pad_num( mins.toString() );
+    secs = pad_num( secs.toString() );
+    
+    if( days != 0 )
+    {
+      result += days + "d,";
+    }
+    
+    if( hours != "00" || result.length > 0 )
+    {
+      result += hours + ":";
+    }
+    
+    result += mins + ":" + secs;
+    
+    return result;
+  }
 }

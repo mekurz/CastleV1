@@ -21,6 +21,7 @@ function Game()
     Log = new Logger();
     Log.debug( "Initializing..." );
 
+    Time = new GameTime();
     Inventory = new InventoryManager();
     Inventory.initialize();
     
@@ -86,6 +87,7 @@ function Game()
       Map = new ViewPort();
       
       initialize_player();
+      Time.update_time();
       
       if( DEBUGGING )
       {
@@ -130,6 +132,7 @@ function Game()
       this.update();
     }
     
+    Time.update_time();   // Update the game clock
     this.draw();
     this.draw_spells();
   };

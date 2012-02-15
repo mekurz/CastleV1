@@ -19,6 +19,8 @@ function run_unit_tests()
   
   DoorMaker_count_existing_doors_for_room();
   DoorMaker_add_valid_horizontal_sills();
+  
+  GameTime_get_time();
 }
 
 function MapGenerator_allocate_map()
@@ -591,5 +593,94 @@ function DoorMaker_add_valid_horizontal_sills()
     doors.add_south_sills();
     equals( doors.sills.length, 1, "Check that Room has 1 SOUTH sill" );
   });
+}
 
+function GameTime_get_time()
+{
+  module( "GameTime - get_time" );
+  var time = new GameTime();
+  
+  test( "Zero", function()
+  {
+    time.time = 0;
+    equals( time.get_time(), "00:00" );
+  });
+  
+  test( "Thirty seconds", function()
+  {
+    time.time = 30;
+    equals( time.get_time(), "00:30" );
+  });
+  
+  test( "Sixty seconds", function()
+  {
+    time.time = 60;
+    equals( time.get_time(), "01:00" );
+  });
+  
+  test( "Ninety seconds", function()
+  {
+    time.time = 90;
+    equals( time.get_time(), "01:30" );
+  });
+  
+  test( "One hour", function()
+  {
+    time.time = 3600;
+    equals( time.get_time(), "01:00:00" );
+  });
+  
+  test( "One hour, thirty seconds", function()
+  {
+    time.time = 3630;
+    equals( time.get_time(), "01:00:30" );
+  });
+  
+  test( "One hour, sixty seconds", function()
+  {
+    time.time = 3660;
+    equals( time.get_time(), "01:01:00" );
+  });
+  
+  test( "One hour, ninety seconds", function()
+  {
+    time.time = 3690;
+    equals( time.get_time(), "01:01:30" );
+  });
+  
+  test( "One day", function()
+  {
+    time.time = 86400;
+    equals( time.get_time(), "1d,00:00:00" );
+  });
+  
+  test( "One day, one hour", function()
+  {
+    time.time = 90000;
+    equals( time.get_time(), "1d,01:00:00" );
+  });
+  
+  test( "One day, one hour, thirty seconds", function()
+  {
+    time.time = 90030;
+    equals( time.get_time(), "1d,01:00:30" );
+  });
+  
+  test( "One day, one hour, sixty seconds", function()
+  {
+    time.time = 90060;
+    equals( time.get_time(), "1d,01:01:00" );
+  });
+  
+  test( "One day, one hour, ninety seconds", function()
+  {
+    time.time = 90090;
+    equals( time.get_time(), "1d,01:01:30" );
+  });
+  
+  test( "One second before midnight", function()
+  {
+    time.time = 86399;
+    equals( time.get_time(), "23:59:59" );
+  });
 }

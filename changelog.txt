@@ -287,6 +287,11 @@ Version 36 - 13-Feb-2012
 - Spells
   - Added MapFadeOut and GAME OVER MAN test for eventual Player death usage. You have to refresh once you run this test.
   - Added Light spell to light up rooms or adjacent tiles around the target tile
+  
+Version 37 - 14-Feb-2012
+- General
+  - Added GameTime to keep track of time in game for RPG nerdiness and event queueing
+  - As a test, everytime you move, the game clock increments by 3 seconds
 
   
 TODO
