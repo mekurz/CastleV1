@@ -285,29 +285,39 @@ Version 36 - 13-Feb-2012
 - General
   - Refactored some Dungeon code to use callbacks to manipulate tiles (no more duplicated loops)
 - Spells
-  - Added MapFadeOut and GAME OVER MAN test for eventual Player death usage. You have to refresh once you run this test.
+  - Added MapFadeOut and GAME OVER MAN test for eventual Player death usage.
   - Added Light spell to light up rooms or adjacent tiles around the target tile
   
 Version 37 - 14-Feb-2012
 - General
   - Added GameTime to keep track of time in game for RPG nerdiness and event queueing
   - As a test, everytime you move, the game clock increments by 3 seconds
-
+  
+Version 38 - 15-Feb-2012
+- General
+  - Moving repeatedly into a wall by pressing the arrow keys will no longer trigger a bunch of turns (didn't notice until testing out the GameTime code)
+  - Moving, attacking and casting spells now increments the game clock by one round (six seconds)
+  - Search is now a "long action" which takes one minute to complete
+  - Long actions are interruptible if a monster appears adjacent to the Player or the animation queue fills up at any point during the action
+  - The Player will regain 1 hit point every minute
+  - Added Rest Until Healed verb to wait X minutes until the the player reaches max HP or is interrupted
+  - Spells now cost mana. If you don't have enough mana, you can't cast the spell.
+  - Added Sleep Until Mana is Restored verb to attempt to sleep 8 hours.
+    - If interrupted at any point while sleeping, you will regain a percentage of mana based on how long you slept
   
 TODO
 ============
-- Area spells need to set their primary target to the last square that they were in, NOT the square where an obstacle is encountered
 - BUG: Some wall tiles get marked as "too dark to see" based on what's on one side vs the other... need some kind of directional tooltip?
 - BUG: Double right-clicking on a cell that contains something will display a tooltip that contains no information
 - Props (traps, widgets, etc)
+- Area spells need to set their primary target to the last square that they were in, NOT the square where an obstacle is encountered
 - Items in the inventory need detailed tooltips
 - Item stats, etc
 - Double-clicking in inventory to take/drop items
 - Tooltips need to be split into two sections (one for detection and one for seeing/map showing)... split off num_items?
 - Rings need to be handled as a special item for multiple slots
+- Monster wandering vs aggressive vs passive... if you hit a monster, it should keep coming at you until it dies
 - Dungeon map (scaled down version of the full map)
-- Spawn monsters/items inside rooms
 - Look into reducing the number of tunnels or make the map size smaller
-- Stairs
-- Rest verb (interruptable if monsters come into view)
-- Track time to regen HP and mana
+- Stairs (with dungeon level counter)
+- Spawn monsters/items inside rooms

@@ -25,7 +25,8 @@ var OPEN   = 1;
 var SECRET = 2;
 var BROKEN = 3;
 
-var TIME_STANDARD_MOVE = 3;
+var TIME_STANDARD_MOVE = 6;
+var ROUNDS_IN_ONE_MIN = 10;
 
 // Array Remove - By John Resig (MIT Licensed)
 Array.prototype.remove = function(from, to)

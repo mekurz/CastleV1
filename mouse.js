@@ -15,6 +15,7 @@ function process_click( location )
     
     if( location.adjacent_to( Player.location ) && target_item != null && target_item.is_monster )
     {
+      Time.add_time( TIME_STANDARD_MOVE );
       new Melee( Player, target_item ).process();
       valid_action = true;
     }
@@ -29,11 +30,12 @@ function process_click( location )
     }
     else if( create_spell( command, Player, location ) )
     {
+      Time.add_time( TIME_STANDARD_MOVE );
+      Player.update_mana();
       valid_action = true; 
     }
     else
     {
-      Log.debug( "Unrecognized command.");
       set_finished();
     }
   }

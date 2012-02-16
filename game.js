@@ -69,14 +69,6 @@ function Game()
     }
   };
   
-  function setup_debug_level()
-  {
-    Player.move_to( new Point( 10, 7 ) );
-    create_debug_level();  
-    create_debug_monsters();
-    create_debug_items();
-  }
-  
   this.initial_draw_loop = function()
   {
     if( Images.is_loaded() )
@@ -141,6 +133,13 @@ function Game()
   {
     // MEK TO DO PERFORM ANY NECESSARY LOGIC ROUTINES HERE NOT DIRECTLY ATTACHED TO AN EVENT (I.E. MOVE MONSTERS) 
     Dungeon.move_monsters();
+    
+    // Heal 1 hit point every minute
+    if( Time.time % 60 == 0 )
+    {
+      Player.heal( 1 );
+      Player.update_hp();
+    }
   };
   
   this.draw = function()
@@ -195,8 +194,10 @@ function Game()
         case 35: // numpad 1
         case 40: // down
         case 34: // numpad 3
-          var move = new Movement().move_on_keypress( evt.keyCode );
-          document.game.do_turn();
+          if( new Movement().move_on_keypress( evt.keyCode ) )
+          {
+            document.game.do_turn();
+          }
           break;
         case 27: // esc
           set_command( NO_COMMAND );
@@ -205,11 +206,17 @@ function Game()
         case 67: // C
           perform_action( "close" );
           break;
+        case 69: // E
+          perform_action( "sleep" );
+          break;
         case 73: // I
           Inventory.open();
           break;
         case 79: // O
           perform_action( "open" );
+          break;
+        case 82: // R
+          perform_action( "rest" );
           break;
         case 84: // G
           Inventory.take_all();
@@ -320,6 +327,7 @@ function Game()
   
           if( valid )
           {
+            Time.add_time( TIME_STANDARD_MOVE );
             document.game.do_turn();
             
             if( Map.is_location_on_an_edge( Player.location ) || document.game.animation_queue.length > 0 )

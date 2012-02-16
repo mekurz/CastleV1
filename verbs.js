@@ -16,7 +16,7 @@ function perform_action( action )
 
 function is_action( action )
 {
-  return action == "search" || action == "open" || action == "close";
+  return action == "search" || action == "open" || action == "close" || action == "rest" || action == "sleep";
 }
 
 function is_targeted_action( action )
@@ -43,14 +43,27 @@ function handle_action( action, location )
     is_valid = do_close( location );
     set_finished();
   }
+  else if( action == "rest" )
+  {
+    do_rest();
+    is_valid = true;
+  }
+  else if( action == "sleep" )
+  {
+    do_sleep();
+    is_valid = true;
+  }
   
   return is_valid;  
 }
 
 function do_search()
 {
-  Dungeon.search_at_location( Player.location );
-  document.game.do_turn();
+  if( attempt_long_action( ROUNDS_IN_ONE_MIN ) == ROUNDS_IN_ONE_MIN )
+  {
+    Dungeon.search_at_location( Player.location );
+    document.game.do_turn();
+  }
 }
 
 function do_open( location )
@@ -63,6 +76,7 @@ function do_open( location )
     {
       door.set_open();
       Log.add( "You open the door." );
+      Time.add_time( TIME_STANDARD_MOVE );
       return true;
     }
     else
@@ -103,6 +117,7 @@ function do_close( location )
       {  
         door.set_closed();
         Log.add( "You close the door." );
+        Time.add_time( TIME_STANDARD_MOVE );
         return true;
       }
     }
@@ -117,4 +132,69 @@ function do_close( location )
     Log.add( "You cannot reach that!" );
     return false;
   }
+}
+
+function do_rest()
+{
+  // We will heal by simply waiting. Player regenerates 1 HP every minute
+  attempt_long_action( ( Player.max_hp - Player.current_hp ) * ROUNDS_IN_ONE_MIN );
+}
+
+function do_sleep()
+{
+  // We regenerate mana by attempting to sleep for 8 hours. 
+  // If we are interrupted at any point, we will have regenerated a percentage of mana based on how much of the 8 hours we slept 
+  var mana_to_regen = Player.max_mana - Player.current_mana;
+  
+  if( mana_to_regen > 0 )
+  {
+    var slept = attempt_long_action( 4800 );
+    var mana_regained = Math.floor( mana_to_regen * slept / 4800 );
+    Player.regen_mana( mana_regained );
+    Player.update_mana();
+  }
+}
+
+function attempt_long_action( rounds )
+{
+  var attempt = rounds;
+  
+  for( var ix = 0; ix < rounds; ++ ix )
+  {
+    Time.add_time( TIME_STANDARD_MOVE );
+    document.game.update();
+    
+    if( is_interrupted() )
+    {      
+      Log.add( "You are interrupted!" );
+      attempt = ix;
+      break;
+    }
+  }
+  
+  Time.update_time();
+  document.game.draw();
+  document.game.draw_spells();
+  return attempt;
+}
+
+function is_interrupted()
+{
+  // Check for adjacent monsters
+  var monsters = Dungeon.get_monsters();
+  for( var ix = 0; ix < monsters.length; ++ ix )
+  {
+    if( monsters[ix].location.adjacent_to( Player.location ) )
+    {
+      return true;
+    }
+  }
+  
+  // If the animation queue is not empty, it means a monster cast a spell at the Player
+  if( document.game.animation_queue.length > 0 )
+  {
+    return true;
+  }
+  
+  return false;
 }

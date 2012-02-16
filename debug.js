@@ -145,6 +145,15 @@ function test_game_over()
   }
 }
 
+function setup_debug_level()
+{
+  Player.move_to( new Point( 10, 7 ) );
+  Dungeon.levels = new Array();
+  create_debug_level();  
+  create_debug_monsters();
+  create_debug_items();
+}
+
 function create_debug_monsters()
 {
   var level = Dungeon.get_current_level();

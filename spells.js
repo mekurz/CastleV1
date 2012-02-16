@@ -14,45 +14,49 @@ function create_spell( spell_id, source_actor, target )
 {
   var xml = Loader.get_spell_data( spell_id );
   var type = xml.parent()[0].nodeName.toLowerCase();
+  var success = false;
   
   if( type == "projectile" )
   {
-    add_spell_effect( new ProjectileSpellEffect( xml.attr("projectile_id"), source_actor.location, target ),  new Spell( spell_id, source_actor, target ) );
+    success = add_spell_effect( new ProjectileSpellEffect( xml.attr("projectile_id"), source_actor.location, target ),  new Spell( spell_id, source_actor, target ) );
   }
   else if( type == "areaeffect" )
   {
-    add_spell_effect( new AreaSpellEffect( xml.attr("projectile_id"), xml.attr("area_id"), source_actor.location, target ),  new AreaEffectSpell( spell_id, source_actor, target ) );
+    success = add_spell_effect( new AreaSpellEffect( xml.attr("projectile_id"), xml.attr("area_id"), source_actor.location, target ),  new AreaEffectSpell( spell_id, source_actor, target ) );
   }
   else if( type == "coneeffect" )
   {
-    process_cone_spell( xml, source_actor, target );
+    success = process_cone_spell( xml, source_actor, target );
   }
   else if( type == "utility" )
   {
     if( spell_id == "u1" )
     {
-      add_spell_effect( new ProjectileSpellEffect( xml.attr("projectile_id"), source_actor.location, target ),  new LightSpell( spell_id, source_actor, target ) );
+      success = add_spell_effect( new ProjectileSpellEffect( xml.attr("projectile_id"), source_actor.location, target ),  new LightSpell( spell_id, source_actor, target ) );
     }
   }
   else
   {
     Log.debug( "Unrecognized command." );
-    return false;
   }
   
-  return true;
+  return success;
 }
 
 function add_spell_effect( effect, spell )
 {
-  // TODO Do mana check here.
   if( spell != undefined )
   {
     effect.set_spell_action( spell );  
   }
+    
+  if( spell == undefined || spell.consume_mana() )
+  {
+    document.game.animation_queue.push( effect );
+    return true;
+  }
   
-  //Log.debug( "Adding new effect for spell " + effect.spell_id );
-  document.game.animation_queue.push( effect );
+  return false;
 }
 
 function draw_spells_for_interval( ctx )
@@ -107,6 +111,22 @@ Spell.prototype.load_from_xml = function()
   this.splash      = xml.find("Splash").text();
   this.verb        = xml.find("Verb").text();
   this.action      = xml.find("Action").text();
+};
+
+Spell.prototype.consume_mana = function()
+{
+  // Can't cast the spell if the actor doesn't have enough mana (only a problem for Player)
+  if( this.source_actor.current_mana >= this.mana_cost )
+  {
+    this.source_actor.current_mana -= this.mana_cost;
+    return true;
+  }
+  else
+  {
+    Log.add( "You do not have enough mana to cast " + this.description + "!" );
+    set_finished();
+    return false;
+  }
 };
 
 Spell.prototype.resolve_miss = function()

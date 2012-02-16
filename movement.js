@@ -40,19 +40,25 @@ function Movement()
   this.move_on_keypress = function( key )
   {
     var vector = this.get_vector_for_keypress( key );
-    this.move_actor_with_vector( Player, vector );
-    Time.add_time( TIME_STANDARD_MOVE );
-    
+    var success = this.move_actor_with_vector( Player, vector );
+        
     if( !document.game.dragging )
     {
       Map.center_map_on_location( Player.location );
     }
+    
+    return success;
   };
   
   this.move_actor_with_vector = function( actor, vector )
   {
     if( Map.is_valid_move( actor.location, vector ) )
     {
+      if( !actor.is_monster )
+      {
+        Time.add_time( TIME_STANDARD_MOVE ); 
+      }
+      
       var target = new Point( actor.location.x, actor.location.y );
       target.add_vector( vector );
       var target_item = Map.get_target_item_in_tile( target );
