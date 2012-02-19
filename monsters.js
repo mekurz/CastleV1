@@ -73,7 +73,7 @@ Monster.prototype.do_move = function()
   {
     var vector = null;
     
-    if( Map.does_line_of_sight_exist( this.location, Player.location ) && this.is_location_within_sight( Player.location ) )
+    if( this.is_location_within_sight( Player.location ) && Map.does_line_of_sight_exist( this.location, Player.location ) )
     {
       // Monsters that can cast spells have a 50% chance to cast it at the Player instead of moving if they are not adjacent to the player
       if( this.spell != undefined && !this.location.adjacent_to( Player.location ) && chance( 50 ) && MONSTER_SPELLS )

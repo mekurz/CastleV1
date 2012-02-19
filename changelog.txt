@@ -304,11 +304,25 @@ Version 38 - 15-Feb-2012
   - Spells now cost mana. If you don't have enough mana, you can't cast the spell.
   - Added Sleep Until Mana is Restored verb to attempt to sleep 8 hours.
     - If interrupted at any point while sleeping, you will regain a percentage of mana based on how long you slept
+    
+Version 39 - 18-Feb-2012
+- General
+  - Fixed a bug that delayed cone effects from animating until after the next Player move
+  - Implemented some significant performance enhancements in the line-of-sight algorithms that was affecting the Sleep action
+    - Think 83 million calls down to 1.4 million (!)
+    - Only attempt a line-of-sight calculation from a monster if the Player is within its sight range
+    - Only check for the presence of a door if we are looking at a door tile specifically
+    - Allocate some objects outside of several loops
+  - The random map will now include a number of RATMANS equal to the number of rooms on the map
+  - Decreased the size of the random map from 100x100 to 50x50 and decreased the maximum size of a room from 13 to 11
+  - Increased the amount of polling done during a line-of-sight calculation from 5 to 3 pixels
   
 TODO
 ============
 - BUG: Some wall tiles get marked as "too dark to see" based on what's on one side vs the other... need some kind of directional tooltip?
 - BUG: Double right-clicking on a cell that contains something will display a tooltip that contains no information
+- BUG: Monsters can spawn ontop of the Player
+- BUG: Monsters going through doors that have been explored but are not within sight appear to magically open... need a way to hide this
 - Props (traps, widgets, etc)
 - Area spells need to set their primary target to the last square that they were in, NOT the square where an obstacle is encountered
 - Items in the inventory need detailed tooltips
@@ -318,6 +332,5 @@ TODO
 - Rings need to be handled as a special item for multiple slots
 - Monster wandering vs aggressive vs passive... if you hit a monster, it should keep coming at you until it dies
 - Dungeon map (scaled down version of the full map)
-- Look into reducing the number of tunnels or make the map size smaller
 - Stairs (with dungeon level counter)
-- Spawn monsters/items inside rooms
+- Spawn items inside rooms and when monsters die

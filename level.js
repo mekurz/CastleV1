@@ -35,6 +35,22 @@ function Level()
     var room_ix = Math.floor( Math.random() * this.rooms.length );
     return this.rooms[room_ix].get_room_center();
   };
+  
+    
+  this.spawn_monster = function()
+  {
+    var room_ix = -1;
+    var location = null;
+    
+     // Keep trying for random room/location combinations until we find an open spot (monsters can't spawn ontop of other monsters!)
+    while( room_ix == -1 || Dungeon.get_monster_in_tile( location ) != null )
+    {
+      room_ix = Math.floor( Math.random() * this.rooms.length );
+      location = this.rooms[room_ix].get_random_location();
+    }
+    
+    this.create_single_monster( RATMAN, location );    
+  };
 }
 
 function DungeonManager()

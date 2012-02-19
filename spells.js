@@ -91,6 +91,8 @@ function process_cone_spell( xml, source_actor, target )
   {
     add_spell_effect( new ConeSpellEffect( xml.attr("cardinal_id"), source_actor.location, target ), new ConeEffectSpell( xml.attr("id"), source_actor, target ) );
   }
+  
+  return true;
 }
 
 function Spell( spell_id, source_actor, target_tile )
@@ -596,7 +598,12 @@ ProjectileSpellEffect.prototype.handle_arrived_at_target = function( current_til
 ProjectileSpellEffect.prototype.handle_obstacle_collision = function( current_tile )
 {
   add_spell_effect( new SinglePointFadingSpellEffect( FIZZLE, new Point( this.canvas_x - (TILE_WIDTH/2), this.canvas_y - (TILE_WIDTH/2) ) ) );
-  this.spell_action.reassign_target( current_tile );
+  
+  if( this.spell_action )
+  {
+    this.spell_action.reassign_target( current_tile );
+  }
+  
   this.resolve_miss();
 };
 

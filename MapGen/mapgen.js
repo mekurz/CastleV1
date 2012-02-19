@@ -1,7 +1,7 @@
-var MAP_WIDTH  = 100;
-var MAP_HEIGHT = 100;
+var MAP_WIDTH  = 60;
+var MAP_HEIGHT = 60;
 var MIN_ROOM_SIZE = 5;
-var MAX_ROOM_SIZE = 13;
+var MAX_ROOM_SIZE = 11;
 var TUNNEL_LENGTH = 3;
 
 var BLOCKED_CHAR = "B";
@@ -158,8 +158,15 @@ function Room()
     var center = new Point();
     center.x = this.top_left.x + Math.floor( this.width / 2 );
     center.y = this.top_left.y + Math.floor( this.height / 2 );
-    
     return center;
+  };
+  
+  this.get_random_location = function()
+  {
+    var location = new Point();
+    location.x = this.top_left.x + Math.floor( Math.random() * this.width );
+    location.y = this.top_left.y + Math.floor( Math.random() * this.height );
+    return location;
   };
 }
 
@@ -699,6 +706,7 @@ function MapGenerator()
         {
           var door_type = chance( 80 ) ? CLOSED : SECRET;
           
+          level.map_tiles[row][col].is_entrance = true;
           level.doors.push( new Door( door_type, 3, row, col ) );
         }
         

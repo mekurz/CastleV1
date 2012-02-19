@@ -116,8 +116,25 @@ function random_map()
   var mapgen = new MapGenerator();
   Dungeon.levels[0] = null;
   Dungeon.levels[0] = mapgen.create_new_level();
+  Player.location.assign( Dungeon.levels[0].get_starting_location() );
   Dungeon.explore_at_location( Player.location );
-  document.game.do_turn();
+  Map.center_map_on_location( Player.location );
+  
+  // Spawn monsters (start with one per room)
+  for( var monster_ix = 0; monster_ix < Dungeon.levels[0].rooms.length; ++monster_ix )
+  {
+    Dungeon.levels[0].spawn_monster();
+  }
+  
+  document.game.draw();
+}
+
+function switch_to_debug()
+{
+  setup_debug_level();
+  Dungeon.explore_at_location( Player.location );
+  Map.center_map_on_location( Player.location );
+  document.game.draw();
 }
 
 function reveal_map()
@@ -243,5 +260,5 @@ function create_debug_level()
   new_level.doors.push( new Door( OPEN  , 3,  9, 21 ) );
   new_level.doors.push( new Door( SECRET, 3, 18, 18 ) );
   
-  Dungeon.levels.push( new_level );
+  Dungeon.levels[0] = new_level;
 }

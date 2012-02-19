@@ -138,6 +138,7 @@ function Tile( ix )
   this.explored  = false;
   this.is_lit    = false;
   this.room_id   = -1;
+  this.is_entrance = false;
   
   this.is_lit_room = function()
   {
@@ -222,13 +223,18 @@ function ViewPort()
   
   this.is_location_passable = function( location )
   {
-    if( Dungeon.get_map_tiles()[location.y][location.x].passable )
+    var map_tiles = Dungeon.get_map_tiles();
+    
+    if( map_tiles[location.y][location.x].passable )
     {
-      // Can't go through secret doors that have not been found yet
-      var door = Dungeon.get_door_in_tile( location );
-      if( door && !door.is_visible() )
+      if( map_tiles[location.y][location.x].is_entrance )
       {
-        return false;
+        // Can't go through secret doors that have not been found yet
+        var door = Dungeon.get_door_in_tile( location );
+        if( door && !door.is_visible() )
+        {
+          return false;
+        }
       }
       
       return true;
@@ -315,13 +321,14 @@ function ViewPort()
     }
     
     var to_return = true;
-    
     var raw_start = new Point( start.x, start.y );
     var raw_end   = new Point( end.x, end.y );
+    var current_tile = new Point();
+    var last_tile = new Point( -1, -1 );
     raw_start.convert_to_raw_tile_center();
     raw_end.convert_to_raw_tile_center();
     
-    var steps    = Math.floor( raw_start.distance_to( raw_end ) / 5 ); // Check every 5 pixels
+    var steps    = Math.floor( raw_start.distance_to( raw_end ) / 3 ); // Check every 5 pixels
     var slope_x  = ( raw_end.x - raw_start.x ) / steps;
     var slope_y  = ( raw_end.y - raw_start.y ) / steps;
     
@@ -330,13 +337,21 @@ function ViewPort()
       raw_start.x += slope_x;
       raw_start.y += slope_y;
       
-      var current_tile = new Point( raw_start.x, raw_start.y );
+      current_tile.x = raw_start.x;
+      current_tile.y = raw_start.y;
       current_tile.convert_to_tile_coord();
       
-      if( !this.is_location_transparent( current_tile ) && !current_tile.equals( end ) )
+      if( !current_tile.equals( last_tile ) )
       {
-        to_return = false;
-        break;
+        if( !this.is_location_transparent( current_tile ) && !current_tile.equals( end ) )
+        {
+          to_return = false;
+          break;
+        }
+        else
+        {
+          last_tile.assign( current_tile );
+        }
       }
     }
     
@@ -352,7 +367,7 @@ function ViewPort()
     
     var target_item = Dungeon.get_monster_in_tile( target );
     
-    if( target_item == null )    // No monster, try looking for a door
+    if( target_item == null && Dungeon.get_map_tiles()[target.y][target.x].is_entrance )    // No monster, try looking for a door
     {
       target_item = Dungeon.get_door_in_tile( target );
       
