@@ -315,7 +315,13 @@ Version 39 - 18-Feb-2012
     - Allocate some objects outside of several loops
   - The random map will now include a number of RATMANS equal to the number of rooms on the map
   - Decreased the size of the random map from 100x100 to 50x50 and decreased the maximum size of a room from 13 to 11
-  - Increased the amount of polling done during a line-of-sight calculation from 5 to 3 pixels
+
+Version 40 - 22-Feb-2012
+- General
+  - Rearranged some code to allow for the Prod version to spawn monsters during level generation.
+  - Turned off debug messages in the Prod version (they can be turned on via the Debug Mode debug flag).
+  
+
   
 TODO
 ============
@@ -323,6 +329,7 @@ TODO
 - BUG: Double right-clicking on a cell that contains something will display a tooltip that contains no information
 - BUG: Monsters can spawn ontop of the Player
 - BUG: Monsters going through doors that have been explored but are not within sight appear to magically open... need a way to hide this
+- Add more text options so the log doesn't look so boring
 - Props (traps, widgets, etc)
 - Area spells need to set their primary target to the last square that they were in, NOT the square where an obstacle is encountered
 - Items in the inventory need detailed tooltips

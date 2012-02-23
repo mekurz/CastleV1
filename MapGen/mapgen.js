@@ -715,15 +715,11 @@ function MapGenerator()
     }
   };
   
-  this.create_new_level = function()
+  this.create_new_level = function( level )
   {
-    var level = new Level();
-    
     this.generate_map();
     this.convert_to_tiles( level );
     level.rooms = this.rooms_list;
-    
-    return level;
   };
   
 // DRAW MAP FUNCTIONS (FOR DEBUGGING) BELOW

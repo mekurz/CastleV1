@@ -81,6 +81,8 @@
         </ul>
       </div>
       <div id="debug_flags" title="Debug Flags">
+        <input type="checkbox" id="debugmode" onclick="DEBUGGING = this.checked;"/>
+        <label for="debugmode">Debug Mode</label><br/>
         <input type="checkbox" id="freeze" onclick="FREEZE_MONSTERS = this.checked;"/>
         <label for="freeze">Freeze monster movement</label><br/>
         <input type="checkbox" id="mspells" onclick="MONSTER_SPELLS = this.checked;"/>
@@ -137,6 +139,7 @@
                                modal: true
                             });
           
+          $("#debugmode").prop( "checked", DEBUGGING );
           $("#freeze").prop( "checked", FREEZE_MONSTERS );
           $("#mspells").prop( "checked", MONSTER_SPELLS );
           $("#detect").prop( "checked", DETECT_MONSTERS );

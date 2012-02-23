@@ -30,6 +30,19 @@ function Level()
     } 
   };
   
+  this.get_monster_in_tile = function( location )
+  {
+    for( var i = 0; i < this.monsters.length; ++i )
+    {
+      if( this.monsters[i].location.equals( location ) )
+      {
+        return this.monsters[i];
+      }
+    }
+    
+    return null;
+  };
+  
   this.get_starting_location = function()
   {
     var room_ix = Math.floor( Math.random() * this.rooms.length );
@@ -43,13 +56,25 @@ function Level()
     var location = null;
     
      // Keep trying for random room/location combinations until we find an open spot (monsters can't spawn ontop of other monsters!)
-    while( room_ix == -1 || Dungeon.get_monster_in_tile( location ) != null )
+    while( room_ix == -1 || this.get_monster_in_tile( location ) != null )
     {
       room_ix = Math.floor( Math.random() * this.rooms.length );
       location = this.rooms[room_ix].get_random_location();
     }
     
     this.create_single_monster( RATMAN, location );    
+  };
+  
+  this.initialize = function()
+  {
+    var mapgen = new MapGenerator();
+    mapgen.create_new_level( this );
+    
+    // Spawn monsters (start with one per room)
+    for( var monster_ix = 0; monster_ix < this.rooms.length; ++monster_ix )
+    {
+      this.spawn_monster();
+    }
   };
 }
 
@@ -62,7 +87,7 @@ function DungeonManager()
   {
     var new_level = new Level();
     new_level.initialize();
-    Levels.push( new_level );
+    this.levels.push( new_level );
   };
   
   this.get_current_level = function()
@@ -111,19 +136,9 @@ function DungeonManager()
     }
   };
   
-  this.get_monster_in_tile = function( point )
+  this.get_monster_in_tile = function( location )
   {
-    var level = this.get_current_level();
-    
-    for( var i = 0; i < level.monsters.length; ++i )
-    {
-      if( level.monsters[i].location.equals( point ) )
-      {
-        return level.monsters[i];
-      }
-    } 
-    
-    return null;
+    return this.get_current_level().get_monster_in_tile( location );
   };
   
   this.kill_monster = function( monster_id )

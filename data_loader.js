@@ -18,6 +18,7 @@ function DataLoader()
     this.xml = $( data );
     data = null;
     
+    Log.add( "Loading images..." );
     Images.load_tile_images( this.xml.find("Tile") );
     Images.load_spell_images( this.xml.find("Spells").find("Image") );
     Images.load_monster_images( this.xml.find("Monster") );

@@ -73,7 +73,7 @@ function Game()
   {
     if( Images.is_loaded() )
     {
-      Log.debug( "Image preload complete." );
+      Log.add( "Done loading images." );
       
       Dungeon = new DungeonManager();
       Map = new ViewPort();
@@ -87,8 +87,7 @@ function Game()
       }
       else
       {
-        var mapgen = new MapGenerator();
-        Dungeon.levels[0] = mapgen.create_new_level();
+        Dungeon.create_level();
         Player.location = Dungeon.levels[0].get_starting_location();
         Dungeon.explore_at_location( Player.location );
       }

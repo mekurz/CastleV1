@@ -114,8 +114,8 @@ function test_diagonal_cones()
 function random_map()
 {
   var mapgen = new MapGenerator();
-  Dungeon.levels[0] = null;
-  Dungeon.levels[0] = mapgen.create_new_level();
+  Dungeon.levels[0] = new Level();
+  mapgen.create_new_level( Dungeon.levels[0] );
   Player.location.assign( Dungeon.levels[0].get_starting_location() );
   Dungeon.explore_at_location( Player.location );
   Map.center_map_on_location( Player.location );

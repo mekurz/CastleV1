@@ -17,7 +17,10 @@ function Logger()
   
   this.debug = function( str )
   {
-    this.add( "<span style=\"color:blue;\">" + str + "</span>" );
+    if( DEBUGGING )
+    {
+      this.add( "<span style=\"color:blue;\">" + str + "</span>" );
+    }
   };
   
   this.clear = function()

@@ -328,7 +328,7 @@ function ViewPort()
     raw_start.convert_to_raw_tile_center();
     raw_end.convert_to_raw_tile_center();
     
-    var steps    = Math.floor( raw_start.distance_to( raw_end ) / 3 ); // Check every 5 pixels
+    var steps    = Math.floor( raw_start.distance_to( raw_end ) / 5 ); // Check every 5 pixels
     var slope_x  = ( raw_end.x - raw_start.x ) / steps;
     var slope_y  = ( raw_end.y - raw_start.y ) / steps;
     
