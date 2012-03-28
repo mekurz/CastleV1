@@ -321,7 +321,12 @@ Version 40 - 22-Feb-2012
   - Rearranged some code to allow for the Prod version to spawn monsters during level generation.
   - Turned off debug messages in the Prod version (they can be turned on via the Debug Mode debug flag).
   
-
+Version 41 - 27-Mar-2012
+- General
+  - Added Dungeon Level indicator
+  - Added stair location generation
+- Bug fixes
+  - Fixed door tiles on the debug map so that they are now marked as entrances
   
 TODO
 ============
