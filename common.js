@@ -28,6 +28,9 @@ var BROKEN = 3;
 var TIME_STANDARD_MOVE = 6;
 var ROUNDS_IN_ONE_MIN = 10;
 
+var STAIRS_UP = 17;
+var STAIRS_DOWN = 18;
+
 // Array Remove - By John Resig (MIT Licensed)
 Array.prototype.remove = function(from, to)
 {

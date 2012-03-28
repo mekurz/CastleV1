@@ -257,8 +257,11 @@ function create_debug_level()
   }
   
   new_level.doors.push( new Door( CLOSED, 3, 16, 22 ) );
+  new_level.map_tiles[16][22].is_entrance = true;
   new_level.doors.push( new Door( OPEN  , 3,  9, 21 ) );
+  new_level.map_tiles[9][21].is_entrance = true;
   new_level.doors.push( new Door( SECRET, 3, 18, 18 ) );
+  new_level.map_tiles[18][18].is_entrance = true;
   
   Dungeon.levels[0] = new_level;
 }

@@ -93,6 +93,7 @@ function Game()
       }
       
       Map.center_map_on_location( Player.location );
+      Dungeon.update_level();
       
       document.game.draw();
       clearInterval( document.game.interval_loop );

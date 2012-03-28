@@ -17,6 +17,8 @@
     <Tile id="14" src="wall6.png"/>
     <Tile id="15" src="wall7.png"/>
     <Tile id="16" src="stones4.png"/>
+    <Tile id="17" src="stairs_up.png"/>
+    <Tile id="18" src="stairs_down.png"/>
   </Tiles>
   <Textures>
     <Texture id="1">

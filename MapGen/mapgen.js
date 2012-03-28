@@ -715,11 +715,24 @@ function MapGenerator()
     }
   };
   
+  this.generate_stairs_location = function()
+  {
+    var room_ix = Math.floor( Math.random() * this.rooms_list.length );
+    return this.rooms_list[room_ix].get_random_location();
+  };
+  
   this.create_new_level = function( level )
   {
     this.generate_map();
     this.convert_to_tiles( level );
     level.rooms = this.rooms_list;
+    level.stairs_up.assign( this.generate_stairs_location() );
+    level.stairs_down.assign( this.generate_stairs_location() );
+    
+    while( level.stairs_up.equals( level.stairs_down ) )
+    {
+      level.stairs_down.assign( this.generate_stairs_location() );
+    }
   };
   
 // DRAW MAP FUNCTIONS (FOR DEBUGGING) BELOW

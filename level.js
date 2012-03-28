@@ -5,6 +5,8 @@ function Level()
   this.items = new Array();
   this.rooms = new Array();
   this.doors = new Array();
+  this.stairs_up = new Point();
+  this.stairs_down = new Point();
   
   this.create_single_monster = function( monster_type, location )
   {
@@ -45,6 +47,7 @@ function Level()
   
   this.get_starting_location = function()
   {
+    // TODO This should return the location of stairs
     var room_ix = Math.floor( Math.random() * this.rooms.length );
     return this.rooms[room_ix].get_room_center();
   };
@@ -87,7 +90,18 @@ function DungeonManager()
   {
     var new_level = new Level();
     new_level.initialize();
+    
+    if( this.levels.length == 0 ) // Top level of the dungeon doesn't have stairs up YET
+    {
+      new_level.stairs_up = null;
+    }
+    
     this.levels.push( new_level );
+  };
+  
+  this.update_level = function()
+  {
+    $("#level").text( this.level_ix + 1 );
   };
   
   this.get_current_level = function()
