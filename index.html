@@ -63,6 +63,8 @@
       <option value="close">CLOSE</option>
       <option value="rest">REST UNTIL HEALED</option>
       <option value="sleep">SLEEP UNTIL MANA IS RESTORED</option>
+      <option value="up">CLIMB UP STAIRS</option>
+      <option value="down">CLIMB DOWN STAIRS</option>
     </select>
     <input type="submit" value="Do Verb" onclick="perform_action( $('#verb_menu').val() );"></input>
 		<br/><br/>
@@ -97,6 +99,8 @@
           <li>C - Close</li>
           <li>R - Rest Until Healed</li>
           <li>E - Sleep Until Mana is Restored</li>
+          <li>&lt; (SHIFT+,) - Climb Up Stairs</li>
+          <li>&gt; (SHIFT+.) - Climb Down Stairs</li>
         </ul>
       </div>
       <div id="debug_flags" title="Debug Flags">
@@ -165,7 +169,7 @@
 		      $("#detect").prop( "checked", DETECT_MONSTERS );
 		    
 		      document.game = new Game();
-	        document.game.run(1);
+	        document.game.run();
 	        
 	        set_command( NO_COMMAND );
           set_finished();

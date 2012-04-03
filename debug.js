@@ -113,9 +113,8 @@ function test_diagonal_cones()
 
 function random_map()
 {
-  var mapgen = new MapGenerator();
-  Dungeon.levels[0] = new Level();
-  mapgen.create_new_level( Dungeon.levels[0] );
+  Dungeon.levels = new Array();
+  Dungeon.create_level();
   Player.location.assign( Dungeon.levels[0].get_starting_location() );
   Dungeon.explore_at_location( Player.location );
   Map.center_map_on_location( Player.location );
@@ -262,6 +261,9 @@ function create_debug_level()
   new_level.map_tiles[9][21].is_entrance = true;
   new_level.doors.push( new Door( SECRET, 3, 18, 18 ) );
   new_level.map_tiles[18][18].is_entrance = true;
+  
+  new_level.stairs_up = null;
+  new_level.stairs_down = null;
   
   Dungeon.levels[0] = new_level;
 }

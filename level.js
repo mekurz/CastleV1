@@ -47,11 +47,21 @@ function Level()
   
   this.get_starting_location = function()
   {
-    // TODO This should return the location of stairs
-    var room_ix = Math.floor( Math.random() * this.rooms.length );
-    return this.rooms[room_ix].get_room_center();
+    if( this.stairs_up == null )
+    {
+      var room_ix = Math.floor( Math.random() * this.rooms.length );
+      return this.rooms[room_ix].get_room_center();
+    }
+    else
+    {
+      return this.stairs_up;
+    }
   };
   
+  this.get_exit_location = function()
+  {
+    return this.stairs_down;
+  };
     
   this.spawn_monster = function()
   {
@@ -79,6 +89,21 @@ function Level()
       this.spawn_monster();
     }
   };
+  
+  this.draw_stairs = function( ctx )
+  {
+    draw_staircase( this.stairs_up,   STAIRS_UP  , ctx );
+    draw_staircase( this.stairs_down, STAIRS_DOWN, ctx );
+  };
+  
+  function draw_staircase( location, icon, ctx )
+  {
+    if( location != null && Map.is_location_visible( location ) && Dungeon.is_location_explored( location ) )
+    {
+      var view_pos = Map.translate_map_coord_to_viewport( location );
+      ctx.drawImage( Images.TILE_IMAGES[icon], convert_ix_to_raw_coord( view_pos.x ), convert_ix_to_raw_coord( view_pos.y ) );
+    }
+  }
 }
 
 function DungeonManager()
@@ -237,8 +262,6 @@ function DungeonManager()
   
   this.search_at_location = function( point )
   {
-    var find_chance = 50;   // TODO Player stats should change this value
-    
     var doors = this.get_current_level().doors;
     for( var ix = 0; ix < doors.length; ++ix )
     {
@@ -263,6 +286,23 @@ function DungeonManager()
     } 
     
     return null;
+  };
+  
+  this.go_down = function()
+  {
+    if( this.level_ix + 2 > this.levels.length )
+    {
+      this.create_level();
+    }
+    
+    this.level_ix++;
+    Player.location.assign( this.levels[this.level_ix].get_starting_location() ); // Start at the Stairs UP for the next level
+  };
+  
+  this.go_up = function()
+  {
+    this.level_ix--;
+    Player.location.assign( this.levels[this.level_ix].get_exit_location() ); // Start at the Stairs DOWN for previous level
   };
 }
 

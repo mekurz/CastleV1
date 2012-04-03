@@ -328,6 +328,13 @@ Version 41 - 27-Mar-2012
 - Bug fixes
   - Fixed door tiles on the debug map so that they are now marked as entrances
   
+Version 42 - 02-Apr-2012
+- General
+  - Added Climb Down Stairs and Climb Up Stairs verbs
+  - Stairs can be used to navigate between dungeon levels. Generated levels will save all information until the game is reset.
+  - Going down stairs will start the Player at the Stairs UP location for the next level. If that level has never been visited before, a new level is generated.
+  - Going up stairs will start the Player at the Stairs DOWN location for the previous level.
+  
 TODO
 ============
 - BUG: Some wall tiles get marked as "too dark to see" based on what's on one side vs the other... need some kind of directional tooltip?
@@ -339,10 +346,12 @@ TODO
 - Area spells need to set their primary target to the last square that they were in, NOT the square where an obstacle is encountered
 - Items in the inventory need detailed tooltips
 - Item stats, etc
+- Gold
 - Double-clicking in inventory to take/drop items
 - Tooltips need to be split into two sections (one for detection and one for seeing/map showing)... split off num_items?
 - Rings need to be handled as a special item for multiple slots
 - Monster wandering vs aggressive vs passive... if you hit a monster, it should keep coming at you until it dies
 - Dungeon map (scaled down version of the full map)
-- Stairs (with dungeon level counter)
 - Spawn items inside rooms and when monsters die
+- Stairs need to show on tooltips
+- You should not be able to move or perform Player key actions while a dialog is open (other than take)

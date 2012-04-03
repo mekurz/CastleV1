@@ -153,6 +153,7 @@ function Game()
 
     Map.draw_map( this.buffer_ctx ); // First layer: Map tiles and doors
     this.draw_collection( level.doors, this.buffer_ctx );
+    level.draw_stairs( this.buffer_ctx );
     
     this.draw_collection( level.items, this.buffer_ctx );     // Second layer: Items
     // TODO: widgets go here
@@ -224,6 +225,12 @@ function Game()
           break;
         case 83: // S
           perform_action( "search" );
+          break;
+        case 188: // <
+          if( evt.shiftKey ) perform_action( "up" );
+          break;
+        case 190: // >
+          if( evt.shiftKey ) perform_action( "down" );
           break;
         default:
           Log.debug( "Unknown key = " + evt.keyCode );

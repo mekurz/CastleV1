@@ -118,7 +118,7 @@ function Point( x, y )
   
   this.equals = function( rhs )
   {
-    return ( this.x == rhs.x && this.y == rhs.y );   
+    return ( rhs != null && this.x == rhs.x && this.y == rhs.y );   
   };
   
   this.to_string = function()

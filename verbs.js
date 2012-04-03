@@ -16,7 +16,7 @@ function perform_action( action )
 
 function is_action( action )
 {
-  return action == "search" || action == "open" || action == "close" || action == "rest" || action == "sleep";
+  return action == "search" || action == "open" || action == "close" || action == "rest" || action == "sleep" || action == "down" || action == "up";
 }
 
 function is_targeted_action( action )
@@ -52,6 +52,14 @@ function handle_action( action, location )
   {
     do_sleep();
     is_valid = true;
+  }
+  else if( action == "down" )
+  {
+    is_valid = go_down();
+  }
+  else if( action == "up" )
+  {
+    is_valid = go_up();
   }
   
   return is_valid;  
@@ -194,6 +202,51 @@ function is_interrupted()
   if( document.game.animation_queue.length > 0 )
   {
     return true;
+  }
+  
+  return false;
+}
+
+function go_down()
+{
+  var level = Dungeon.get_current_level();
+  
+  if( Player.location.equals( level.stairs_down ) )
+  {
+    Time.add_time( TIME_STANDARD_MOVE );
+    Dungeon.go_down();
+    Dungeon.explore_at_location( Player.location );
+    Map.center_map_on_location( Player.location );
+    Time.update_time();
+    Dungeon.update_level();
+    document.game.draw();
+    return true;
+  }
+  else
+  {
+    Log.add( "No stairs down here." );
+  }
+  
+  return false;
+}
+
+function go_up()
+{
+  var level = Dungeon.get_current_level();
+  
+  if( Player.location.equals( level.stairs_up ) )
+  {
+    Time.add_time( TIME_STANDARD_MOVE );
+    Dungeon.go_up();
+    Map.center_map_on_location( Player.location );
+    Time.update_time();
+    Dungeon.update_level();
+    document.game.draw();
+    return true;
+  }
+  else
+  {
+    Log.add( "No stairs up here." );
   }
   
   return false;
