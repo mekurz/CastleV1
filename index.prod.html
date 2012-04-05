@@ -132,17 +132,27 @@
     <script type="text/javascript">
       $(document).ready( function()
         {
-          $( "#shortcuts" ).dialog({ autoOpen: false,
-                               resizable: false,
-                               modal: true,
-                               close: function(event, ui) {
-                                        document.game.draw();
-                                      }
-                            });
+          $("#shortcuts").dialog({ autoOpen: false,
+		                               resizable: false,
+		                               modal: true,
+		                               open: function(event, ui) {
+		                                        open_dialog();
+		                                     },
+		                               close: function(event, ui) {
+		                                        close_dialog();
+		                                        document.game.draw();
+		                                      }
+		                            }); 
           
           $("#debug_flags").dialog({ autoOpen: false,
-                               resizable: false,
-                               modal: true
+                                     resizable: false,
+                                     modal: true,
+                                     open: function(event, ui) {
+                                        open_dialog();
+                                     },
+                                     close: function(event, ui) {
+                                              close_dialog();
+                                            }
                             });
           
           $("#debugmode").prop( "checked", DEBUGGING );

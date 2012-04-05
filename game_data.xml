@@ -26,6 +26,14 @@
       <Walls value="3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,10,11,12,13,14,15"/>
     </Texture>
   </Textures>
+  <Widgets>
+    <Widget id="0" tile_id="17">
+      <Description>Stairs up</Description>
+    </Widget>
+    <Widget id="1" tile_id="18">
+      <Description>Stairs down</Description>
+    </Widget>
+  </Widgets>
   <Spells>
     <Images>
       <Image id="0" src="splat.png"/>

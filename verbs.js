@@ -210,11 +210,12 @@ function is_interrupted()
 function go_down()
 {
   var level = Dungeon.get_current_level();
+  var stair_ix = level.get_stair_ix_at_location( level.stairs_down, Player.location );
   
-  if( Player.location.equals( level.stairs_down ) )
+  if( stair_ix != -1 )
   {
     Time.add_time( TIME_STANDARD_MOVE );
-    Dungeon.go_down();
+    Dungeon.go_down( stair_ix );
     Dungeon.explore_at_location( Player.location );
     Map.center_map_on_location( Player.location );
     Time.update_time();
@@ -233,11 +234,13 @@ function go_down()
 function go_up()
 {
   var level = Dungeon.get_current_level();
+  var stair_ix = level.get_stair_ix_at_location( level.stairs_up, Player.location );
   
-  if( Player.location.equals( level.stairs_up ) )
+  if( stair_ix != -1 )
   {
     Time.add_time( TIME_STANDARD_MOVE );
-    Dungeon.go_up();
+    Dungeon.go_up( stair_ix );
+    Dungeon.explore_at_location( Player.location );
     Map.center_map_on_location( Player.location );
     Time.update_time();
     Dungeon.update_level();

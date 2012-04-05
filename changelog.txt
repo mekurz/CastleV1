@@ -335,6 +335,15 @@ Version 42 - 02-Apr-2012
   - Going down stairs will start the Player at the Stairs UP location for the next level. If that level has never been visited before, a new level is generated.
   - Going up stairs will start the Player at the Stairs DOWN location for the previous level.
   
+Version 43 - 04-Apr-2012
+- General
+  - Implemented Widget class (room decorations)
+  - Converted stairs to be widgets
+  - Levels will now have one Stairs DOWN for every 5 rooms, and one Stairs UP for every Stairs DOWN that existed on the previous level (Level 1 has no Stairs UP)
+  - Using stairs will always take you to the corresponding staircase on the next level (although the location may not correspond geographically! No one said dungeons should make sense)
+- Bug fixes
+  - Keyboard actions can no longer be used while a dialog is open (except for T when the Inventory is displayed)
+  
 TODO
 ============
 - BUG: Some wall tiles get marked as "too dark to see" based on what's on one side vs the other... need some kind of directional tooltip?
@@ -342,7 +351,7 @@ TODO
 - BUG: Monsters can spawn ontop of the Player
 - BUG: Monsters going through doors that have been explored but are not within sight appear to magically open... need a way to hide this
 - Add more text options so the log doesn't look so boring
-- Props (traps, widgets, etc)
+- Props (traps, more widgets, etc)
 - Area spells need to set their primary target to the last square that they were in, NOT the square where an obstacle is encountered
 - Items in the inventory need detailed tooltips
 - Item stats, etc
@@ -354,4 +363,3 @@ TODO
 - Dungeon map (scaled down version of the full map)
 - Spawn items inside rooms and when monsters die
 - Stairs need to show on tooltips
-- You should not be able to move or perform Player key actions while a dialog is open (other than take)

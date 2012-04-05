@@ -5,8 +5,8 @@ function Level()
   this.items = new Array();
   this.rooms = new Array();
   this.doors = new Array();
-  this.stairs_up = new Point();
-  this.stairs_down = new Point();
+  this.stairs_up = new Array();
+  this.stairs_down = new Array();
   
   this.create_single_monster = function( monster_type, location )
   {
@@ -45,22 +45,35 @@ function Level()
     return null;
   };
   
-  this.get_starting_location = function()
+  this.get_stair_ix_at_location = function( collection, location )
   {
-    if( this.stairs_up == null )
+    for( var ix = 0; ix < collection.length; ++ix )
+    {
+      if( location.equals( collection[ix].location ) )
+      {
+        return ix;
+      }
+    }
+    
+    return -1;
+  };
+  
+  this.get_starting_location = function( stair_ix )
+  {
+    if( this.stairs_up.length == 0 || stair_ix > this.stairs_up.length )
     {
       var room_ix = Math.floor( Math.random() * this.rooms.length );
       return this.rooms[room_ix].get_room_center();
     }
     else
     {
-      return this.stairs_up;
+      return this.stairs_up[stair_ix].location;
     }
   };
   
-  this.get_exit_location = function()
+  this.get_exit_location = function( stair_ix )
   {
-    return this.stairs_down;
+    return this.stairs_down[stair_ix].location;
   };
     
   this.spawn_monster = function()
@@ -78,10 +91,10 @@ function Level()
     this.create_single_monster( RATMAN, location );    
   };
   
-  this.initialize = function()
+  this.initialize = function( num_stairs_up )
   {
     var mapgen = new MapGenerator();
-    mapgen.create_new_level( this );
+    mapgen.create_new_level( this, num_stairs_up );
     
     // Spawn monsters (start with one per room)
     for( var monster_ix = 0; monster_ix < this.rooms.length; ++monster_ix )
@@ -89,21 +102,6 @@ function Level()
       this.spawn_monster();
     }
   };
-  
-  this.draw_stairs = function( ctx )
-  {
-    draw_staircase( this.stairs_up,   STAIRS_UP  , ctx );
-    draw_staircase( this.stairs_down, STAIRS_DOWN, ctx );
-  };
-  
-  function draw_staircase( location, icon, ctx )
-  {
-    if( location != null && Map.is_location_visible( location ) && Dungeon.is_location_explored( location ) )
-    {
-      var view_pos = Map.translate_map_coord_to_viewport( location );
-      ctx.drawImage( Images.TILE_IMAGES[icon], convert_ix_to_raw_coord( view_pos.x ), convert_ix_to_raw_coord( view_pos.y ) );
-    }
-  }
 }
 
 function DungeonManager()
@@ -111,14 +109,14 @@ function DungeonManager()
   this.level_ix = 0;
   this.levels = new Array();
   
-  this.create_level = function()
+  this.create_level = function( num_stairs_up )
   {
     var new_level = new Level();
-    new_level.initialize();
+    new_level.initialize( num_stairs_up );
     
     if( this.levels.length == 0 ) // Top level of the dungeon doesn't have stairs up YET
     {
-      new_level.stairs_up = null;
+      new_level.stairs_up.length = 0;
     }
     
     this.levels.push( new_level );
@@ -288,21 +286,21 @@ function DungeonManager()
     return null;
   };
   
-  this.go_down = function()
+  this.go_down = function( stair_ix )
   {
     if( this.level_ix + 2 > this.levels.length )
     {
-      this.create_level();
+      this.create_level( this.levels[this.level_ix].stairs_down.length );
     }
     
     this.level_ix++;
-    Player.location.assign( this.levels[this.level_ix].get_starting_location() ); // Start at the Stairs UP for the next level
+    Player.location.assign( this.levels[this.level_ix].get_starting_location( stair_ix ) ); // Start at the Stairs UP corresponding to the Stairs DOWN that were just used
   };
   
-  this.go_up = function()
+  this.go_up = function( stair_ix )
   {
     this.level_ix--;
-    Player.location.assign( this.levels[this.level_ix].get_exit_location() ); // Start at the Stairs DOWN for previous level
+    Player.location.assign( this.levels[this.level_ix].get_exit_location( stair_ix ) ); // Start at the Stairs DOWN corresponding to the Stairs UP that were just used
   };
 }
 

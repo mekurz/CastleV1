@@ -151,12 +151,13 @@ function Game()
     
     var level = Dungeon.get_current_level();
 
-    Map.draw_map( this.buffer_ctx ); // First layer: Map tiles and doors
+    Map.draw_map( this.buffer_ctx ); // First layer: Map tiles, doors, widgets (including stairs) 
     this.draw_collection( level.doors, this.buffer_ctx );
-    level.draw_stairs( this.buffer_ctx );
+    this.draw_collection( level.stairs_up, this.buffer_ctx );
+    this.draw_collection( level.stairs_down, this.buffer_ctx );
+    // TODO widgets go here
     
     this.draw_collection( level.items, this.buffer_ctx );     // Second layer: Items
-    // TODO: widgets go here
     
     this.draw_collection( level.monsters, this.buffer_ctx );  // Third layer: Monsters and Player    
     Player.draw( this.buffer_ctx );
@@ -185,6 +186,21 @@ function Game()
   
     if( evt && !is_processing() /*&& !Player.is_dead() */ )
     {
+      // Events that can be used on dialogs
+      if( evt.keyCode == 84 && ( OPEN_DIALOGS == 0 || Inventory.is_open ) ) // T
+      {
+          Inventory.take_all();
+          document.game.draw();
+          return;
+      }
+      
+      
+      if( OPEN_DIALOGS > 0 )
+      {
+        return; // Prevent 
+      }
+      
+      // Events that CANNOT be used on dialogs
       switch( evt.keyCode )
       {
         case 36: // numpad 7
@@ -218,10 +234,6 @@ function Game()
           break;
         case 82: // R
           perform_action( "rest" );
-          break;
-        case 84: // G
-          Inventory.take_all();
-          document.game.draw();
           break;
         case 83: // S
           perform_action( "search" );

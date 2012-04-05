@@ -25,6 +25,7 @@ function Cell()
   this.is_corridor = false;
   this.is_entrance = false;
   this.is_deadend = false;
+  this.is_stairs = false;
   this.is_lit = false;
   
   this.is_a_room = function()
@@ -721,18 +722,31 @@ function MapGenerator()
     return this.rooms_list[room_ix].get_random_location();
   };
   
-  this.create_new_level = function( level )
+  this.generate_stairs = function( collection, type, num_stairs )
+  {
+    for( var ix = 0; ix < num_stairs; ++ix )
+    {
+      var location = null;
+      
+      while( location == null || this.map[location.y][location.x].is_stairs )
+      {
+        location = this.generate_stairs_location();
+      }
+      
+      collection.push( new Widget( type, location ) );
+      this.map[location.y][location.x].is_stairs = true;
+    }
+  };
+  
+  this.create_new_level = function( level, num_stairs_up )
   {
     this.generate_map();
     this.convert_to_tiles( level );
     level.rooms = this.rooms_list;
-    level.stairs_up.assign( this.generate_stairs_location() );
-    level.stairs_down.assign( this.generate_stairs_location() );
+    this.generate_stairs( level.stairs_up, STAIRS_UP, num_stairs_up );
     
-    while( level.stairs_up.equals( level.stairs_down ) )
-    {
-      level.stairs_down.assign( this.generate_stairs_location() );
-    }
+    var num_stairs_down = Math.floor( this.rooms_list.length / 5 );
+    this.generate_stairs( level.stairs_down, STAIRS_DOWN, num_stairs_down );
   };
   
 // DRAW MAP FUNCTIONS (FOR DEBUGGING) BELOW

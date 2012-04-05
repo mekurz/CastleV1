@@ -28,8 +28,23 @@ var BROKEN = 3;
 var TIME_STANDARD_MOVE = 6;
 var ROUNDS_IN_ONE_MIN = 10;
 
-var STAIRS_UP = 17;
-var STAIRS_DOWN = 18;
+var STAIRS_UP = 0;
+var STAIRS_DOWN = 1;
+
+var OPEN_DIALOGS = 0;
+
+function open_dialog()
+{
+  OPEN_DIALOGS++;
+}
+
+function close_dialog()
+{
+  if( OPEN_DIALOGS > 0 )
+  {
+    OPEN_DIALOGS--;
+  }
+}
 
 // Array Remove - By John Resig (MIT Licensed)
 Array.prototype.remove = function(from, to)

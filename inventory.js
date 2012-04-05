@@ -120,6 +120,7 @@ function InventoryManager()
   this.popup = $("#inventory");
   this.bag   = $("#bag");
   this.floor = $("#floor");
+  this.is_open = false;
   
   this.initialize = function()
   {
@@ -130,8 +131,14 @@ function InventoryManager()
                                modal: true,
                                width: 870,
                                height: 550,
+                               open: function(event, ui) {
+                                        open_dialog();
+                                        Inventory.is_open = true;
+                                     },
                                close: function(event, ui) {
                                         Player.paperdoll.construct_paperdoll();
+                                        close_dialog();
+                                        Inventory.is_open = false;
                                         document.game.draw();
                                       }
                             }); 
