@@ -214,13 +214,8 @@ function go_down()
   
   if( stair_ix != -1 )
   {
-    Time.add_time( TIME_STANDARD_MOVE );
     Dungeon.go_down( stair_ix );
-    Dungeon.explore_at_location( Player.location );
-    Map.center_map_on_location( Player.location );
-    Time.update_time();
-    Dungeon.update_level();
-    document.game.draw();
+    change_level();
     return true;
   }
   else
@@ -238,13 +233,8 @@ function go_up()
   
   if( stair_ix != -1 )
   {
-    Time.add_time( TIME_STANDARD_MOVE );
     Dungeon.go_up( stair_ix );
-    Dungeon.explore_at_location( Player.location );
-    Map.center_map_on_location( Player.location );
-    Time.update_time();
-    Dungeon.update_level();
-    document.game.draw();
+    change_level();
     return true;
   }
   else
@@ -253,4 +243,14 @@ function go_up()
   }
   
   return false;
+}
+
+function change_level()
+{
+  Dungeon.explore_at_location( Player.location );
+  Map.center_map_on_location( Player.location );
+  Time.add_time( TIME_STANDARD_MOVE );
+  Time.update_time();
+  Dungeon.update_level();
+  document.game.draw();
 }

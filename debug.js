@@ -27,6 +27,7 @@ function run_test()
     case 7: test_diagonal_cones(); break;
     case 8: reveal_map(); break;
     case 9: test_game_over(); break;
+    case 10: reveal_secret_doors(); break;
   }
 }
 
@@ -146,6 +147,18 @@ function reveal_map()
     {
       map_tiles[row][col].explored = true;
     }
+  }
+  
+  document.game.do_turn();
+}
+
+function reveal_secret_doors()
+{
+  var doors = Dungeon.get_current_level().doors;
+  
+  for( var ix = 0; ix < doors.length; ++ix )
+  {
+    doors[ix].find_door();
   }
   
   document.game.do_turn();

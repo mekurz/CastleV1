@@ -1,19 +1,18 @@
 <html>
   <head>
-    <title>BROWSER OF THE WINDS CANVAS VERSION</title>
+    <title>BROWSER OF THE WINDS</title>
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <link href="style.css" rel="stylesheet" type="text/css" />
     <link href="css/overcast/jquery-ui-1.8.16.custom.css" rel="stylesheet" type="text/css"/>
-    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
-    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.16/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.18/jquery-ui.min.js"></script>
     <script type="text/javascript" src="full.min.js"></script>
   </head>
   <body style="margin:0px;">
     Use arrows or num pad to move, OR click and drag the man to move. Click on RAT MANS or bump into them to attack! Select a spell from the menu, click Cast and then click a tile!<br/>
     <input type="hidden" id="processing" value="0"></input>
     <input type="hidden" id="command" value="0"></input>
-    <a href="changelog.txt">Change Log</a> | <a href="MapGen/test.html">Map Generator</a> | <a href="Inventory/test.html">Inventory TPOC</a>
-    <br/>
+    <a href="changelog.txt">Change Log</a> | <a href="MapGen/test.html">Map Generator</a> | <a href="Inventory/test.html">Inventory TPOC</a> | 
     TEST: <select id="test_menu">
       <option value="0">TEST FIZZLES</option>
       <option value="1">TEST SPLAT</option>
@@ -25,9 +24,11 @@
       <option value="4">KILL ALL RAT MANS</option>
       <option value="5">DO TURN</option>
       <option value="8">REVEAL MAP</option>
+      <option value="10">REVEAL SECRET DOORS</option>
       <option value="9">GAME OVER MAN</option>
     </select>
     <input type="submit" value="Run Test" onclick="run_test();"></input>
+    <br/>
     SPELL: <select id="spell_menu">
       <option value="p1">MAGIC MISSILE</option>
       <option value="p2">LIGHTNING BOLT</option>
@@ -40,6 +41,7 @@
     <input type="submit" value="Cast Spell" onclick="cast_spell( $('#spell_menu').val() );"></input>
     <input type="submit" value="Switch to Debug Map" onclick="switch_to_debug();"></input>
     <input type="submit" value="Inventory" onclick="Inventory.open();"></input>
+    <input type="submit" value="Map" onclick="Minimap.open();"></input>
     VERB: <select id="verb_menu">
       <option value="search">SEARCH</option>
       <option value="open">OPEN</option>
@@ -76,6 +78,7 @@
           <li>Arrows/Numpad - Move/attack</li>
           <li>ESC - Cancel current action/close dialog</li>
           <li>I - Open Inventory</li>
+          <li>M - Open Mini-map</li>
           <li>T - Take all items at current location</li>
           <li>S - Search</li>
           <li>O - Open</li>
@@ -127,6 +130,10 @@
 						<div id="floor" style="height:195px;" class="NonEquipped ItemContainer"></div>
           </div>
         </div>
+      </div>
+      <div id="minimap_popup" title="Map">
+        <canvas id="minimap" width="600" height="600" style="border:1px solid black;" oncontextmenu="return false;">
+        </canvas>
       </div>
 	  </div>
     <script type="text/javascript">

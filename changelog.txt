@@ -344,6 +344,17 @@ Version 43 - 04-Apr-2012
 - Bug fixes
   - Keyboard actions can no longer be used while a dialog is open (except for T when the Inventory is displayed)
   
+Version 44 - 06-Apr-2012
+- General
+  - Upgraded to jQuery 1.7.2 and jQuery UI 1.8.18
+  - Stair descriptions are now displayed in tooltips
+  - Reduced map size from 60x60 to 50x50. Maps seem to be much more manageable now.
+  - Added the Minimap (click the Map button or press M) to display everywhere that you've explored! No more getting lost!
+- Bug fixes
+  - Going up stairs will now mark the adjacent tiles as explored
+- Debugging
+  - Added function to reveal all secret doors
+  
 TODO
 ============
 - BUG: Some wall tiles get marked as "too dark to see" based on what's on one side vs the other... need some kind of directional tooltip?
@@ -360,6 +371,5 @@ TODO
 - Tooltips need to be split into two sections (one for detection and one for seeing/map showing)... split off num_items?
 - Rings need to be handled as a special item for multiple slots
 - Monster wandering vs aggressive vs passive... if you hit a monster, it should keep coming at you until it dies
-- Dungeon map (scaled down version of the full map)
+- Load/Save (local storage? indexdb?)
 - Spawn items inside rooms and when monsters die
-- Stairs need to show on tooltips

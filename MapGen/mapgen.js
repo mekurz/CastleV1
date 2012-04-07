@@ -1,5 +1,5 @@
-var MAP_WIDTH  = 60;
-var MAP_HEIGHT = 60;
+var MAP_WIDTH  = 50;
+var MAP_HEIGHT = 50;
 var MIN_ROOM_SIZE = 5;
 var MAX_ROOM_SIZE = 11;
 var TUNNEL_LENGTH = 3;

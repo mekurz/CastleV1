@@ -126,22 +126,22 @@ function InventoryManager()
   {
     Log.debug("Initializing InventoryManager...");
     
-    $( "#inventory" ).dialog({ autoOpen: false,
-                               resizable: false,
-                               modal: true,
-                               width: 870,
-                               height: 550,
-                               open: function(event, ui) {
-                                        open_dialog();
-                                        Inventory.is_open = true;
-                                     },
-                               close: function(event, ui) {
-                                        Player.paperdoll.construct_paperdoll();
-                                        close_dialog();
-                                        Inventory.is_open = false;
-                                        document.game.draw();
-                                      }
-                            }); 
+    this.popup.dialog({  autoOpen: false,
+                         resizable: false,
+                         modal: true,
+                         width: 870,
+                         height: 550,
+                         open: function(event, ui) {
+                                  open_dialog();
+                                  Inventory.is_open = true;
+                               },
+                         close: function(event, ui) {
+                                  Player.paperdoll.construct_paperdoll();
+                                  close_dialog();
+                                  Inventory.is_open = false;
+                                  document.game.draw();
+                                }
+                      }); 
     
     var item_container_options = { items: ".Item",
                                    placeholder: "BlankItemSlot",

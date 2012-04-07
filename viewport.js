@@ -50,6 +50,7 @@ function Tooltip()
     if( Dungeon.is_location_explored( location ) )
     {
       this.fill_tooltip_with_single_object( Dungeon.get_door_in_tile( location ) );
+      this.fill_tooltip_with_widgets( location );
       this.fill_tooltip_with_items( location );
     }
   };
@@ -79,6 +80,25 @@ function Tooltip()
     
     this.num_items += floor_items.length;
     floor_items = [];
+  };
+  
+  this.fill_tooltip_with_widgets = function( location )
+  {
+    var level = Dungeon.get_current_level();
+    
+    this.fill_tooltip_from_collection( level.stairs_up, location );
+    this.fill_tooltip_from_collection( level.stairs_down, location );
+  };
+  
+  this.fill_tooltip_from_collection = function( collection, location )
+  {
+    for( var ix = 0; ix < collection.length; ++ix )
+    {
+      if( location.equals( collection[ix].location ) )
+      {
+        this.fill_tooltip_with_single_object( collection[ix] );
+      }
+    }
   };
   
   this.fill_header = function( location )
@@ -183,7 +203,14 @@ function ViewPort()
   
   this.draw_single_tile = function( row, col, ctx, force_draw )
   {
-    var tile = Dungeon.get_map_tiles()[this.top_left.y + row][this.top_left.x + col];
+    var map_tiles = Dungeon.get_map_tiles();
+    
+    if( this.top_left.y + row >= map_tiles.length || this.top_left.x + col >= map_tiles[0].length )
+    {
+      return;
+    }
+    
+    var tile = map_tiles[this.top_left.y + row][this.top_left.x + col];
     var canvas_x = convert_ix_to_raw_coord( col );
     var canvas_y = convert_ix_to_raw_coord( row );
         

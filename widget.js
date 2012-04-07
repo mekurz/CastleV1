@@ -27,4 +27,9 @@ function Widget( stat_id, pos )
   {
     return this.location != null && Map.is_location_visible( this.location ) && Dungeon.is_location_explored( this.location );
   };
+  
+  this.get_tooltip = function()
+  {
+    return "<li>" + this.description + "</li>";
+  };
 }

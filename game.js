@@ -25,6 +25,9 @@ function Game()
     Inventory = new InventoryManager();
     Inventory.initialize();
     
+    Minimap = new Minimap();
+    Minimap.initialize();
+    
     Loader = new DataLoader();
     Images = new ImageCache();
     
@@ -142,6 +145,22 @@ function Game()
     }
   };
   
+  this.draw_map = function( ctx )
+  {
+    var level = Dungeon.get_current_level();
+
+    Map.draw_map( ctx); // First layer: Map tiles, doors, widgets (including stairs) 
+    this.draw_collection( level.doors, ctx );
+    this.draw_collection( level.stairs_up, ctx );
+    this.draw_collection( level.stairs_down, ctx );
+    // TODO widgets go here
+    
+    this.draw_collection( level.items, ctx );     // Second layer: Items
+    
+    this.draw_collection( level.monsters, ctx );  // Third layer: Monsters and Player    
+    Player.draw( ctx );
+  };
+  
   this.draw = function()
   {
     /*if( Player.is_dead() )    // No more drawing if the Player is dead
@@ -149,19 +168,7 @@ function Game()
       return;
     }*/
     
-    var level = Dungeon.get_current_level();
-
-    Map.draw_map( this.buffer_ctx ); // First layer: Map tiles, doors, widgets (including stairs) 
-    this.draw_collection( level.doors, this.buffer_ctx );
-    this.draw_collection( level.stairs_up, this.buffer_ctx );
-    this.draw_collection( level.stairs_down, this.buffer_ctx );
-    // TODO widgets go here
-    
-    this.draw_collection( level.items, this.buffer_ctx );     // Second layer: Items
-    
-    this.draw_collection( level.monsters, this.buffer_ctx );  // Third layer: Monsters and Player    
-    Player.draw( this.buffer_ctx );
-    
+    this.draw_map( this.buffer_ctx );    
     this.map_ctx.drawImage( this.buffer, 0, 0 );
   };
   
@@ -228,6 +235,9 @@ function Game()
           break;
         case 73: // I
           Inventory.open();
+          break;
+        case 77: // M
+          Minimap.open();
           break;
         case 79: // O
           perform_action( "open" );
