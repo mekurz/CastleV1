@@ -160,6 +160,16 @@ function Tile( ix )
   this.room_id   = -1;
   this.is_entrance = false;
   
+  this.load = function( obj )
+  {
+    this.tile_ix   = obj.tile_ix;
+    this.passable  = obj.passable;
+    this.explored  = obj.explored;;
+    this.is_lit    = obj.is_lit;
+    this.room_id   = obj.room_id;
+    this.is_entrance = obj.is_entrance;
+  };
+  
   this.is_lit_room = function()
   {
     return this.is_lit && this.room_id != -1;

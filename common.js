@@ -15,6 +15,7 @@ var Player = null;
 var Inventory = null;
 var Dungeon = null;
 var Time = null;
+var Storage = null;
 
 var NO_COMMAND     = "0";
 var SPLAT          = 0;

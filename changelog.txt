@@ -355,6 +355,11 @@ Version 44 - 06-Apr-2012
 - Debugging
   - Added function to reveal all secret doors
   
+Version 45 - 14-May-2012
+- General
+  - Added jStorage library.
+  - TPOC work for loading/saving data from LocalStorage.
+  
 TODO
 ============
 - BUG: Some wall tiles get marked as "too dark to see" based on what's on one side vs the other... need some kind of directional tooltip?
@@ -371,5 +376,5 @@ TODO
 - Tooltips need to be split into two sections (one for detection and one for seeing/map showing)... split off num_items?
 - Rings need to be handled as a special item for multiple slots
 - Monster wandering vs aggressive vs passive... if you hit a monster, it should keep coming at you until it dies
-- Load/Save (local storage? indexdb?)
 - Spawn items inside rooms and when monsters die
+- Load/Save (local storage? indexdb?)

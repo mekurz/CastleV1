@@ -22,6 +22,7 @@ function Game()
     Log.debug( "Initializing..." );
 
     Time = new GameTime();
+    Storage = new GameStorage();
     Inventory = new InventoryManager();
     Inventory.initialize();
     
