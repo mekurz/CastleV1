@@ -1,3 +1,11 @@
+function Serializable()
+{
+  this.load = function( obj )
+  {
+    $.extend( this, obj );
+  };
+}
+
 function GameStorage()
 {
   this.save = function()

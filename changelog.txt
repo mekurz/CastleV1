@@ -360,6 +360,10 @@ Version 45 - 14-May-2012
   - Added jStorage library.
   - TPOC work for loading/saving data from LocalStorage.
   
+Version 46 - 07-Jul-2012
+- General
+  - Improved load/save TPOC with jQuery extend.
+  
 TODO
 ============
 - BUG: Some wall tiles get marked as "too dark to see" based on what's on one side vs the other... need some kind of directional tooltip?
