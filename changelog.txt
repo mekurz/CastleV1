@@ -364,6 +364,11 @@ Version 46 - 07-Jul-2012
 - General
   - Improved load/save TPOC with jQuery extend.
   
+Version 47 - 15-Jul-2012
+- General
+  - Refactored Actor and Item so that they no longer store references to DOM images (allows easy JSON conversion)
+  - Updated load code so that the Player can now be loaded.
+  
 TODO
 ============
 - BUG: Some wall tiles get marked as "too dark to see" based on what's on one side vs the other... need some kind of directional tooltip?

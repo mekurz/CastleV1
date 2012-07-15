@@ -184,7 +184,8 @@ function Game()
   function initialize_player() 
   {
     Player = new PlayerActor();
-    Player.paperdoll.construct_paperdoll();
+    DrawPlayer = new Paperdoll();
+    DrawPlayer.construct_paperdoll();
     Player.update_stats();
   }
   

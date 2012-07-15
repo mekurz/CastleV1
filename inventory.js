@@ -27,9 +27,9 @@ function Item( stat_id, pos )
   this.slot      = "";
   this.description = "";
   this.location  = null;
-  this.icon      = null;
-  this.doll_icon = null;
-  this.legs_icon = null;
+  this.icon_id   = null;
+  this.doll_id   = null;
+  this.legs_id   = null;
   this.equipped  = false;
   var MULTIPLE_IMG = 17;
   
@@ -47,23 +47,13 @@ function Item( stat_id, pos )
     
     // TODO Handle special case for Rings here (need to set RightRing and LeftRing)
     
-    var img_id = data.attr("img_id");
-    this.icon = Images.ITEM_IMAGES[img_id];
-    
-    var doll_id = data.attr("doll_id");
-    if( doll_id != undefined )
-    {
-      this.doll_icon = Images.PAPERDOLL_IMAGES[doll_id];   
-    }
+    this.icon_id = data.attr("img_id");
+    this.doll_id = data.attr("doll_id");
     
     // Special case for Chest items. We could have a Leg image to go with it.
     if( this.slot == "chest" )
     {
-      var legs_id = data.attr("legs_id");
-      if( legs_id != undefined )
-      {
-        this.legs_icon = Images.PAPERDOLL_IMAGES[legs_id];   
-      }
+      this.legs_id = data.attr("legs_id");
     }
   };
   
@@ -82,7 +72,7 @@ function Item( stat_id, pos )
       }
       else
       {
-        ctx.drawImage( this.icon, convert_ix_to_raw_coord( view_pos.x ), convert_ix_to_raw_coord( view_pos.y ) );
+        ctx.drawImage( Images.ITEM_IMAGES[this.icon_id], convert_ix_to_raw_coord( view_pos.x ), convert_ix_to_raw_coord( view_pos.y ) );
       }
       
       delete view_pos;
@@ -136,7 +126,7 @@ function InventoryManager()
                                   Inventory.is_open = true;
                                },
                          close: function(event, ui) {
-                                  Player.paperdoll.construct_paperdoll();
+                                  DrawPlayer.construct_paperdoll();
                                   close_dialog();
                                   Inventory.is_open = false;
                                   document.game.draw();
@@ -221,7 +211,7 @@ function InventoryManager()
   this.create_item_box = function( item )
   {
     var html = "<div id=\"item" + item.id +"\" class=\"Item " + item.slot + "\">";
-    html += "<img src=\"" + item.icon.src + "\"/><br/>";
+    html += "<img src=\"" + Images.ITEM_IMAGES[item.icon_id].src + "\"/><br/>";
     html += "<h1>" + item.description + "</h1>";
     html += "</div>";
     return html;

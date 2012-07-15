@@ -5,7 +5,7 @@ function Monster( type )
   
   this.type       = type;
   this.is_monster = true;
-  this.img        = Images.MONSTER_IMAGES[this.type];
+  this.img_id     = type;
   
   this.load_from_xml();
   Monster.super_class.initialize.call( this );

@@ -37,12 +37,12 @@ function Paperdoll()
   {
     if( item )
     {
-      if( item.slot == "chest" && item.legs_icon )  // Some armour also needs to draw legs.
+      if( item.slot == "chest" && item.legs_id )  // Some armour also needs to draw legs.
       {
-        this.buffer_ctx.drawImage( item.legs_icon, 0, 0 );
+        this.buffer_ctx.drawImage( Images.PAPERDOLL_IMAGES[item.legs_id], 0, 0 );
       }
       
-      this.buffer_ctx.drawImage( item.doll_icon, 0, 0 );
+      this.buffer_ctx.drawImage( Images.PAPERDOLL_IMAGES[item.doll_id], 0, 0 );
     }
   };
 

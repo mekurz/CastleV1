@@ -1,8 +1,9 @@
 function Actor( id )
 {
+  Actor.base_constructor.call( this );
   this.id           = id;
   this.description  = "You";
-  this.img          = null;
+  this.img_id       = 0;
   this.location     = new Point();
   this.max_hp       = 0;
   this.max_mana     = 0;
@@ -15,11 +16,19 @@ function Actor( id )
   this.is_monster   = false;
   this.spell        = -1;
 }
+extend( Actor, Serializable );
 
 Actor.prototype.initialize = function()
 {
   this.current_hp   = this.max_hp;
   this.current_mana = this.max_mana;
+};
+
+Actor.prototype.load = function( obj )
+{
+  Actor.super_class.load.call( this, obj );
+  this.location = new Point();
+  this.location.load( obj.location );
 };
 
 Actor.prototype.draw = function( ctx )
@@ -33,7 +42,7 @@ Actor.prototype.draw = function( ctx )
       Map.draw_single_tile( view_pos.y, view_pos.x, ctx, true );
     }
     
-    ctx.drawImage( this.img, convert_ix_to_raw_coord( view_pos.x ), convert_ix_to_raw_coord( view_pos.y ) );
+    ctx.drawImage( Images.MONSTER_IMAGES[this.img_id], convert_ix_to_raw_coord( view_pos.x ), convert_ix_to_raw_coord( view_pos.y ) );
   }   
 };
 
@@ -137,11 +146,9 @@ Actor.prototype.get_melee_damage = function()
 function PlayerActor()
 {
   PlayerActor.base_constructor.call( this, "man" );
-    
   PlayerActor.super_class.initialize.call( this );
   
   this.bag = new Array();
-  this.paperdoll = new Paperdoll();
   
   // TODO: THESE ARE TEMPORARY SETTINGS
   this.max_hp = 10;
@@ -152,7 +159,7 @@ function PlayerActor()
   
   this.draw = function( ctx )
   {
-    this.paperdoll.draw( ctx );
+    DrawPlayer.draw( ctx );
   };
   
   this.damage = function( value )

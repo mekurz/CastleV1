@@ -1,10 +1,24 @@
-function Serializable()
+function Serializable() {}
+
+Serializable.prototype.load = function( obj )
 {
-  this.load = function( obj )
+  $.extend( this, obj );
+};
+
+/*function remove_dom_elements( obj )
+{
+  for( var attr in obj )
   {
-    $.extend( this, obj );
-  };
-}
+    if( obj[attr].nodeType && obj[attr].nodeType == 1 )
+    {
+      delete obj[attr];
+    }
+    else if( obj[attr] instanceof Object )
+    {
+      remove_dom_elements( attr );
+    }    
+  }
+} */
 
 function GameStorage()
 {
@@ -12,11 +26,13 @@ function GameStorage()
   {
     var map_tiles = Dungeon.get_current_level().map_tiles;
     $.jStorage.set( "map", map_tiles );
+    $.jStorage.set( "player", Player );
   };
   
   this.load = function()
   {
     var map_tiles = $.jStorage.get( "map" );
+    var player = $.jStorage.get("player");
     
     if( map_tiles )
     {
@@ -26,6 +42,8 @@ function GameStorage()
     {
       Log.debug( "No save data found." );
     }
+    
+    Player.load( player );
   };
   
   this.erase = function()

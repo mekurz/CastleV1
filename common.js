@@ -16,6 +16,7 @@ var Inventory = null;
 var Dungeon = null;
 var Time = null;
 var Storage = null;
+var DrawPlayer = null;
 
 var NO_COMMAND     = "0";
 var SPLAT          = 0;
@@ -108,6 +109,8 @@ function extend( sub_class, base_class )
 
 function Point( x, y )
 {
+  Point.base_constructor.call( this );
+  
   this.assign = function( point )
   {
     this.x = point.x;
@@ -205,6 +208,7 @@ function Point( x, y )
    this.y = Math.floor( this.y / TILE_WIDTH ) + Map.top_left.y; 
   };
 }
+extend( Point, Serializable );
 
 function get_element_by_id( id, collection )
 {
