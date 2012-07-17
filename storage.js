@@ -5,21 +5,6 @@ Serializable.prototype.load = function( obj )
   $.extend( this, obj );
 };
 
-/*function remove_dom_elements( obj )
-{
-  for( var attr in obj )
-  {
-    if( obj[attr].nodeType && obj[attr].nodeType == 1 )
-    {
-      delete obj[attr];
-    }
-    else if( obj[attr] instanceof Object )
-    {
-      remove_dom_elements( attr );
-    }    
-  }
-} */
-
 function GameStorage()
 {
   this.save = function()
@@ -31,6 +16,7 @@ function GameStorage()
   
   this.load = function()
   {
+    // TODO This will throw exceptions if anything doesn't exist!!! Need good error handling here
     var map_tiles = $.jStorage.get( "map" );
     var player = $.jStorage.get("player");
     
@@ -44,6 +30,9 @@ function GameStorage()
     }
     
     Player.load( player );
+    Inventory.load();
+    DrawPlayer.construct_paperdoll();
+    document.game.draw();
   };
   
   this.erase = function()
@@ -69,4 +58,18 @@ function GameStorage()
     
     Dungeon.get_current_level().map_tiles = map_tiles;
   }
+  
+  this.load_collection = function( src, dest, TYPE )
+  {
+    dest = [];
+    
+    for( var ix = 0; ix < src.length; ++ix )
+    {
+      var obj = new TYPE();
+      obj.load( src[ix] );
+      dest.push( obj );
+    }
+    
+    return dest;
+  };
 }

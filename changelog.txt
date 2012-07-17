@@ -368,7 +368,13 @@ Version 47 - 15-Jul-2012
 - General
   - Refactored Actor and Item so that they no longer store references to DOM images (allows easy JSON conversion)
   - Updated load code so that the Player can now be loaded.
-  
+
+Version 48 - 16-Jul-2012
+- General
+  - Updated load code so that Items can now be loaded.
+  - Added generic method to Storage for loading collections.
+  - Inventory will reload and display equipped items.
+
 TODO
 ============
 - BUG: Some wall tiles get marked as "too dark to see" based on what's on one side vs the other... need some kind of directional tooltip?
@@ -387,3 +393,4 @@ TODO
 - Monster wandering vs aggressive vs passive... if you hit a monster, it should keep coming at you until it dies
 - Spawn items inside rooms and when monsters die
 - Load/Save (local storage? indexdb?)
+  - Load/save Levels (rooms, doors, etc)

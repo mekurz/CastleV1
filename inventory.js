@@ -22,6 +22,7 @@ function set_border_based_on_container( container, obj )
 
 function Item( stat_id, pos )
 {
+  Item.base_constructor.call( this );
   this.id        = Item.max_item_id;
   this.stat_id   = stat_id;
   this.slot      = "";
@@ -57,8 +58,11 @@ function Item( stat_id, pos )
     }
   };
   
-  this.initialize();
-  Item.max_item_id++;
+  if( stat_id != undefined )
+  {
+    this.initialize();
+    Item.max_item_id = Math.max( this.id, Item.max_item_id + 1 );
+  }
   
   this.draw = function( ctx )
   {
@@ -102,6 +106,7 @@ function Item( stat_id, pos )
     return "<li>" + this.description + "</li>";
   };
 }
+extend( Item, Serializable );
 
 Item.max_item_id = 0;
 
@@ -199,13 +204,16 @@ function InventoryManager()
   this.update_floor_items = function()
   {
     var floor_items = Dungeon.get_items_in_tile( Player.location );
-    
-    for( var i = 0; i < floor_items.length; ++i )
-    {
-      this.floor.append( this.create_item_box( floor_items[i] ) );
-    } 
-    
+    this.update_section_items( this.floor, floor_items );
     floor_items = [];
+  };
+  
+  this.update_section_items = function( section, items )
+  {
+    for( var ix = 0; ix < items.length; ++ix )
+    {
+      section.append( this.create_item_box( items[ix] ) );
+    } 
   };
      
   this.create_item_box = function( item )
@@ -333,5 +341,23 @@ function InventoryManager()
         // TODO Handle tracking moving swaps between slots (i.e. track the slot name we're equipped in)
       }
     }
+  };
+  
+  this.load = function()
+  {
+    this.bag.empty();
+    this.update_section_items( this.bag, Player.bag );
+    
+    $(".ItemContainer").each( function() {
+                 var $this = $(this);
+                 $this.empty();
+                 var item = Inventory.find_equipped_item_for_slot( $this.attr("id") );
+                 if( item )
+                 {
+                   var $item_div = $("#item" + item.id);
+                   $item_div.detach().appendTo( $this );
+                   equipped( $item_div );
+                 }
+             });
   };
 }

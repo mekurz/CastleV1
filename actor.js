@@ -194,3 +194,10 @@ function PlayerActor()
   };
 }
 extend( PlayerActor, Actor );
+
+PlayerActor.prototype.load = function( obj )
+{
+  PlayerActor.super_class.load.call( this, obj );
+  this.bag = Storage.load_collection( obj.bag, this.bag, Item );
+};
+
