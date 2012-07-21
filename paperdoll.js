@@ -45,5 +45,10 @@ function Paperdoll()
       this.buffer_ctx.drawImage( Images.PAPERDOLL_IMAGES[item.doll_id], 0, 0 );
     }
   };
+  
+  this.get_data_url = function()
+  {
+    return this.buffer.toDataURL();
+  };
 
 }

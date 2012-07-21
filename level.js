@@ -1,5 +1,6 @@
 function Level()
 {
+  Level.base_constructor.call( this );
   this.map_tiles = new Array();
   this.monsters = new Array();
   this.items = new Array();
@@ -103,6 +104,18 @@ function Level()
     }
   };
 }
+extend( Level, Serializable );
+
+Level.prototype.load = function( obj )
+{
+  this.map_tiles = Storage.load_map( obj.map_tiles );
+  this.monsters = Storage.load_collection( obj.monsters, Monster );
+  this.items = Storage.load_collection( obj.items, Item );
+  this.rooms = Storage.load_collection( obj.rooms, Room );
+  this.doors = Storage.load_collection( obj.doors, Door );
+  this.stairs_up = Storage.load_collection( obj.stairs_up, Widget );
+  this.stairs_down = Storage.load_collection( obj.stairs_down, Widget );
+};
 
 function DungeonManager()
 {
@@ -303,6 +316,13 @@ function DungeonManager()
     Player.location.assign( this.levels[this.level_ix].get_exit_location( stair_ix ) ); // Start at the Stairs DOWN corresponding to the Stairs UP that were just used
   };
 }
+extend( DungeonManager, Serializable );
+
+DungeonManager.prototype.load = function( obj )
+{
+  DungeonManager.super_class.load.call( this, obj );
+  this.levels = Storage.load_collection( obj.levels, Level );
+};
 
 // Callbacks for affecting map tiles in various ways
 function explore_tile( map_tiles, row, col )

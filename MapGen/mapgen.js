@@ -54,6 +54,8 @@ function Cell()
 
 function Room()
 {
+  Room.base_constructor.call( this );
+  
   this.generate_random_dimension = function()
   {
     var size = Math.floor( Math.random() * MAX_ROOM_SIZE );
@@ -170,6 +172,13 @@ function Room()
     return location;
   };
 }
+extend( Room, Serializable );
+
+Room.prototype.load = function( obj )
+{
+  Room.super_class.load.call( this, obj );
+  this.top_left = Storage.load_point( obj.top_left );
+};
 
 function DoorMaker( map, room )
 {
@@ -475,6 +484,8 @@ function TunnelCrusher( map )
 
 function Door( type, cover_ix, row, col )
 {
+  Door.base_constructor.call( this );
+  
   var OPEN_DOOR_IMG = 7;
   var CLOSED_DOOR_IMG = 6;
   var BROKEN_DOOR_IMG = 8;
@@ -563,6 +574,13 @@ function Door( type, cover_ix, row, col )
       return "<li>a closed door</li>";
     }
   };
+};
+extend( Door, Serializable );
+
+Door.prototype.load = function( obj )
+{
+  Room.super_class.load.call( this, obj );
+  this.location = Storage.load_point( obj.location );
 };
 
 function Texture()

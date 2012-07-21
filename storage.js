@@ -5,34 +5,57 @@ Serializable.prototype.load = function( obj )
   $.extend( this, obj );
 };
 
+function GameInfo()
+{
+  this.version = 1;
+  this.dungeon_info = Dungeon;
+  this.player_info = Player;
+  this.game_time = Time.time;
+  this.icon = DrawPlayer.get_data_url();
+  
+  var now = new Date();
+  this.datestamp = now.toDateString();
+  this.timestamp = now.toTimeString();
+}
+
 function GameStorage()
 {
   this.save = function()
   {
-    var map_tiles = Dungeon.get_current_level().map_tiles;
-    $.jStorage.set( "map", map_tiles );
-    $.jStorage.set( "player", Player );
+    var save_game = new GameInfo();
+    $.jStorage.set( "game", save_game );
   };
   
   this.load = function()
   {
-    // TODO This will throw exceptions if anything doesn't exist!!! Need good error handling here
-    var map_tiles = $.jStorage.get( "map" );
-    var player = $.jStorage.get("player");
-    
-    if( map_tiles )
+    try
     {
-      load_map( map_tiles );
+      var save_game = $.jStorage.get("game");
+      
+      if( save_game )
+      {
+        Dungeon.load( save_game.dungeon_info );
+        Player.load( save_game.player_info );
+        Time.time = save_game.game_time;
+        
+        Time.update_time();
+        Player.update_stats();
+        Dungeon.update_level();
+        Inventory.load();
+        DrawPlayer.construct_paperdoll();
+        Map.center_map_on_location( Player.location );
+        document.game.draw();
+      }
+      else
+      {
+        Log.debug( "No save data found." );
+      }
     }
-    else
+    catch( err )
     {
-      Log.debug( "No save data found." );
+      Log.add( "An error has occurred while loading saved game data." );
+      Log.debug( err.message );
     }
-    
-    Player.load( player );
-    Inventory.load();
-    DrawPlayer.construct_paperdoll();
-    document.game.draw();
   };
   
   this.erase = function()
@@ -41,7 +64,7 @@ function GameStorage()
     Log.debug( "Erased LocalStorage cache." );
   };
   
-  function load_map( new_tiles )
+  this.load_map = function( new_tiles )
   {
     var map_tiles = new Array();
     
@@ -56,12 +79,12 @@ function GameStorage()
       }
     }
     
-    Dungeon.get_current_level().map_tiles = map_tiles;
-  }
+    return map_tiles;
+  };
   
-  this.load_collection = function( src, dest, TYPE )
+  this.load_collection = function( src, TYPE )
   {
-    dest = [];
+    var dest = [];
     
     for( var ix = 0; ix < src.length; ++ix )
     {
@@ -71,5 +94,12 @@ function GameStorage()
     }
     
     return dest;
+  };
+  
+  this.load_point = function( src )
+  {
+    var location = new Point();
+    location.load( src );
+    return location;
   };
 }

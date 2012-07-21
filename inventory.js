@@ -108,6 +108,12 @@ function Item( stat_id, pos )
 }
 extend( Item, Serializable );
 
+Item.prototype.load = function( obj )
+{
+  Item.super_class.load.call( this, obj );
+  this.location = Storage.load_point( obj.location );
+};
+
 Item.max_item_id = 0;
 
 function InventoryManager()

@@ -27,8 +27,7 @@ Actor.prototype.initialize = function()
 Actor.prototype.load = function( obj )
 {
   Actor.super_class.load.call( this, obj );
-  this.location = new Point();
-  this.location.load( obj.location );
+  this.location = Storage.load_point( obj.location );
 };
 
 Actor.prototype.draw = function( ctx )
@@ -198,6 +197,6 @@ extend( PlayerActor, Actor );
 PlayerActor.prototype.load = function( obj )
 {
   PlayerActor.super_class.load.call( this, obj );
-  this.bag = Storage.load_collection( obj.bag, this.bag, Item );
+  this.bag = Storage.load_collection( obj.bag, Item );
 };
 

@@ -374,6 +374,11 @@ Version 48 - 16-Jul-2012
   - Updated load code so that Items can now be loaded.
   - Added generic method to Storage for loading collections.
   - Inventory will reload and display equipped items.
+  
+Version 49 - 20-Jul-2012
+- General
+  - Added load code to all remaining objects as required.
+  - Load/save can now be used to save and restore an entire game (up to the point where localStorage is full for the domain).
 
 TODO
 ============
@@ -392,5 +397,5 @@ TODO
 - Rings need to be handled as a special item for multiple slots
 - Monster wandering vs aggressive vs passive... if you hit a monster, it should keep coming at you until it dies
 - Spawn items inside rooms and when monsters die
-- Load/Save (local storage? indexdb?)
-  - Load/save Levels (rooms, doors, etc)
+- Load/Save - Implement UI (include icon, description, timestamp, etc... some kind of scrollable list) - catch point where localStorage is full
+- Investigate whether or not max_monster_id needs special updating when loading (probably does)
