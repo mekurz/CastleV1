@@ -370,15 +370,23 @@ Version 47 - 15-Jul-2012
   - Updated load code so that the Player can now be loaded.
 
 Version 48 - 16-Jul-2012
-- General
+- Storage
   - Updated load code so that Items can now be loaded.
   - Added generic method to Storage for loading collections.
   - Inventory will reload and display equipped items.
   
 Version 49 - 20-Jul-2012
-- General
+- Storage
   - Added load code to all remaining objects as required.
   - Load/save can now be used to save and restore an entire game (up to the point where localStorage is full for the domain).
+  
+Version 50 - 23-Jul-2012
+- General
+  - Cleaned up some CSS items
+  - Fixed an IE display issue in the Stats section
+- Storage
+  - Implemented Load UI and TPOC for Save UI
+  - Refactored underlying structure of GameStorage to support multiple saved games.
 
 TODO
 ============
@@ -397,5 +405,9 @@ TODO
 - Rings need to be handled as a special item for multiple slots
 - Monster wandering vs aggressive vs passive... if you hit a monster, it should keep coming at you until it dies
 - Spawn items inside rooms and when monsters die
-- Load/Save - Implement UI (include icon, description, timestamp, etc... some kind of scrollable list) - catch point where localStorage is full
+- Load/Save - Implement Save UI  - catch point where localStorage is full
+  - Limit to 3 slots? Remember maxlength on save description
+  - ESC on Load popup proceeds with the action... it should behave like cancel
+  - Need method to delete saved games
+  - JS confirmations before load/overwrite
 - Investigate whether or not max_monster_id needs special updating when loading (probably does)

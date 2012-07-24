@@ -29,7 +29,7 @@
       <option value="9">GAME OVER MAN</option>
     </select>
     <input type="submit" value="Run Test" onclick="run_test();"></input>
-    <input type="submit" value="LOAD"  onclick="Storage.load();"></input>
+    <button onclick="Storage.open_load();">LOAD</button>
     <input type="submit" value="SAVE"  onclick="Storage.save();"></input>
     <input type="submit" value="ERASE" onclick="Storage.erase();"></input>
     <br/>
@@ -139,6 +139,14 @@
         <canvas id="minimap" width="600" height="600" style="border:1px solid black;" oncontextmenu="return false;">
         </canvas>
       </div>
+      <div id="storage">
+        <div id="new_save_div">
+          New Save Game bit goes here
+        </div>
+        <ol id="stored_games"></ol>
+        <div id="no_games_msg">No saved games are present.</div>
+      </div>
+    </div>
 	  </div>
     <script type="text/javascript">
       $(document).ready( function()

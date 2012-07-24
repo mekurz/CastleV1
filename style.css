@@ -41,6 +41,12 @@ body
   float: left;
 }
 
+.StatName
+{
+	float:left;
+	clear:left;
+}
+
 .NonEquipped 
 {
 	border: 1px solid black;
@@ -96,3 +102,44 @@ body
 .Col2 { left:160px; }
 .Col3 { left:240px; }
 .Col4 { left:320px; }
+
+#stored_games
+{
+	list-style-type: none;
+	margin: 0px;
+	padding: 0px;
+}
+
+#stored_games li
+{
+  margin: 3px;
+  padding: 3px;
+}
+
+#stored_games .ui-selecting
+{
+	background: #FECA40;
+}
+
+#stored_games .ui-selected
+{
+	background: #F39814;
+	color: white;
+}
+
+.Avatar
+{
+  width: 32px;
+  height: 32px;
+  vertical-align:top;	
+}
+
+.StoredGameTitle
+{
+	font-weight:bold;
+}
+
+.StoredGameInfo span
+{
+  font-size: 10pt;	
+}

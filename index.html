@@ -73,7 +73,7 @@
       <option value="down">CLIMB DOWN STAIRS</option>
     </select>
     <input type="submit" value="Do Verb" onclick="perform_action( $('#verb_menu').val() );"></input>
-    <input type="submit" value="LOAD"  onclick="Storage.load();"></input>
+    <button onclick="Storage.open_load();">LOAD</button>
     <input type="submit" value="SAVE"  onclick="Storage.save();"></input>
     <input type="submit" value="ERASE" onclick="Storage.erase();"></input>
 		<br/><br/>
@@ -83,19 +83,20 @@
 			</canvas>
 			<div id="log" class="Information" style="width:810px;height:150px;"></div>
 			<div id="stats" class="Information" style="width:143px;height:144px;border-left-width:0px;padding:3px;">
-			  <span style="float:left;">Hit Points</span>
+			  <span class="StatName">Hit Points</span>
 			  <span id="hp" style="float:right;"></span><br/>
-			  <span style="float:left;">Mana</span>
+			  <span class="StatName">Mana</span>
 			  <span id="mana" style="float:right;color:blue;"></span><br/>
-			  <span style="float:left;">Time</span>
+			  <span class="StatName">Time</span>
         <span id="time" style="float:right;"></span>
-        <span style="float:left;">Dungeon Level</span>
+        <span class="StatName">Dungeon Level</span>
         <span id="level" style="float:right;"></span>
 			</div>
 			<div style="clear:left;">
 				<input type="submit" value="Clear Log" onclick="Log.clear();"></input>
 				<input type="submit" value="Shortcuts" onclick="$('#shortcuts').dialog('open');"></input>
 				<input type="submit" value="Debug Flags" onclick="$('#debug_flags').dialog('open');"></input>
+				<button onclick="Storage.open_save();">SAVE TPOC</button>
 		  </div>
 			<div id="shortcuts" title="Keyboard Shortcuts">
         <ul>
@@ -158,6 +159,25 @@
 	    <div id="minimap_popup" title="Map">
         <canvas id="minimap" width="600" height="600" style="border:1px solid black;" oncontextmenu="return false;">
 	      </canvas>
+      </div>
+      <div id="storage">
+        <div id="new_save_div">
+          New Save Game bit goes here
+        </div>
+        <ol id="stored_games">
+          <li class="ui-widget-content">
+            <img class="Avatar"></img>
+            <div style="display:inline-block;width:500px;">
+              <span class="StoredGameTitle">First saved game test First saved game test First saved game test</span><br/>
+              <div class="StoredGameInfo">
+                <span class="StatName">PlayerName (Level #)</span>
+                <span style="float:right;">Last Modified ########</span>
+                <span class="StatName">Game Time: 1d, 00:00</span>
+              </div>
+            </div>
+          </li>
+        </ol>
+        <div id="no_games_msg">No saved games are present.</div>
       </div>
 		</div>
 		
