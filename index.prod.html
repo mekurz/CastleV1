@@ -2,6 +2,8 @@
   <head>
     <title>BROWSER OF THE WINDS</title>
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="title" content="Browser of the Winds" />
+		<link rel="image_src" href="http://members.shaw.ca/achimp/botw/images/monsters/ratman.png" />
     <link href="style.css" rel="stylesheet" type="text/css" />
     <link href="css/overcast/jquery-ui-1.8.16.custom.css" rel="stylesheet" type="text/css"/>
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
@@ -27,11 +29,11 @@
       <option value="8">REVEAL MAP</option>
       <option value="10">REVEAL SECRET DOORS</option>
       <option value="9">GAME OVER MAN</option>
+      <option value="11">ERASE LOCALSTORAGE</option>
     </select>
     <input type="submit" value="Run Test" onclick="run_test();"></input>
     <button onclick="Storage.open_load();">LOAD</button>
-    <input type="submit" value="SAVE"  onclick="Storage.save();"></input>
-    <input type="submit" value="ERASE" onclick="Storage.erase();"></input>
+    <button onclick="Storage.open_save();">SAVE</button>
     <br/>
     SPELL: <select id="spell_menu">
       <option value="p1">MAGIC MISSILE</option>
@@ -63,13 +65,13 @@
       </canvas>
       <div id="log" class="Information" style="width:810px;height:150px;"></div>
       <div id="stats" class="Information" style="width:143px;height:144px;border-left-width:0px;padding:3px;">
-        <span style="float:left;">Hit Points</span>
+        <span class="StatName">Hit Points</span>
         <span id="hp" style="float:right;"></span><br/>
-        <span style="float:left;">Mana</span>
+        <span class="StatName">Mana</span>
         <span id="mana" style="float:right;color:blue;"></span><br/>
-        <span style="float:left;">Time</span>
+        <span class="StatName">Time</span>
         <span id="time" style="float:right;"></span>
-        <span style="float:left;">Dungeon Level</span>
+        <span class="StatName">Dungeon Level</span>
         <span id="level" style="float:right;"></span>
       </div>
       <div style="clear:left;">
@@ -141,7 +143,11 @@
       </div>
       <div id="storage">
         <div id="new_save_div">
-          New Save Game bit goes here
+          Enter a description for a new saved game or select an existing save to overwrite.<br/>
+          Up to three saved games are allowed.<br/>
+          <input type="text" id="new_save_desc" maxlength="35" style="width:460px;" placeholder="Enter a description"></input>
+          <button id="new_save_btn" onclick="Storage.new_save();">New Save</button>
+          <hr/>
         </div>
         <ol id="stored_games"></ol>
         <div id="no_games_msg">No saved games are present.</div>

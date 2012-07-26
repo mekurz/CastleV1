@@ -387,6 +387,14 @@ Version 50 - 23-Jul-2012
 - Storage
   - Implemented Load UI and TPOC for Save UI
   - Refactored underlying structure of GameStorage to support multiple saved games.
+  
+Version 51 - 25-Jul-2012
+- Storage
+  - Added the ability to delete and overwrite saved games.
+  - Added the ability to create new saved games with a description.
+  - Added confirmation messages for destructive Storage operations (overwrite, delete)
+  - Cancelling the Storage popup or pressing ESC will no longer perform the action anyways
+  - Improved the timestamp on saved games
 
 TODO
 ============
@@ -405,9 +413,4 @@ TODO
 - Rings need to be handled as a special item for multiple slots
 - Monster wandering vs aggressive vs passive... if you hit a monster, it should keep coming at you until it dies
 - Spawn items inside rooms and when monsters die
-- Load/Save - Implement Save UI  - catch point where localStorage is full
-  - Limit to 3 slots? Remember maxlength on save description
-  - ESC on Load popup proceeds with the action... it should behave like cancel
-  - Need method to delete saved games
-  - JS confirmations before load/overwrite
 - Investigate whether or not max_monster_id needs special updating when loading (probably does)

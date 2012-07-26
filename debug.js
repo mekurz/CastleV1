@@ -28,6 +28,7 @@ function run_test()
     case 8: reveal_map(); break;
     case 9: test_game_over(); break;
     case 10: reveal_secret_doors(); break;
+    case 11: Storage.erase(); break;
   }
 }
 

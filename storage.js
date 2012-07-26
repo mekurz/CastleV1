@@ -8,6 +8,9 @@ Serializable.prototype.load = function( obj )
 var STORAGE_ACTION_CLOSE = 0;
 var STORAGE_ACTION_LOAD  = 1;
 var STORAGE_ACTION_SAVE  = 2;
+var CONFIRMATION = " This game data cannot be recovered!\n\nDo you want to continue?";
+var DELETE_MSG = "You are about to delete the selected saved game." + CONFIRMATION;
+var OVERWRITE_MSG = "You are about to overwrite the selected saved game." + CONFIRMATION;
 
 function GameInfo()
 {
@@ -18,9 +21,10 @@ function GameInfo()
   this.icon = DrawPlayer.get_data_url();
   
   var now = new Date();
-  this.datestamp = now.toDateString();
-  this.timestamp = now.toTimeString();
-  this.description = "TEST GAME";
+  var months = new Array("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec");
+
+  this.timestamp = months[now.getMonth()] + " " + now.getDate() + " " + now.getFullYear() + " @ " + now.getHours() + ":" + now.getMinutes();
+  this.description = $("#new_save_desc").val();
 }
 
 function GameStorage()
@@ -39,29 +43,88 @@ function GameStorage()
                                       open: function(event, ui) {
                                               open_dialog();
                                            },
-                                      close: function(event, ui) {
-                                              Storage.close_action();
+                                      close: function(event, ui) {                                              
                                               close_dialog();
                                               document.game.draw();
                                             },
                                       buttons: [
                                             {
                                               text: "OK",
-                                              click: function() { Storage.popup.dialog("close"); }
+                                              click: function() { 
+                                                  if( Storage.close_action() )
+                                                    Storage.popup.dialog("close"); 
+                                                }
                                             },
                                             {
                                               text: "Cancel",
                                               click: function() {
-                                                  Storage.action = STORAGE_ACTION_CLOSE;  
                                                   Storage.popup.dialog("close");
                                                 }
                                             },
                                         ]
                                    });
   
-  this.save = function()
+  $("#new_save_btn").button();
+  
+  this.overwrite_save = function()
   {
-    this.saved_games.push( new GameInfo() );  // TODO must also have a way to overwrite
+    if( this.selected_game > -1 )
+    {
+      if( confirm( OVERWRITE_MSG ) )
+      {
+        var new_save = new GameInfo();
+        new_save.description = this.saved_games[this.selected_game].description;
+        this.saved_games[this.selected_game] = new_save;
+        return true;
+      }
+
+      return false; 
+    }
+    
+    return true;
+  };
+  
+  this.new_save = function()
+  {
+    if( this.saved_games.length < 3 )
+    {
+      if( $.trim( $("#new_save_desc").val() ).length > 0 )
+      {
+        this.saved_games.push( new GameInfo() );
+        this.commit_store();
+        this.action = STORAGE_ACTION_CLOSE;
+        this.popup.dialog("close");
+      }
+      else
+      {
+        alert( "You must enter a description for a new saved game." );        
+      }
+    }
+    else
+    {
+      alert( "You currently have the maximum allowed number of saved games.\n\nDelete an existing saved game or select one to overwrite." );
+    }
+  };
+  
+  this.delete_game = function( obj )
+  {
+    var ix = $("#stored_games li").index( $(obj).parent() );
+    
+    if( ix > -1 && confirm( DELETE_MSG ) )
+    {
+      this.saved_games.remove( ix );
+      $("#stored_games li:eq("+ix+")").remove();
+      this.selected_game = -1;
+      
+      if( this.saved_games.length == 0 )
+      {
+        this.no_games_msg.show();
+      }
+    }
+  };
+  
+  this.commit_store = function()
+  {
     $.jStorage.set( "game", this.saved_games );
   };
   
@@ -82,7 +145,6 @@ function GameStorage()
         Inventory.load();
         DrawPlayer.construct_paperdoll();
         Map.center_map_on_location( Player.location );
-        document.game.draw();
       }
     }
     catch( err )
@@ -95,6 +157,7 @@ function GameStorage()
   this.erase = function()
   {
     $.jStorage.flush();
+    this.saved_games = [];
     Log.debug( "Erased LocalStorage cache." );
   };
   
@@ -136,6 +199,7 @@ function GameStorage()
     if( !is_processing() )
     {
       set_command( NO_COMMAND );
+      Storage.saved_games = $.jStorage.get("game") || [];
       Storage.action = action;
       Storage.selected_game = -1;
       Storage.popup.dialog( "option", "title", caption );
@@ -145,11 +209,24 @@ function GameStorage()
   
   this.open_load = function()
   {
-    this.saved_games = $.jStorage.get("game") || [];
     open_popup( "Load Game", STORAGE_ACTION_LOAD );
     this.new_save_div.hide();
+    this.prepare_popup_ui();
+  };
+  
+  this.open_save = function()
+  { 
+    open_popup( "Save Game", STORAGE_ACTION_SAVE );
+    this.no_games_msg.hide();
+    this.new_save_div.show();
+    $("#new_save_desc").val("");
+    this.prepare_popup_ui();
+  };
+  
+  this.prepare_popup_ui = function()
+  {
     this.games_list.empty();
-
+    
     if( this.saved_games.length > 0 )
     {
       this.no_games_msg.hide();
@@ -158,30 +235,22 @@ function GameStorage()
     else
     {
       this.no_games_msg.show();
-    }
-  };
-  
-  this.open_save = function()
-  { 
-    open_popup( "Save Game", STORAGE_ACTION_SAVE );
-    this.no_games_msg.hide();
+    } 
   };
   
   this.close_action = function()
   {
     if( this.action == STORAGE_ACTION_LOAD )
     {
-      Log.debug( "Loading..." );
       this.load_selected_game();
-      Log.debug( "Done." );        
+      this.commit_store();
+      return true;
     }
     else if( this.action == STORAGE_ACTION_SAVE )
     {
-      Log.debug( "Saving..." );
-    }
-    else
-    {
-      Log.debug( "Cancelled out of Load/Save popup." );
+      var result = this.overwrite_save();
+      this.commit_store();
+      return result;
     }
   };
   
@@ -191,11 +260,12 @@ function GameStorage()
     html += "<img src=\"" + info.icon + "\" class=\"Avatar\"></img><div style=\"display:inline-block;width:500px;\">";
     html += "<span class=\"StoredGameTitle\">" + info.description + "</span><br/><div class=\"StoredGameInfo\">";
     html += "<span class=\"StatName\">" + info.player_info.description + " (Level #)</span>";
-    html += "<span style=\"float:right;\">Last Modified: " + info.datestamp + "</span>";
+    html += "<span style=\"float:right;\">Last Modified: " + info.timestamp + "</span>";
     
     var saved_time = new GameTime();
     saved_time.time = info.game_time;
-    html += "<span class=\"StatName\">Game Time: " + saved_time.get_time() + "</span></div></div></li>";
+    html += "<span class=\"StatName\">Game Time: " + saved_time.get_time() + "</span></div></div>";
+    html += "<img src=\"images/delete.gif\" title=\"Delete saved game\" style=\"float:right;cursor:hand;\" onclick=\"Storage.delete_game(this);\"/></li>";
 
     return html;
   }

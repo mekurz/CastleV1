@@ -47,6 +47,7 @@
 		  <option value="8">REVEAL MAP</option>
 		  <option value="10">REVEAL SECRET DOORS</option>
 		  <option value="9">GAME OVER MAN</option>
+		  <option value="11">ERASE LOCALSTORAGE</option>
 		</select>
 		<input type="submit" value="Run Test" onclick="run_test();"></input>
 		<br/>
@@ -74,8 +75,7 @@
     </select>
     <input type="submit" value="Do Verb" onclick="perform_action( $('#verb_menu').val() );"></input>
     <button onclick="Storage.open_load();">LOAD</button>
-    <input type="submit" value="SAVE"  onclick="Storage.save();"></input>
-    <input type="submit" value="ERASE" onclick="Storage.erase();"></input>
+    <button onclick="Storage.open_save();">SAVE</button>
 		<br/><br/>
 		<div id="game_area" style="margin-left:10px;">
       <canvas id="map" width="960" height="480" style="border:1px solid black;" oncontextmenu="return false;">
@@ -96,7 +96,6 @@
 				<input type="submit" value="Clear Log" onclick="Log.clear();"></input>
 				<input type="submit" value="Shortcuts" onclick="$('#shortcuts').dialog('open');"></input>
 				<input type="submit" value="Debug Flags" onclick="$('#debug_flags').dialog('open');"></input>
-				<button onclick="Storage.open_save();">SAVE TPOC</button>
 		  </div>
 			<div id="shortcuts" title="Keyboard Shortcuts">
         <ul>
@@ -162,21 +161,13 @@
       </div>
       <div id="storage">
         <div id="new_save_div">
-          New Save Game bit goes here
+          Enter a description for a new saved game or select an existing save to overwrite.<br/>
+          Up to three saved games are allowed.<br/>
+          <input type="text" id="new_save_desc" maxlength="35" style="width:460px;" placeholder="Enter a description"></input>
+          <button id="new_save_btn" onclick="Storage.new_save();">New Save</button>
+          <hr/>
         </div>
-        <ol id="stored_games">
-          <li class="ui-widget-content">
-            <img class="Avatar"></img>
-            <div style="display:inline-block;width:500px;">
-              <span class="StoredGameTitle">First saved game test First saved game test First saved game test</span><br/>
-              <div class="StoredGameInfo">
-                <span class="StatName">PlayerName (Level #)</span>
-                <span style="float:right;">Last Modified ########</span>
-                <span class="StatName">Game Time: 1d, 00:00</span>
-              </div>
-            </div>
-          </li>
-        </ol>
+        <ol id="stored_games"></ol>
         <div id="no_games_msg">No saved games are present.</div>
       </div>
 		</div>
