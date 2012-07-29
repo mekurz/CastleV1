@@ -536,6 +536,7 @@ function ProjectileSpellEffect( spell_id, source, target )
   this.MAX_VELOCITY = 15;
   this.MIN_VELOCITY = 3;
   this.ACCELERATION = 2;
+  this.last_clear_cell = new Point();
   
   ProjectileSpellEffect.base_constructor.call( this, spell_id );
   this.source = new Point( source.x, source.y );
@@ -587,6 +588,7 @@ ProjectileSpellEffect.prototype.is_finished = function()
     return true;
   }
   
+  this.last_clear_cell.assign( current_tile );
   return false;
 };
 
@@ -755,16 +757,13 @@ extend( AreaSpellEffect, ProjectileSpellEffect );
 
 AreaSpellEffect.prototype.handle_arrived_at_target = function( current_tile )
 {
-  add_spell_effect( new ScalingRotatingFadingSpellEffect( this.area_id, current_tile ) );
+  add_spell_effect( new ScalingRotatingFadingSpellEffect( this.area_id, this.last_clear_cell ) );
   this.resolve_hit();
 };
 
 AreaSpellEffect.prototype.handle_obstacle_collision = function()
 {
-  // MEK TODO aoe spells need to blow up in the previous tile they were in, NOT the tile they encounter an obstacle
-  var target = new Point( this.canvas_x, this.canvas_y );
-  target.convert_to_tile_coord();
-  add_spell_effect( new ScalingRotatingFadingSpellEffect( this.area_id, target ) );
+  add_spell_effect( new ScalingRotatingFadingSpellEffect( this.area_id, this.last_clear_cell ) );
   this.resolve_miss();
 };
 

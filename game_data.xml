@@ -187,6 +187,14 @@
         <Description>Amulet of Health</Description>
       </Item>
     </Neck>
+    <Ring>
+      <Item id="ring1" img_id="15">
+        <Description>Ruby Ring</Description>
+      </Item>
+      <Item id="ring2" img_id="14">
+        <Description>Emerald Ring</Description>
+      </Item>
+    </Ring>
     <Shield>
       <Item id="shield1" img_id="8" doll_id="7">
         <Description>Wooden Buckler</Description>

@@ -395,22 +395,30 @@ Version 51 - 25-Jul-2012
   - Added confirmation messages for destructive Storage operations (overwrite, delete)
   - Cancelling the Storage popup or pressing ESC will no longer perform the action anyways
   - Improved the timestamp on saved games
+  
+Version 52 - 29-Jul-2012
+- Storage
+  - Fixed an issue where unequipped items in the Player's bag would not be displayed
+- Inventory
+  - Added the ability to equip rings and swap between the LeftRing and RightRing slot
+- General
+  - Fixed an issue where double right-clicking on a non-empty cell would display an blank tooltip.
+  - Fixed crashing unit tests that occurred when I added Storage.
+- Spells
+  - Area spells will now explode in the last-known clear cell when encountering a wall. This prevents AoE through walls.
 
 TODO
 ============
 - BUG: Some wall tiles get marked as "too dark to see" based on what's on one side vs the other... need some kind of directional tooltip?
-- BUG: Double right-clicking on a cell that contains something will display a tooltip that contains no information
 - BUG: Monsters can spawn ontop of the Player
 - BUG: Monsters going through doors that have been explored but are not within sight appear to magically open... need a way to hide this
 - Add more text options so the log doesn't look so boring
 - Props (traps, more widgets, etc)
-- Area spells need to set their primary target to the last square that they were in, NOT the square where an obstacle is encountered
 - Items in the inventory need detailed tooltips
 - Item stats, etc
 - Gold
 - Double-clicking in inventory to take/drop items
 - Tooltips need to be split into two sections (one for detection and one for seeing/map showing)... split off num_items?
-- Rings need to be handled as a special item for multiple slots
 - Monster wandering vs aggressive vs passive... if you hit a monster, it should keep coming at you until it dies
 - Spawn items inside rooms and when monsters die
 - Investigate whether or not max_monster_id needs special updating when loading (probably does)

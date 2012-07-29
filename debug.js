@@ -212,6 +212,8 @@ function create_debug_items()
   level.create_single_item( "shield2", new Point( 24, 5 ) );
   level.create_single_item( "shield2", new Point( 10, 20 ) ); // in unexplored
   level.create_single_item( "shield2", new Point( 19, 22 ) ); // in dark
+  level.create_single_item( "ring1", new Point( 9, 7 ) );
+  level.create_single_item( "ring2", new Point( 9, 7 ) );
 }
 
 function create_debug_level()

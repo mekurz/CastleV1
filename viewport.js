@@ -17,18 +17,17 @@ function Tooltip()
     this.visible = true;
     this.has_los = Map.does_line_of_sight_exist( Player.location, location );
     
+    this.contents.empty();
     this.fill_content( location );
     this.fill_header( location );    
     
     this.adjust_position( location );
-    this.tooltip.fadeIn( TOOLTIP_FADE_SPEED ); 
+    this.tooltip.stop( true, true ).fadeIn( TOOLTIP_FADE_SPEED ); 
   };
   
   this.hide_tooltip = function()
   {
-    this.tooltip.fadeOut( TOOLTIP_FADE_SPEED, function(){
-      document.game.tooltip.contents.empty();
-    });
+    this.tooltip.fadeOut( TOOLTIP_FADE_SPEED );
     this.visible = false;
   };
   

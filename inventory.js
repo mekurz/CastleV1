@@ -45,11 +45,14 @@ function Item( stat_id, pos )
     
     this.description = data.find("Description").text();
     this.slot = data.parent()[0].nodeName.toLowerCase();
-    
-    // TODO Handle special case for Rings here (need to set RightRing and LeftRing)
-    
     this.icon_id = data.attr("img_id");
     this.doll_id = data.attr("doll_id");
+    
+    // Special case for Rings (can be equipped in multiple slots)
+    if( this.slot == "ring" )
+    {
+      this.slot = "rightring leftring";
+    }
     
     // Special case for Chest items. We could have a Leg image to go with it.
     if( this.slot == "chest" )
@@ -283,14 +286,14 @@ function InventoryManager()
     }
   };
   
-  this.equip_item = function( item_id, equip )
+  this.equip_item = function( item_id, slot )
   {
     var item_ix = this.convert_html_id_to_item_ix( item_id, Player.bag );
     
     if( item_ix > -1 )
     {
-      Player.bag[item_ix].equipped = equip;
-      Log.debug( "Item " + item_id + " is equipped: " + equip );
+      Player.bag[item_ix].equipped = slot;
+      Log.debug( "Item " + item_id + " is equipped: " + slot );
     }
   };
   
@@ -298,7 +301,7 @@ function InventoryManager()
   {
     for( var i = 0; i < Player.bag.length; ++i )
     {
-      if( Player.bag[i].equipped && Player.bag[i].slot == slot )
+      if( Player.bag[i].equipped == slot )
       {
         return Player.bag[i];
       }      
@@ -320,7 +323,7 @@ function InventoryManager()
       if( receiver_id != "bag" )
       {
         // Any receiver other than the Bag means that an item has been moved into a Slot and therefore is equipped.
-        this.equip_item( item_id, true );
+        this.equip_item( item_id, receiver_id );
       }
     }
     else
@@ -334,17 +337,12 @@ function InventoryManager()
       else if( receiver_id == "bag" )
       {
         // When the receiver is the Bag, it means we are unequipping an item
-        this.equip_item( item_id, false );
-      }
-      else if( sender_id = "bag" )
-      {
-        // When the sender is the Bag, it means we are equipping an item
-        this.equip_item( item_id, true );
+        this.equip_item( item_id, "" );
       }
       else
       {
-        // All other cases are swaps between equipped items into valid slots
-        // TODO Handle tracking moving swaps between slots (i.e. track the slot name we're equipped in)
+        // Any other receiver means we're swapping two equipped items (i.e. Rings)
+        this.equip_item( item_id, receiver_id );
       }
     }
   };
@@ -354,7 +352,7 @@ function InventoryManager()
     this.bag.empty();
     this.update_section_items( this.bag, Player.bag );
     
-    $(".ItemContainer").each( function() {
+    $(".ItemSlot").each( function() {
                  var $this = $(this);
                  $this.empty();
                  var item = Inventory.find_equipped_item_for_slot( $this.attr("id") );
