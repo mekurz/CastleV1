@@ -19,6 +19,8 @@
     <Tile id="16" src="stones4.png"/>
     <Tile id="17" src="stairs_up.png"/>
     <Tile id="18" src="stairs_down.png"/>
+    <Tile id="19" src="trap_spear.png"/>
+    <Tile id="20" src="trap_rune.png"/>
   </Tiles>
   <Textures>
     <Texture id="1">
@@ -34,6 +36,18 @@
       <Description>Stairs down</Description>
     </Widget>
   </Widgets>
+  <Traps>
+    <Trap id="1" tile_id="19">
+      <Description>Spear Trap</Description>
+      <Damage>10</Damage>
+      <Reset>0</Reset>
+    </Trap>
+    <Trap id="2" tile_id="20">
+      <Description>Rune Trap</Description>
+      <Damage>3</Damage>
+      <Reset>1</Reset>
+    </Trap>
+  </Traps>
   <Spells>
     <Images>
       <Image id="0" src="splat.png"/>

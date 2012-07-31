@@ -25,17 +25,29 @@ function Widget( stat_id, pos )
     }
   };
   
-  this.should_draw_widget = function()
-  {
-    return this.location != null && Map.is_location_visible( this.location ) && Dungeon.is_location_explored( this.location );
-  };
-  
   this.get_tooltip = function()
   {
-    return "<li>" + this.description + "</li>";
+    if( this.should_show_tooltip() )
+    {
+      return "<li>" + this.description + "</li>";
+    }
+    else
+    {
+      return "";
+    }
   };
 }
 extend( Widget, Serializable );
+
+Widget.prototype.should_draw_widget = function()
+{
+  return this.location != null && Map.is_location_visible( this.location ) && Dungeon.is_location_explored( this.location );
+};
+
+Widget.prototype.should_show_tooltip = function()
+{
+  return true;
+};
 
 Widget.prototype.load = function( obj )
 {

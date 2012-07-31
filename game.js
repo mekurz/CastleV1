@@ -154,6 +154,7 @@ function Game()
     this.draw_collection( level.doors, ctx );
     this.draw_collection( level.stairs_up, ctx );
     this.draw_collection( level.stairs_down, ctx );
+    this.draw_collection( level.traps, ctx );
     // TODO widgets go here
     
     this.draw_collection( level.items, ctx );     // Second layer: Items

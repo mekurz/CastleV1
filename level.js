@@ -8,6 +8,7 @@ function Level()
   this.doors = new Array();
   this.stairs_up = new Array();
   this.stairs_down = new Array();
+  this.traps = new Array();
   
   this.create_single_monster = function( monster_type, location )
   {
@@ -35,15 +36,12 @@ function Level()
   
   this.get_monster_in_tile = function( location )
   {
-    for( var i = 0; i < this.monsters.length; ++i )
-    {
-      if( this.monsters[i].location.equals( location ) )
-      {
-        return this.monsters[i];
-      }
-    }
-    
-    return null;
+    return get_single_item_at_location( this.monsters, location );
+  };
+  
+  this.get_trap_in_tile = function( location )
+  {
+    return get_single_item_at_location( this.traps, location );
   };
   
   this.get_stair_ix_at_location = function( collection, location )
@@ -115,6 +113,7 @@ Level.prototype.load = function( obj )
   this.doors = Storage.load_collection( obj.doors, Door );
   this.stairs_up = Storage.load_collection( obj.stairs_up, Widget );
   this.stairs_down = Storage.load_collection( obj.stairs_down, Widget );
+  this.traps = Storage.load_collection( obj.traps, Trap );
 };
 
 function DungeonManager()
@@ -189,6 +188,15 @@ function DungeonManager()
   this.get_monster_in_tile = function( location )
   {
     return this.get_current_level().get_monster_in_tile( location );
+  };
+  
+  this.trigger_traps_in_tile = function( location )
+  {
+    var trap = this.get_current_level().get_trap_in_tile( location );
+    if( trap )
+    {
+      trap.trigger();
+    }
   };
   
   this.kill_monster = function( monster_id )
@@ -271,32 +279,28 @@ function DungeonManager()
     }
   };
   
-  this.search_at_location = function( point )
+  function search_collection_at_location( collection, location )
   {
-    var doors = this.get_current_level().doors;
-    for( var ix = 0; ix < doors.length; ++ix )
+    for( var ix = 0; ix < collection.length; ++ix )
     {
-      if( point.adjacent_to( doors[ix].location ) && !doors[ix].is_visible() )
+      if( location.adjacent_to( collection[ix].location ) && !collection[ix].is_visible() )
       {
-        doors[ix].find_door();
-        Log.add( "You found a secret door!" );
+        collection[ix].find(); // TODO incorporate some kind of skill check here
       }
     }
-  };
+  }
   
-  this.get_door_in_tile = function( point )
+  this.search_at_location = function( location )
   {
     var level = this.get_current_level();
-    
-    for( var i = 0; i < level.doors.length; ++i )
-    {
-      if( level.doors[i].location.equals( point ) )
-      {
-        return level.doors[i];
-      }
-    } 
-    
-    return null;
+    search_collection_at_location( level.doors, location );
+    search_collection_at_location( level.traps, location );
+  };
+  
+  this.get_door_in_tile = function( location )
+  {
+    var level = this.get_current_level();
+    return get_single_item_at_location( level.doors, location );
   };
   
   this.go_down = function( stair_ix )

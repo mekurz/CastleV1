@@ -182,6 +182,7 @@ function setup_debug_level()
   create_debug_level();  
   create_debug_monsters();
   create_debug_items();
+  create_debug_traps();
 }
 
 function create_debug_monsters()
@@ -214,6 +215,13 @@ function create_debug_items()
   level.create_single_item( "shield2", new Point( 19, 22 ) ); // in dark
   level.create_single_item( "ring1", new Point( 9, 7 ) );
   level.create_single_item( "ring2", new Point( 9, 7 ) );
+}
+
+function create_debug_traps()
+{
+  var level = Dungeon.get_current_level();
+  level.traps.push( new Trap( 1, new Point( 10, 8 ) ) );    // Spear
+  level.traps.push( new Trap( 2, new Point( 10, 18 ) ) );   // Rune (resets)
 }
 
 function create_debug_level()

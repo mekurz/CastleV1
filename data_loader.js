@@ -51,6 +51,11 @@ function DataLoader()
     return this.get_data( "Widget", id );
   };
   
+  this.get_trap_data = function( id )
+  {
+    return this.get_data( "Trap", id );
+  };
+  
   this.get_texture = function( id )
   {
     return this.get_data( "Texture", id );

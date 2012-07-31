@@ -105,6 +105,7 @@ function Movement()
     if( !actor.is_monster )
     {
       Dungeon.explore_at_location( actor.location );
+      Dungeon.trigger_traps_in_tile( actor.location );
     }
   }
 }

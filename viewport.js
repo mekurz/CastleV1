@@ -87,17 +87,12 @@ function Tooltip()
     
     this.fill_tooltip_from_collection( level.stairs_up, location );
     this.fill_tooltip_from_collection( level.stairs_down, location );
+    this.fill_tooltip_from_collection( level.traps, location );
   };
   
   this.fill_tooltip_from_collection = function( collection, location )
   {
-    for( var ix = 0; ix < collection.length; ++ix )
-    {
-      if( location.equals( collection[ix].location ) )
-      {
-        this.fill_tooltip_with_single_object( collection[ix] );
-      }
-    }
+    this.fill_tooltip_with_single_object( get_single_item_at_location( collection, location ) );
   };
   
   this.fill_header = function( location )
@@ -403,8 +398,7 @@ function ViewPort()
         target_item = null;   // Broken and secret doors cannot be targetted by anything
       }
     }
-    
-    return target_item;
-    
+
+    return target_item;    
   };
 };

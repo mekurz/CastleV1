@@ -535,9 +535,10 @@ function Door( type, cover_ix, row, col )
     return this.type == BROKEN;
   };
   
-  this.find_door = function()
+  this.find = function()
   {
     this.type = CLOSED;
+    Log.add( "You found a secret door!" );
   };
   
   this.set_open = function()

@@ -61,6 +61,19 @@ Array.prototype.shuffle = function() {
   return this;
 };
 
+function get_single_item_at_location( collection, location )
+{
+  for( var i = 0; i < collection.length; ++i )
+  {
+    if( location.equals( collection[i].location ) )
+    {
+      return collection[i];
+    }
+  }
+  
+  return null;
+}
+
 function set_command( value )
 {
   $("#command").val( value );

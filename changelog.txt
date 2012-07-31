@@ -406,6 +406,13 @@ Version 52 - 29-Jul-2012
   - Fixed crashing unit tests that occurred when I added Storage.
 - Spells
   - Area spells will now explode in the last-known clear cell when encountering a wall. This prevents AoE through walls.
+  
+Version 53 - 30-Jul-2012
+- General
+  - Added traps (one-time and auto-resetting)
+    - Searching a tile will uncover any traps. One-time traps can only be triggered once. Traps that reset can be triggered infinitely.
+  - Refactored several duplicated methods into generic functions for grabbing things from collections
+  - Refactored secret doors so that traps can reuse most of their code 
 
 TODO
 ============
@@ -413,12 +420,15 @@ TODO
 - BUG: Monsters can spawn ontop of the Player
 - BUG: Monsters going through doors that have been explored but are not within sight appear to magically open... need a way to hide this
 - Add more text options so the log doesn't look so boring
-- Props (traps, more widgets, etc)
+- Props (more widgets for decoration)
 - Items in the inventory need detailed tooltips
 - Item stats, etc
 - Gold
+- Progress bar for initial load
 - Double-clicking in inventory to take/drop items
 - Tooltips need to be split into two sections (one for detection and one for seeing/map showing)... split off num_items?
 - Monster wandering vs aggressive vs passive... if you hit a monster, it should keep coming at you until it dies
 - Spawn items inside rooms and when monsters die
 - Investigate whether or not max_monster_id needs special updating when loading (probably does)
+- Need to randomly create traps when making a level
+- Disarm verb
