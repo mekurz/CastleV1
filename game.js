@@ -233,6 +233,9 @@ function Game()
         case 67: // C
           perform_action( "close" );
           break;
+        case 68: // D
+          perform_action( "disarm" );
+          break;
         case 69: // E
           perform_action( "sleep" );
           break;
@@ -317,6 +320,7 @@ function Game()
         }
         
         Log.debug( "Clicked on " + mouse_pos.to_string() );
+        //Log.debug( JSON.stringify( Dungeon.get_current_level().map_tiles[mouse_pos.y][mouse_pos.x] ) );
       }
       else if( evt.button == 2 ) // Right-click
       {

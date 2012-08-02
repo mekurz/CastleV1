@@ -25,13 +25,12 @@ function Level()
     
   this.get_monster_ix = function( monster_id )
   {
-    for( var i = 0; i < this.monsters.length; ++i )
-    {
-      if( this.monsters[i].id == monster_id )
-      {
-        return i;
-      }
-    } 
+    return get_single_item_ix_by_id( this.monsters, monster_id );
+  };
+  
+  this.get_trap_ix = function( location )
+  {
+    return get_single_item_ix_by_location( this.traps, location );
   };
   
   this.get_monster_in_tile = function( location )
@@ -46,15 +45,7 @@ function Level()
   
   this.get_stair_ix_at_location = function( collection, location )
   {
-    for( var ix = 0; ix < collection.length; ++ix )
-    {
-      if( location.equals( collection[ix].location ) )
-      {
-        return ix;
-      }
-    }
-    
-    return -1;
+    return get_single_item_ix_by_location( collection, location );
   };
   
   this.get_starting_location = function( stair_ix )
@@ -190,6 +181,11 @@ function DungeonManager()
     return this.get_current_level().get_monster_in_tile( location );
   };
   
+  this.get_trap_in_tile = function( location )
+  {
+    return this.get_current_level().get_trap_in_tile( location );
+  };
+  
   this.trigger_traps_in_tile = function( location )
   {
     var trap = this.get_current_level().get_trap_in_tile( location );
@@ -203,6 +199,12 @@ function DungeonManager()
   {
     var level = this.get_current_level();
     level.monsters.splice( level.get_monster_ix( monster_id ), 1 );
+  };
+  
+  this.disarm_trap = function( trap_id )
+  {
+    var level = this.get_current_level();
+    level.traps.remove( level.get_trap_ix( trap_id ) );
   };
   
   this.get_items_in_tile = function( point )

@@ -29,6 +29,7 @@ function run_test()
     case 9: test_game_over(); break;
     case 10: reveal_secret_doors(); break;
     case 11: Storage.erase(); break;
+    case 12: reveal_traps(); break;
   }
 }
 
@@ -115,6 +116,7 @@ function test_diagonal_cones()
 
 function random_map()
 {
+  Dungeon.level_ix = 0;
   Dungeon.levels = new Array();
   Dungeon.create_level(0);
   Player.location.assign( Dungeon.levels[0].get_starting_location() );
@@ -159,7 +161,19 @@ function reveal_secret_doors()
   
   for( var ix = 0; ix < doors.length; ++ix )
   {
-    doors[ix].find_door();
+    doors[ix].find();
+  }
+  
+  document.game.do_turn();
+}
+
+function reveal_traps()
+{
+  var traps = Dungeon.get_current_level().traps;
+  
+  for( var ix = 0; ix < traps.length; ++ix )
+  {
+    traps[ix].found = true;
   }
   
   document.game.do_turn();
@@ -220,7 +234,7 @@ function create_debug_items()
 function create_debug_traps()
 {
   var level = Dungeon.get_current_level();
-  level.traps.push( new Trap( 1, new Point( 10, 8 ) ) );    // Spear
+  level.traps.push( new Trap( 1, new Point( 4, 11 ) ) );    // Spear
   level.traps.push( new Trap( 2, new Point( 10, 18 ) ) );   // Rune (resets)
 }
 
@@ -238,9 +252,9 @@ function create_debug_level()
                     [ 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1, 1, 1, 1, 1, 1, 1, 1, 2, 1, 2, 1, 2, 1, 1, 3 ],
                     [ 3, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 2, 2, 3, 3, 3, 3, 3, 1, 1, 1, 1, 1, 1, 1, 3 ],
                     [ 3, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 3, 2, 2, 2, 2, 1, 1, 1, 1, 1, 1, 1, 3 ],
-                    [ 3, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 3, 2, 2, 3, 3, 1, 1, 1, 1, 1, 1, 1, 3 ],
-                    [ 3, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 3, 3, 3, 3, 1, 1, 1, 1, 1, 1, 1, 1, 3 ],
-                    [ 3, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 3 ],
+                    [ 3, 1, 1, 1, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 3, 2, 2, 3, 3, 1, 1, 1, 1, 1, 1, 1, 3 ],
+                    [ 3, 1, 1, 2, 2, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 3, 3, 3, 3, 1, 1, 1, 1, 1, 1, 1, 1, 3 ],
+                    [ 3, 1, 1, 1, 2, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 3 ],
                     [ 3, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 3 ],
                     [ 3, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 3, 1, 3, 1, 1, 1, 1, 1, 3 ],
                     [ 3, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 3, 1, 3, 1, 1, 1, 1, 1, 3 ],

@@ -221,7 +221,19 @@ function InventoryManager()
   {
     for( var ix = 0; ix < items.length; ++ix )
     {
+      if( $("#item" + items[ix].id).size() > 0 ) continue;
+      
       section.append( this.create_item_box( items[ix] ) );
+      $("#item" + items[ix].id).dblclick( function() {
+                                    var sender_id = $(this).parent().attr("id");
+                                    if( sender_id == "floor" || sender_id == "bag" )
+                                    {
+                                      var sender = $(this).parent();
+                                      var receiver = ( sender_id == "floor" ) ? Inventory.bag : Inventory.floor;
+                                      $(this).detach().appendTo( receiver );
+                                      Inventory.move_item_between_collections( $(this).attr("id"), sender, receiver );
+                                    }
+                                 });
     } 
   };
      
@@ -257,11 +269,11 @@ function InventoryManager()
   {
     var items = Dungeon.get_items();
     var floor_items = Dungeon.get_items_in_tile( Player.location );
+    this.update_section_items( this.floor, floor_items );
     
     for( var i = 0; i < floor_items.length; ++i )
     {
-      $("#item"  +floor_items[i].id).remove(); 
-      this.bag.append( this.create_item_box( floor_items[i] ) );
+      $("#item" + floor_items[i].id).detach().appendTo( this.bag );
       
       floor_items[i].take();
       Player.bag.push( floor_items[i] );

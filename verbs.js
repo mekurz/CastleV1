@@ -16,12 +16,12 @@ function perform_action( action )
 
 function is_action( action )
 {
-  return action == "search" || action == "open" || action == "close" || action == "rest" || action == "sleep" || action == "down" || action == "up";
+  return action == "search" || action == "open" || action == "close" || action == "rest" || action == "sleep" || action == "down" || action == "up" || action == "disarm";
 }
 
 function is_targeted_action( action )
 {
-  return action == "open" || action == "close";
+  return action == "open" || action == "close" || action == "disarm";
 }
 
 function handle_action( action, location )
@@ -61,6 +61,11 @@ function handle_action( action, location )
   {
     is_valid = go_up();
   }
+  else if( action == "disarm" )
+  {
+    is_valid = do_disarm( location );
+    set_finished();
+  }
   
   return is_valid;  
 }
@@ -90,14 +95,14 @@ function do_open( location )
     else
     {
       Log.add( "Nothing to open." );
-      return false;
     }
   }
   else
   {
     Log.add( "You cannot reach that!" );
-    return false;
   }
+  
+  return false;
 }
 
 function do_close( location )
@@ -114,12 +119,10 @@ function do_close( location )
       if( target_item && target_item.is_monster  )
       {
         Log.add( "The " + target_item.description + " is blocking the door!" );
-        return false;
       }
       else if( Dungeon.count_items_in_tile( location ) > 0 )
       {
         Log.add( "There are objects blocking the door." );
-        return false;
       }
       else
       {  
@@ -132,14 +135,14 @@ function do_close( location )
     else
     {
       Log.add( "Nothing to close." );
-      return false;
     }
   }
   else
   {
     Log.add( "You cannot reach that!" );
-    return false;
   }
+  
+  return false;
 }
 
 function do_rest()
@@ -253,4 +256,40 @@ function change_level()
   Time.update_time();
   Dungeon.update_level();
   document.game.draw();
+}
+
+function do_disarm( location )
+{
+  if( location.adjacent_to( Player.location ) )
+  {
+    var trap = Dungeon.get_trap_in_tile( location );
+    
+    if( trap && trap.is_visible() && !trap.tripped )
+    {
+      // Check for something blocking the trap the would prevent us from disarming it.
+      var target_item = Map.get_target_item_in_tile( location );
+      
+      if( target_item && target_item.is_monster  )
+      {
+        Log.add( "The " + target_item.description + " is blocking you from doing that!" );
+      }
+      else if( attempt_long_action( ROUNDS_IN_ONE_MIN ) == ROUNDS_IN_ONE_MIN )
+      {
+        Dungeon.disarm_trap( trap.location );
+        Log.add( "You disarm the " + trap.description + "." );
+        document.game.do_turn();
+        return true;
+      }
+    }
+    else
+    {
+      Log.add( "Nothing to disarm." );
+    }
+  }
+  else
+  {
+    Log.add( "You cannot reach that!" );
+  }
+  
+  return false;
 }

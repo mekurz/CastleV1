@@ -29,7 +29,7 @@ function Widget( stat_id, pos )
   {
     if( this.should_show_tooltip() )
     {
-      return "<li>" + this.description + "</li>";
+      return this.get_tooltip_text();
     }
     else
     {
@@ -47,6 +47,11 @@ Widget.prototype.should_draw_widget = function()
 Widget.prototype.should_show_tooltip = function()
 {
   return true;
+};
+
+Widget.prototype.get_tooltip_text = function()
+{
+  return "<li>" + this.description + "</li>";
 };
 
 Widget.prototype.load = function( obj )

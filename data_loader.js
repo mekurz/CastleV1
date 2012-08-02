@@ -56,6 +56,11 @@ function DataLoader()
     return this.get_data( "Trap", id );
   };
   
+  this.get_num_traps = function()
+  {
+    return this.xml.find("Trap").size();
+  };
+  
   this.get_texture = function( id )
   {
     return this.get_data( "Texture", id );

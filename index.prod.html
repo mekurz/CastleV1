@@ -28,6 +28,7 @@
       <option value="5">DO TURN</option>
       <option value="8">REVEAL MAP</option>
       <option value="10">REVEAL SECRET DOORS</option>
+      <option value="12">REVEAL TRAPS</option>
       <option value="9">GAME OVER MAN</option>
       <option value="11">ERASE LOCALSTORAGE</option>
     </select>
@@ -56,6 +57,7 @@
       <option value="sleep">SLEEP UNTIL MANA IS RESTORED</option>
       <option value="up">CLIMB UP STAIRS</option>
       <option value="down">CLIMB DOWN STAIRS</option>
+      <option value="disarm">DISARM TRAP</option>
     </select>
     <input type="submit" value="Do Verb" onclick="perform_action( $('#verb_menu').val() );"></input>
     <br/><br/>
@@ -91,6 +93,7 @@
           <li>C - Close</li>
           <li>R - Rest Until Healed</li>
           <li>E - Sleep Until Mana is Restored</li>
+          <li>D - Disarm Trap</li>
           <li>&lt; (SHIFT+,) - Climb Up Stairs</li>
           <li>&gt; (SHIFT+.) - Climb Down Stairs</li>
         </ul>

@@ -27,6 +27,7 @@ function Cell()
   this.is_deadend = false;
   this.is_stairs = false;
   this.is_lit = false;
+  this.trapped = false;
   
   this.is_a_room = function()
   {
@@ -747,13 +748,47 @@ function MapGenerator()
     {
       var location = null;
       
+      // Keep looking for a spot until we find one without stairs
       while( location == null || this.map[location.y][location.x].is_stairs )
       {
         location = this.generate_stairs_location();
       }
       
-      collection.push( new Widget( type, location ) );
-      this.map[location.y][location.x].is_stairs = true;
+      if( !this.map[location.y][location.x].is_stairs )
+      {
+        collection.push( new Widget( type, location ) );
+        this.map[location.y][location.x].is_stairs = true;
+      }
+    }
+  };
+  
+  this.generate_random_location = function()
+  {
+    return new Point( Math.floor( Math.random() * MAP_HEIGHT ), Math.floor( Math.random() * MAP_WIDTH ) );    
+  };
+  
+  this.generate_traps = function( level, num_traps )
+  {
+    var num_types = Loader.get_num_traps();
+    
+    for( var ix = 0; ix < num_traps; ++ix )
+    {
+      var location = null;
+      var attempts = 0;
+      
+      // Look for a passable tile. Give up after 10 attempts.
+      while( attempts < 10 && ( location == null || !level.map_tiles[location.y][location.x].passable ) )
+      {
+        location = this.generate_random_location();
+        attempts++;
+      }
+      
+      // Add a new trap as long as there's nothing here
+      if( attempts <= 10 && !this.map[location.y][location.x].trapped && !this.map[location.y][location.x].is_stairs )
+      {
+        level.traps.push( new Trap( random_type( num_types ), location ) );  // TODO randomize trap type
+        this.map[location.y][location.x].trapped = true;
+      }
     }
   };
   
@@ -766,6 +801,8 @@ function MapGenerator()
     
     var num_stairs_down = Math.floor( this.rooms_list.length / 5 );
     this.generate_stairs( level.stairs_down, STAIRS_DOWN, num_stairs_down );
+    
+    this.generate_traps( level, this.rooms_list.length );
   };
   
 // DRAW MAP FUNCTIONS (FOR DEBUGGING) BELOW

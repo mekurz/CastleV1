@@ -414,21 +414,36 @@ Version 53 - 30-Jul-2012
   - Refactored several duplicated methods into generic functions for grabbing things from collections
   - Refactored secret doors so that traps can reuse most of their code 
 
+Version 54 - 01-Aug-2012
+- General
+  - Added Disarm verb. Non-resetting traps that have been triggered already cannot be disarmed.
+    - Disarming a trap is a long action that takes one minute and can be interrupted.
+  - Traps will now be randomly located throughout a dungeon, except on stairs
+  - Fixed an issue where non-resetting traps that had been discovered would not be triggered if you walked over them
+- Debugging
+  - Added option to reveal all hidden traps
+  - Fixed an issue where switching to a random map while on a dungeon level greater than 1 caused a crash
+- Inventory
+  - Added the ability to double-click on non-equipped items in your Inventory to take/drop them.
+
 TODO
 ============
 - BUG: Some wall tiles get marked as "too dark to see" based on what's on one side vs the other... need some kind of directional tooltip?
+- BUG: Appears to be some problems with tooltips deciding if it's too dark or not for Widgets
 - BUG: Monsters can spawn ontop of the Player
 - BUG: Monsters going through doors that have been explored but are not within sight appear to magically open... need a way to hide this
+- Touch events?
 - Add more text options so the log doesn't look so boring
 - Props (more widgets for decoration)
+- dynamic sizing of viewport based on window size... needs to have min/max dimensions set
+- Belts should have utility slots
 - Items in the inventory need detailed tooltips
+- Character Creation
 - Item stats, etc
 - Gold
+- Toolbar for verbs and spells
 - Progress bar for initial load
-- Double-clicking in inventory to take/drop items
 - Tooltips need to be split into two sections (one for detection and one for seeing/map showing)... split off num_items?
 - Monster wandering vs aggressive vs passive... if you hit a monster, it should keep coming at you until it dies
 - Spawn items inside rooms and when monsters die
 - Investigate whether or not max_monster_id needs special updating when loading (probably does)
-- Need to randomly create traps when making a level
-- Disarm verb

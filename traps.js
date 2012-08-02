@@ -3,6 +3,7 @@ function Trap( stat_id, pos )
   Trap.base_constructor.call( this, stat_id, pos );
   this.stat_id = stat_id;
   this.found = false;
+  this.tripped = false;
   
   if( pos != undefined )
   {
@@ -28,11 +29,17 @@ function Trap( stat_id, pos )
   
   this.trigger = function()
   {
-    if( !this.found || this.reset == "1" )
+    if( !this.found || this.reset == "1" || !this.tripped )
     {
       this.found = true;
       Player.damage( this.damage );
       Log.add( "You have triggered a " + this.description + "!" );
+      
+      if( this.reset == "0" )
+      {
+        this.tripped = true;
+        this.description = "tripped " + this.description;
+      }
     }
   };
   
@@ -44,9 +51,14 @@ Trap.prototype.should_draw_widget = function()
   return this.found && Trap.super_class.should_draw_widget.call( this );
 };
 
-Widget.prototype.should_show_tooltip = function()
+Trap.prototype.should_show_tooltip = function()
 {
   return this.found;
+};
+
+Trap.prototype.get_tooltip_text = function()
+{
+  return "<li>a " + this.description + "</li>";
 };
 
 Trap.prototype.load = function( obj )

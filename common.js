@@ -74,6 +74,32 @@ function get_single_item_at_location( collection, location )
   return null;
 }
 
+function get_single_item_ix_by_id( collection, id )
+{
+  for( var i = 0; i < collection.length; ++i )
+  {
+    if( collection[i].id == id )
+    {
+      return i;
+    }
+  }
+  
+  return -1;
+}
+
+function get_single_item_ix_by_location( collection, location )
+{
+  for( var ix = 0; ix < collection.length; ++ix )
+  {
+    if( location.equals( collection[ix].location ) )
+    {
+      return ix;
+    }
+  }
+  
+  return -1;
+}
+
 function set_command( value )
 {
   $("#command").val( value );
@@ -250,6 +276,11 @@ function get_element_ix( id, collection )
 function chance( pct )
 {
   return Math.floor( Math.random() * 100 ) <= pct; 
+}
+
+function random_type( max_id )
+{
+  return Math.floor( Math.random() * max_id ) + 1;
 }
 
 function GameTime()
