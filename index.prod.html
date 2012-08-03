@@ -61,7 +61,7 @@
     </select>
     <input type="submit" value="Do Verb" onclick="perform_action( $('#verb_menu').val() );"></input>
     <br/><br/>
-    <div id="game_area" style="margin-left:10px;">
+    <div id="game_area" style="margin-left:10px;position:relative;">
       <canvas id="map" width="960" height="480" style="border:1px solid black;" oncontextmenu="return false;">
         Canvas not supported. You must be using Internet Explorer 9, Firefox 4+, Chrome or Safari.
       </canvas>
@@ -80,7 +80,12 @@
         <input type="submit" value="Clear Log" onclick="Log.clear();"></input>
         <input type="submit" value="Shortcuts" onclick="$('#shortcuts').dialog('open');"></input>
         <input type="submit" value="Debug Flags" onclick="$('#debug_flags').dialog('open');"></input>
-      </div> 
+      </div>
+      <div id="load_div">
+        Loading...
+        <progress id="load_bar" value="0" max="100"></progress><br/>
+        <span id="load_pct"></span>%
+      </div>
       <div id="shortcuts" title="Keyboard Shortcuts">
         <ul>
           <li>Arrows/Numpad - Move/attack</li>

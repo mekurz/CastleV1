@@ -143,3 +143,15 @@ body
 {
   font-size: 10pt;	
 }
+
+#load_div
+{
+	width: 200px;
+	background: white;
+	border: 1px solid black;
+	text-align: center;
+	line-height: 30px;
+	position: absolute;
+	top: 200px;
+	left: 380px;
+}

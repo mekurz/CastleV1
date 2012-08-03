@@ -15,6 +15,7 @@ function Game()
   this.buffer_ctx = null;
   this.spell_buffer = null;
   this.spell_ctx = null;
+  var load_div = $("#load_div");
 
   this.initialize = function()
   {
@@ -77,7 +78,7 @@ function Game()
   {
     if( Images.is_loaded() )
     {
-      Log.add( "Done loading images." );
+      Log.debug( "Done loading images." );
       
       Dungeon = new DungeonManager();
       Map = new ViewPort();
@@ -106,7 +107,8 @@ function Game()
       set_finished();
       set_command( NO_COMMAND );
       
-      Log.debug( "Done initialization." );
+      load_div.remove();
+      Log.add( "Ready for action!" );
     }
   };
   

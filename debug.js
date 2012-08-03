@@ -209,6 +209,7 @@ function create_debug_monsters()
   level.create_single_monster( HILLGIANT, new Point( 19, 9 ) );
   level.create_single_monster( RATMAN, new Point( 22,20 ) );  // in dark
   level.create_single_monster( RATMAN, new Point( 10,20 ) );  // in unexplored
+  level.create_single_monster( 2, new Point( 18, 3 ) );  // inert slime
 }
 
 function create_debug_items()

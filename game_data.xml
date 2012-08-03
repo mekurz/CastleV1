@@ -133,6 +133,15 @@
       <Melee>4</Melee>
       <SpellCast id="p4"/>
     </Monster>
+    <Monster id="2" src="slime.png">
+      <Description>Disgusting Slime</Description>
+      <HP>10</HP>
+      <Mana>0</Mana>
+      <AC>10</AC>
+      <Sight>1</Sight>
+      <Melee>2</Melee>
+      <Behave>2</Behave>
+    </Monster>
   </Monsters>
   <Paperdoll>
     <Image id="0" src="base.png"/>

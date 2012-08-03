@@ -784,9 +784,10 @@ function MapGenerator()
       }
       
       // Add a new trap as long as there's nothing here
-      if( attempts <= 10 && !this.map[location.y][location.x].trapped && !this.map[location.y][location.x].is_stairs )
+      var cell = this.map[location.y][location.x];
+      if( attempts <= 10 && !cell.trapped && !cell.is_stairs && !cell.is_entrance )
       {
-        level.traps.push( new Trap( random_type( num_types ), location ) );  // TODO randomize trap type
+        level.traps.push( new Trap( random_type( num_types ), location ) );
         this.map[location.y][location.x].trapped = true;
       }
     }

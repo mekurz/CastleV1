@@ -425,6 +425,16 @@ Version 54 - 01-Aug-2012
   - Fixed an issue where switching to a random map while on a dungeon level greater than 1 caused a crash
 - Inventory
   - Added the ability to double-click on non-equipped items in your Inventory to take/drop them.
+  
+Version 55 - 02-Aug-2012
+- General
+  - Added monster behaviour. Monsters can either be aggressive, passive or inert.
+    - Passive monsters become aggressive when approached or attacked
+    - Inert monsters can only attack adjacent targets and don't move
+  - Added a new monster: the DISGUSTING SLIME!
+  - Traps can no longer appear in the same tile as a door 
+  - Added a progress bar for loading images (the bar only shows in Chrome and Firefox, but all browsers will display a percentage)
+  - Cleaned up some debug messages.
 
 TODO
 ============
@@ -442,8 +452,5 @@ TODO
 - Item stats, etc
 - Gold
 - Toolbar for verbs and spells
-- Progress bar for initial load
 - Tooltips need to be split into two sections (one for detection and one for seeing/map showing)... split off num_items?
-- Monster wandering vs aggressive vs passive... if you hit a monster, it should keep coming at you until it dies
 - Spawn items inside rooms and when monsters die
-- Investigate whether or not max_monster_id needs special updating when loading (probably does)

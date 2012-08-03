@@ -2,6 +2,8 @@ function ImageCache()
 {
   var need_to_load = 0;
   var loaded = 0;
+  var load_bar = $("#load_bar");
+  var load_pct = $("#load_pct");
   
   this.TILE_IMAGES = new Array();
   this.MONSTER_IMAGES = new Array();
@@ -23,6 +25,9 @@ function ImageCache()
     img.onload = function() {
           loaded++;
           Log.debug( "Loading finished: " + this.src + " (" + loaded + "/" + need_to_load + ")" );
+          var pct = Math.floor( loaded / need_to_load * 100 );
+          load_bar.val( pct );
+          load_pct.html( pct );
         };
     img.src = ""; // Workaround for Chrome
     img.src = "images/" + src;
