@@ -2,16 +2,34 @@ function perform_action( action )
 {
   if( !is_processing() )
   {
+    if( get_command() != NO_COMMAND )
+    {
+      cancel_action();
+    }
+    
     if( is_targeted_action( action ) )
     {
       crosshairs_cursor();
       set_command( action );
+      toggle_action();
     }
     else
     {
       handle_action( action );
     }
   }
+}
+
+function toggle_action()
+{
+  $("#btn_" + get_command()).button("toggle");
+}
+
+function cancel_action()
+{
+  toggle_action();
+  set_command( NO_COMMAND );
+  default_cursor();
 }
 
 function is_action( action )

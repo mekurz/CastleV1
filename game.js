@@ -201,11 +201,10 @@ function Game()
       // Events that can be used on dialogs
       if( evt.keyCode == 84 && ( OPEN_DIALOGS == 0 || Inventory.is_open ) ) // T
       {
-          Inventory.take_all();
-          document.game.draw();
-          return;
+        Inventory.take_all();
+        document.game.draw();
+        return;
       }
-      
       
       if( OPEN_DIALOGS > 0 )
       {
@@ -229,8 +228,7 @@ function Game()
           }
           break;
         case 27: // esc
-          set_command( NO_COMMAND );
-          default_cursor();
+          cancel_action();
           break;
         case 67: // C
           perform_action( "close" );

@@ -6,6 +6,11 @@ body
   font-size: 10pt;
 }
 
+.btn a
+	{
+	 text-decoration:none;
+	}
+
 #tooltip 
 {
   border: 1px solid black;

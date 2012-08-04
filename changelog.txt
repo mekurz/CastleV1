@@ -435,6 +435,11 @@ Version 55 - 02-Aug-2012
   - Traps can no longer appear in the same tile as a door 
   - Added a progress bar for loading images (the bar only shows in Chrome and Firefox, but all browsers will display a percentage)
   - Cleaned up some debug messages.
+  
+Version 56 - 03-Aug-2012
+- General
+  - Added Bootstrap library for buttons and dropdowns.
+  - Converted old dropdowns into new toolbar layout. Production page still needs to be updated.
 
 TODO
 ============
@@ -451,6 +456,9 @@ TODO
 - Character Creation
 - Item stats, etc
 - Gold
-- Toolbar for verbs and spells
 - Tooltips need to be split into two sections (one for detection and one for seeing/map showing)... split off num_items?
 - Spawn items inside rooms and when monsters die
+- Invest
+- Customizable spell menu
+- Gear icon 32x32
+- Clean up some CSS and apply toolbar to production.

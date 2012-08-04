@@ -40,8 +40,7 @@ function process_click( location )
     }
   }
 
-  default_cursor();
-  set_command( NO_COMMAND );
+  cancel_action();
   
   return valid_action;
 }
