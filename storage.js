@@ -22,7 +22,13 @@ function GameInfo()
   
   var now = new Date();
   var months = new Array("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec");
-
+  var minutes = now.getMinutes();
+  
+  if( minutes < 10 )
+  {
+    minutes = "0" + minutes;
+  }
+  
   this.timestamp = months[now.getMonth()] + " " + now.getDate() + " " + now.getFullYear() + " @ " + now.getHours() + ":" + now.getMinutes();
   this.description = $("#new_save_desc").val();
 }
@@ -39,7 +45,7 @@ function GameStorage()
   this.popup = $("#storage").dialog({ autoOpen: false,
                                       resizable: false,
                                       modal: true,
-                                      width: 600,
+                                      width: 610,
                                       open: function(event, ui) {
                                               open_dialog();
                                            },
@@ -50,6 +56,7 @@ function GameStorage()
                                       buttons: [
                                             {
                                               text: "OK",
+                                              "class": "btn btn-primary",
                                               click: function() { 
                                                   if( Storage.close_action() )
                                                     Storage.popup.dialog("close"); 
@@ -57,6 +64,7 @@ function GameStorage()
                                             },
                                             {
                                               text: "Cancel",
+                                              "class": "btn",
                                               click: function() {
                                                   Storage.popup.dialog("close");
                                                 }
@@ -257,7 +265,7 @@ function GameStorage()
   function get_html_for_single_game( info )
   {
     var html = "<li class=\"ui-widget-content\">";
-    html += "<img src=\"" + info.icon + "\" class=\"Avatar\"></img><div style=\"display:inline-block;width:500px;\">";
+    html += "<img src=\"" + info.icon + "\" class=\"Avatar\"></img><div style=\"display:inline-block;width:500px;margin-right:5px;\">";
     html += "<span class=\"StoredGameTitle\">" + info.description + "</span><br/><div class=\"StoredGameInfo\">";
     html += "<span class=\"StatName\">" + info.player_info.description + " (Level #)</span>";
     html += "<span style=\"float:right;\">Last Modified: " + info.timestamp + "</span>";
@@ -265,7 +273,7 @@ function GameStorage()
     var saved_time = new GameTime();
     saved_time.time = info.game_time;
     html += "<span class=\"StatName\">Game Time: " + saved_time.get_time() + "</span></div></div>";
-    html += "<img src=\"images/delete.gif\" title=\"Delete saved game\" style=\"float:right;cursor:hand;\" onclick=\"Storage.delete_game(this);\"/></li>";
+    html += "<button class=\"btn btn-danger btn-delete\" onclick=\"Storage.delete_game(this);\"><i class=\"icon-remove icon-white\"></i></button></li>";
 
     return html;
   }

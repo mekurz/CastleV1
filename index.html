@@ -1,10 +1,11 @@
+<!DOCTYPE html> 
 <html>
 	<head>
 		<title>BROWSER OF THE WINDS</title>
 		<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
-		<link href="style.css" rel="stylesheet" type="text/css" />
 		<link href="css/overcast/jquery-ui-1.8.16.custom.css" rel="stylesheet" type="text/css"/>
 		<link href="css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+		<link href="style.css" rel="stylesheet" type="text/css" />
 		<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
 		<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.18/jquery-ui.min.js"></script>
 		<script type="text/javascript" src="bootstrap.min.js"></script>
@@ -66,48 +67,50 @@
     </select>
 		<input type="submit" value="Cast Spell" onclick="cast_spell( $('#spell_menu').val() );"></input>
 		<input type="submit" value="Switch to Random Map" onclick="random_map();"></input>
-		<div class="btn-toolbar" style="margin-left:10px;">
-			<div class="btn-group">
-	      <button class="btn btn-large dropdown-toggle" data-toggle="dropdown">Game <b class="caret"></b></button>
-	      <ul class="dropdown-menu">
-			    <li><a href="#" onclick="Storage.open_load();">Load Game...</a></li>
-			    <li><a href="#" onclick="Storage.open_save();">Save Game...</a></li>
-			    <li class="divider"></li>
-			    <li><a href="#" onclick="$('#shortcuts').dialog('open');">Shortcuts...</a></li>
-			    <li><a href="#" onclick="Log.clear();">Clear Log</a></li>
-			    <li><a href="#" onclick="$('#debug_flags').dialog('open');">Debug Flags...</a></li>
-			  </ul>
-			</div>
-      <div class="btn-group">
-        <button id="btn_inventory" class="btn btn-large" onclick="Inventory.open();">Inventory</button>
-        <button id="btn_map" class="btn btn-large" onclick="Minimap.open();">Map</button>
-	      <button id="btn_search" class="btn btn-large" onclick="perform_action('search');">Search</button>
-        <button id="btn_disarm" class="btn btn-large" onclick="perform_action('disarm');">Disarm</button>
-        <button id="btn_take" class="btn btn-large" onclick="Log.add('TODO');">Take</button>
-      </div>
-      <div class="btn-group">
-        <button id="btn_verbs" class="btn btn-large dropdown-toggle" data-toggle="dropdown">Verbs <b class="caret"></b></button>
-        <ul id="other_actions_menu" class="dropdown-menu">
-          <li><a href="#" onclick="perform_action('open');">Open</a></li>
-          <li><a href="#" onclick="perform_action('close');">Close</a></li>
-          <li><a href="#" onclick="perform_action('rest');">Rest Until Healed</a></li>
-          <li><a href="#" onclick="perform_action('sleep');">Sleep Until Mana is Restored</a></li>
-          <li><a href="#" onclick="perform_action('up');">Climb Up Stairs</a></li>
-          <li><a href="#" onclick="perform_action('down');">Climb Down Stairs</a></li>
-        </ul>
-      </div>     
-      <div class="btn-group">
-        <button class="btn"><img src="images/spells/firebolt.png"/></button>
-        <button class="btn"><img src="images/spells/firebolt.png"/></button>
-        <button class="btn"><img src="images/spells/firebolt.png"/></button>
-        <button class="btn"><img src="images/spells/firebolt.png"/></button>
-        <button class="btn"><img src="images/spells/firebolt.png"/></button>
-        <button class="btn"><img src="images/spells/firebolt.png"/></button>
-        <button class="btn"><img src="images/spells/firebolt.png"/></button>
-        <button class="btn">G</button>
-      </div>
-	  </div>
+		
 		<div id="game_area" style="margin-left:10px;position:relative;">
+			<div class="btn-toolbar">
+	      <div class="btn-group">
+	        <button class="btn btn-large dropdown-toggle" data-toggle="dropdown">Game <b class="caret"></b></button>
+	        <ul class="dropdown-menu">
+	          <li><a href="#" onclick="Storage.open_load();">Load Game...</a></li>
+	          <li><a href="#" onclick="Storage.open_save();">Save Game...</a></li>
+	          <li class="divider"></li>
+	          <li><a href="#" onclick="$('#shortcuts').dialog('open');">Shortcuts...</a></li>
+	          <li><a href="#" onclick="Log.clear();">Clear Log</a></li>
+	          <li><a href="#" onclick="$('#debug_flags').dialog('open');">Debug Flags...</a></li>
+	        </ul>
+	      </div>
+	      <div class="btn-group">
+	        <button id="btn_inventory" class="btn btn-large" onclick="Inventory.open();">Inventory</button>
+	        <button id="btn_map" class="btn btn-large" onclick="Minimap.open();">Map</button>
+	        <button id="btn_search" class="btn btn-large" onclick="perform_action('search');">Search</button>
+	        <button id="btn_disarm" class="btn btn-large" onclick="perform_action('disarm');">Disarm</button>
+	        <button id="btn_take" class="btn btn-large" onclick="Log.add('TODO');">Take</button>
+	        <button id="btn_verbs" class="btn btn-large dropdown-toggle" data-toggle="dropdown">More <b class="caret"></b></button>
+	        <ul id="other_actions_menu" class="dropdown-menu pull-right">
+	          <li><a href="#" onclick="perform_action('open');">Open</a></li>
+	          <li><a href="#" onclick="perform_action('close');">Close</a></li>
+	          <li><a href="#" onclick="perform_action('rest');">Rest Until Healed</a></li>
+	          <li><a href="#" onclick="perform_action('sleep');">Sleep Until Mana is Restored</a></li>
+	          <li><a href="#" onclick="perform_action('up');">Climb Up Stairs</a></li>
+	          <li><a href="#" onclick="perform_action('down');">Climb Down Stairs</a></li>
+	        </ul>
+	      </div>     
+	      <div class="btn-group">
+	        <button class="btn btn-img"><img src="images/spells/firebolt.png"/></button>
+	        <button class="btn btn-img"><img src="images/spells/firebolt.png"/></button>
+	        <button class="btn btn-img"><img src="images/spells/firebolt.png"/></button>
+	        <button class="btn btn-img"><img src="images/spells/firebolt.png"/></button>
+	        <button class="btn btn-img"><img src="images/spells/firebolt.png"/></button>
+	        <button class="btn btn-img"><img src="images/spells/firebolt.png"/></button>
+	        <button class="btn btn-img"><img src="images/spells/firebolt.png"/></button>
+	        <button class="btn dropdown-toggle btn-img" data-toggle="dropdown"><img src="images/gear.png"/> <b class="caret"></b></button>
+	        <ul id="other_actions_menu" class="dropdown-menu pull-right">
+	          <li><a href="#" onclick="Log.add('TODO');">Customize...</a></li>
+	        </ul>
+	      </div>
+	    </div>
       <canvas id="map" width="960" height="480" style="border:1px solid black;" oncontextmenu="return false;">
 			  Canvas not supported. You must be using Internet Explorer 9, Firefox 4+, Chrome or Safari.
 			</canvas>
@@ -124,7 +127,9 @@
 			</div>
 		  <div id="load_div">
 		    Loading...
-		    <progress id="load_bar" value="0" max="100"></progress><br/>
+		    <div class="progress progress-striped active" style="width:180px;margin:auto;">
+          <div id="load_bar" class="bar" style="width:0%;"></div>
+        </div>
         <span id="load_pct"></span>%
 		  </div>
 			<div id="shortcuts" title="Keyboard Shortcuts">
@@ -190,22 +195,26 @@
         <canvas id="minimap" width="600" height="600" style="border:1px solid black;" oncontextmenu="return false;">
 	      </canvas>
       </div>
+      <div id="storage">
+        <div id="new_save_div">
+          <div style="padding-bottom:5px;">
+            Enter a description for a new saved game or select an existing save to overwrite.<br/>
+  		      Up to three saved games are allowed.
+  		    </div>
+  		    <div class="br"></div>
+				  <input type="text" id="new_save_desc" maxlength="35" style="width:460px;" placeholder="Enter a description"></input>
+				  <button id="new_save_btn" class="btn" onclick="Storage.new_save();">New Save</button>
+          <hr/>
+				</div>
+        <ol id="stored_games"></ol>
+        <div id="no_games_msg">No saved games are present.</div>
+			</div>
 		</div>
-		<div id="storage">
-       <div id="new_save_div">
-         Enter a description for a new saved game or select an existing save to overwrite.<br/>
-         Up to three saved games are allowed.<br/>
-         <input type="text" id="new_save_desc" maxlength="35" style="width:460px;" placeholder="Enter a description"></input>
-         <button id="new_save_btn" onclick="Storage.new_save();">New Save</button>
-         <hr/>
-       </div>
-       <ol id="stored_games"></ol>
-       <div id="no_games_msg">No saved games are present.</div>
-     </div>
+
 		
 	  <script type="text/javascript">
 		  $(document).ready( function()
-		    {
+		  {
 		    $(".btn-group").button();
 		    
 		    $("#shortcuts").dialog({ autoOpen: false,

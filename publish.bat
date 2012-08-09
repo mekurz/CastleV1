@@ -9,6 +9,7 @@ copy *.min.js prod
 copy changelog.txt prod
 copy game_data.xml prod
 
+xcopy css\*.* prod\css /e /y
 xcopy images\*.* prod\images /e /y /exclude:exclude.txt
 
 del full.js

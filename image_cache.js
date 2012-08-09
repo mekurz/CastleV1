@@ -26,7 +26,7 @@ function ImageCache()
           loaded++;
           Log.debug( "Loading finished: " + this.src + " (" + loaded + "/" + need_to_load + ")" );
           var pct = Math.floor( loaded / need_to_load * 100 );
-          load_bar.val( pct );
+          load_bar.css( "width", "" + pct + "%" );
           load_pct.html( pct );
         };
     img.src = ""; // Workaround for Chrome

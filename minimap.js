@@ -12,8 +12,8 @@ function Minimap()
     this.popup.dialog({  autoOpen: false,
                          resizable: false,
                          modal: true,
-                         width: 630,
-                         height: 650,
+                         width: 640,
+                         height: 660,
                          open: function(event, ui) {
                                   open_dialog();
                                   Minimap.draw_map();

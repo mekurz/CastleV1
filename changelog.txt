@@ -440,6 +440,14 @@ Version 56 - 03-Aug-2012
 - General
   - Added Bootstrap library for buttons and dropdowns.
   - Converted old dropdowns into new toolbar layout. Production page still needs to be updated.
+  
+Version 57 - 08-Aug-2012
+- General
+  - CSS fixes for new toolbar
+  - Converted load progress bar to use browser-compatible Bootstrap progress bar styles.
+  - Fixed CSS styles for jQuery UI dialog buttons due to Bootstrap overlaps
+- Storage
+  - Fixed an issue with timestamps for minute values under 10 
 
 TODO
 ============
@@ -458,7 +466,4 @@ TODO
 - Gold
 - Tooltips need to be split into two sections (one for detection and one for seeing/map showing)... split off num_items?
 - Spawn items inside rooms and when monsters die
-- Invest
 - Customizable spell menu
-- Gear icon 32x32
-- Clean up some CSS and apply toolbar to production.
