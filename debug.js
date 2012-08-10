@@ -33,6 +33,16 @@ function run_test()
   }
 }
 
+function cast_spell_by_id( spell )
+{
+  if( !is_processing() )
+  {
+    crosshairs_cursor();
+    toggle_spell( SpellBar.get_button_ix( spell ) );
+    set_command( spell );
+  }
+}
+
 function test_fizzle()
 {
   if( !is_processing() )

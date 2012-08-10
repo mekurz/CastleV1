@@ -1,13 +1,72 @@
 var SPELL_WIDTH = 12;
 var AREA_SPELL_WIDTH = TILE_WIDTH * 3;
 
-function cast_spell( spell )
+function SpellToolbar()
 {
-	if( !is_processing() )
-	{
-	  crosshairs_cursor();
-	  set_command( spell );
-	}
+  SpellToolbar.base_constructor.call( this );
+  this.spell_list = ["p1","p2","p3","","","",""];
+  
+  this.update_toolbar = function()
+  {
+    for( var ix = 0; ix < this.spell_list.length; ++ix )
+    {
+      var spell_btn = $("#spell"+ix);
+      var html = "";
+      var title = "";
+      
+      if( this.spell_list != "" )
+      {
+        var xml = Loader.get_spell_data( this.spell_list[ix] );
+        var toolbar_img = parseInt( xml.attr("toolbar_id") );
+        
+        if( !isNaN( toolbar_img ) )
+        {
+          html = "<img src=\"" + Images.SPELL_IMAGES[toolbar_img].src + "\"/>";
+          title = ( ix + 1 ) + " - " + xml.find("Description").text();
+        }
+      }
+      
+      if( html == "" )
+      {
+        html = "<img src=\"images/blank.png\"/>";
+        spell_btn.button("toggle");
+      }
+      
+      spell_btn.empty().html( html ).attr( "title", title );
+    }
+  };
+  
+  this.get_button_ix = function( spell_id )
+  {
+    for( var ix = 0; ix < this.spell_list.length; ++ix )
+    {
+      if( this.spell_list[ix] == spell_id )
+        return ix;
+    }
+    
+    return -1;
+  };
+}
+extend( SpellToolbar, Serializable );
+
+function cast_spell( btn_ix )
+{
+  if( !is_processing() && SpellBar.spell_list[btn_ix] != "" && SpellBar.spell_list[btn_ix] != undefined  )
+  {
+    if( get_command() != NO_COMMAND )
+    {      
+      cancel_action();
+    }
+	  
+    crosshairs_cursor();
+    set_command( SpellBar.spell_list[btn_ix] );
+    toggle_spell( btn_ix );
+  }
+}
+
+function toggle_spell( btn_ix )
+{
+  $("#spell" + btn_ix).button("toggle");
 }
 
 function create_spell( spell_id, source_actor, target )

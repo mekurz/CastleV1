@@ -82,6 +82,8 @@ function Game()
       
       Dungeon = new DungeonManager();
       Map = new ViewPort();
+      SpellBar = new SpellToolbar();
+      SpellBar.update_toolbar();
       
       initialize_player();
       Time.update_time();
@@ -222,6 +224,14 @@ function Game()
         case 35: // numpad 1
         case 40: // down
         case 34: // numpad 3
+        case 97: // numlock 1
+        case 98: // numlock 2
+        case 99: // numlock 3
+        case 100: // numlock 4
+        case 102: // numlock 6
+        case 103: // numlock 7
+        case 104: // numlock 8
+        case 105: // numlock 9
           if( new Movement().move_on_keypress( evt.keyCode ) )
           {
             document.game.do_turn();
@@ -229,6 +239,15 @@ function Game()
           break;
         case 27: // esc
           cancel_action();
+          break;
+        case 49: // 1   SPELL BAR BUTTONS
+        case 50: // 2
+        case 51: // 3
+        case 52: // 4
+        case 53: // 5
+        case 54: // 6
+        case 55: // 7
+          cast_spell( evt.keyCode - 49 );
           break;
         case 67: // C
           perform_action( "close" );

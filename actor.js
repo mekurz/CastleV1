@@ -148,6 +148,7 @@ function PlayerActor()
   PlayerActor.super_class.initialize.call( this );
   
   this.bag = new Array();
+  this.spellbook = new Array();
   
   // TODO: THESE ARE TEMPORARY SETTINGS
   this.max_hp = 10;

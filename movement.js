@@ -7,30 +7,36 @@ function Movement()
     switch( key )
     {
       case 36:  // numpad 7
+      case 103:
         vector = new Point( -1, -1 );
         break;
       case 38:  // up
+      case 104:
         vector = new Point( 0, -1 );
         break;
       case 33:  // numpad 9
+      case 105:
         vector = new Point( 1, -1 );
         break;    
       case 37: // left
+      case 100:
         vector = new Point( -1, 0 );
         break;    
       case 39: // right
+      case 102:
         vector = new Point( 1, 0 );
         break;
       case 35:  // numpad 1
+      case 97:
         vector = new Point( -1, 1 );
         break; 
       case 40:  // down
+      case 98:
         vector = new Point( 0, 1 );
         break;
       case 34:  // numpad 3
+      case 99:
         vector = new Point( 1, 1 );
-        break;
-      default:
         break;
     }
     

@@ -62,25 +62,25 @@
       <Image id="9" src="light.png"/>
     </Images>
     <Projectile>
-	    <Spell id="p1" projectile_id="2">
+	    <Spell id="p1" projectile_id="2" toolbar_id="2">
 	      <Description>Magic Missile</Description>
 	      <Mana>1</Mana>
 	      <Damage>2</Damage>
 	      <Verb>slams into</Verb>
 	    </Spell>
-	    <Spell id="p2" projectile_id="3">
+	    <Spell id="p2" projectile_id="3" toolbar_id="3">
 	      <Description>Lightning Bolt</Description>
 	      <Mana>2</Mana>
 	      <Damage>3</Damage>
 	      <Verb>fries</Verb>
 	    </Spell>
-	    <Spell id="p3" projectile_id="4">
+	    <Spell id="p3" projectile_id="4" toolbar_id="4">
 	      <Description>Firebolt</Description>
 	      <Mana>4</Mana>
 	      <Damage>7</Damage>
 	      <Verb>scorches</Verb>
 	    </Spell>
-	    <Spell id="p4" projectile_id="6">
+	    <Spell id="p4" projectile_id="6" toolbar_id="6">
 				<Description>Boulder</Description>
 				<Mana>0</Mana>
 				<Damage>4</Damage>
@@ -89,7 +89,7 @@
 	    </Spell>
     </Projectile>
     <Utility>
-      <Spell id="u1" projectile_id="9">
+      <Spell id="u1" projectile_id="9" toolbar_id="9">
         <Description>Light</Description>
         <Mana>2</Mana>
         <Damage>0</Damage>
@@ -98,7 +98,7 @@
       </Spell>
     </Utility>
     <AreaEffect>
-	    <Spell id="a1" projectile_id="4" area_id="5">
+	    <Spell id="a1" projectile_id="4" area_id="5" toolbar_id="4">
 	      <Description>Fireball</Description>
 	      <Mana>8</Mana>
 	      <Damage>10</Damage>

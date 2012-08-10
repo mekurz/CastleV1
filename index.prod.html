@@ -45,7 +45,7 @@
       <option value="c1">FIRE BREATH</option>
       <option value="u1">LIGHT</option>
     </select>
-    <input type="submit" value="Cast Spell" onclick="cast_spell( $('#spell_menu').val() );"></input>
+    <input type="submit" value="Cast Spell" onclick="cast_spell_by_id( $('#spell_menu').val() );"></input>
     <input type="submit" value="Switch to Debug Map" onclick="switch_to_debug();"></input>
     <div id="game_area" style="margin-left:10px;position:relative;">
       <div class="btn-toolbar">
@@ -77,13 +77,13 @@
           </ul>
         </div>     
         <div class="btn-group">
-          <button class="btn btn-img"><img src="images/spells/firebolt.png"/></button>
-          <button class="btn btn-img"><img src="images/spells/firebolt.png"/></button>
-          <button class="btn btn-img"><img src="images/spells/firebolt.png"/></button>
-          <button class="btn btn-img"><img src="images/spells/firebolt.png"/></button>
-          <button class="btn btn-img"><img src="images/spells/firebolt.png"/></button>
-          <button class="btn btn-img"><img src="images/spells/firebolt.png"/></button>
-          <button class="btn btn-img"><img src="images/spells/firebolt.png"/></button>
+          <button id="spell0" class="btn btn-img" onclick="cast_spell(0);"></button>
+          <button id="spell1" class="btn btn-img" onclick="cast_spell(1);"></button>
+          <button id="spell2" class="btn btn-img" onclick="cast_spell(2);"></button>
+          <button id="spell3" class="btn btn-img" onclick="cast_spell(3);"></button>
+          <button id="spell4" class="btn btn-img" onclick="cast_spell(4);"></button>
+          <button id="spell5" class="btn btn-img" onclick="cast_spell(5);"></button>
+          <button id="spell6" class="btn btn-img" onclick="cast_spell(6);"></button>
           <button class="btn dropdown-toggle btn-img" data-toggle="dropdown"><img src="images/gear.png"/> <b class="caret"></b></button>
           <ul id="other_actions_menu" class="dropdown-menu pull-right">
             <li><a href="#" onclick="Log.add('TODO');">Customize...</a></li>
@@ -126,6 +126,7 @@
           <li>D - Disarm Trap</li>
           <li>&lt; (SHIFT+,) - Climb Up Stairs</li>
           <li>&gt; (SHIFT+.) - Climb Down Stairs</li>
+          <li>1-7 - Cast Spell matching appropriate toolbar button</li>
         </ul>
       </div>
       <div id="debug_flags" title="Debug Flags">

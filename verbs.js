@@ -27,6 +27,7 @@ function toggle_action()
 
 function cancel_action()
 {
+  toggle_spell( SpellBar.get_button_ix( get_command() ) );
   toggle_action();
   set_command( NO_COMMAND );
   default_cursor();

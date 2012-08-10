@@ -39,9 +39,9 @@ function process_click( location )
       set_finished();
     }
   }
-
-  cancel_action();
   
+  cancel_action();
+
   return valid_action;
 }
 

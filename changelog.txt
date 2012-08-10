@@ -448,6 +448,13 @@ Version 57 - 08-Aug-2012
   - Fixed CSS styles for jQuery UI dialog buttons due to Bootstrap overlaps
 - Storage
   - Fixed an issue with timestamps for minute values under 10 
+  
+Version 58 - 09-Aug-2012
+- General
+  - Added keybindings for Numlocked versions of the numpad keys (not sure why I didn't have this long ago...)
+  - Updated spell-casting to use a dynamic toolbar (currently non-configurable)
+    - Keybindings for spell buttons are 1-7
+  - Fixed some inconsistencies surrounding when toolbar buttons were toggled
 
 TODO
 ============
