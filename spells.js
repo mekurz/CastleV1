@@ -14,7 +14,9 @@ function SpellToolbar()
       var html = "";
       var title = "";
       
-      if( this.spell_list != "" )
+      spell_btn.removeClass("active");
+      
+      if( this.spell_list[ix] != "" )
       {
         var xml = Loader.get_spell_data( this.spell_list[ix] );
         var toolbar_img = parseInt( xml.attr("toolbar_id") );

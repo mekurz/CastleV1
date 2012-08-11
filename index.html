@@ -3,13 +3,13 @@
 	<head>
 		<title>BROWSER OF THE WINDS</title>
 		<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
-		<link href="css/overcast/jquery-ui-1.8.16.custom.css" rel="stylesheet" type="text/css"/>
+		<link href="css/overcast/jquery-ui-1.8.22.custom.css" rel="stylesheet" type="text/css"/>
 		<link href="css/bootstrap.min.css" rel="stylesheet" type="text/css" />
 		<link href="style.css" rel="stylesheet" type="text/css" />
 		<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
-		<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.18/jquery-ui.min.js"></script>
-		<script type="text/javascript" src="bootstrap.min.js"></script>
-		<script type="text/javascript" src="jstorage.js"></script>
+		<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.21/jquery-ui.min.js"></script>
+		<script type="text/javascript" src="libs/bootstrap.min.js"></script>
+		<script type="text/javascript" src="libs/jstorage.js"></script>
 		<script type="text/javascript" src="storage.js"></script>
 		<script type="text/javascript" src="common.js"></script>
 		<script type="text/javascript" src="logger.js"></script>
@@ -32,6 +32,7 @@
 		<script type="text/javascript" src="widget.js"></script>
 		<script type="text/javascript" src="minimap.js"></script>
 		<script type="text/javascript" src="traps.js"></script>
+		<script type="text/javascript" src="spellbook.js"></script>
 	</head>
 	<body style="margin:0px;">
 	  Use arrows or num pad to move, OR click and drag the man to move. Click on RAT MANS or bump into them to attack! Select a spell from the menu, click Cast and then click a tile!<br/>
@@ -107,7 +108,7 @@
 	        <button id="spell6" class="btn btn-img" onclick="cast_spell(6);"></button>
 	        <button class="btn dropdown-toggle btn-img" data-toggle="dropdown"><img src="images/gear.png"/> <b class="caret"></b></button>
 	        <ul id="other_actions_menu" class="dropdown-menu pull-right">
-	          <li><a href="#" onclick="Log.add('TODO');">Customize...</a></li>
+	          <li><a href="#" onclick="CustomizeSpellBar.open();">Customize...</a></li>
 	        </ul>
 	      </div>
 	    </div>
@@ -209,6 +210,17 @@
 				</div>
         <ol id="stored_games"></ol>
         <div id="no_games_msg">No saved games are present.</div>
+			</div>
+			<div id="customize_spells" title="Customize Spell Menu">
+			  Instructions go here.
+			  <hr/>
+        <div style="height:35px">Button 1: <select id="button0"></select></div>
+        <div style="height:35px">Button 2: <select id="button1"></select></div>
+        <div style="height:35px">Button 3: <select id="button2"></select></div>
+        <div style="height:35px">Button 4: <select id="button3"></select></div>
+        <div style="height:35px">Button 5: <select id="button4"></select></div>
+        <div style="height:35px">Button 6: <select id="button5"></select></div>
+        <div style="height:35px">Button 7: <select id="button6"></select></div>
 			</div>
 		</div>
 

@@ -169,3 +169,38 @@ body
 	top: 200px;
 	left: 380px;
 }
+
+.ui-combobox
+{
+  position: relative;
+  display: inline-block;
+}
+
+.ui-combobox-toggle
+{
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  margin-left: -1px;
+  margin-top: 1px;
+  padding: 0;
+  width:25px;
+  line-height:30px;
+}
+
+.ui-combobox-input
+{
+  margin: 0;
+  padding: 0.3em;
+}
+
+.ui-autocomplete
+{
+  max-height: 200px;
+  overflow-y: auto;
+  /* prevent horizontal scrollbar */
+  overflow-x: hidden;
+  /* add padding to account for vertical scrollbar */
+  padding-right: 20px;
+}

@@ -5,13 +5,13 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
     <meta name="title" content="Browser of the Winds" />
 		<link rel="image_src" href="http://members.shaw.ca/achimp/botw/images/monsters/ratman.png" />
-    <link href="css/overcast/jquery-ui-1.8.16.custom.css" rel="stylesheet" type="text/css"/>
+    <link href="css/overcast/jquery-ui-1.8.22.custom.css" rel="stylesheet" type="text/css"/>
     <link href="css/bootstrap.min.css" rel="stylesheet" type="text/css" />
     <link href="style.css" rel="stylesheet" type="text/css" />
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
-    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.18/jquery-ui.min.js"></script>
-    <script type="text/javascript" src="bootstrap.min.js"></script>
-    <script type="text/javascript" src="jstorage.min.js"></script>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.21/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="libs/bootstrap.min.js"></script>
+    <script type="text/javascript" src="libs/jstorage.min.js"></script>
     <script type="text/javascript" src="full.min.js"></script>
   </head>
   <body style="margin:0px;">
@@ -86,7 +86,7 @@
           <button id="spell6" class="btn btn-img" onclick="cast_spell(6);"></button>
           <button class="btn dropdown-toggle btn-img" data-toggle="dropdown"><img src="images/gear.png"/> <b class="caret"></b></button>
           <ul id="other_actions_menu" class="dropdown-menu pull-right">
-            <li><a href="#" onclick="Log.add('TODO');">Customize...</a></li>
+            <li><a href="#" onclick="CustomizeSpellBar.open();">Customize...</a></li>
           </ul>
         </div>
       </div>
@@ -188,6 +188,17 @@
         </div>
         <ol id="stored_games"></ol>
         <div id="no_games_msg">No saved games are present.</div>
+      </div>
+      <div id="customize_spells" title="Customize Spell Menu">
+        Instructions go here.
+        <hr/>
+        Button 1: <select id="button0"></select><br/>
+        Button 2: <select id="button1"></select><br/>
+        Button 3: <select id="button2"></select><br/>
+        Button 4: <select id="button3"></select><br/>
+        Button 5: <select id="button4"></select><br/>
+        Button 6: <select id="button5"></select><br/>
+        Button 7: <select id="button6"></select>
       </div>
     </div>
     <script type="text/javascript">

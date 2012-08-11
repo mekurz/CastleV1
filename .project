@@ -16,9 +16,9 @@
 	</natures>
 	<linkedResources>
 		<link>
-			<name>jstorage.min.js</name>
+			<name>libs/jstorage.min.js</name>
 			<type>1</type>
-			<location>C:/Users/Michael/git/AChimp/Castle/jstorage.min.js</location>
+			<location>C:/Users/Michael/git/AChimp/Castle/libs/jstorage.min.js</location>
 		</link>
 	</linkedResources>
 </projectDescription>

@@ -100,6 +100,13 @@ function kill_all_monsters()
   document.game.do_turn();
 }
 
+function learn_all_spells()
+{
+  Loader.xml.find("Spell").each( function() {
+          Player.spellbook.push( this.attributes[0].value );
+      });
+}
+
 function test_cones()
 {
   if( !is_processing() )

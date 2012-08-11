@@ -24,6 +24,7 @@ function Game()
 
     Time = new GameTime();
     Storage = new GameStorage();
+    CustomizeSpellBar = new CustomizeSpellsDialog();
     Inventory = new InventoryManager();
     Inventory.initialize();
     
@@ -192,6 +193,9 @@ function Game()
     DrawPlayer = new Paperdoll();
     DrawPlayer.construct_paperdoll();
     Player.update_stats();
+      
+    // TODO: TEMPORARY SPELLBOOK
+    learn_all_spells();
   }
   
   this.key_handler = function( evt )

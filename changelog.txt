@@ -455,6 +455,12 @@ Version 58 - 09-Aug-2012
   - Updated spell-casting to use a dynamic toolbar (currently non-configurable)
     - Keybindings for spell buttons are 1-7
   - Fixed some inconsistencies surrounding when toolbar buttons were toggled
+  
+Version 59 - 11-Aug-2012
+- General
+  - Upgraded to jQueryUI 1.8.21
+  - First implementation of Customize Spell Menu
+  
 
 TODO
 ============
@@ -469,8 +475,12 @@ TODO
 - Belts should have utility slots
 - Items in the inventory need detailed tooltips
 - Character Creation
+- Status effects (Bootstrap inline labels in info section)
 - Item stats, etc
 - Gold
 - Tooltips need to be split into two sections (one for detection and one for seeing/map showing)... split off num_items?
 - Spawn items inside rooms and when monsters die
+- Save toolbar layout as part of game storage
 - Customizable spell menu
+  - Need to prevent duplicates
+  - Need to handle spells without an icon... default icon?
