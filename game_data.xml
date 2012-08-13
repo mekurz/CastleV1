@@ -60,6 +60,12 @@
       <Image id="7" src="cone_fire.png"/>
       <Image id="8" src="cone_fire_d.png"/>
       <Image id="9" src="light.png"/>
+      <Image id="10" src="fireball_mini.png"/>
+      <Image id="11" src="lightning_ball.png"/>
+      <Image id="12" src="lightning_ball_mini.png"/>
+      <Image id="13" src="coldbolt.png"/>
+      <Image id="14" src="coldball.png"/>
+      <Image id="15" src="coldball_mini.png"/>
     </Images>
     <Projectile>
 	    <Spell id="p1" projectile_id="2" toolbar_id="2">
@@ -87,6 +93,12 @@
 				<Verb>crashes into</Verb>
 				<Action>hurls</Action>
 	    </Spell>
+	    <Spell id="p5" projectile_id="13" toolbar_id="13">
+        <Description>Cold Bolt</Description>
+        <Mana>4</Mana>
+        <Damage>7</Damage>
+        <Verb>freezes</Verb>
+      </Spell>
     </Projectile>
     <Utility>
       <Spell id="u1" projectile_id="9" toolbar_id="9">
@@ -98,13 +110,27 @@
       </Spell>
     </Utility>
     <AreaEffect>
-	    <Spell id="a1" projectile_id="4" area_id="5" toolbar_id="4">
+	    <Spell id="a1" projectile_id="4" area_id="5" toolbar_id="10">
 	      <Description>Fireball</Description>
-	      <Mana>8</Mana>
+	      <Mana>4</Mana>
 	      <Damage>10</Damage>
 	      <Splash>5</Splash>
 	      <Verb>engulfs</Verb>
 	    </Spell>
+	    <Spell id="a2" projectile_id="3" area_id="11" toolbar_id="12">
+        <Description>Lightning Ball</Description>
+        <Mana>4</Mana>
+        <Damage>10</Damage>
+        <Splash>5</Splash>
+        <Verb>fries</Verb>
+      </Spell>
+      <Spell id="a3" projectile_id="13" area_id="14" toolbar_id="15">
+        <Description>Cold Ball</Description>
+        <Mana>4</Mana>
+        <Damage>10</Damage>
+        <Splash>5</Splash>
+        <Verb>freezes</Verb>
+      </Spell>
     </AreaEffect>
     <ConeEffect>
 	    <Spell id="c1" cardinal_id="7" diagonal_id="8">

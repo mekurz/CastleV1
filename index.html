@@ -38,7 +38,7 @@
 	  Use arrows or num pad to move, OR click and drag the man to move. Click on RAT MANS or bump into them to attack! Select a spell from the menu, click Cast and then click a tile!<br/>
 		processing:<input type="text" id="processing" value="0"></input>
 		command:<input type="text" id="command" value="0"></input>
-		<a href="changelog.txt">Change Log</a> | <a href="MapGen/test.html">Map Generator</a> | <a href="Inventory/test.html">Inventory TPOC</a> | 
+		<a href="changelog.txt">Change Log</a> | <a href="MapGen/test.html">Map Generator</a> | <a href="ItemsTPOC/test.html">Item Effect TPOC</a> | 
 		TEST: <select id="test_menu">
 		  <option value="0">TEST FIZZLES</option>
 		  <option value="1">TEST SPLAT</option>
@@ -212,8 +212,11 @@
         <div id="no_games_msg">No saved games are present.</div>
 			</div>
 			<div id="customize_spells" title="Customize Spell Menu">
-			  Instructions go here.
+			  Assign a known spell to each button. Blank is allowed.
 			  <hr/>
+			  <div id="dup_spells" class="alert alert-error">
+			  You cannot assign a spell to more than one button.
+			  </div>
         <div style="height:35px">Button 1: <select id="button0"></select></div>
         <div style="height:35px">Button 2: <select id="button1"></select></div>
         <div style="height:35px">Button 3: <select id="button2"></select></div>

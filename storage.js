@@ -19,6 +19,7 @@ function GameInfo()
   this.player_info = Player;
   this.game_time = Time.time;
   this.icon = DrawPlayer.get_data_url();
+  this.spellbar = SpellBar;
   
   var now = new Date();
   var months = new Array("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec");
@@ -145,11 +146,13 @@ function GameStorage()
         var saved_game = this.saved_games[this.selected_game];
         Dungeon.load( saved_game.dungeon_info );
         Player.load( saved_game.player_info );
+        SpellBar.load( saved_game.spellbar );
         Time.time = saved_game.game_time;
         
         Time.update_time();
         Player.update_stats();
         Dungeon.update_level();
+        SpellBar.update_toolbar();
         Inventory.load();
         DrawPlayer.construct_paperdoll();
         Map.center_map_on_location( Player.location );

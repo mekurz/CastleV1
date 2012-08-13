@@ -1,5 +1,6 @@
 function CustomizeSpellsDialog()
 {
+  this.dup_spells = $("#dup_spells");
   this.popup = $("#customize_spells").dialog({ autoOpen: false,
                                                 resizable: false,
                                                 modal: true,
@@ -14,9 +15,11 @@ function CustomizeSpellsDialog()
                                                         text: "OK",
                                                         "class": "btn btn-primary",
                                                         click: function() { 
-                                                            CustomizeSpellBar.save();
-                                                            SpellBar.update_toolbar();
-                                                            CustomizeSpellBar.popup.dialog("close"); 
+                                                            if( CustomizeSpellBar.save() )
+                                                            {
+                                                              SpellBar.update_toolbar();
+                                                              CustomizeSpellBar.popup.dialog("close");
+                                                            }
                                                           }
                                                       },
                                                       {
@@ -53,15 +56,44 @@ function CustomizeSpellsDialog()
         }).combobox();
   }
   
+  function validate_selections()
+  {
+    var valid = true;
+    var spells = [];
+    
+    $("#customize_spells select").each( function( ix ) {
+          var value = $(this).val();
+          if( value != "" )
+          {
+            if( spells.indexOf( value ) == -1 )
+              spells.push( value );
+            else
+              valid = false;
+          }
+        }).combobox();
+          
+    return valid;
+  }
+  
   this.save = function()
   {
-    $("#customize_spells select").each( function( ix ) {
-          SpellBar.spell_list[ix] = $(this).val();
-        });
+    if( validate_selections() )
+    {
+      $("#customize_spells select").each( function( ix ) {
+            SpellBar.spell_list[ix] = $(this).val();
+          });
+      return true;
+    }
+    else
+    {
+      this.dup_spells.show();
+      return false;
+    }
   };
   
   this.open = function()
   {
+    this.dup_spells.hide();
     fill_combos();
     load_combo_values();
     this.popup.dialog("open");

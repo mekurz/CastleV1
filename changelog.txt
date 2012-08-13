@@ -461,6 +461,13 @@ Version 59 - 11-Aug-2012
   - Upgraded to jQueryUI 1.8.21
   - First implementation of Customize Spell Menu
   
+Version 60 - 12-Aug-2012
+- General
+  - Disallowed a spell from being assigned to multiple buttons on the Customize Spell Menu dialog.
+  - Spell menu settings are now saved 
+  - Implemented TPOC for Item Effects (normal vs magic vs cursed). Click the Item Effect TPOC link to view.
+- Spells
+  - Added several more spells
 
 TODO
 ============
@@ -468,19 +475,17 @@ TODO
 - BUG: Appears to be some problems with tooltips deciding if it's too dark or not for Widgets
 - BUG: Monsters can spawn ontop of the Player
 - BUG: Monsters going through doors that have been explored but are not within sight appear to magically open... need a way to hide this
+- Fail gracefully for incompatible browsers
+- Option to launch new game
 - Touch events?
 - Add more text options so the log doesn't look so boring
 - Props (more widgets for decoration)
 - dynamic sizing of viewport based on window size... needs to have min/max dimensions set
 - Belts should have utility slots
 - Items in the inventory need detailed tooltips
-- Character Creation
 - Status effects (Bootstrap inline labels in info section)
-- Item stats, etc
 - Gold
 - Tooltips need to be split into two sections (one for detection and one for seeing/map showing)... split off num_items?
 - Spawn items inside rooms and when monsters die
-- Save toolbar layout as part of game storage
-- Customizable spell menu
-  - Need to prevent duplicates
-  - Need to handle spells without an icon... default icon?
+- Item stats, etc
+- Character Creation
