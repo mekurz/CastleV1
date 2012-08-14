@@ -468,6 +468,10 @@ Version 60 - 12-Aug-2012
   - Implemented TPOC for Item Effects (normal vs magic vs cursed). Click the Item Effect TPOC link to view.
 - Spells
   - Added several more spells
+  
+Version 61 - 13-Aug-2012
+- General
+  - Implemented CSS for vertical progress bars (i.e. player stat bars)
 
 TODO
 ============
