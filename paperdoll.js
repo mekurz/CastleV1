@@ -30,7 +30,7 @@ function Paperdoll()
       {
         this.apply_layer( Inventory.find_equipped_item_for_slot( this.layer_order[i] ) );
       }
-    } 
+    }
   };
   
   this.apply_layer = function( item )

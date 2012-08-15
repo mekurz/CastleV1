@@ -203,6 +203,53 @@
         <div style="height:35px">Button 6: <select id="button5"></select></div>
         <div style="height:35px">Button 7: <select id="button6"></select></div>
       </div>
+      <div id="new_game" title="New Game">
+        1. Choose a name <input type="text" id="char_name" maxlength="30" placeholder="Rock McSlab" style="width:250px"></input>
+        <hr/>
+        2. Assign character statistics
+        <div style="margin-top:10px;">
+          <div class="StatBar Rounded" style="width:100px;height:170px;">
+            <span class="StatLabel">Remaining<br/>Points</span>
+            <div class="v-progress short" style="margin-top:5px;">
+              <div id="ng_pool" title="Remaining Points" class="bar green"></div>
+            </div>
+          </div>
+          <div class="StatBar">
+            <span class="StatLabel">Strength</span><br/>
+            <button class="btn plus" onclick="NewGame.plus('str');">+</button>
+            <div class="v-progress short">
+              <div id="ng_str" title="Strength" class="bar green"></div>
+            </div>
+            <button class="btn minus" onclick="NewGame.minus('str');">&#8722;</button>
+          </div>
+          <div class="StatBar">
+            <span class="StatLabel">Intelligence</span><br/>
+            <button class="btn plus" onclick="NewGame.plus('int');">+</button>
+            <div class="v-progress short">
+              <div id="ng_int" title="Intelligence" class="bar green"></div>
+            </div>
+            <button class="btn minus" onclick="NewGame.minus('int');">&#8722;</button>
+          </div>
+          <div class="StatBar">
+            <span class="StatLabel">Dexterity</span><br/>
+            <button class="btn plus" onclick="NewGame.plus('dex');">+</button>
+            <div class="v-progress short">
+              <div id="ng_dex" title="Dexterity" class="bar green"></div>
+            </div>
+            <button class="btn minus" onclick="NewGame.minus('dex');">&#8722;</button>
+          </div>
+          <div class="StatBar">
+            <span class="StatLabel">Constitution</span><br/>
+            <button class="btn plus" onclick="NewGame.plus('con');">+</button>
+            <div class="v-progress short">
+              <div id="ng_con" title="Constitution" class="bar green"></div>
+            </div>
+            <button class="btn minus" onclick="NewGame.minus('con');">&#8722;</button>
+          </div>
+        </div>
+        <hr style="clear:left;"/>
+        3. Choose 3 spells to learn  
+      </div>
     </div>
     <script type="text/javascript">
       $(document).ready( function()

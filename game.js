@@ -25,6 +25,7 @@ function Game()
     Time = new GameTime();
     Storage = new GameStorage();
     CustomizeSpellBar = new CustomizeSpellsDialog();
+    NewGame = new NewGameDialog();
     Inventory = new InventoryManager();
     Inventory.initialize();
     

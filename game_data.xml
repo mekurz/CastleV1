@@ -66,6 +66,7 @@
       <Image id="13" src="coldbolt.png"/>
       <Image id="14" src="coldball.png"/>
       <Image id="15" src="coldball_mini.png"/>
+      <Image id="16" src="shield.png"/>
     </Images>
     <Projectile>
 	    <Spell id="p1" projectile_id="2" toolbar_id="2">

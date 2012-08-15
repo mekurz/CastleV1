@@ -472,6 +472,11 @@ Version 60 - 12-Aug-2012
 Version 61 - 13-Aug-2012
 - General
   - Implemented CSS for vertical progress bars (i.e. player stat bars)
+  
+Version 62 - 14-Aug-2012
+- General
+  - Cleaned up CSS for vertical progress bars
+  - Implemented start of New Game dialog.
 
 TODO
 ============
@@ -479,6 +484,7 @@ TODO
 - BUG: Appears to be some problems with tooltips deciding if it's too dark or not for Widgets
 - BUG: Monsters can spawn ontop of the Player
 - BUG: Monsters going through doors that have been explored but are not within sight appear to magically open... need a way to hide this
+- Setting for random character creation?
 - Fail gracefully for incompatible browsers
 - Option to launch new game
 - Touch events?
@@ -492,4 +498,10 @@ TODO
 - Tooltips need to be split into two sections (one for detection and one for seeing/map showing)... split off num_items?
 - Spawn items inside rooms and when monsters die
 - Item stats, etc
+- Character Info Dialog
 - Character Creation
+  - In Prod, automatically launch Load Game if saves are detected OR New Game... don't just launch into a new game (save that for DEBUG)
+  - Start Game must create new game and apply settings to Player
+  - Validation messages for each section (blank name, unallocated points, less than 3 spells selected)
+  - Need to add list of spells to select
+  

@@ -19,6 +19,7 @@ var Storage = null;
 var DrawPlayer = null;
 var SpellBar = null;
 var CustomizeSpellBar = null;
+var NewGame = null;
 
 var NO_COMMAND     = "0";
 var SPLAT          = 0;
