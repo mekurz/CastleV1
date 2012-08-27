@@ -1,36 +1,16 @@
 function CustomizeSpellsDialog()
 {
-  this.dup_spells = $("#dup_spells");
-  this.popup = $("#customize_spells").dialog({ autoOpen: false,
-                                                resizable: false,
-                                                modal: true,
-                                                open: function(event, ui) {
-                                                        open_dialog();
-                                                     },
-                                                close: function(event, ui) {                                              
-                                                        close_dialog();                                                        
-                                                      },
-                                                buttons: [
-                                                      {
-                                                        text: "OK",
-                                                        "class": "btn btn-primary",
-                                                        click: function() { 
-                                                            if( CustomizeSpellBar.save() )
-                                                            {
-                                                              SpellBar.update_toolbar();
-                                                              CustomizeSpellBar.popup.dialog("close");
-                                                            }
-                                                          }
-                                                      },
-                                                      {
-                                                        text: "Cancel",
-                                                        "class": "btn",
-                                                        click: function() {
-                                                            CustomizeSpellBar.popup.dialog("close");
-                                                          }
-                                                      },
-                                                  ]
-                                             });
+  this.popup = $("#customize_spells");
+  
+  this.popup.modal({ 
+                show: false,
+                remote: "html/spellbook.html"
+          });
+  this.popup.on( "show", open_dialog );
+  this.popup.on( "shown", function() {
+                CustomizeSpellBar.refresh_ui();
+          });
+  this.popup.on( "hide", close_dialog );
   
   function fill_combos()
   {
@@ -75,6 +55,13 @@ function CustomizeSpellsDialog()
     return valid;
   }
   
+  this.refresh_ui = function()
+  {
+    $("#dup_spells").hide();
+    fill_combos();
+    load_combo_values();
+  };
+  
   this.save = function()
   {
     if( validate_selections() )
@@ -86,17 +73,23 @@ function CustomizeSpellsDialog()
     }
     else
     {
-      this.dup_spells.show();
+      $("#dup_spells").show();
       return false;
     }
   };
   
   this.open = function()
   {
-    this.dup_spells.hide();
-    fill_combos();
-    load_combo_values();
-    this.popup.dialog("open");
+    this.popup.modal("show");
+  };
+  
+  this.ok = function()
+  {
+    if( this.save() )
+    {
+      SpellBar.update_toolbar();
+      this.popup.modal("hide");
+    }
   };
 }
 

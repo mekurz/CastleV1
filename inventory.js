@@ -122,30 +122,72 @@ Item.max_item_id = 0;
 function InventoryManager()
 {
   this.popup = $("#inventory");
-  this.bag   = $("#bag");
-  this.floor = $("#floor");
   this.is_open = false;
   
   this.initialize = function()
   {
     Log.debug("Initializing InventoryManager...");
     
-    this.popup.dialog({  autoOpen: false,
-                         resizable: false,
-                         modal: true,
-                         width: 870,
-                         height: 550,
-                         open: function(event, ui) {
-                                  open_dialog();
-                                  Inventory.is_open = true;
-                               },
-                         close: function(event, ui) {
-                                  DrawPlayer.construct_paperdoll();
-                                  close_dialog();
-                                  Inventory.is_open = false;
-                                  document.game.draw();
-                                }
-                      }); 
+    this.popup.modal({ 
+                  show: false,
+                  remote: "html/inventory.html"
+            });
+    this.popup.on( "show", function() { 
+                  open_dialog();
+                  Inventory.is_open = true;
+            });
+    this.popup.on( "shown", function() {
+                  Inventory.refresh_ui();
+                  center_popup();
+            });
+    this.popup.on( "hide", function() { 
+                  DrawPlayer.construct_paperdoll();
+                  close_dialog();
+                  Inventory.is_open = false;
+                  document.game.draw();
+            });
+    
+    this.popup.css("margin-top", -310).css("margin-left", -415);
+    
+    Log.debug("Done.");
+  };  
+  
+  this.refresh_ui = function()
+  {
+    this.bag   = $("#bag");
+    this.floor = $("#floor");
+    
+    var item_slot_options = { items: ".Item",
+                              placeholder: "BlankItemSlot",
+                              connectWith: ".ItemContainer",
+                              tolerance: "pointer",
+                              cursor: "move",
+                              receive: function(event, ui) {
+                                          var $this = $(this);
+                                          if( !ui.item.hasClass( $this.attr("id") ) ) // Doesn't belong in this slot
+                                          {
+                                            ui.sender.sortable("cancel");
+                                            set_border_based_on_container( ui.sender, ui.item );
+                                            return;
+                                          }
+                                          else if( $this.children().length > 1 ) // Already something here, so perform a swap
+                                          {
+                                            var item = $this.children( "div:not(#" + ui.item[0].id + ")" ).detach();
+                                            ui.sender.append( item );
+                                            Inventory.move_item_between_collections( item[0].id, $this, ui.sender );
+                                            set_border_based_on_container( ui.sender, item );
+                                          }
+                                          
+                                          Inventory.move_item_between_collections( ui.item[0].id, ui.sender, $this );
+                                          set_border_based_on_container( $this, ui.item );
+                                        },
+                              start: function(event, ui) {
+                                          unequipped( ui.item );                                                
+                                        },
+                              stop: function(event, ui) {
+                                          set_border_based_on_container( ui.item.parent(), ui.item );
+                                        }
+                            };
     
     var item_container_options = { items: ".Item",
                                    placeholder: "BlankItemSlot",
@@ -154,49 +196,18 @@ function InventoryManager()
                                    cursor: "move",
                                    receive: function(event, ui) {
                                               Inventory.move_item_between_collections( ui.item[0].id, ui.sender, ui.item.parent() );
-                                            }
-                                 };
+                                      }
+                           };
     
     this.bag.sortable( item_container_options );
     this.floor.sortable( item_container_options );
-    
-    var item_slot_options = { items: ".Item",
-                                    placeholder: "BlankItemSlot",
-                                    connectWith: ".ItemContainer",
-                                    tolerance: "pointer",
-                                    cursor: "move",
-                                    receive: function(event, ui) {
-                                                var $this = $(this);
-                                                if( !ui.item.hasClass( $this.attr("id") ) ) // Doesn't belong in this slot
-                                                {
-                                                  ui.sender.sortable("cancel");
-                                                  set_border_based_on_container( ui.sender, ui.item );
-                                                  return;
-                                                }
-                                                else if( $this.children().length > 1 ) // Already something here, so perform a swap
-                                                {
-                                                  var item = $this.children( "div:not(#" + ui.item[0].id + ")" ).detach();
-                                                  ui.sender.append( item );
-                                                  Inventory.move_item_between_collections( item[0].id, $this, ui.sender );
-                                                  set_border_based_on_container( ui.sender, item );
-                                                }
-                                                
-                                                Inventory.move_item_between_collections( ui.item[0].id, ui.sender, $this );
-                                                set_border_based_on_container( $this, ui.item );
-                                              },
-                                    start: function(event, ui) {
-                                                unequipped( ui.item );                                                
-                                              },
-                                    stop: function(event, ui) {
-                                                set_border_based_on_container( ui.item.parent(), ui.item );
-                                              }
-                                  };
     
     $(".ItemSlot").each( function() {
                  $(this).sortable( item_slot_options );
              });
     
-    Log.debug("Done.");
+    this.floor.empty();
+    this.update_floor_items();
   };
   
   this.open = function()
@@ -204,9 +215,7 @@ function InventoryManager()
     if( !is_processing() )
     {
       set_command( NO_COMMAND );
-      this.floor.empty();
-      this.update_floor_items();
-      this.popup.dialog("open");
+      this.popup.modal("show");
     }
   };
   

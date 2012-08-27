@@ -5,7 +5,7 @@
 		<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
 		<link href="css/overcast/jquery-ui-1.8.22.custom.css" rel="stylesheet" type="text/css"/>
 		<link href="css/bootstrap.min.css" rel="stylesheet" type="text/css" />
-		<link href="style.css" rel="stylesheet" type="text/css" />
+		<link href="css/style.css" rel="stylesheet" type="text/css" />
 		<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.7.2/jquery.min.js"></script>
 		<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.21/jquery-ui.min.js"></script>
 		<script type="text/javascript" src="libs/bootstrap.min.js"></script>
@@ -37,8 +37,8 @@
 	</head>
 	<body style="margin:0px;">
 	  Use arrows or num pad to move, OR click and drag the man to move. Click on RAT MANS or bump into them to attack! Select a spell from the menu, click Cast and then click a tile!<br/>
-		processing:<input type="text" id="processing" value="0"></input>
-		command:<input type="text" id="command" value="0"></input>
+		processing:<input type="text" id="processing" value="0" style="width:3em;"></input>
+		command:<input type="text" id="command" value="0" style="width:3em;"></input>
 		<a href="changelog.txt">Change Log</a> | <a href="MapGen/test.html">Map Generator</a> | <a href="ItemsTPOC/test.html">Item Effect TPOC</a> | 
 		TEST: <select id="test_menu">
 		  <option value="0">TEST FIZZLES</option>
@@ -69,8 +69,7 @@
     </select>
 		<input type="submit" value="Cast Spell" onclick="cast_spell_by_id( $('#spell_menu').val() );"></input>
 		<input type="submit" value="Switch to Random Map" onclick="random_map();"></input>
-		
-		<div id="game_area" style="margin-left:10px;position:relative;">
+		<div id="game_area" style="margin-left:10px;position:relative;line-height:normal;">
 			<div class="btn-toolbar">
 	      <div class="btn-group">
 	        <button class="btn btn-large dropdown-toggle" data-toggle="dropdown">Game <b class="caret"></b></button>
@@ -80,9 +79,9 @@
 	          <li><a href="#" onclick="Storage.open_load();">Load Game...</a></li>
 	          <li><a href="#" onclick="Storage.open_save();">Save Game...</a></li>
 	          <li class="divider"></li>
-	          <li><a href="#" onclick="$('#shortcuts').dialog('open');">Shortcuts...</a></li>
+	          <li><a href="#shortcuts" role="button" data-toggle="modal">Shortcuts...</a></li>
 	          <li><a href="#" onclick="Log.clear();">Clear Log</a></li>
-	          <li><a href="#" onclick="$('#debug_flags').dialog('open');">Debug Flags...</a></li>
+	          <li><a href="#debug_flags" role="button" data-toggle="modal">Debug Flags...</a></li>
 	        </ul>
 	      </div>
 	      <div class="btn-group">
@@ -136,70 +135,67 @@
         </div>
         <span id="load_pct"></span>%
 		  </div>
-			<div id="shortcuts" title="Keyboard Shortcuts">
-        <ul>
-          <li>Arrows/Numpad - Move/attack</li>
-          <li>ESC - Cancel current action/close dialog</li>
-          <li>I - Open Inventory</li>
-          <li>M - Open Mini-map</li>
-          <li>T - Take all items at current location</li>
-          <li>S - Search</li>
-          <li>O - Open</li>
-          <li>C - Close</li>
-          <li>R - Rest Until Healed</li>
-          <li>E - Sleep Until Mana is Restored</li>
-          <li>D - Disarm Trap</li>
-          <li>&lt; (SHIFT+,) - Climb Up Stairs</li>
-          <li>&gt; (SHIFT+.) - Climb Down Stairs</li>
-          <li>1-7 - Cast Spell matching appropriate toolbar button</li> 
-        </ul>
-      </div>
-      <div id="debug_flags" title="Debug Flags">
-        <input type="checkbox" id="debugmode" onclick="DEBUGGING = this.checked;"/>
-        <label for="debugmode">Debug Mode</label><br/>
-        <input type="checkbox" id="freeze" onclick="FREEZE_MONSTERS = this.checked;"/>
-        <label for="freeze">Freeze monster movement</label><br/>
-        <input type="checkbox" id="mspells" onclick="MONSTER_SPELLS = this.checked;"/>
-        <label for="mspells">Monsters can cast spells</label><br/>
-        <input type="checkbox" id="detect" onclick="DETECT_MONSTERS = this.checked;"/>
-        <label for="detect">Detect monsters</label>
-      </div>
-			<div id="tooltip">
+		  <div id="tooltip">
         <div id="tooltip_header"></div>
         <ul id="tooltip_contents"></ul>
-			</div>
-			<div id="inventory" title="Inventory" style="overflow:hidden;">
-	      <div style="position:relative;">
-	        <div style="background:white;width:401px;height:481px;position:relative;">
-	          <div class="ItemSlot Row0 Col0"></div>
-	          <div id="back" class="ItemSlot ItemContainer Row0 Col1" style="background:url(images/inv_back.png);"></div>
-	          <div id="head" class="ItemSlot ItemContainer Row0 Col2" style="background:url(images/inv_head.png);"></div>
-	          <div id="neck" class="ItemSlot ItemContainer Row0 Col3" style="background:url(images/inv_neck.png);"></div>
-	          <div class="ItemSlot Row0 Col4"></div>
-	          <div id="chest" class="ItemSlot ItemContainer Row1 Col0" style="background:url(images/inv_chest.png);"></div>
-	          <div class="ItemSlot Row1 Col4"></div>
-	          <div id="arms" class="ItemSlot ItemContainer Row2 Col0" style="background:url(images/inv_arms.png);"></div>
-	          <div id="hands" class="ItemSlot ItemContainer Row2 Col4" style="background:url(images/inv_hands.png);"></div>
-	          <div id="weapon" class="ItemSlot ItemContainer Row3 Col0" style="background:url(images/inv_weapon.png);"></div>
-	          <div id="shield" class="ItemSlot ItemContainer Row3 Col4" style="background:url(images/inv_shield.png);"></div>
-	          <div id="rightring" class="ItemSlot ItemContainer Row4 Col0" style="background:url(images/inv_rightring.png);"></div>
-	          <div id="leftring" class="ItemSlot ItemContainer Row4 Col4" style="background:url(images/inv_leftring.png);"></div>
-	          <div id="waist" class="ItemSlot ItemContainer Row5 Col0" style="background:url(images/inv_waist.png);"></div>
-	          <div id="feet" class="ItemSlot ItemContainer Row5 Col4" style="background:url(images/inv_feet.png);"></div>
-	          <img src="images/paperdoll.png" style="position:absolute;left:81px;top:81px;"/>
-	        </div>
-	        <div style="padding-left:10px;width:415px;position:absolute;left:405px;top:0px;">
-	          Bag:
-	          <div id="bag" style="margin-bottom:10px;height:230px;" class="NonEquipped ItemContainer"></div>
-	          Floor:
-	          <div id="floor" style="height:195px;" class="NonEquipped ItemContainer"></div>
-	        </div>
-	      </div>
-	    </div>
-	    <div id="minimap_popup" title="Map">
-        <canvas id="minimap" width="600" height="600" style="border:1px solid black;" oncontextmenu="return false;">
-	      </canvas>
       </div>
+		  
+		  <div id="shortcuts" class="modal hide" tabindex="-1" role="dialog">
+			  <div class="modal-header">
+			    <button type="button" class="close" data-dismiss="modal">&times;</button>
+			    <h3>Keyboard Shortcuts</h3>
+			  </div>
+			  <div class="modal-body">
+			    <!--  shortcuts.html  -->
+			  </div>
+			  <div class="modal-footer">
+			    <button class="btn btn-primary" data-dismiss="modal">Close</button>
+			  </div>
+			</div>
+			
+			<div id="debug_flags" class="modal hide" tabindex="-1" role="dialog">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h3>Debug Flags</h3>
+        </div>
+        <div class="modal-body">
+          <label class="checkbox"><input type="checkbox" id="debugmode" onclick="DEBUGGING = this.checked;"/> Debug mode</label>
+          <label class="checkbox"><input type="checkbox" id="freeze"    onclick="FREEZE_MONSTERS = this.checked;"/> Freeze monster movement</label>
+          <label class="checkbox"><input type="checkbox" id="mspells"   onclick="MONSTER_SPELLS = this.checked;"/> Monsters can cast spells</label>
+          <label class="checkbox"><input type="checkbox" id="detect"    onclick="DETECT_MONSTERS = this.checked;"/> Detect monsters</label>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-primary" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+
+	    <div id="inventory" class="modal hide" tabindex="-1" role="dialog" style="width:auto;">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h3>Inventory</h3>
+        </div>
+        <div class="modal-body" style="max-height:none;">
+          <!-- inventory.html -->
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-primary" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+	    
+      <div id="minimap_popup" class="modal hide" tabindex="-1" role="dialog" style="width:auto;">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h3>Map</h3>
+        </div>
+        <div class="modal-body" style="max-height:none;padding:0px">
+          <canvas id="minimap" width="600" height="600" oncontextmenu="return false;"></canvas>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-primary" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+      
+      
       <div id="storage">
         <div id="new_save_div">
           <div style="padding-bottom:5px;">
@@ -214,20 +210,21 @@
         <ol id="stored_games"></ol>
         <div id="no_games_msg">No saved games are present.</div>
 			</div>
-			<div id="customize_spells" title="Customize Spell Menu">
-			  Assign a known spell to each button. Blank is allowed.
-			  <hr/>
-			  <div id="dup_spells" class="alert alert-error">
-			  You cannot assign a spell to more than one button.
-			  </div>
-        <div style="height:35px">Button 1: <select id="button0"></select></div>
-        <div style="height:35px">Button 2: <select id="button1"></select></div>
-        <div style="height:35px">Button 3: <select id="button2"></select></div>
-        <div style="height:35px">Button 4: <select id="button3"></select></div>
-        <div style="height:35px">Button 5: <select id="button4"></select></div>
-        <div style="height:35px">Button 6: <select id="button5"></select></div>
-        <div style="height:35px">Button 7: <select id="button6"></select></div>
-			</div>
+			
+			<div id="customize_spells" class="modal hide" tabindex="-1" role="dialog">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h3>Customize Spell Menu</h3>
+        </div>
+        <div class="modal-body">
+          <!--  spellbook.html  -->
+        </div>
+        <div class="modal-footer">
+          <button class="btn" data-dismiss="modal">Cancel</button>
+          <button class="btn btn-primary" onclick="CustomizeSpellBar.ok();">Save changes</button>
+        </div>
+      </div>
+			
 			<div id="new_game" title="New Game">
 			  1. Choose a name <input type="text" id="char_name" maxlength="30" placeholder="Rock McSlab" style="width:250px"></input>
         <hr/>
@@ -283,40 +280,30 @@
 		  {
 		    $(".btn-group").button();
 		    
-		    $("#shortcuts").dialog({ autoOpen: false,
-		                               resizable: false,
-		                               modal: true,
-		                               open: function(event, ui) {
-		                                        open_dialog();
-		                                     },
-		                               close: function(event, ui) {
-		                                        close_dialog();
-		                                        document.game.draw();
-		                                      }
-		                            }); 
-		      
-		      $("#debug_flags").dialog({ autoOpen: false,
-			                               resizable: false,
-			                               modal: true,
-			                               open: function(event, ui) {
-                                        open_dialog();
-                                     },
-			                               close: function(event, ui) {
-			                                        close_dialog();
-			                                      }
-                            });
-		      
-		      $("#debugmode").prop( "checked", DEBUGGING );
-		      $("#freeze").prop( "checked", FREEZE_MONSTERS );
-		      $("#mspells").prop( "checked", MONSTER_SPELLS );
-		      $("#detect").prop( "checked", DETECT_MONSTERS );
+		    $("#shortcuts").modal({ 
+		              show: false,
+		              remote: "html/shortcuts.html"
+		         });
+		    $("#shortcuts").on( "show", open_dialog );
+		    $("#shortcuts").on( "hide", close_dialog );
 		    
-		      document.game = new Game();
-	        document.game.run(1);
-	        
-	        set_command( NO_COMMAND );
-          set_finished();
-		    });
+		    $("#debug_flags").modal({ 
+                  show: false
+             });
+        $("#debug_flags").on( "show", open_dialog );
+        $("#debug_flags").on( "hide", close_dialog );
+		     
+	      $("#debugmode").prop( "checked", DEBUGGING );
+	      $("#freeze").prop( "checked", FREEZE_MONSTERS );
+	      $("#mspells").prop( "checked", MONSTER_SPELLS );
+	      $("#detect").prop( "checked", DETECT_MONSTERS );
+	    
+	      document.game = new Game();
+        document.game.run(1);
+        
+        set_command( NO_COMMAND );
+        set_finished();
+	    });
 	  </script>
 	</body>
 </html>

@@ -9,20 +9,14 @@ function Minimap()
   {
     Log.debug("Initializing Mini-map...");
     
-    this.popup.dialog({  autoOpen: false,
-                         resizable: false,
-                         modal: true,
-                         width: 640,
-                         height: 660,
-                         open: function(event, ui) {
-                                  open_dialog();
-                                  Minimap.draw_map();
-                               },
-                         close: function(event, ui) {
-                                  close_dialog();
-                                }
-                    });
-    
+    this.popup.modal({ show: false });
+    this.popup.on( "show", function() { 
+                  open_dialog();
+                  Minimap.draw_map();
+            });
+    this.popup.on( "shown", center_popup );
+    this.popup.on( "hide", close_dialog );
+        
     var canvas = $("#minimap");
     
     if( canvas && canvas[0].getContext )
@@ -43,7 +37,7 @@ function Minimap()
     if( !is_processing() )
     {
       set_command( NO_COMMAND );
-      this.popup.dialog("open");
+      this.popup.modal("show");
     }
   };
   

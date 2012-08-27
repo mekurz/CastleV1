@@ -477,6 +477,12 @@ Version 62 - 14-Aug-2012
 - General
   - Cleaned up CSS for vertical progress bars
   - Implemented start of New Game dialog.
+  
+Version 63 - 26-Aug-2012
+- General
+  - Upgraded to Bootstrap 2.1
+  - Converted Inventory, Customize Spell Menu, Shortcuts, Debug Flags and Minimap to use Bootstrap modals instead of jQueryUI dialogs
+    - Several large dialogs now use remote content files to reduce the size of the index.html
 
 TODO
 ============
@@ -495,6 +501,7 @@ TODO
 - Items in the inventory need detailed tooltips
 - Status effects (Bootstrap inline labels in info section)
 - Gold
+- Drag items onto body picture in Inventory to auto-equip
 - Tooltips need to be split into two sections (one for detection and one for seeing/map showing)... split off num_items?
 - Spawn items inside rooms and when monsters die
 - Item stats, etc
@@ -504,4 +511,5 @@ TODO
   - Start Game must create new game and apply settings to Player
   - Validation messages for each section (blank name, unallocated points, less than 3 spells selected)
   - Need to add list of spells to select
-  
+- Implement Take toolbar button
+- Convert Load, Save, New Game 

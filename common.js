@@ -64,6 +64,16 @@ Array.prototype.shuffle = function() {
   return this;
 };
 
+function center_popup(e)
+{
+  var modal = $(this);
+
+  modal.css('margin-top', (modal.outerHeight() / 2) * -1)
+       .css('margin-left', (modal.outerWidth() / 2) * -1);
+
+  return this;
+}
+
 function get_single_item_at_location( collection, location )
 {
   for( var i = 0; i < collection.length; ++i )

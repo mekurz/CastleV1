@@ -1,5 +1,11 @@
 @CHARSET "ISO-8859-1";
 
+@font-face
+{      
+  font-family: Sherwood;
+  src: url("sherwood.ttf");
+}
+
 body
 {
   font-family: Verdana;
@@ -37,7 +43,7 @@ body
 
 #tooltip li
 {
-	background-image:url("images/dash.gif");
+	background-image:url("../images/dash.gif");
 	background-repeat:no-repeat;
 	background-position:0px 3px; 
 	padding-left:10px;
@@ -87,6 +93,7 @@ body
 	font-family: verdana;
 	font-size: 7pt;
 	font-weight: normal;
+	line-height: normal;
 }
 
 .BlankItemSlot 
