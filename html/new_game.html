@@ -1,0 +1,58 @@
+<label>
+  Choose a name <input type="text" id="char_name" maxlength="30" placeholder="Rock McSlab" style="width:250px"></input>
+</label>
+<label>
+  Assign character statistics
+</label>
+<div style="padding:10px">
+  <div class="StatBar Rounded" style="width:100px;height:170px;">
+    <span class="StatLabel">Remaining<br/>Points</span>
+    <div class="v-progress short" style="margin-top:10px;">
+      <div id="ng_pool" title="Remaining Points" class="bar green"></div>
+    </div>
+  </div>
+  <div class="StatBar">
+    <span class="StatLabel">Strength</span>
+    <div class="StatBarControls">
+	    <button class="btn plus" onclick="NewGame.plus('str');">+</button>
+	    <div class="v-progress short">
+	      <div id="ng_str" title="Strength" class="bar green"></div>
+	    </div>
+	    <button class="btn minus" onclick="NewGame.minus('str');">&#8722;</button>
+	  </div>
+  </div>
+  <div class="StatBar">
+    <span class="StatLabel">Intelligence</span>
+    <div class="StatBarControls">
+	    <button class="btn plus" onclick="NewGame.plus('int');">+</button>
+	    <div class="v-progress short">
+	      <div id="ng_int" title="Intelligence" class="bar green"></div>
+	    </div>
+	    <button class="btn minus" onclick="NewGame.minus('int');">&#8722;</button>
+	  </div>
+  </div>
+  <div class="StatBar">
+    <span class="StatLabel">Dexterity</span><br/>
+    <div class="StatBarControls">
+	    <button class="btn plus" onclick="NewGame.plus('dex');">+</button>
+	    <div class="v-progress short">
+	      <div id="ng_dex" title="Dexterity" class="bar green"></div>
+	    </div>
+	    <button class="btn minus" onclick="NewGame.minus('dex');">&#8722;</button>
+	  </div>
+  </div>
+  <div class="StatBar">
+    <span class="StatLabel">Constitution</span><br/>
+    <div class="StatBarControls">
+	    <button class="btn plus" onclick="NewGame.plus('con');">+</button>
+	    <div class="v-progress short">
+	      <div id="ng_con" title="Constitution" class="bar green"></div>
+	    </div>
+	    <button class="btn minus" onclick="NewGame.minus('con');">&#8722;</button>
+	  </div>
+  </div>
+  <div class="clearfix"></div>
+</div>
+<label>
+  Choose three spells to learn
+</label>

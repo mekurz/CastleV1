@@ -3,38 +3,30 @@ var MIN_STAT = 20;
 
 function NewGameDialog()
 {
-  this.pool_bar = $("#ng_pool");
-  this.str_bar = $("#ng_str");
-  this.int_bar = $("#ng_int");
-  this.dex_bar = $("#ng_dex");
-  this.con_bar = $("#ng_con");
-  this.popup = $("#new_game").dialog({ autoOpen: false,
-                                       resizable: false,
-                                       modal: true,
-                                       width: "auto",
-                                       open: function(event, ui) {
-                                                open_dialog();
-                                             },
-                                       close: function(event, ui) {                                              
-                                                close_dialog();                                                        
-                                              },
-                                       buttons: [
-                                              {
-                                                text: "Start Game",
-                                                "class": "btn btn-primary",
-                                                click: function() { 
-                                                    NewGame.popup.dialog("close");
-                                                  }
-                                              },
-                                              {
-                                                text: "Cancel",
-                                                "class": "btn",
-                                                click: function() {
-                                                    NewGame.popup.dialog("close");
-                                                  }
-                                              },
-                                          ]
-                                     });
+  this.popup = $("#new_game");
+  this.popup.modal({ 
+                show: false,
+                remote: "html/new_game.html"
+          });
+  this.popup.on( "show", open_dialog );
+  this.popup.on( "shown", function() {
+                NewGame.refresh_ui();
+          });
+  this.popup.on( "hide", function() { 
+                close_dialog();
+                document.game.draw();
+          });
+  
+  this.refresh_ui = function()
+  {
+    this.pool_bar = $("#ng_pool");
+    this.str_bar = $("#ng_str");
+    this.int_bar = $("#ng_int");
+    this.dex_bar = $("#ng_dex");
+    this.con_bar = $("#ng_con");
+    
+    this.initialize();
+  };
   
   function set_pct_on_bar( bar, pct )
   {
@@ -45,12 +37,6 @@ function NewGameDialog()
   {
     return parseInt( bar.css( "height" ) );
   }
-  
-  this.open = function()
-  { 
-    this.initialize();
-    this.popup.dialog("open");
-  };
   
   this.initialize = function()
   {
@@ -101,5 +87,10 @@ function NewGameDialog()
       set_pct_on_bar( this.pool_bar, this.pool );
       set_pct_on_bar( bar, value - 2 );
     }
+  };
+  
+  this.ok = function()
+  { 
+    this.popup.modal("hide");
   };
 }

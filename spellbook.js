@@ -77,12 +77,7 @@ function CustomizeSpellsDialog()
       return false;
     }
   };
-  
-  this.open = function()
-  {
-    this.popup.modal("show");
-  };
-  
+
   this.ok = function()
   {
     if( this.save() )

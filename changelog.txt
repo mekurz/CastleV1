@@ -484,6 +484,11 @@ Version 63 - 26-Aug-2012
   - Converted Inventory, Customize Spell Menu, Shortcuts, Debug Flags and Minimap to use Bootstrap modals instead of jQueryUI dialogs
     - Several large dialogs now use remote content files to reduce the size of the index.html
 
+Version 64 - 27-Aug-2012
+- General
+  - Various CSS fixes
+  - Converted Load/Save Game and New Game to Bootstrap
+
 TODO
 ============
 - BUG: Some wall tiles get marked as "too dark to see" based on what's on one side vs the other... need some kind of directional tooltip?
@@ -497,6 +502,7 @@ TODO
 - Add more text options so the log doesn't look so boring
 - Props (more widgets for decoration)
 - dynamic sizing of viewport based on window size... needs to have min/max dimensions set
+- Toolbar needs tooltips (alt text)
 - Belts should have utility slots
 - Items in the inventory need detailed tooltips
 - Status effects (Bootstrap inline labels in info section)
@@ -512,4 +518,3 @@ TODO
   - Validation messages for each section (blank name, unallocated points, less than 3 spells selected)
   - Need to add list of spells to select
 - Implement Take toolbar button
-- Convert Load, Save, New Game 

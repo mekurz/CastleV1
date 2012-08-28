@@ -52,6 +52,8 @@
         <div class="btn-group">
           <button class="btn btn-large dropdown-toggle" data-toggle="dropdown">Game <b class="caret"></b></button>
           <ul class="dropdown-menu">
+            <li><a href="#new_game" role="button" data-toggle="modal">New Game...</a></li>
+            <li class="divider"></li>
             <li><a href="#" onclick="Storage.open_load();">Load Game...</a></li>
             <li><a href="#" onclick="Storage.open_save();">Save Game...</a></li>
             <li class="divider"></li>
@@ -86,7 +88,7 @@
           <button id="spell6" class="btn btn-img" onclick="cast_spell(6);"></button>
           <button class="btn dropdown-toggle btn-img" data-toggle="dropdown"><img src="images/gear.png"/> <b class="caret"></b></button>
           <ul id="other_actions_menu" class="dropdown-menu pull-right">
-            <li><a href="#" onclick="CustomizeSpellBar.open();">Customize...</a></li>
+            <li><a href="#customize_spells" role="button" data-toggle="modal">Customize...</a></li>
           </ul>
         </div>
       </div>
@@ -167,19 +169,16 @@
         </div>
       </div>
       
-      <div id="storage">
-        <div id="new_save_div">
-          <div style="padding-bottom:5px;">
-            Enter a description for a new saved game or select an existing save to overwrite.<br/>
-            Up to three saved games are allowed.
-          </div>
-          <div class="br"></div>
-          <input type="text" id="new_save_desc" maxlength="35" style="width:460px;" placeholder="Enter a description"></input>
-          <button id="new_save_btn" class="btn" onclick="Storage.new_save();">New Save</button>
-          <hr/>
+      <div id="storage" class="modal hide" tabindex="-1" role="dialog" style="width:auto;">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h3 id="storage_title">Storage</h3>
         </div>
-        <ol id="stored_games"></ol>
-        <div id="no_games_msg">No saved games are present.</div>
+        <div class="modal-body"></div>
+        <div class="modal-footer">
+          <button class="btn" data-dismiss="modal">Cancel</button>
+          <button id="storage_ok" class="btn btn-primary" onclick="Storage.ok();">Save changes</button>
+        </div>
       </div>
       
       <div id="customize_spells" class="modal hide" tabindex="-1" role="dialog">
@@ -194,53 +193,18 @@
         </div>
       </div>
       
-      <div id="new_game" title="New Game">
-        1. Choose a name <input type="text" id="char_name" maxlength="30" placeholder="Rock McSlab" style="width:250px"></input>
-        <hr/>
-        2. Assign character statistics
-        <div style="margin-top:10px;">
-          <div class="StatBar Rounded" style="width:100px;height:170px;">
-            <span class="StatLabel">Remaining<br/>Points</span>
-            <div class="v-progress short" style="margin-top:5px;">
-              <div id="ng_pool" title="Remaining Points" class="bar green"></div>
-            </div>
-          </div>
-          <div class="StatBar">
-            <span class="StatLabel">Strength</span><br/>
-            <button class="btn plus" onclick="NewGame.plus('str');">+</button>
-            <div class="v-progress short">
-              <div id="ng_str" title="Strength" class="bar green"></div>
-            </div>
-            <button class="btn minus" onclick="NewGame.minus('str');">&#8722;</button>
-          </div>
-          <div class="StatBar">
-            <span class="StatLabel">Intelligence</span><br/>
-            <button class="btn plus" onclick="NewGame.plus('int');">+</button>
-            <div class="v-progress short">
-              <div id="ng_int" title="Intelligence" class="bar green"></div>
-            </div>
-            <button class="btn minus" onclick="NewGame.minus('int');">&#8722;</button>
-          </div>
-          <div class="StatBar">
-            <span class="StatLabel">Dexterity</span><br/>
-            <button class="btn plus" onclick="NewGame.plus('dex');">+</button>
-            <div class="v-progress short">
-              <div id="ng_dex" title="Dexterity" class="bar green"></div>
-            </div>
-            <button class="btn minus" onclick="NewGame.minus('dex');">&#8722;</button>
-          </div>
-          <div class="StatBar">
-            <span class="StatLabel">Constitution</span><br/>
-            <button class="btn plus" onclick="NewGame.plus('con');">+</button>
-            <div class="v-progress short">
-              <div id="ng_con" title="Constitution" class="bar green"></div>
-            </div>
-            <button class="btn minus" onclick="NewGame.minus('con');">&#8722;</button>
-          </div>
+      <div id="new_game" class="modal hide" tabindex="-1" role="dialog" style="width:auto;">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h3>New Game</h3>
         </div>
-        <hr style="clear:left;"/>
-        3. Choose 3 spells to learn  
+        <div class="modal-body"></div>
+        <div class="modal-footer">
+          <button class="btn" data-dismiss="modal">Cancel</button>
+          <button id="storage_ok" class="btn btn-primary" onclick="NewGame.ok();">Start game!</button>
+        </div>
       </div>
+      
     </div>
     <script type="text/javascript">
       $(document).ready( function()
