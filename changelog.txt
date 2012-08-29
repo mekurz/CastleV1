@@ -488,6 +488,13 @@ Version 64 - 27-Aug-2012
 - General
   - Various CSS fixes
   - Converted Load/Save Game and New Game to Bootstrap
+  
+Version 65 - 28-Aug-2012
+- General
+  - Upgraded to jQuery 1.8.0 and jQueryUI 1.8.23
+  - Fixed an issue where creating a new saved game for the first time would trigger the entire page to refresh
+  - Fixed several issues on the Inventory popup related to the Bootstrap conversion
+  
 
 TODO
 ============

@@ -138,7 +138,6 @@ function InventoryManager()
             });
     this.popup.on( "shown", function() {
                   Inventory.refresh_ui();
-                  center_popup();
             });
     this.popup.on( "hide", function() { 
                   DrawPlayer.construct_paperdoll();
@@ -154,8 +153,17 @@ function InventoryManager()
   
   this.refresh_ui = function()
   {
+    var do_load = this.bag == undefined;
     this.bag   = $("#bag");
     this.floor = $("#floor");
+    
+    if( do_load )   // Loading a saved game may not have been able to populate bags and slots if the user hadn't opened the Inventory popup yet.
+    {
+      this.load();
+    }
+    
+    this.floor.empty();
+    this.update_floor_items();
     
     var item_slot_options = { items: ".Item",
                               placeholder: "BlankItemSlot",
@@ -205,9 +213,6 @@ function InventoryManager()
     $(".ItemSlot").each( function() {
                  $(this).sortable( item_slot_options );
              });
-    
-    this.floor.empty();
-    this.update_floor_items();
   };
   
   this.open = function()
@@ -228,6 +233,8 @@ function InventoryManager()
   
   this.update_section_items = function( section, items )
   {
+    if( section == undefined ) return;
+    
     for( var ix = 0; ix < items.length; ++ix )
     {
       if( $("#item" + items[ix].id).size() > 0 ) continue;
@@ -370,19 +377,22 @@ function InventoryManager()
   
   this.load = function()
   {
-    this.bag.empty();
-    this.update_section_items( this.bag, Player.bag );
-    
-    $(".ItemSlot").each( function() {
-                 var $this = $(this);
-                 $this.empty();
-                 var item = Inventory.find_equipped_item_for_slot( $this.attr("id") );
-                 if( item )
-                 {
-                   var $item_div = $("#item" + item.id);
-                   $item_div.detach().appendTo( $this );
-                   equipped( $item_div );
-                 }
-             });
+    if( this.bag != undefined )
+    {
+      this.bag.empty();
+      this.update_section_items( this.bag, Player.bag );
+      
+      $(".ItemSlot").each( function() {
+                   var $this = $(this);
+                   $this.empty();
+                   var item = Inventory.find_equipped_item_for_slot( $this.attr("id") );
+                   if( item )
+                   {
+                     var $item_div = $("#item" + item.id);
+                     $item_div.detach().appendTo( $this );
+                     equipped( $item_div );
+                   }
+               });
+    }
   };
 }
