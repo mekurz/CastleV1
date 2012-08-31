@@ -69,32 +69,32 @@
       <Image id="16" src="shield.png"/>
     </Images>
     <Projectile>
-	    <Spell id="p1" projectile_id="2" toolbar_id="2">
+	    <Spell id="p1" projectile_id="2" toolbar_id="2" level="1">
 	      <Description>Magic Missile</Description>
 	      <Mana>1</Mana>
 	      <Damage>2</Damage>
 	      <Verb>slams into</Verb>
 	    </Spell>
-	    <Spell id="p2" projectile_id="3" toolbar_id="3">
+	    <Spell id="p2" projectile_id="3" toolbar_id="3" level="2">
 	      <Description>Lightning Bolt</Description>
 	      <Mana>2</Mana>
 	      <Damage>3</Damage>
 	      <Verb>fries</Verb>
 	    </Spell>
-	    <Spell id="p3" projectile_id="4" toolbar_id="4">
+	    <Spell id="p3" projectile_id="4" toolbar_id="4" level="2">
 	      <Description>Firebolt</Description>
 	      <Mana>4</Mana>
 	      <Damage>7</Damage>
 	      <Verb>scorches</Verb>
 	    </Spell>
-	    <Spell id="p4" projectile_id="6" toolbar_id="6">
+	    <Spell id="p4" projectile_id="6" toolbar_id="6" level="1">
 				<Description>Boulder</Description>
 				<Mana>0</Mana>
 				<Damage>4</Damage>
 				<Verb>crashes into</Verb>
 				<Action>hurls</Action>
 	    </Spell>
-	    <Spell id="p5" projectile_id="13" toolbar_id="13">
+	    <Spell id="p5" projectile_id="13" toolbar_id="13" level="2">
         <Description>Cold Bolt</Description>
         <Mana>4</Mana>
         <Damage>7</Damage>
@@ -102,7 +102,7 @@
       </Spell>
     </Projectile>
     <Utility>
-      <Spell id="u1" projectile_id="9" toolbar_id="9">
+      <Spell id="u1" projectile_id="9" toolbar_id="9" level="1">
         <Description>Light</Description>
         <Mana>2</Mana>
         <Damage>0</Damage>
@@ -111,21 +111,21 @@
       </Spell>
     </Utility>
     <AreaEffect>
-	    <Spell id="a1" projectile_id="4" area_id="5" toolbar_id="10">
+	    <Spell id="a1" projectile_id="4" area_id="5" toolbar_id="10" level="1">
 	      <Description>Fireball</Description>
 	      <Mana>4</Mana>
 	      <Damage>10</Damage>
 	      <Splash>5</Splash>
 	      <Verb>engulfs</Verb>
 	    </Spell>
-	    <Spell id="a2" projectile_id="3" area_id="11" toolbar_id="12">
+	    <Spell id="a2" projectile_id="3" area_id="11" toolbar_id="12" level="2">
         <Description>Lightning Ball</Description>
         <Mana>4</Mana>
         <Damage>10</Damage>
         <Splash>5</Splash>
         <Verb>fries</Verb>
       </Spell>
-      <Spell id="a3" projectile_id="13" area_id="14" toolbar_id="15">
+      <Spell id="a3" projectile_id="13" area_id="14" toolbar_id="15" level="2">
         <Description>Cold Ball</Description>
         <Mana>4</Mana>
         <Damage>10</Damage>
@@ -134,7 +134,7 @@
       </Spell>
     </AreaEffect>
     <ConeEffect>
-	    <Spell id="c1" cardinal_id="7" diagonal_id="8">
+	    <Spell id="c1" cardinal_id="7" diagonal_id="8" level="2">
 	      <Description>Fire Breath</Description>
 	      <Mana>0</Mana>
 	      <Damage>10</Damage>

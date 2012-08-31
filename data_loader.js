@@ -31,6 +31,11 @@ function DataLoader()
     return this.xml.find( node + "[id='" + id + "']" );
   };
   
+  this.get_data_by_level = function( node, level )
+  {
+    return this.xml.find( node + "[level='" + level + "']" );
+  };
+  
   this.get_spell_data = function( id )
   {
     return this.get_data( "Spell", id );

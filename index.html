@@ -5,10 +5,12 @@
 		<meta http-equiv="X-UA-Compatible" content="IE=edge"/>
 		<link href="css/overcast/jquery-ui-1.8.22.custom.css" rel="stylesheet" type="text/css"/>
 		<link href="css/bootstrap.min.css" rel="stylesheet" type="text/css" />
+		<link href="css/chosen.css" rel="stylesheet" type="text/css" />
 		<link href="css/style.css" rel="stylesheet" type="text/css" />
 		<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.8.0/jquery.min.js"></script>
 		<script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.8.23/jquery-ui.min.js"></script>
 		<script type="text/javascript" src="libs/bootstrap.min.js"></script>
+		<script type="text/javascript" src="libs/chosen.jquery.min.js"></script>
 		<script type="text/javascript" src="libs/jstorage.min.js"></script>
 		<script type="text/javascript" src="storage.js"></script>
 		<script type="text/javascript" src="common.js"></script>
@@ -89,7 +91,7 @@
 	        <button id="btn_map" class="btn btn-large" onclick="Minimap.open();">Map</button>
 	        <button id="btn_search" class="btn btn-large" onclick="perform_action('search');">Search</button>
 	        <button id="btn_disarm" class="btn btn-large" onclick="perform_action('disarm');">Disarm</button>
-	        <button id="btn_take" class="btn btn-large" onclick="Log.add('TODO');">Take</button>
+	        <button id="btn_take" class="btn btn-large" onclick="perform_action('take');">Take</button>
 	        <button id="btn_verbs" class="btn btn-large dropdown-toggle" data-toggle="dropdown">More <b class="caret"></b></button>
 	        <ul id="other_actions_menu" class="dropdown-menu pull-right">
 	          <li><a href="#" onclick="perform_action('open');">Open</a></li>
@@ -209,12 +211,12 @@
         </div>
       </div>
 			
-			<div id="customize_spells" class="modal hide" tabindex="-1" role="dialog" style="width:auto;">
+			<div id="customize_spells" class="modal hide" tabindex="-1" role="dialog" style="width:auto;overflow:visible;">
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal">&times;</button>
           <h3>Customize Spell Menu</h3>
         </div>
-        <div class="modal-body">
+        <div class="modal-body" style="overflow:visible;">
           <!--  spellbook.html  -->
         </div>
         <div class="modal-footer">

@@ -24,6 +24,7 @@ function NewGameDialog()
     this.int_bar = $("#ng_int");
     this.dex_bar = $("#ng_dex");
     this.con_bar = $("#ng_con");
+    this.learn_div = $("#learn_spells");
     
     this.initialize();
   };

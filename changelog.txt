@@ -494,7 +494,13 @@ Version 65 - 28-Aug-2012
   - Upgraded to jQuery 1.8.0 and jQueryUI 1.8.23
   - Fixed an issue where creating a new saved game for the first time would trigger the entire page to refresh
   - Fixed several issues on the Inventory popup related to the Bootstrap conversion
-  
+
+Version 66 - 30-Aug-2012
+- General
+  - Implemented functionality for Take toolbar button
+  - Converted Customize Spell Menu dropdowns to use Chosen library (http://harvesthq.github.com/chosen/)
+    - Needed to make some minor fixes to the library to show/hide the dropdown rather than hide it via left:-9000px (seriously WTF)
+  - Fixed an issue where Customize Spell Menu dropdowns would keep their selections between popup displays despite clicking Cancel
 
 TODO
 ============
@@ -524,4 +530,3 @@ TODO
   - Start Game must create new game and apply settings to Player
   - Validation messages for each section (blank name, unallocated points, less than 3 spells selected)
   - Need to add list of spells to select
-- Implement Take toolbar button

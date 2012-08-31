@@ -208,8 +208,7 @@ function Game()
       // Events that can be used on dialogs
       if( evt.keyCode == 84 && ( OPEN_DIALOGS == 0 || Inventory.is_open ) ) // T
       {
-        Inventory.take_all();
-        document.game.draw();
+        perform_action("take");
         return;
       }
       

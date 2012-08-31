@@ -85,6 +85,12 @@ function handle_action( action, location )
     is_valid = do_disarm( location );
     set_finished();
   }
+  else if( action == "take" )
+  {
+    Inventory.take_all();
+    document.game.draw();
+    is_valid = true;
+  }
   
   return is_valid;  
 }
