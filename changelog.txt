@@ -501,6 +501,16 @@ Version 66 - 30-Aug-2012
   - Converted Customize Spell Menu dropdowns to use Chosen library (http://harvesthq.github.com/chosen/)
     - Needed to make some minor fixes to the library to show/hide the dropdown rather than hide it via left:-9000px (seriously WTF)
   - Fixed an issue where Customize Spell Menu dropdowns would keep their selections between popup displays despite clicking Cancel
+  
+Version 67 - 03-Sep-2012
+- General
+  - Refactored some of the game initialization code to support starting new games on the fly
+  - Refactored Inventory and Minimap initialization
+  - Implemented starter spell list and data validation on New Game popup
+  - The New Game popup will now launch a new game when completed.
+  - In Prod, the New Game popup will be displayed if no saved games are detected on first load, otherwise Load Game will be displayed.
+- Debugging
+  - Added option to learn all existing spells
 
 TODO
 ============
@@ -524,9 +534,10 @@ TODO
 - Tooltips need to be split into two sections (one for detection and one for seeing/map showing)... split off num_items?
 - Spawn items inside rooms and when monsters die
 - Item stats, etc
+- Need to display Level as part of save game info
 - Character Info Dialog
 - Character Creation
-  - In Prod, automatically launch Load Game if saves are detected OR New Game... don't just launch into a new game (save that for DEBUG)
-  - Start Game must create new game and apply settings to Player
-  - Validation messages for each section (blank name, unallocated points, less than 3 spells selected)
-  - Need to add list of spells to select
+  - Need to deactivate toolbars and events while no game is active (mouse + kb)
+  - Active game flag, check status before actually creating a new game
+  - Start Game must apply settings to Player
+- Cancelling out of initial load/new game windows should not cause crashes (i.e. active game flag) -- why does Load/save draw on close?????

@@ -1,10 +1,26 @@
 var SPELL_WIDTH = 12;
 var AREA_SPELL_WIDTH = TILE_WIDTH * 3;
+var SPELL_BUTTONS = 7;
 
 function SpellToolbar()
 {
   SpellToolbar.base_constructor.call( this );
-  this.spell_list = ["p1","p2","p3","","","",""];
+  this.spell_list = [];
+  
+  this.update_list = function( spells )
+  {
+    this.spell_list = [];
+
+    for( var ix = 0; ix < spells.length; ++ix )
+    {
+      this.spell_list.push( spells[ix] );
+    }
+    
+    for( var ix = SPELL_BUTTONS - this.spell_list.length - 1; ix < SPELL_BUTTONS; ++ix )
+    {
+      this.spell_list.push( "" );
+    }
+  };
   
   this.update_toolbar = function()
   {

@@ -9,7 +9,7 @@ function Game()
   this.tooltip = new Tooltip();
   this.is_player_move = false;
   
-  var canvas = null;
+  canvas = null;
   this.map_ctx = null;
   this.buffer = null;
   this.buffer_ctx = null;
@@ -25,13 +25,13 @@ function Game()
     Time = new GameTime();
     Storage = new GameStorage();
     CustomizeSpellBar = new CustomizeSpellsDialog();
+    Dungeon = new DungeonManager();
     NewGame = new NewGameDialog();
+    DrawPlayer = new Paperdoll();
     Inventory = new InventoryManager();
-    Inventory.initialize();
-    
+    SpellBar = new SpellToolbar();
+    Map = new ViewPort();
     Minimap = new Minimap();
-    Minimap.initialize();
-    
     Loader = new DataLoader();
     Images = new ImageCache();
     
@@ -71,40 +71,54 @@ function Game()
     {
       $(document).bind( "keydown", this.key_handler );
       
-      this.interval_loop = setInterval( this.initial_draw_loop, this.ANIMATION_INTERVAL );
+      this.interval_loop = setInterval( this.wait_for_load_loop, this.ANIMATION_INTERVAL );
       set_processing();
     }
   };
   
-  this.initial_draw_loop = function()
+  this.create_new_game = function()
+  {
+    
+    Time = new GameTime();
+    
+    DrawPlayer.construct_paperdoll();
+    Player.update_stats();
+    Time.update_time();
+    
+    if( DEBUGGING )
+    {
+      setup_debug_level();
+    }
+    else
+    {
+      Dungeon.levels = [];
+      Dungeon.create_level();
+      Player.location = Dungeon.levels[0].get_starting_location();
+      Dungeon.explore_at_location( Player.location );
+    }
+    
+    SpellBar.update_toolbar();
+    Map.center_map_on_location( Player.location );
+    Dungeon.update_level();
+    
+    this.draw();
+  };
+  
+  this.wait_for_load_loop = function()
   {
     if( Images.is_loaded() )
     {
-      Log.debug( "Done loading images." );
-      
-      Dungeon = new DungeonManager();
-      Map = new ViewPort();
-      SpellBar = new SpellToolbar();
-      SpellBar.update_toolbar();
-      
-      initialize_player();
-      Time.update_time();
-      
+      Log.debug( "Done loading!" );
+           
       if( DEBUGGING )
       {
-        setup_debug_level();
-      }
-      else
-      {
-        Dungeon.create_level();
-        Player.location = Dungeon.levels[0].get_starting_location();
-        Dungeon.explore_at_location( Player.location );
+        Player = new PlayerActor(); 
+        document.game.create_new_game();
+        learn_all_spells();
+        SpellBar.update_list( ["p1","p2","p3"] );
+        SpellBar.update_toolbar();
       }
       
-      Map.center_map_on_location( Player.location );
-      Dungeon.update_level();
-      
-      document.game.draw();
       clearInterval( document.game.interval_loop );
       document.game.interval_loop = null;
       
@@ -113,6 +127,18 @@ function Game()
       
       load_div.remove();
       Log.add( "Ready for action!" );
+      
+      if( !DEBUGGING )
+      {
+        if( Storage.get_num_saved_games() > 0 )
+        {
+          Storage.open_load();
+        }
+        else
+        {
+          NewGame.open();
+        }
+      }
     }
   };
   
@@ -161,7 +187,6 @@ function Game()
     this.draw_collection( level.stairs_up, ctx );
     this.draw_collection( level.stairs_down, ctx );
     this.draw_collection( level.traps, ctx );
-    // TODO widgets go here
     
     this.draw_collection( level.items, ctx );     // Second layer: Items
     
@@ -187,17 +212,6 @@ function Game()
       collection[i].draw( ctx );
     } 
   };
-  
-  function initialize_player() 
-  {
-    Player = new PlayerActor();
-    DrawPlayer = new Paperdoll();
-    DrawPlayer.construct_paperdoll();
-    Player.update_stats();
-      
-    // TODO: TEMPORARY SPELLBOOK
-    learn_all_spells();
-  }
   
   this.key_handler = function( evt )
   {

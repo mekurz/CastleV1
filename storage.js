@@ -153,6 +153,7 @@ function GameStorage()
       {
         var saved_game = this.saved_games[this.selected_game];
         Dungeon.load( saved_game.dungeon_info );
+        Player = new PlayerActor();
         Player.load( saved_game.player_info );
         SpellBar.load( saved_game.spellbar );
         Time.time = saved_game.game_time;
@@ -224,6 +225,11 @@ function GameStorage()
       Storage.popup.modal("show");
     }
   }
+  
+  this.get_num_saved_games = function()
+  {
+    return ( $.jStorage.get("game") || []).length;
+  };
   
   this.open_load = function()
   {

@@ -5,32 +5,29 @@ function Minimap()
   this.buffer = null;
   this.buffer_ctx = null;
   
-  this.initialize = function()
+  Log.debug("Initializing Mini-map...");
+  
+  this.popup.modal({ show: false });
+  this.popup.on( "show", function() { 
+                open_dialog();
+                Minimap.draw_map();
+          });
+  this.popup.on( "shown", center_popup );
+  this.popup.on( "hide", close_dialog );
+      
+  var canvas = $("#minimap");
+  
+  if( canvas && canvas[0].getContext )
   {
-    Log.debug("Initializing Mini-map...");
-    
-    this.popup.modal({ show: false });
-    this.popup.on( "show", function() { 
-                  open_dialog();
-                  Minimap.draw_map();
-            });
-    this.popup.on( "shown", center_popup );
-    this.popup.on( "hide", close_dialog );
-        
-    var canvas = $("#minimap");
-    
-    if( canvas && canvas[0].getContext )
-    {
-      this.map_ctx = canvas[0].getContext("2d");
-      this.buffer = document.createElement("canvas");
-      this.buffer.width = canvas[0].width;
-      this.buffer.height = canvas[0].height;
-      this.buffer_ctx = this.buffer.getContext("2d");
-      this.buffer_ctx.scale( 0.375, 0.375 );      
-    }
-    
-    Log.debug("Done.");
-  };
+    this.map_ctx = canvas[0].getContext("2d");
+    this.buffer = document.createElement("canvas");
+    this.buffer.width = canvas[0].width;
+    this.buffer.height = canvas[0].height;
+    this.buffer_ctx = this.buffer.getContext("2d");
+    this.buffer_ctx.scale( 0.375, 0.375 );      
+  }
+  
+  Log.debug("Done.");
   
   this.open = function()
   {

@@ -30,6 +30,7 @@ function run_test()
     case 10: reveal_secret_doors(); break;
     case 11: Storage.erase(); break;
     case 12: reveal_traps(); break;
+    case 13: learn_all_spells(); break;
   }
 }
 

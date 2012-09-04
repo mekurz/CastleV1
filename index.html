@@ -57,6 +57,7 @@
 		  <option value="12">REVEAL TRAPS</option>
 		  <option value="9">GAME OVER MAN</option>
 		  <option value="11">ERASE LOCALSTORAGE</option>
+		  <option value="13">LEARN ALL SPELLS</option>
 		</select>
 		<input type="submit" value="Run Test" onclick="run_test();"></input>
 		<br/>
@@ -225,12 +226,12 @@
         </div>
       </div>
       
-      <div id="new_game" class="modal hide" tabindex="-1" role="dialog" style="width:auto;">
+      <div id="new_game" class="modal hide" tabindex="-1" role="dialog" style="width:auto;overflow:visible;">
         <div class="modal-header">
           <button type="button" class="close" data-dismiss="modal">&times;</button>
           <h3>New Game</h3>
         </div>
-        <div class="modal-body">
+        <div class="modal-body" style="overflow:visible;">
           <!--  new_game.html  -->
         </div>
         <div class="modal-footer">

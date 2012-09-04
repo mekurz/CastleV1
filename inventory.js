@@ -124,32 +124,24 @@ function InventoryManager()
   this.popup = $("#inventory");
   this.is_open = false;
   
-  this.initialize = function()
-  {
-    Log.debug("Initializing InventoryManager...");
-    
-    this.popup.modal({ 
-                  show: false,
-                  remote: "html/inventory.html"
-            });
-    this.popup.on( "show", function() { 
-                  open_dialog();
-                  Inventory.is_open = true;
-            });
-    this.popup.on( "shown", function() {
-                  Inventory.refresh_ui();
-            });
-    this.popup.on( "hide", function() { 
-                  DrawPlayer.construct_paperdoll();
-                  close_dialog();
-                  Inventory.is_open = false;
-                  document.game.draw();
-            });
-    
-    this.popup.css("margin-top", -310).css("margin-left", -415);
-    
-    Log.debug("Done.");
-  };  
+  this.popup.modal({ 
+                show: false,
+                remote: "html/inventory.html"
+          });
+  this.popup.on( "show", function() { 
+                open_dialog();
+                Inventory.is_open = true;
+          });
+  this.popup.on( "shown", function() {
+                Inventory.refresh_ui();
+          });
+  this.popup.on( "hide", function() { 
+                DrawPlayer.construct_paperdoll();
+                close_dialog();
+                Inventory.is_open = false;
+                document.game.draw();
+          });
+  this.popup.css("margin-top", -310).css("margin-left", -415);
   
   this.refresh_ui = function()
   {

@@ -12,10 +12,7 @@ function NewGameDialog()
   this.popup.on( "shown", function() {
                 NewGame.refresh_ui();
           });
-  this.popup.on( "hide", function() { 
-                close_dialog();
-                document.game.draw();
-          });
+  this.popup.on( "hide", close_dialog );
   
   this.refresh_ui = function()
   {
@@ -24,7 +21,9 @@ function NewGameDialog()
     this.int_bar = $("#ng_int");
     this.dex_bar = $("#ng_dex");
     this.con_bar = $("#ng_con");
-    this.learn_div = $("#learn_spells");
+    this.name = $("#ng_name");
+    this.spells = $("#ng_spells");
+    this.error = $("#ng_error");
     
     this.initialize();
   };
@@ -41,6 +40,7 @@ function NewGameDialog()
   
   this.initialize = function()
   {
+    this.known_spells = [];
     this.pool = 50;
     this.str = 20;
     this.int = 20;
@@ -51,6 +51,29 @@ function NewGameDialog()
     set_pct_on_bar( this.int_bar, this.int );
     set_pct_on_bar( this.dex_bar, this.dex );
     set_pct_on_bar( this.con_bar, this.con );
+    
+    this.name.val("");
+    this.error.hide();
+    this.fill_combos();
+    
+    this.spells
+        .trigger("liszt:updated")
+        .attr( "data-placeholder", "Select three spells..." )
+        .chosen();
+  };
+  
+  this.fill_combos = function()
+  {
+    var spells = this.spells;
+    var xml = Loader.get_data_by_level( "Spell", 1 );
+    
+    spells.empty();
+    $("<option>").text("").appendTo( spells );
+     
+    xml.each( function() {
+        var $this = $(this);        
+        $("<option>").text( $this.find("Description").text() ).val( $this.attr("id") ).appendTo( spells );
+      });
   };
   
   this.get_bar = function( bar_id )
@@ -90,8 +113,68 @@ function NewGameDialog()
     }
   };
   
+  this.validate = function()
+  {
+    if( $.trim( this.name.val() ) == "" )
+    {
+      this.error.text("You must enter a name.").show();
+      return false;
+    }
+    
+    if( this.pool != 0 )
+    {
+      this.error.html("You must assign all remaining points to Strengh, Intelligence,<br/>Dexterity and Constitution.").show();
+      return false;
+    }
+    
+    if( this.known_spells.length != 3 )
+    {
+      this.error.text("You must choose three spells to learn.").show();
+      return false;
+    }
+    
+    return true;
+  };
+  
+  this.update_known_spells = function()
+  {
+    var known_spells = this.known_spells = [];
+    
+    $("#ng_spells option:selected").each( function() {
+        known_spells.push( $(this).val() );
+      });
+  };
+  
   this.ok = function()
   { 
-    this.popup.modal("hide");
+    this.update_known_spells();
+    
+    if( this.validate() )   // TODO check for active game flag and ask confirmation before actually creating a new game
+    {
+      Player = new PlayerActor();
+      Player.description = this.name.val();
+      Player.spellbook = this.known_spells.slice();
+      // TODO ASSIGN PLAYER STATS HERE
+      
+      default_inventory();
+      
+      SpellBar.update_list( this.known_spells );
+      
+      document.game.create_new_game();
+      this.popup.modal("hide");
+    }
   };
+  
+  this.open = function()
+  {
+    this.popup.modal("show");
+  };
+}
+
+function default_inventory()
+{
+  // Puny Dagger (equipped)
+  var weapon = new Item("weapon1");
+  weapon.equipped = "weapon";
+  Player.bag.push( weapon );
 }
