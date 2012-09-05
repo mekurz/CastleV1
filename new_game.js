@@ -160,6 +160,7 @@ function NewGameDialog()
       
       SpellBar.update_list( this.known_spells );
       
+      document.game.bind_events();
       document.game.create_new_game();
       this.popup.modal("hide");
     }

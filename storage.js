@@ -49,10 +49,7 @@ function GameStorage()
   this.popup.on( "shown", function() {
                 Storage.refresh_ui();
           });
-  this.popup.on( "hide", function() { 
-                close_dialog();
-                document.game.draw();
-          });
+  this.popup.on( "hide", close_dialog );
   
   this.refresh_ui = function()
   {
@@ -165,6 +162,9 @@ function GameStorage()
         Inventory.load();
         DrawPlayer.construct_paperdoll();
         Map.center_map_on_location( Player.location );
+        
+        document.game.bind_events();
+        document.game.draw();
       }
     }
     catch( err )

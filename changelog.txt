@@ -511,6 +511,11 @@ Version 67 - 03-Sep-2012
   - In Prod, the New Game popup will be displayed if no saved games are detected on first load, otherwise Load Game will be displayed.
 - Debugging
   - Added option to learn all existing spells
+  
+Version 68 - 04-Sep-2012
+- General
+  - Toolbars and mouse/keyboard events are disabled when there is no active game.
+  - Cancelling out of New Game or Load Game popups during the initial load will no longer cause exceptions.
 
 TODO
 ============
@@ -518,6 +523,7 @@ TODO
 - BUG: Appears to be some problems with tooltips deciding if it's too dark or not for Widgets
 - BUG: Monsters can spawn ontop of the Player
 - BUG: Monsters going through doors that have been explored but are not within sight appear to magically open... need a way to hide this
+- BUG: Right-clicking then dragging onto the tooltip and releasing displays the browser's right-click menu and leaves the tooltip displayed
 - Setting for random character creation?
 - Fail gracefully for incompatible browsers
 - Option to launch new game
@@ -537,7 +543,5 @@ TODO
 - Need to display Level as part of save game info
 - Character Info Dialog
 - Character Creation
-  - Need to deactivate toolbars and events while no game is active (mouse + kb)
   - Active game flag, check status before actually creating a new game
   - Start Game must apply settings to Player
-- Cancelling out of initial load/new game windows should not cause crashes (i.e. active game flag) -- why does Load/save draw on close?????

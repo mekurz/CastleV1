@@ -36,6 +36,7 @@ function Game()
     Images = new ImageCache();
     
     Loader.initialize();
+    disable_toolbars();
 
     canvas = $("#map");
     
@@ -52,25 +53,29 @@ function Game()
       this.spell_buffer.height = canvas[0].height;
       this.spell_ctx = this.spell_buffer.getContext("2d");
       
-      canvas.bind( "mousedown", this.on_mouse_down );
-      canvas.bind( "mouseup", this.on_mouse_up );
-      canvas.bind( "mouseleave", this.on_mouse_leave );
-      canvas.bind( "mousemove", this.on_mouse_move );
-      
       return true;
     }
     
     return false;
   };
   
+  this.bind_events = function()
+  {
+    canvas.on( "mousedown", this.on_mouse_down );
+    canvas.on( "mouseup", this.on_mouse_up );
+    canvas.on( "mouseleave", this.on_mouse_leave );
+    canvas.on( "mousemove", this.on_mouse_move );
+    $(document).bind( "keydown", this.key_handler );
+    
+    enable_toolbars();
+  };
+
   this.run = function( debug )
   {
     DEBUGGING = debug;
     
     if( this.initialize() )
     {
-      $(document).bind( "keydown", this.key_handler );
-      
       this.interval_loop = setInterval( this.wait_for_load_loop, this.ANIMATION_INTERVAL );
       set_processing();
     }
@@ -88,6 +93,7 @@ function Game()
     if( DEBUGGING )
     {
       setup_debug_level();
+      this.bind_events();
     }
     else
     {
@@ -481,4 +487,18 @@ function stop_animations()
   document.game.interval_loop = null;
   set_finished();
   set_command( NO_COMMAND );
+}
+
+function disable_toolbars()
+{
+  $("#verbs_bar button").prop("disabled", "disabled");
+  $("#spell_bar button").prop("disabled", "disabled");
+  $("#save_game").hide();
+}
+
+function enable_toolbars()
+{
+  $("#verbs_bar button").prop("disabled", "");
+  $("#spell_bar button").prop("disabled", "");
+  $("#save_game").show();
 }

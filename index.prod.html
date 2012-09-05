@@ -57,14 +57,14 @@
             <li><a href="#new_game" role="button" data-toggle="modal">New Game...</a></li>
             <li class="divider"></li>
             <li><a href="#" onclick="Storage.open_load();">Load Game...</a></li>
-            <li><a href="#" onclick="Storage.open_save();">Save Game...</a></li>
+            <li><a id="save_game" href="#" onclick="Storage.open_save();">Save Game...</a></li>
             <li class="divider"></li>
             <li><a href="#shortcuts" role="button" data-toggle="modal">Shortcuts...</a></li>
             <li><a href="#" onclick="Log.clear();">Clear Log</a></li>
             <li><a href="#debug_flags" role="button" data-toggle="modal">Debug Flags...</a></li>
           </ul>
         </div>
-        <div class="btn-group">
+        <div id="verbs_bar" class="btn-group">
           <button id="btn_inventory" class="btn btn-large" onclick="Inventory.open();">Inventory</button>
           <button id="btn_map" class="btn btn-large" onclick="Minimap.open();">Map</button>
           <button id="btn_search" class="btn btn-large" onclick="perform_action('search');">Search</button>
@@ -80,7 +80,7 @@
             <li><a href="#" onclick="perform_action('down');">Climb Down Stairs</a></li>
           </ul>
         </div>     
-        <div class="btn-group">
+        <div id="spell_bar" class="btn-group">
           <button id="spell0" class="btn btn-img" onclick="cast_spell(0);"></button>
           <button id="spell1" class="btn btn-img" onclick="cast_spell(1);"></button>
           <button id="spell2" class="btn btn-img" onclick="cast_spell(2);"></button>
