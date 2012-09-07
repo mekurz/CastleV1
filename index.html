@@ -36,6 +36,7 @@
 		<script type="text/javascript" src="traps.js"></script>
 		<script type="text/javascript" src="spellbook.js"></script>
 		<script type="text/javascript" src="new_game.js"></script>
+		<script type="text/javascript" src="char_info.js"></script>
 	</head>
 	<body style="margin:0px;">
 	  Use arrows or num pad to move, OR click and drag the man to move. Click on RAT MANS or bump into them to attack! Select a spell from the menu, click Cast and then click a tile!<br/>
@@ -113,7 +114,8 @@
 	        <button id="spell6" class="btn btn-img" onclick="cast_spell(6);"></button>
 	        <button class="btn dropdown-toggle btn-img" data-toggle="dropdown"><img src="images/gear.png"/> <b class="caret"></b></button>
 	        <ul id="other_actions_menu" class="dropdown-menu pull-right">
-	          <li><a href="#customize_spells" role="button" data-toggle="modal">Customize...</a></li>
+	          <li><a href="#char_info" role="button" data-toggle="modal">Character Info...</a></li>
+	          <li><a href="#customize_spells" role="button" data-toggle="modal">Customize Spell Menu...</a></li>
 	        </ul>
 	      </div>
 	    </div>
@@ -237,6 +239,19 @@
         <div class="modal-footer">
           <button class="btn" data-dismiss="modal">Cancel</button>
           <button id="storage_ok" class="btn btn-primary" onclick="NewGame.ok();">Start game!</button>
+        </div>
+      </div>
+      
+      <div id="char_info" class="modal hide" tabindex="-1" role="dialog" style="width:auto;">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h3>Character Information</h3>
+        </div>
+        <div class="modal-body">
+          <!--  character_info.html  -->
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-primary" data-dismiss="modal">Close</button>
         </div>
       </div>
 

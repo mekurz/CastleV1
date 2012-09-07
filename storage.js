@@ -260,9 +260,12 @@ function GameStorage()
   {
     if( this.action == STORAGE_ACTION_LOAD )
     {
-      this.load_selected_game();
-      this.commit_store();
-      return true;
+      if( Player == null || confirm( "You are currently in a game. Any unsaved progress will be lost.\n\nDo you want to continue?" ) )
+      {
+        this.load_selected_game();
+        this.commit_store();
+        return true;
+      }
     }
     else if( this.action == STORAGE_ACTION_SAVE )
     {
@@ -270,6 +273,8 @@ function GameStorage()
       this.commit_store();
       return result;
     }
+    
+    return false;
   };
   
   this.ok = function()

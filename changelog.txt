@@ -516,6 +516,12 @@ Version 68 - 04-Sep-2012
 - General
   - Toolbars and mouse/keyboard events are disabled when there is no active game.
   - Cancelling out of New Game or Load Game popups during the initial load will no longer cause exceptions.
+  
+Version 69 - 06-Sep-2012
+- General
+  - Creating a new game or loading a saved game prompts for confirmation if another game is already in progress
+  - Fixed an issue where creating/loading multiple games would rebind mouse and keyboard events repeatedly
+  - Initial prototype of Character Info popup
 
 TODO
 ============
@@ -542,6 +548,6 @@ TODO
 - Item stats, etc
 - Need to display Level as part of save game info
 - Character Info Dialog
+  - Show name, level, xp etc
 - Character Creation
-  - Active game flag, check status before actually creating a new game
-  - Start Game must apply settings to Player
+  - Start Game must apply stats to Player

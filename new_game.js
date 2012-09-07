@@ -133,6 +133,11 @@ function NewGameDialog()
       return false;
     }
     
+    if( Player != null && !confirm( "You are currently in a game. Any unsaved progress will be lost.\n\nDo you want to continue?" ) )
+    {
+      return false;
+    }
+    
     return true;
   };
   
@@ -149,7 +154,7 @@ function NewGameDialog()
   { 
     this.update_known_spells();
     
-    if( this.validate() )   // TODO check for active game flag and ask confirmation before actually creating a new game
+    if( this.validate() )
     {
       Player = new PlayerActor();
       Player.description = this.name.val();

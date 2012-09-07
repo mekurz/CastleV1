@@ -9,7 +9,8 @@ function Game()
   this.tooltip = new Tooltip();
   this.is_player_move = false;
   
-  canvas = null;
+  var events_bound = false;
+  var canvas = null;
   this.map_ctx = null;
   this.buffer = null;
   this.buffer_ctx = null;
@@ -27,6 +28,7 @@ function Game()
     CustomizeSpellBar = new CustomizeSpellsDialog();
     Dungeon = new DungeonManager();
     NewGame = new NewGameDialog();
+    CharInfo = new CharacterInfoDialog();
     DrawPlayer = new Paperdoll();
     Inventory = new InventoryManager();
     SpellBar = new SpellToolbar();
@@ -61,13 +63,17 @@ function Game()
   
   this.bind_events = function()
   {
-    canvas.on( "mousedown", this.on_mouse_down );
-    canvas.on( "mouseup", this.on_mouse_up );
-    canvas.on( "mouseleave", this.on_mouse_leave );
-    canvas.on( "mousemove", this.on_mouse_move );
-    $(document).bind( "keydown", this.key_handler );
-    
-    enable_toolbars();
+    if( !events_bound )
+    {
+      canvas.on( "mousedown", this.on_mouse_down );
+      canvas.on( "mouseup", this.on_mouse_up );
+      canvas.on( "mouseleave", this.on_mouse_leave );
+      canvas.on( "mousemove", this.on_mouse_move );
+      $(document).bind( "keydown", this.key_handler );
+      
+      enable_toolbars();
+      events_bound = true;
+    }
   };
 
   this.run = function( debug )

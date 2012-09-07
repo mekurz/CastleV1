@@ -90,6 +90,7 @@
           <button id="spell6" class="btn btn-img" onclick="cast_spell(6);"></button>
           <button class="btn dropdown-toggle btn-img" data-toggle="dropdown"><img src="images/gear.png"/> <b class="caret"></b></button>
           <ul id="other_actions_menu" class="dropdown-menu pull-right">
+            <li><a href="#char_info" role="button" data-toggle="modal">Character Info...</a></li>
             <li><a href="#customize_spells" role="button" data-toggle="modal">Customize...</a></li>
           </ul>
         </div>
@@ -204,6 +205,17 @@
         <div class="modal-footer">
           <button class="btn" data-dismiss="modal">Cancel</button>
           <button id="storage_ok" class="btn btn-primary" onclick="NewGame.ok();">Start game!</button>
+        </div>
+      </div>
+      
+      <div id="char_info" class="modal hide" tabindex="-1" role="dialog" style="width:auto;">
+        <div class="modal-header">
+          <button type="button" class="close" data-dismiss="modal">&times;</button>
+          <h3>Character Information</h3>
+        </div>
+        <div class="modal-body"></div>
+        <div class="modal-footer">
+          <button class="btn btn-primary" data-dismiss="modal">Close</button>
         </div>
       </div>
       
