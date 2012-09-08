@@ -68,6 +68,11 @@ body
 	clear:left;
 }
 
+.Stat
+{
+	float:right;	
+}
+
 .NonEquipped 
 {
 	border: 1px solid black;
@@ -215,7 +220,7 @@ body
 
 .Rounded
 {
-	background-color: #bbbbbb;
+	background-color: #cccccc;
 	-webkit-border-radius: 6px;
   -moz-border-radius: 6px;
   border-radius: 6px;
@@ -253,7 +258,7 @@ body
 	height: 100px;
 }
 
-.v-progress .bar,.narrow-bar
+.v-progress .bar,.narrow-bar,.narrow-bar2
 {
   width: 36px;
   -webkit-box-shadow: inset 0 -1px 0 rgba(0, 0, 0, 0.15);
@@ -270,9 +275,19 @@ body
   bottom:0px;
 }
 
-.v-progress .narrow-bar
+.v-progress .narrow-bar,.narrow-bar2
 {
   width: 18px;
+}
+
+.narrow-bar2
+{
+	left: 18px;
+}
+
+#char_info .v-progress
+{
+  margin-top: 5px;	
 }
 
 .blue

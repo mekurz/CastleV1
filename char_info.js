@@ -54,6 +54,17 @@ function CharacterInfoDialog()
     set_pct_on_bar( this.int_bar, this.int, this.int+20 );
     set_pct_on_bar( this.dex_bar, this.dex, this.dex );
     set_pct_on_bar( this.con_bar, this.con, this.con -10 );
+    
+    $("#ci_img").attr("src", DrawPlayer.get_data_url() );
+    $("#ci_name").text( Player.description );
+    $("#ci_lvl").text( Player.level );
+    $("#ci_xp").text( Player.xp.toCommas() );
+    $("#ci_next").text( (1234567).toCommas() ); // TODO THIS NEEDS TO BE CALCULATED
+    Player.update_hp("ci_hp");
+    Player.update_mana("ci_mana");
+    $("#ci_ac").text( Player.ac );
+    $("#ci_gold").text( (1234567).toCommas() );
+    $("#ci_time").text( Time.get_time() );
   };
   
 }

@@ -60,9 +60,23 @@ Array.prototype.remove = function(from, to)
   return this.push.apply(this, rest);
 };
 
-Array.prototype.shuffle = function() {
+Array.prototype.shuffle = function()
+{
   for (var j, x, i = this.length; i; j = parseInt(Math.random() * i), x = this[--i], this[i] = this[j], this[j] = x);
   return this;
+};
+
+Number.prototype.toCommas = function()
+{ 
+   var n = this,
+   t = ',',
+   sign = (n < 0) ? '-' : '',
+
+   //extracting the absolute value of the integer part of the number and converting to string
+   i = parseInt(n = Math.abs(n).toFixed(0)) + '', 
+
+   j = ((j = i.length) > 3) ? j % 3 : 0; 
+   return sign + (j ? i.substr(0, j) + t : '') + i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + t); 
 };
 
 function center_popup(e)

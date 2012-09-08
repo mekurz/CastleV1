@@ -30,7 +30,7 @@ function GameInfo()
     minutes = "0" + minutes;
   }
   
-  this.timestamp = months[now.getMonth()] + " " + now.getDate() + " " + now.getFullYear() + " @ " + now.getHours() + ":" + now.getMinutes();
+  this.timestamp = months[now.getMonth()] + " " + now.getDate() + " " + now.getFullYear() + " @ " + now.getHours() + ":" + minutes;
   this.description = $("#new_save_desc").val();
 }
 
@@ -290,7 +290,7 @@ function GameStorage()
     var html = "<li class=\"ui-widget-content\" style=\"cursor:pointer;\">";
     html += "<img src=\"" + info.icon + "\" class=\"Avatar\"></img><div style=\"display:inline-block;width:500px;margin-right:5px;\">";
     html += "<span class=\"StoredGameTitle\">" + info.description + "</span><br/><div class=\"StoredGameInfo\">";
-    html += "<span class=\"StatName\">" + info.player_info.description + " (Level #)</span>";
+    html += "<span class=\"StatName\">" + info.player_info.description + " (Level " + info.player_info.level + ")</span>";
     html += "<span style=\"float:right;\">Last Modified: " + info.timestamp + "</span>";
     
     var saved_time = new GameTime();

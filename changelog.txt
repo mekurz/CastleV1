@@ -523,6 +523,15 @@ Version 69 - 06-Sep-2012
   - Fixed an issue where creating/loading multiple games would rebind mouse and keyboard events repeatedly
   - Initial prototype of Character Info popup
 
+Version 70 - 07-Sep-2012
+- General
+  - Character Info popup layout updated with some stats (many items are dummy value)
+  - Added Number.toCommas() method for formatting numbers with commas (i.e. 1,234,567)
+  - The +/- buttons on the New Game popup now allow for click-and-hold functionality
+  - Adjusted the starting allocation of stat points to be 4x32 with 100 additional points.
+  - Saved game info will now list Player level (all pre-existing saved games will show the Player level as "undefined")
+   
+
 TODO
 ============
 - BUG: Some wall tiles get marked as "too dark to see" based on what's on one side vs the other... need some kind of directional tooltip?
@@ -531,6 +540,7 @@ TODO
 - BUG: Monsters going through doors that have been explored but are not within sight appear to magically open... need a way to hide this
 - BUG: Right-clicking then dragging onto the tooltip and releasing displays the browser's right-click menu and leaves the tooltip displayed
 - Setting for random character creation?
+- Quick save feature -- WHAT KEY?
 - Fail gracefully for incompatible browsers
 - Option to launch new game
 - Touch events?
@@ -546,8 +556,7 @@ TODO
 - Tooltips need to be split into two sections (one for detection and one for seeing/map showing)... split off num_items?
 - Spawn items inside rooms and when monsters die
 - Item stats, etc
-- Need to display Level as part of save game info
 - Character Info Dialog
-  - Show name, level, xp etc
+  - Must show actual stats
 - Character Creation
   - Start Game must apply stats to Player

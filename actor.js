@@ -149,6 +149,9 @@ function PlayerActor()
   
   this.bag = new Array();
   this.spellbook = new Array();
+  this.level = 1;
+  this.xp    = 12345;  // TODO TEMP VALUE
+  this.ac    = 100;    // TODO TEMP VALUE
   
   // TODO: THESE ARE TEMPORARY SETTINGS
   this.max_hp = 10;
@@ -174,23 +177,17 @@ function PlayerActor()
     this.update_mana();
   };
   
-  this.update_hp = function()
+  this.update_hp = function( id )
   {
-    $("#hp").text( this.current_hp + "/" + this.max_hp );
+    var div = "#" + ( id == undefined ? "hp" : id );
     
-    if( ( this.current_hp / this.max_hp ) <= 0.25 )
-    {
-      $("#hp").css( "color", "red" );
-    }
-    else
-    {
-      $("#hp").css( "color", "black" );
-    }
+    $(div).text( this.current_hp + "/" + this.max_hp );
+    $(div).css( "color", ( this.current_hp / this.max_hp ) <= 0.25 ? "red" : "#333" );
   };
   
-  this.update_mana = function()
+  this.update_mana = function( id )
   {
-    $("#mana").text( this.current_mana + "/" + this.max_mana );
+    $("#" + ( id == undefined ? "mana" : id )).text( this.current_mana + "/" + this.max_mana );
   };
 }
 extend( PlayerActor, Actor );

@@ -1,5 +1,15 @@
-var MAX_STAT = 100;
-var MIN_STAT = 20;
+var MAX_STAT = 75;
+var MIN_STAT = 25;
+
+function set_pct_on_bar( bar, pct )
+{
+  bar.css( "height", pct + "%" );
+}
+
+function get_bar_value( bar )
+{
+  return parseInt( bar.css( "height" ) );
+}
 
 function NewGameDialog()
 {
@@ -28,24 +38,14 @@ function NewGameDialog()
     this.initialize();
   };
   
-  function set_pct_on_bar( bar, pct )
-  {
-    bar.css( "height", pct + "%" );
-  }
-  
-  function get_bar_value( bar )
-  {
-    return parseInt( bar.css( "height" ) );
-  }
-  
   this.initialize = function()
   {
     this.known_spells = [];
-    this.pool = 50;
-    this.str = 20;
-    this.int = 20;
-    this.dex = 20;
-    this.con = 20;
+    this.pool = 100;
+    this.str = 32;
+    this.int = 32;
+    this.dex = 32;
+    this.con = 32;
     set_pct_on_bar( this.pool_bar, this.pool );
     set_pct_on_bar( this.str_bar, this.str );
     set_pct_on_bar( this.int_bar, this.int );
@@ -60,6 +60,14 @@ function NewGameDialog()
         .trigger("liszt:updated")
         .attr( "data-placeholder", "Select three spells..." )
         .chosen();
+    
+    $(".plus").each( function() {
+        hold_it( $(this), NewGame.plus );
+      });
+    
+    $(".minus").each( function() {
+        hold_it( $(this), NewGame.minus );
+      });
   };
   
   this.fill_combos = function()
@@ -67,8 +75,7 @@ function NewGameDialog()
     var spells = this.spells;
     var xml = Loader.get_data_by_level( "Spell", 1 );
     
-    spells.empty();
-    $("<option>").text("").appendTo( spells );
+    spells.empty().append( $("<option>").text("") );
      
     xml.each( function() {
         var $this = $(this);        
@@ -89,27 +96,27 @@ function NewGameDialog()
   
   this.plus = function( bar_id )
   {
-    var bar = this.get_bar( bar_id );
+    var bar = NewGame.get_bar( bar_id );
     var value = get_bar_value( bar );
     
-    if( this.pool > 0 && value < MAX_STAT )
+    if( NewGame.pool > 0 && value < MAX_STAT )
     {
-      this.pool -= 2;
-      set_pct_on_bar( this.pool_bar, this.pool );
-      set_pct_on_bar( bar, value + 2 );
+      NewGame.pool--;
+      set_pct_on_bar( NewGame.pool_bar, NewGame.pool );
+      set_pct_on_bar( bar, value + 1 );
     }
   };
   
   this.minus = function( bar_id )
   {
-    var bar = this.get_bar( bar_id );
+    var bar = NewGame.get_bar( bar_id );
     var value = get_bar_value( bar );
     
-    if( this.pool < 100 && value > MIN_STAT ) // Don't let the user go below the min stat value
+    if( NewGame.pool < 100 && value > MIN_STAT ) // Don't let the user go below the min stat value
     {
-      this.pool += 2;
-      set_pct_on_bar( this.pool_bar, this.pool );
-      set_pct_on_bar( bar, value - 2 );
+      NewGame.pool++;
+      set_pct_on_bar( NewGame.pool_bar, NewGame.pool );
+      set_pct_on_bar( bar, value - 1 );
     }
   };
   
@@ -184,3 +191,24 @@ function default_inventory()
   weapon.equipped = "weapon";
   Player.bag.push( weapon );
 }
+
+function hold_it( btn, action )
+{
+  var t = 0;
+  var start = 250; 
+  
+  var repeat = function () {
+      action( btn.attr("stat") );
+      t = setTimeout(repeat, start);
+      start = Math.max( start / 2, 20 );
+  };
+
+  btn.off()
+     .mousedown( function() {
+       start = 250;
+       repeat();
+     })
+     .on( "mouseup mouseleave", function() {
+       clearTimeout( t );
+     });
+};
