@@ -142,6 +142,16 @@ Actor.prototype.get_melee_damage = function()
   return this.melee_damage;
 };
 
+var MAX_STR = 0;
+var CUR_STR = 1;
+var MAX_INT = 2;
+var CUR_INT = 3;
+var MAX_DEX = 4;
+var CUR_DEX = 5;
+var MAX_CON = 6;
+var CUR_CON = 7;
+var MAX_STATS = 8; 
+
 function PlayerActor()
 {
   PlayerActor.base_constructor.call( this, "man" );
@@ -152,6 +162,7 @@ function PlayerActor()
   this.level = 1;
   this.xp    = 12345;  // TODO TEMP VALUE
   this.ac    = 100;    // TODO TEMP VALUE
+  this.stats = new Array(MAX_STATS);
   
   // TODO: THESE ARE TEMPORARY SETTINGS
   this.max_hp = 10;

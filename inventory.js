@@ -139,6 +139,7 @@ function InventoryManager()
                 DrawPlayer.construct_paperdoll();
                 close_dialog();
                 Inventory.is_open = false;
+                set_dirty();
                 document.game.draw();
           });
   this.popup.css("margin-top", -310).css("margin-left", -415);

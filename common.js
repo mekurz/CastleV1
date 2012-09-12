@@ -148,6 +148,16 @@ function set_finished()
   $("#processing").val( 0 );
 }
 
+function set_dirty()
+{
+  document.game.dirty = true;
+}
+
+function is_dirty()
+{
+  return document.game.dirty;
+}
+
 function is_processing()
 {
   return $("#processing").val() == "1";

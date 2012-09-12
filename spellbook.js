@@ -89,6 +89,7 @@ function CustomizeSpellsDialog()
     if( this.save() )
     {
       SpellBar.update_toolbar();
+      set_dirty();
       this.popup.modal("hide");
     }
   };

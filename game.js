@@ -8,6 +8,7 @@ function Game()
   this.mouse_start = new Point();
   this.tooltip = new Tooltip();
   this.is_player_move = false;
+  this.dirty = false;
   
   var events_bound = false;
   var canvas = null;
@@ -69,7 +70,14 @@ function Game()
       canvas.on( "mouseup", this.on_mouse_up );
       canvas.on( "mouseleave", this.on_mouse_leave );
       canvas.on( "mousemove", this.on_mouse_move );
-      $(document).bind( "keydown", this.key_handler );
+      $(document).on( "keydown", this.key_handler );
+      $(window).on("beforeunload", function() {
+          if( !DEBUGGING && is_dirty() )
+          {
+            return "Your current game has not been saved!";
+          }
+          return;
+        });
       
       enable_toolbars();
       events_bound = true;
@@ -114,6 +122,7 @@ function Game()
     Dungeon.update_level();
     
     this.draw();
+    set_dirty();
   };
   
   this.wait_for_load_loop = function()
@@ -175,6 +184,7 @@ function Game()
     Time.update_time();   // Update the game clock
     this.draw();
     this.draw_spells();
+    set_dirty();
   };
   
   this.update = function()

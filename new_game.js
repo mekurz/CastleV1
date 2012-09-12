@@ -1,5 +1,6 @@
 var MAX_STAT = 75;
 var MIN_STAT = 25;
+var DEFAULT_STAT = 32;
 
 function set_pct_on_bar( bar, pct )
 {
@@ -9,6 +10,12 @@ function set_pct_on_bar( bar, pct )
 function get_bar_value( bar )
 {
   return parseInt( bar.css( "height" ) );
+}
+
+function assign_player_stat( bar, stat )
+{
+  var value = get_bar_value( bar );
+  Player.stats[stat] = Player.stats[stat+1] = value;
 }
 
 function NewGameDialog()
@@ -42,15 +49,11 @@ function NewGameDialog()
   {
     this.known_spells = [];
     this.pool = 100;
-    this.str = 32;
-    this.int = 32;
-    this.dex = 32;
-    this.con = 32;
     set_pct_on_bar( this.pool_bar, this.pool );
-    set_pct_on_bar( this.str_bar, this.str );
-    set_pct_on_bar( this.int_bar, this.int );
-    set_pct_on_bar( this.dex_bar, this.dex );
-    set_pct_on_bar( this.con_bar, this.con );
+    set_pct_on_bar( this.str_bar, DEFAULT_STAT );
+    set_pct_on_bar( this.int_bar, DEFAULT_STAT );
+    set_pct_on_bar( this.dex_bar, DEFAULT_STAT );
+    set_pct_on_bar( this.con_bar, DEFAULT_STAT );
     
     this.name.val("");
     this.error.hide();
@@ -140,7 +143,7 @@ function NewGameDialog()
       return false;
     }
     
-    if( Player != null && !confirm( "You are currently in a game. Any unsaved progress will be lost.\n\nDo you want to continue?" ) )
+    if( document.game.dirty && Player != null && !confirm( "You are currently in a game. Any unsaved progress will be lost.\n\nDo you want to continue?" ) )
     {
       return false;
     }
@@ -166,7 +169,10 @@ function NewGameDialog()
       Player = new PlayerActor();
       Player.description = this.name.val();
       Player.spellbook = this.known_spells.slice();
-      // TODO ASSIGN PLAYER STATS HERE
+      assign_player_stat( this.str_bar, MAX_STR );
+      assign_player_stat( this.int_bar, MAX_INT );
+      assign_player_stat( this.dex_bar, MAX_DEX );
+      assign_player_stat( this.con_bar, MAX_CON );
       
       default_inventory();
       

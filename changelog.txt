@@ -530,6 +530,11 @@ Version 70 - 07-Sep-2012
   - The +/- buttons on the New Game popup now allow for click-and-hold functionality
   - Adjusted the starting allocation of stat points to be 4x32 with 100 additional points.
   - Saved game info will now list Player level (all pre-existing saved games will show the Player level as "undefined")
+
+Version 71 - 11-Sep-2012
+- General
+  - Player stats are now assigned during game creation and displayed on the Character Information popup
+  - You will now be prompted if your game has not been saved when you attempt to leave the page in Production
    
 
 TODO
@@ -550,13 +555,25 @@ TODO
 - Toolbar needs tooltips (alt text)
 - Belts should have utility slots
 - Items in the inventory need detailed tooltips
-- Status effects (Bootstrap inline labels in info section)
 - Gold
 - Drag items onto body picture in Inventory to auto-equip
 - Tooltips need to be split into two sections (one for detection and one for seeing/map showing)... split off num_items?
 - Spawn items inside rooms and when monsters die
 - Item stats, etc
-- Character Info Dialog
-  - Must show actual stats
-- Character Creation
-  - Start Game must apply stats to Player
+- Status effects (Bootstrap inline labels in info section)
+  - status queue based on GameTime
+  - Show current effects in stat window and character info
+  - Active effect
+    - take an action on intervals
+    - i.e. poison
+  - Passive effect
+    - take an action on start and on end
+    - i.e. shield
+  - Temporary effect
+    - set duration
+    - i.e poison or shield
+  - Persistent effect
+    - no set duration, requires some kind of event to activate/deactivate
+    - i.e. levitate or curse
+  - XML config?
+  

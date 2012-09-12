@@ -106,6 +106,7 @@ function GameStorage()
       {
         this.saved_games.push( new GameInfo() );
         this.commit_store();
+        document.game.dirty = false;
         this.action = STORAGE_ACTION_CLOSE;
         this.popup.modal("hide");
       }
@@ -260,7 +261,7 @@ function GameStorage()
   {
     if( this.action == STORAGE_ACTION_LOAD )
     {
-      if( Player == null || confirm( "You are currently in a game. Any unsaved progress will be lost.\n\nDo you want to continue?" ) )
+      if( Player == null || !is_dirty() || confirm( "You are currently in a game. Any unsaved progress will be lost.\n\nDo you want to continue?" ) )
       {
         this.load_selected_game();
         this.commit_store();
@@ -271,6 +272,7 @@ function GameStorage()
     {
       var result = this.overwrite_save();
       this.commit_store();
+      document.game.dirty = false;
       return result;
     }
     
