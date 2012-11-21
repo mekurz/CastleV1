@@ -535,6 +535,11 @@ Version 71 - 11-Sep-2012
 - General
   - Player stats are now assigned during game creation and displayed on the Character Information popup
   - You will now be prompted if your game has not been saved when you attempt to leave the page in Production
+  
+Version 72 - 20-Nov-2012
+- General
+  - Upgraded to Bootstrap 2.2.1
+  - Upgraded to jQuery 1.8.3 and jQueryUI 1.9.1
    
 
 TODO
