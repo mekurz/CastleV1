@@ -67,6 +67,8 @@
       <Image id="14" src="coldball.png"/>
       <Image id="15" src="coldball_mini.png"/>
       <Image id="16" src="shield.png"/>
+      <Image id="17" src="dimension_door.png"/>
+      <Image id="18" src="portal.png"/>
     </Images>
     <Projectile>
 	    <Spell id="p1" projectile_id="2" toolbar_id="2" level="1">
@@ -105,6 +107,13 @@
       <Spell id="u1" projectile_id="9" toolbar_id="9" level="1">
         <Description>Light</Description>
         <Mana>2</Mana>
+        <Damage>0</Damage>
+        <Verb></Verb>
+        <Action></Action>
+      </Spell>
+      <Spell id="u2" effect_id="18" toolbar_id="17" self_target="1" level="1">
+        <Description>Dimension Door</Description>
+        <Mana>0</Mana>
         <Damage>0</Damage>
         <Verb></Verb>
         <Action></Action>

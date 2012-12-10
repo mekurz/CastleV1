@@ -142,7 +142,7 @@ function InventoryManager()
                 set_dirty();
                 document.game.draw();
           });
-  this.popup.css("margin-top", -310).css("margin-left", -415);
+  this.popup.css("margin-left", -415);
   
   this.refresh_ui = function()
   {

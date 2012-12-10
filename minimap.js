@@ -12,8 +12,8 @@ function Minimap()
                 open_dialog();
                 Minimap.draw_map();
           });
-  this.popup.on( "shown", center_popup );
   this.popup.on( "hide", close_dialog );
+  this.popup.css("margin-top", -50);
       
   var canvas = $("#minimap");
   

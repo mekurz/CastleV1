@@ -4,14 +4,6 @@ var MIN_ROOM_SIZE = 5;
 var MAX_ROOM_SIZE = 11;
 var TUNNEL_LENGTH = 3;
 
-var BLOCKED_CHAR = "B";
-var NOTHING_CHAR = "#";
-var ROOM_CHAR    = ".";
-var PERIMETER_CHAR = "#";
-var ENTRANCE_CHAR = "E";
-var TUNNEL_CHAR = " ";
-var DEADEND_CHAR = "X";
-
 var NORTH = new Point( -1,  0 );
 var SOUTH = new Point(  1,  0 );
 var EAST  = new Point(  0, -1 );
@@ -804,56 +796,5 @@ function MapGenerator()
     this.generate_stairs( level.stairs_down, STAIRS_DOWN, num_stairs_down );
     
     this.generate_traps( level, this.rooms_list.length );
-  };
-  
-// DRAW MAP FUNCTIONS (FOR DEBUGGING) BELOW
-  this.draw_map = function()
-  {
-    var div = $("#map");
-    
-    for( var row = 0; row < MAP_HEIGHT; row++ )
-    {
-      var row_output = "";
-      
-      for( var col = 0; col < MAP_WIDTH; col++ )
-      {
-        row_output += this.get_cell_character( this.map[row][col] );
-      }
-      
-      div.append( row_output + "<br/>" );
-    }
-  };
-  
-  this.get_cell_character = function( cell )
-  {
-    if( cell.is_deadend )
-    {
-      return DEADEND_CHAR;
-    }
-    else if( cell.is_entrance )
-    {
-      return ENTRANCE_CHAR;
-    }
-    else if( cell.is_corridor )
-    {
-      return TUNNEL_CHAR;
-    }
-    else if( cell.blocked )
-    {
-      return BLOCKED_CHAR;
-    }    
-    else if( cell.is_perimeter )
-    {
-      return PERIMETER_CHAR; 
-    }
-    else if( cell.room_id != -1 )
-    {
-      return ROOM_CHAR; 
-    }
-    
-    else
-    {
-      return NOTHING_CHAR;
-    }
   };
 }

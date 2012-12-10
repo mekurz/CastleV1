@@ -44,6 +44,11 @@ function cast_spell_by_id( spell )
   }
 }
 
+function get_debug_spellbar()
+{
+ return ["p1","p2","p3","u2"]; 
+}
+
 function test_fizzle()
 {
   if( !is_processing() )
@@ -75,7 +80,7 @@ function test_splat()
 {
   if( !is_processing() )
   {
-    add_spell_effect( new Splat( new Point( 5, 5 ) ) );
+    add_spell_effect( new SinglePointRotatingFadingSpellEffect( SPLAT, new Point( 5, 5 ) ) );
     document.game.draw_spells();
   }
 }

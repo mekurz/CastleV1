@@ -136,7 +136,7 @@ function Game()
         Player = new PlayerActor(); 
         document.game.create_new_game();
         learn_all_spells();
-        SpellBar.update_list( ["p1","p2","p3"] );
+        SpellBar.update_list( get_debug_spellbar() );
         SpellBar.update_toolbar();
       }
       
@@ -490,7 +490,7 @@ function Game()
   {
     for( var x = 0; x < this.splat_queue.length; x++ )
     {
-      add_spell_effect( new Splat( this.splat_queue[x] ) ); 
+      add_spell_effect( new SinglePointRotatingFadingSpellEffect( SPLAT, this.splat_queue[x] ) ); 
     }
     
     this.splat_queue = new Array();

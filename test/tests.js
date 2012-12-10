@@ -4,7 +4,6 @@ function run_unit_tests()
   MAP_WIDTH = 100;
   
   MapGenerator_allocate_map();
-  MapGenerator_get_cell_character();
   MapGenerator_block_map_edge();
  
   Cell_is_a_room();
@@ -31,8 +30,8 @@ function MapGenerator_allocate_map()
   
   test( "Map Dimensions", function()  
   {  
-    equals( mapgen.map.length, MAP_HEIGHT, "Check height" );
-    equals( mapgen.map[0].length, MAP_WIDTH, "Check width" );
+    equal( mapgen.map.length, MAP_HEIGHT, "Check height" );
+    equal( mapgen.map[0].length, MAP_WIDTH, "Check width" );
   });
   
   test( "Map Contents", function()  
@@ -51,46 +50,6 @@ function MapGenerator_allocate_map()
     }
     
     ok( all_cells, "Check that all Cells have been created" );
-  });
-}
-
-function MapGenerator_get_cell_character()
-{
-  module( "MapGenerator - get_cell_character" );
-  var mapgen = new MapGenerator();
-  
-  test( "Blocked Cell", function()  
-  {  
-    var cell = new Cell();
-    cell.blocked = true;
-    equals( mapgen.get_cell_character( cell ), BLOCKED_CHAR, "Check Cell character - Blocked" );
-  });
-  
-  test( "Perimeter Cell", function()  
-  {  
-    var cell = new Cell();
-    cell.is_perimeter = true;
-    equals( mapgen.get_cell_character( cell ), PERIMETER_CHAR, "Check Cell character - Perimeter" );
-  });
-  
-  test( "Room Cell", function()  
-  {  
-    var cell = new Cell();
-    cell.room_id = 999;
-    equals( mapgen.get_cell_character( cell ), ROOM_CHAR, "Check Cell character - Room" );
-  });
-  
-  test( "Nothing Cell", function()  
-  {  
-    var cell = new Cell();
-    equals( mapgen.get_cell_character( cell ), NOTHING_CHAR, "Check Cell character - Nothing" );
-  });
-  
-  test( "Entrance Cell", function()  
-  {  
-    var cell = new Cell();
-    cell.is_entrance = true;
-    equals( mapgen.get_cell_character( cell ), ENTRANCE_CHAR, "Check Cell character - Entrance" );
   });
 }
 
@@ -141,7 +100,7 @@ function Cell_is_a_room()
   test( "Default", function()  
   {  
     var cell = new Cell();
-    equals( cell.room_id, -1, "Default room_id is -1" );
+    equal( cell.room_id, -1, "Default room_id is -1" );
     ok( !cell.is_a_room(), "New cells are not rooms" );
   });
 
@@ -160,8 +119,8 @@ function Cell_set_as_perimeter()
   test( "Default", function()  
   {  
     var cell = new Cell();
-    equals( cell.room_id, -1, "Default room_id is -1" );
-    equals( cell.blocked, false, "Cell is not blocked" );
+    equal( cell.room_id, -1, "Default room_id is -1" );
+    equal( cell.blocked, false, "Cell is not blocked" );
     
     cell.set_as_perimeter();
     ok( cell.is_perimeter, "Unblocked non-room cells can be marked as a perimeter" );
@@ -170,7 +129,7 @@ function Cell_set_as_perimeter()
   test( "Blocked Cells", function()  
   {  
     var cell = new Cell();
-    equals( cell.room_id, -1, "Default room_id is -1" );
+    equal( cell.room_id, -1, "Default room_id is -1" );
     cell.blocked = true;    
     cell.set_as_perimeter();
     ok( !cell.is_perimeter, "Blocked cells cannot be marked as a perimeter" );
@@ -179,7 +138,7 @@ function Cell_set_as_perimeter()
   test( "Room Cells", function()  
   {  
     var cell = new Cell();
-    equals( cell.blocked, false, "Cell is not blocked" );
+    equal( cell.blocked, false, "Cell is not blocked" );
     
     cell.room_id = 999;
     cell.set_as_perimeter();
@@ -404,8 +363,8 @@ function Room_get_room_center()
     room.width = 5;
     room.height = 5;
     var center = room.get_room_center();
-    equals( center.x, 10, "Check that X is correct" );
-    equals( center.y, 10, "Check that Y is correct" );
+    equal( center.x, 10, "Check that X is correct" );
+    equal( center.y, 10, "Check that Y is correct" );
   });
   
   test( "Wide room", function()
@@ -413,8 +372,8 @@ function Room_get_room_center()
     room.width = 11;
     room.height = 5;
     var center = room.get_room_center();
-    equals( center.x, 13, "Check that X is correct" );
-    equals( center.y, 10, "Check that Y is correct" );
+    equal( center.x, 13, "Check that X is correct" );
+    equal( center.y, 10, "Check that Y is correct" );
   });
   
   test( "Tall room", function()
@@ -422,8 +381,8 @@ function Room_get_room_center()
     room.width = 5;
     room.height = 13;
     var center = room.get_room_center();
-    equals( center.x, 10, "Check that X is correct" );
-    equals( center.y, 14, "Check that Y is correct" );
+    equal( center.x, 10, "Check that X is correct" );
+    equal( center.y, 14, "Check that Y is correct" );
   });
 }
 
@@ -443,7 +402,7 @@ function DoorMaker_count_existing_doors_for_room()
     
     var doors = new DoorMaker( mapgen.map, room );
     
-    equals( doors.count_existing_doors_for_room(), 0, "Check that there are no doors attached to a room" );
+    equal( doors.count_existing_doors_for_room(), 0, "Check that there are no doors attached to a room" );
   });
   
   test( "Corner cells don't get counted", function()
@@ -460,7 +419,7 @@ function DoorMaker_count_existing_doors_for_room()
     
     var doors = new DoorMaker( mapgen.map, room );
     
-    equals( doors.count_existing_doors_for_room(), 0, "Check that corner cells don't get counted for doors" );
+    equal( doors.count_existing_doors_for_room(), 0, "Check that corner cells don't get counted for doors" );
   });
   
   test( "Has 3 doors", function()
@@ -476,7 +435,7 @@ function DoorMaker_count_existing_doors_for_room()
     
     var doors = new DoorMaker( mapgen.map, room );
     
-    equals( doors.count_existing_doors_for_room(), 3, "Check that Room has 3 doors" );
+    equal( doors.count_existing_doors_for_room(), 3, "Check that Room has 3 doors" );
   });
 }
 
@@ -494,12 +453,12 @@ function DoorMaker_add_valid_horizontal_sills()
     
     room.top_left = new Point( 8, 3 );
     doors.add_north_sills();
-    equals( doors.sills.length, 3, "Check that Room has 3 NORTH sills at ROW 3" );
+    equal( doors.sills.length, 3, "Check that Room has 3 NORTH sills at ROW 3" );
     doors.sills = new Array();
     
     room.top_left = new Point( 8, 8 );
     doors.add_north_sills();
-    equals( doors.sills.length, 3, "Check that Room has 3 NORTH sills at ROW 8" );
+    equal( doors.sills.length, 3, "Check that Room has 3 NORTH sills at ROW 8" );
     doors.sills = new Array();
   });
   
@@ -511,17 +470,17 @@ function DoorMaker_add_valid_horizontal_sills()
     
     room.top_left = new Point( 8, 0 );
     doors.add_north_sills();
-    equals( doors.sills.length, 0, "Check that Room has 0 NORTH sills at ROW 0" );
+    equal( doors.sills.length, 0, "Check that Room has 0 NORTH sills at ROW 0" );
     doors.sills = new Array();
     
     room.top_left = new Point( 8, 1 );
     doors.add_north_sills();
-    equals( doors.sills.length, 0, "Check that Room has 0 NORTH sills at ROW 1" );
+    equal( doors.sills.length, 0, "Check that Room has 0 NORTH sills at ROW 1" );
     doors.sills = new Array();
     
     room.top_left = new Point( 8, 2 );
     doors.add_north_sills();
-    equals( doors.sills.length, 0, "Check that Room has 0 NORTH sills at ROW 2" );
+    equal( doors.sills.length, 0, "Check that Room has 0 NORTH sills at ROW 2" );
     doors.sills = new Array();
   });
   
@@ -538,7 +497,7 @@ function DoorMaker_add_valid_horizontal_sills()
     mapgen.map[5][11].blocked = true;   // One possible entrance would open onto a blocked cell
     
     doors.add_north_sills();
-    equals( doors.sills.length, 1, "Check that Room has 1 NORTH sill" );
+    equal( doors.sills.length, 1, "Check that Room has 1 NORTH sill" );
   });
   
   test( "All SOUTH is valid", function()
@@ -550,12 +509,12 @@ function DoorMaker_add_valid_horizontal_sills()
     
     room.top_left = new Point( 8, MAP_HEIGHT-2 );
     doors.add_south_sills();
-    equals( doors.sills.length, 3, "Check that Room has 3 SOUTH sills at ROW MAP_HEIGHT-2" );
+    equal( doors.sills.length, 3, "Check that Room has 3 SOUTH sills at ROW MAP_HEIGHT-2" );
     doors.sills = new Array();
     
     room.top_left = new Point( 8, 8 );
     doors.add_south_sills();
-    equals( doors.sills.length, 3, "Check that Room has 3 SOUTH sills at ROW 8" );
+    equal( doors.sills.length, 3, "Check that Room has 3 SOUTH sills at ROW 8" );
     doors.sills = new Array();
   });
   
@@ -568,12 +527,12 @@ function DoorMaker_add_valid_horizontal_sills()
     
     room.top_left = new Point( 8, MAP_HEIGHT-1 );
     doors.add_south_sills();
-    equals( doors.sills.length, 0, "Check that Room has 0 SOUTH sills at ROW MAP_HEIGHT-1" );
+    equal( doors.sills.length, 0, "Check that Room has 0 SOUTH sills at ROW MAP_HEIGHT-1" );
     doors.sills = new Array();
     
     room.top_left = new Point( 8, MAP_HEIGHT );
     doors.add_south_sills();
-    equals( doors.sills.length, 0, "Check that Room has 0 SOUTH sills at ROW MAP_HEIGHT" );
+    equal( doors.sills.length, 0, "Check that Room has 0 SOUTH sills at ROW MAP_HEIGHT" );
     doors.sills = new Array();
   });
   
@@ -591,7 +550,7 @@ function DoorMaker_add_valid_horizontal_sills()
     mapgen.map[13][11].blocked = true;   // One possible entrance would open onto a blocked cell
     
     doors.add_south_sills();
-    equals( doors.sills.length, 1, "Check that Room has 1 SOUTH sill" );
+    equal( doors.sills.length, 1, "Check that Room has 1 SOUTH sill" );
   });
 }
 
@@ -603,84 +562,84 @@ function GameTime_get_time()
   test( "Zero", function()
   {
     time.time = 0;
-    equals( time.get_time(), "00:00" );
+    equal( time.get_time(), "00:00" );
   });
   
   test( "Thirty seconds", function()
   {
     time.time = 30;
-    equals( time.get_time(), "00:30" );
+    equal( time.get_time(), "00:30" );
   });
   
   test( "Sixty seconds", function()
   {
     time.time = 60;
-    equals( time.get_time(), "01:00" );
+    equal( time.get_time(), "01:00" );
   });
   
   test( "Ninety seconds", function()
   {
     time.time = 90;
-    equals( time.get_time(), "01:30" );
+    equal( time.get_time(), "01:30" );
   });
   
   test( "One hour", function()
   {
     time.time = 3600;
-    equals( time.get_time(), "01:00:00" );
+    equal( time.get_time(), "01:00:00" );
   });
   
   test( "One hour, thirty seconds", function()
   {
     time.time = 3630;
-    equals( time.get_time(), "01:00:30" );
+    equal( time.get_time(), "01:00:30" );
   });
   
   test( "One hour, sixty seconds", function()
   {
     time.time = 3660;
-    equals( time.get_time(), "01:01:00" );
+    equal( time.get_time(), "01:01:00" );
   });
   
   test( "One hour, ninety seconds", function()
   {
     time.time = 3690;
-    equals( time.get_time(), "01:01:30" );
+    equal( time.get_time(), "01:01:30" );
   });
   
   test( "One day", function()
   {
     time.time = 86400;
-    equals( time.get_time(), "1d,00:00:00" );
+    equal( time.get_time(), "1d,00:00:00" );
   });
   
   test( "One day, one hour", function()
   {
     time.time = 90000;
-    equals( time.get_time(), "1d,01:00:00" );
+    equal( time.get_time(), "1d,01:00:00" );
   });
   
   test( "One day, one hour, thirty seconds", function()
   {
     time.time = 90030;
-    equals( time.get_time(), "1d,01:00:30" );
+    equal( time.get_time(), "1d,01:00:30" );
   });
   
   test( "One day, one hour, sixty seconds", function()
   {
     time.time = 90060;
-    equals( time.get_time(), "1d,01:01:00" );
+    equal( time.get_time(), "1d,01:01:00" );
   });
   
   test( "One day, one hour, ninety seconds", function()
   {
     time.time = 90090;
-    equals( time.get_time(), "1d,01:01:30" );
+    equal( time.get_time(), "1d,01:01:30" );
   });
   
   test( "One second before midnight", function()
   {
     time.time = 86399;
-    equals( time.get_time(), "23:59:59" );
+    equal( time.get_time(), "23:59:59" );
   });
 }

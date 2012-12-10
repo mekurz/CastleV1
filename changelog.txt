@@ -540,7 +540,18 @@ Version 72 - 20-Nov-2012
 - General
   - Upgraded to Bootstrap 2.2.1
   - Upgraded to jQuery 1.8.3 and jQueryUI 1.9.1
-   
+  
+Version 73 - 12-Dec-2012
+- General
+  - Upgraded to Bootstrap 2.2.2 (removed several hacks due to Bootstrap fixes)
+- Debugging
+  - Moved default spell toolbar list to a central location (after hunting for it for 15 mins)
+  - Upgraded to QUnit 1.10 and updated unit testing code
+  - Moved unit tests into their own page accessible via the Unit Tests link rather than combining them with the MapGen test 
+- Spells
+  - Added framework for self-target spells (Dimension Door - no effect yet)
+  - Refactored SinglePointRotatingFadingSpellEffect to use map targets rather than raw coords
+
 
 TODO
 ============
@@ -581,4 +592,5 @@ TODO
     - no set duration, requires some kind of event to activate/deactivate
     - i.e. levitate or curse
   - XML config?
+- Complete Dimension Door spell
   

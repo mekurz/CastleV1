@@ -17,6 +17,11 @@ body
   text-decoration:none;
 }
 
+.btn-text
+{
+	line-height: 32px;
+}
+
 .btn-delete
 {
   width: 22px;

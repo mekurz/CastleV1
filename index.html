@@ -42,7 +42,7 @@
 	  Use arrows or num pad to move, OR click and drag the man to move. Click on RAT MANS or bump into them to attack! Select a spell from the menu, click Cast and then click a tile!<br/>
 		processing:<input type="text" id="processing" value="0" style="width:3em;"></input>
 		command:<input type="text" id="command" value="0" style="width:3em;"></input>
-		<a href="changelog.txt">Change Log</a> | <a href="MapGen/test.html">Map Generator</a> | <a href="ItemsTPOC/test.html">Item Effect TPOC</a> | 
+		<a href="changelog.txt">Change Log</a> | <a href="MapGen/test.html">Map Generator</a> | <a href="test/test.html">Unit Tests</a> | <a href="ItemsTPOC/test.html">Item Effect TPOC</a> | 
 		TEST: <select id="test_menu">
 		  <option value="0">TEST FIZZLES</option>
 		  <option value="1">TEST SPLAT</option>
@@ -51,7 +51,7 @@
 		  <option value="6">TEST CONES</option>
 		  <option value="7">TEST DIAGONAL CONES</option>
 		  <option value="-1">------------------</option>
-      <option value="4">KILL ALL RAT MANS</option>
+      <option value="4">KILL ALL MONSTERS</option>
       <option value="5">DO TURN</option>
 		  <option value="8">REVEAL MAP</option>
 		  <option value="10">REVEAL SECRET DOORS</option>
@@ -76,7 +76,7 @@
 		<div id="game_area" style="margin-left:10px;position:relative;line-height:normal;">
 			<div class="btn-toolbar">
 	      <div class="btn-group">
-	        <button class="btn btn-large dropdown-toggle" data-toggle="dropdown">Game <b class="caret"></b></button>
+	        <button class="btn btn-text dropdown-toggle" data-toggle="dropdown">Game <b class="caret"></b></button>
 	        <ul class="dropdown-menu">
 	          <li><a href="#new_game" role="button" data-toggle="modal">New Game...</a></li>
 	          <li class="divider"></li>
@@ -89,12 +89,12 @@
 	        </ul>
 	      </div>
 	      <div id="verbs_bar" class="btn-group">
-	        <button id="btn_inventory" class="btn btn-large" onclick="Inventory.open();">Inventory</button>
-	        <button id="btn_map" class="btn btn-large" onclick="Minimap.open();">Map</button>
-	        <button id="btn_search" class="btn btn-large" onclick="perform_action('search');">Search</button>
-	        <button id="btn_disarm" class="btn btn-large" onclick="perform_action('disarm');">Disarm</button>
-	        <button id="btn_take" class="btn btn-large" onclick="perform_action('take');">Take</button>
-	        <button id="btn_verbs" class="btn btn-large dropdown-toggle" data-toggle="dropdown">More <b class="caret"></b></button>
+	        <button id="btn_inventory" class="btn btn-text" onclick="Inventory.open();">Inventory</button>
+	        <button id="btn_map" class="btn btn-text" onclick="Minimap.open();">Map</button>
+	        <button id="btn_search" class="btn btn-text" onclick="perform_action('search');">Search</button>
+	        <button id="btn_disarm" class="btn btn-text" onclick="perform_action('disarm');">Disarm</button>
+	        <button id="btn_take" class="btn btn-text" onclick="perform_action('take');">Take</button>
+	        <button id="btn_verbs" class="btn btn-text dropdown-toggle" data-toggle="dropdown">More <b class="caret"></b></button>
 	        <ul id="other_actions_menu" class="dropdown-menu pull-right">
 	          <li><a href="#" onclick="perform_action('open');">Open</a></li>
 	          <li><a href="#" onclick="perform_action('close');">Close</a></li>
@@ -105,14 +105,14 @@
 	        </ul>
 	      </div>     
 	      <div id="spell_bar" class="btn-group">
-	        <button id="spell0" class="btn btn-img" onclick="cast_spell(0);"></button>
-	        <button id="spell1" class="btn btn-img" onclick="cast_spell(1);"></button>
-	        <button id="spell2" class="btn btn-img" onclick="cast_spell(2);"></button>
-	        <button id="spell3" class="btn btn-img" onclick="cast_spell(3);"></button>
-	        <button id="spell4" class="btn btn-img" onclick="cast_spell(4);"></button>
-	        <button id="spell5" class="btn btn-img" onclick="cast_spell(5);"></button>
-	        <button id="spell6" class="btn btn-img" onclick="cast_spell(6);"></button>
-	        <button class="btn dropdown-toggle btn-img" data-toggle="dropdown"><img src="images/gear.png"/> <b class="caret"></b></button>
+	        <button id="spell0" class="btn" onclick="cast_spell(0);"></button>
+	        <button id="spell1" class="btn" onclick="cast_spell(1);"></button>
+	        <button id="spell2" class="btn" onclick="cast_spell(2);"></button>
+	        <button id="spell3" class="btn" onclick="cast_spell(3);"></button>
+	        <button id="spell4" class="btn" onclick="cast_spell(4);"></button>
+	        <button id="spell5" class="btn" onclick="cast_spell(5);"></button>
+	        <button id="spell6" class="btn" onclick="cast_spell(6);"></button>
+	        <button class="btn dropdown-toggle" data-toggle="dropdown"><img src="images/gear.png"/> <b class="caret"></b></button>
 	        <ul id="other_actions_menu" class="dropdown-menu pull-right">
 	          <li><a href="#char_info" role="button" data-toggle="modal">Character Info...</a></li>
 	          <li><a href="#customize_spells" role="button" data-toggle="modal">Customize Spell Menu...</a></li>

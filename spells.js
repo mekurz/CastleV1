@@ -76,9 +76,30 @@ function cast_spell( btn_ix )
       cancel_action();
     }
 	  
-    crosshairs_cursor();
-    set_command( SpellBar.spell_list[btn_ix] );
-    toggle_spell( btn_ix );
+    var spell_id =  SpellBar.spell_list[btn_ix];
+    var xml = Loader.get_spell_data( spell_id );
+    
+    if( xml.attr("self_target") == "1" )
+    {
+      cast_self_buff( spell_id );
+    }
+    else
+    {
+      crosshairs_cursor();
+      set_command( spell_id );
+      toggle_spell( btn_ix );
+    }
+  }
+}
+
+function cast_self_buff( spell_id )
+{
+  if( create_spell( spell_id, Player, Player ) )
+  {
+    Time.add_time( TIME_STANDARD_MOVE );
+    Player.update_mana();
+    document.game.is_player_move = true;
+    document.game.do_turn();
   }
 }
 
@@ -107,9 +128,13 @@ function create_spell( spell_id, source_actor, target )
   }
   else if( type == "utility" )
   {
-    if( spell_id == "u1" )
+    if( spell_id == "u1" ) // Light
     {
-      success = add_spell_effect( new ProjectileSpellEffect( xml.attr("projectile_id"), source_actor.location, target ),  new LightSpell( spell_id, source_actor, target ) );
+      success = add_spell_effect( new ProjectileSpellEffect( xml.attr("projectile_id"), source_actor.location, target ), new LightSpell( spell_id, source_actor, target ) );
+    }
+    else if( spell_id == "u2" ) // Dimension Door
+    {
+      success = add_spell_effect( new SinglePointRotatingFadingSpellEffect( xml.attr("effect_id"), source_actor.location ), new TeleportationSpell( spell_id, source_actor ) );
     }
   }
   else
@@ -289,6 +314,27 @@ LightSpell.prototype.resolve_miss = function()
 LightSpell.prototype.resolve_hit = function()
 {
   this.light_target();
+};
+
+function TeleportationSpell( spell_id, source_actor )
+{
+  TeleportationSpell.base_constructor.call( this, spell_id, source_actor, source_actor.location );
+  Log.add( "The air tingles around you..." );
+  
+  this.teleport = function()
+  {
+    // Limit to 10 attempts at finding a random location nearby.
+    for( var ix = 0; ix < 10; ++ix )
+    {
+      
+    }
+  };
+}
+extend( TeleportationSpell, Spell );
+
+TeleportationSpell.prototype.resolve_hit = function()
+{
+  this.teleport();
 };
 
 function AreaEffectSpell( spell_id, source_actor, target_tile )
@@ -569,12 +615,14 @@ MapFadeOut.prototype.draw = function( ctx )
   ctx.restore();
 };
 
-function SinglePointRotatingFadingSpellEffect( spell_id, raw_target )
+function SinglePointRotatingFadingSpellEffect( spell_id, target )
 {
+  var raw_target = new Point();
+  raw_target.assign( target );
+  raw_target.convert_to_raw_tile_center();
+  
   SinglePointRotatingFadingSpellEffect.base_constructor.call( this, spell_id, raw_target );
   this.angle = 0;
-  this.target_x = 0;
-  this.target_y = 0;
 }
 extend( SinglePointRotatingFadingSpellEffect, SinglePointFadingSpellEffect );
 
@@ -597,16 +645,14 @@ SinglePointRotatingFadingSpellEffect.prototype.draw = function( ctx )
   ctx.restore();
 };
 
-function Splat( target )
+SinglePointRotatingFadingSpellEffect.prototype.is_finished = function()
 {
-  var view_pos = new Point();
-  view_pos.assign( target );
-  view_pos.convert_to_raw_tile_center();
-  
-  Splat.base_constructor.call( this, SPLAT, view_pos );
-}
-extend( Splat, SinglePointRotatingFadingSpellEffect );
-
+  if( SinglePointRotatingFadingSpellEffect.super_class.is_finished.call( this ) )
+  {
+    this.resolve_hit();
+    return true;
+  }
+};
 
 function ProjectileSpellEffect( spell_id, source, target )
 {
@@ -779,14 +825,10 @@ ProjectileSpellEffect.prototype.has_collided_with_unexpected_obstacle = function
 
 function ScalingRotatingFadingSpellEffect( spell_id, target )
 {
-  var view_pos = new Point();
-  view_pos.assign( target );
-  view_pos.convert_to_raw_tile_center();
-  
   this.scale = 0.25;
   this.alpha = 0;
   
-  ScalingRotatingFadingSpellEffect.base_constructor.call( this, spell_id, view_pos );
+  ScalingRotatingFadingSpellEffect.base_constructor.call( this, spell_id, target );
 }
 extend( ScalingRotatingFadingSpellEffect, SinglePointRotatingFadingSpellEffect );
 
