@@ -318,16 +318,40 @@ LightSpell.prototype.resolve_hit = function()
 
 function TeleportationSpell( spell_id, source_actor )
 {
+  var MIN_DISTANCE = 5;
+  
   TeleportationSpell.base_constructor.call( this, spell_id, source_actor, source_actor.location );
   Log.add( "The air tingles around you..." );
   
+  this.randomize_distance = function( start )
+  {
+    var distance = ( MIN_DISTANCE + random_type( MIN_DISTANCE ) ) * ( chance( 50 ) ? -1 : 1 );
+    return start + distance;
+  };
+  
   this.teleport = function()
   {
-    // Limit to 10 attempts at finding a random location nearby.
+    var target = new Point();
+    
+    // Limit to 10 attempts at finding an empty random location nearby.
     for( var ix = 0; ix < 10; ++ix )
     {
+      target.x = this.randomize_distance( this.source_actor.location.x );
+      target.y = this.randomize_distance( this.source_actor.location.y );
       
+      //Log.debug( "Attempting teleport to " + target.to_string() );
+      
+      if( Map.is_location_inbounds( target ) && Map.is_location_passable( target ) && Dungeon.get_monster_in_tile( target ) == null && Dungeon.get_door_in_tile( target ) == null )
+      {
+        Player.location.assign( target );
+        Dungeon.explore_at_location( target );
+        Map.center_map_on_location( target );
+        Log.add( "You are yanked through reality to a new location!" );
+        return;
+      }
     }
+    
+    Log.add( "Nothing happens!" );
   };
 }
 extend( TeleportationSpell, Spell );

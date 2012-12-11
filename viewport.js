@@ -282,6 +282,11 @@ function ViewPort()
     return false;
   };
   
+  this.is_location_inbounds = function ( point )
+  {
+    return point.x >= 0 && point.y >= 0 && point.x < MAP_WIDTH && point.y < MAP_HEIGHT;
+  };
+  
   this.is_location_visible = function( point )
   {
     return ( point.x >= this.top_left.x )

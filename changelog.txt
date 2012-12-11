@@ -551,6 +551,10 @@ Version 73 - 12-Dec-2012
 - Spells
   - Added framework for self-target spells (Dimension Door - no effect yet)
   - Refactored SinglePointRotatingFadingSpellEffect to use map targets rather than raw coords
+  
+Version 74 - 13-Dec-2012
+- Spells
+  - Completed implementation of Dimension Door spell to teleport to a random empty space between 5-10 tiles away.
 
 
 TODO
@@ -592,5 +596,4 @@ TODO
     - no set duration, requires some kind of event to activate/deactivate
     - i.e. levitate or curse
   - XML config?
-- Complete Dimension Door spell
   
