@@ -31,6 +31,7 @@ function run_test()
     case 11: Storage.erase(); break;
     case 12: reveal_traps(); break;
     case 13: learn_all_spells(); break;
+    case 14: test_status_effect(); break;
   }
 }
 
@@ -325,4 +326,12 @@ function create_debug_level()
   new_level.map_tiles[18][18].is_entrance = true;
   
   Dungeon.levels[0] = new_level;
+}
+
+function test_status_effect()
+{
+  var effect = new StatusEffect( -1 );
+  effect.finish_time = Time.time + 36;
+  StatusEffects.add_effect( effect );
+  Log.debug( "Status effect added lasting 6 rounds." );
 }

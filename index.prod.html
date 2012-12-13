@@ -37,6 +37,8 @@
       <option value="12">REVEAL TRAPS</option>
       <option value="9">GAME OVER MAN</option>
       <option value="11">ERASE LOCALSTORAGE</option>
+      <option value="13">LEARN ALL SPELLS</option>
+      <option value="14">TEST STATUS EFFECT</option>
     </select>
     <input type="submit" value="Run Test" onclick="run_test();"></input>
     SPELL: <select id="spell_menu">
@@ -47,6 +49,7 @@
       <option value="p4">BOULDER</option>
       <option value="c1">FIRE BREATH</option>
       <option value="u1">LIGHT</option>
+      <option value="u2">DIMENSION DOOR</option>
     </select>
     <input type="submit" value="Cast Spell" onclick="cast_spell_by_id( $('#spell_menu').val() );"></input>
     <input type="submit" value="Switch to Debug Map" onclick="switch_to_debug();"></input>
@@ -101,14 +104,17 @@
       </canvas>
       <div id="log" class="Information" style="width:810px;height:150px;"></div>
       <div id="stats" class="Information" style="width:143px;height:144px;border-left-width:0px;padding:3px;">
-        <span class="StatName">Hit Points</span>
-        <span id="hp" class="Stat"></span><br/>
-        <span class="StatName">Mana</span>
-        <span id="mana" style="float:right;color:blue;"></span><br/>
-        <span class="StatName">Time</span>
-        <span id="time" class="Stat"></span>
-        <span class="StatName">Dungeon Level</span>
-        <span id="level" class="Stat"></span>
+        <div style="height:60px;">
+	        <span class="StatName">Hit Points</span>
+	        <span id="hp" class="Stat"></span><br/>
+	        <span class="StatName">Mana</span>
+	        <span id="mana" style="float:right;color:blue;"></span><br/>
+	        <span class="StatName">Time</span>
+	        <span id="time" class="Stat"></span>
+	        <span class="StatName">Dungeon Level</span>
+	        <span id="level" class="Stat"></span>
+	      </div>
+	      <div id="effects" class="clearfix"></div>
       </div>
       <div id="load_div">
         Loading...

@@ -353,3 +353,9 @@ body
 	font-size: 10pt;
 	font-weight: bold;
 }
+
+.label
+{
+	margin-right: 2px;
+	margin-bottom: 2px;
+}

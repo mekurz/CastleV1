@@ -21,6 +21,7 @@ var SpellBar = null;
 var CustomizeSpellBar = null;
 var NewGame = null;
 var CharInfo = null;
+var StatusEffects = null;
 
 var NO_COMMAND     = "0";
 var SPLAT          = 0;

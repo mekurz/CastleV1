@@ -20,6 +20,9 @@ function run_unit_tests()
   DoorMaker_add_valid_horizontal_sills();
   
   GameTime_get_time();
+  
+  StatusEffectsManager_add_effect();
+  StatusEffectsManager_run_effects();
 }
 
 function MapGenerator_allocate_map()
@@ -641,5 +644,100 @@ function GameTime_get_time()
   {
     time.time = 86399;
     equal( time.get_time(), "23:59:59" );
+  });
+}
+
+function StatusEffectsManager_add_effect()
+{
+  module( "StatusEffectsManager - add_effect" );
+  var status_effects = null;
+  
+  test( "Empty effects list", function()
+  {
+    status_effects = new StatusEffectsManager();
+    equal( status_effects.effects.length, 0 );
+  });
+  
+  test( "One effect", function()
+  {
+    status_effects = new StatusEffectsManager();
+    var effect = new StatusEffect( 1 );
+    status_effects.add_effect( effect );
+    equal( status_effects.effects.length, 1 );
+  });
+  
+  test( "New effects are added to the front", function()
+  {
+    status_effects = new StatusEffectsManager();
+    add_several_effects( status_effects );
+    
+    for( var ix = 0; ix < 5; ++ix )
+    {
+      equal( status_effects.effects[ix].type, 4 - ix );
+    }
+  });
+  
+  test( "Remove an effect", function()
+  {
+    status_effects = new StatusEffectsManager();
+    add_several_effects( status_effects );
+    equal( status_effects.effects.length, 5, "Confirm size before removal" );
+    status_effects.remove_effect( 2 );
+    equal( status_effects.effects.length, 4, "Confirm size after removal" );
+    
+    for( var ix = 0; ix < status_effects.effects.length; ++ix )
+    {
+      notEqual( status_effects.effects[ix].type, 2, "Confirm the deleted index no longer exists" );
+    }
+    
+  });
+}
+
+function add_several_effects( status_effects )
+{
+  for( var ix = 0; ix < 5; ++ix )
+  {
+    status_effects.add_effect( new StatusEffect( ix ) );
+  }
+}
+
+function MockStatusEffect()
+{
+  MockStatusEffect.base_constructor.call( this, 0 );
+  
+  this.start_count  = 0;
+  this.tick_count   = 0;
+  this.finish_count = 0;
+}
+extend( MockStatusEffect, StatusEffect );
+
+MockStatusEffect.prototype.start  = function() { this.start_count++; };
+MockStatusEffect.prototype.tick   = function() { this.tick_count++; };
+MockStatusEffect.prototype.finish = function() { this.finish_count++; };
+
+function StatusEffectsManager_run_effects()
+{
+  module( "StatusEffectsManager - run_effects" );
+  var status_effects = new StatusEffectsManager();
+  var time = new GameTime();
+  
+  test( "Running one effect with 10 ticks", function()
+  {
+    var effect = new MockStatusEffect();
+    effect.finish_time = 60;
+    
+    status_effects.add_effect( effect );
+    equal( status_effects.effects.length, 1, "Confirm size before running effects" );
+    
+    for( var ix = 0; ix < 20; ++ix )
+    {
+      time.add_time( TIME_STANDARD_MOVE );
+      status_effects.run_effects( time );
+    }
+    
+    equal( status_effects.effects.length, 0, "Confirm size after running effects" );
+    equal( effect.start_count, 1, "Confirm number of times start() is called" );
+    equal( effect.tick_count, 10, "Confirm number of times tick() is called" );
+    equal( effect.finish_count, 1, "Confirm number of times finish() is called" );
   });
 }

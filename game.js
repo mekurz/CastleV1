@@ -30,6 +30,7 @@ function Game()
     Dungeon = new DungeonManager();
     NewGame = new NewGameDialog();
     CharInfo = new CharacterInfoDialog();
+    StatusEffects = new StatusEffectsManager();
     DrawPlayer = new Paperdoll();
     Inventory = new InventoryManager();
     SpellBar = new SpellToolbar();
@@ -182,6 +183,12 @@ function Game()
     }
     
     Time.update_time();   // Update the game clock
+    
+    if( !this.is_player_move )
+    {
+      StatusEffects.run_effects( Time );
+    }
+    
     this.draw();
     this.draw_spells();
     set_dirty();

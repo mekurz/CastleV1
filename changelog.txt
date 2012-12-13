@@ -541,7 +541,7 @@ Version 72 - 20-Nov-2012
   - Upgraded to Bootstrap 2.2.1
   - Upgraded to jQuery 1.8.3 and jQueryUI 1.9.1
   
-Version 73 - 12-Dec-2012
+Version 73 - 09-Dec-2012
 - General
   - Upgraded to Bootstrap 2.2.2 (removed several hacks due to Bootstrap fixes)
 - Debugging
@@ -552,9 +552,16 @@ Version 73 - 12-Dec-2012
   - Added framework for self-target spells (Dimension Door - no effect yet)
   - Refactored SinglePointRotatingFadingSpellEffect to use map targets rather than raw coords
   
-Version 74 - 13-Dec-2012
+Version 74 - 10-Dec-2012
 - Spells
   - Completed implementation of Dimension Door spell to teleport to a random empty space between 5-10 tiles away.
+  
+Version 75 - 12-Dec-2012
+- General
+  - Added framework for status effects (adding, removal)
+- Debugging
+  - Added a Prod version of test.html
+  - Added a Test Status Effect item to create a 6-round test effect
 
 
 TODO
@@ -580,9 +587,8 @@ TODO
 - Tooltips need to be split into two sections (one for detection and one for seeing/map showing)... split off num_items?
 - Spawn items inside rooms and when monsters die
 - Item stats, etc
-- Status effects (Bootstrap inline labels in info section)
-  - status queue based on GameTime
-  - Show current effects in stat window and character info
+- Status effects
+  - Show current effects in character info
   - Active effect
     - take an action on intervals
     - i.e. poison
@@ -596,4 +602,6 @@ TODO
     - no set duration, requires some kind of event to activate/deactivate
     - i.e. levitate or curse
   - XML config?
-  
+  - I/O
+  - Need way to configure color of label (blue/green/red)
+  - Self cast and monster cast
