@@ -20,6 +20,7 @@ function GameInfo()
   this.game_time = Time.time;
   this.icon = DrawPlayer.get_data_url();
   this.spellbar = SpellBar;
+  this.status_effects = StatusEffects.effects;
   
   var now = new Date();
   var months = new Array("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec");
@@ -154,6 +155,7 @@ function GameStorage()
         Player = new PlayerActor();
         Player.load( saved_game.player_info );
         SpellBar.load( saved_game.spellbar );
+        StatusEffects.load( saved_game.status_effects );
         Time.time = saved_game.game_time;
         
         Time.update_time();

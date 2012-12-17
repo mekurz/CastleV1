@@ -32,6 +32,8 @@ function run_test()
     case 12: reveal_traps(); break;
     case 13: learn_all_spells(); break;
     case 14: test_status_effect(); break;
+    case 15: test_poison_effect("1"); break;
+    case 16: test_poison_effect("2"); break;
   }
 }
 
@@ -330,8 +332,16 @@ function create_debug_level()
 
 function test_status_effect()
 {
-  var effect = new StatusEffect( -1 );
+  var effect = new StatusEffect( STATUS_EFFECT_TYPE_PASSIVE_BUFF );
+  effect.description = "TEST " + effect.id;
   effect.finish_time = Time.time + 36;
+  effect.target_id   = Player.id;
   StatusEffects.add_effect( effect );
   Log.debug( "Status effect added lasting 6 rounds." );
+}
+
+function test_poison_effect( effect_id )
+{
+  Log.debug( "Adding poison for 6 rounds." );
+  create_status_effect( effect_id, Player );
 }

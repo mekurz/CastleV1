@@ -562,6 +562,23 @@ Version 75 - 12-Dec-2012
 - Debugging
   - Added a Prod version of test.html
   - Added a Test Status Effect item to create a 6-round test effect
+  
+Version 76 - 16-Dec-2012
+- General
+  - Dungeon levels can now have randomized monster types spawn based on rarity related to the dungeon level (i.e. harder monsters become more common in lower levels)
+- Monsters
+  - Inert monsters can now cast spells on adjacent targets (i.e. the Disgusting Slime can poison you now!)
+  - Added a bunch of new monsters!
+- Status Effects
+  - XML configuration for status effects
+  - Updated status effect framework to support multiple types of effects (buffs, curses, poisons) and change the label colour
+  - Added poison effect
+    - Poison effects overwrite each other with more powerful versions or extend the duration of the current poison
+  - Added loading/saving to status effects
+- Spells
+  - Added StatusEffectSpell to apply any status effect on any actor
+  - For now, all spells are counted as Level 1
+  - Fixed some grammar errors with ConeEffectSpell log messages
 
 
 TODO
@@ -571,6 +588,8 @@ TODO
 - BUG: Monsters can spawn ontop of the Player
 - BUG: Monsters going through doors that have been explored but are not within sight appear to magically open... need a way to hide this
 - BUG: Right-clicking then dragging onto the tooltip and releasing displays the browser's right-click menu and leaves the tooltip displayed
+- BUG: Changes made to monster behaviour do not affect saved games (i.e. spell cast)... probalby need to reload certain stats
+- BUG: Grammar for cone spells is wrong when monster is the source (monster on monster kill)
 - Setting for random character creation?
 - Quick save feature -- WHAT KEY?
 - Fail gracefully for incompatible browsers
@@ -585,23 +604,17 @@ TODO
 - Gold
 - Drag items onto body picture in Inventory to auto-equip
 - Tooltips need to be split into two sections (one for detection and one for seeing/map showing)... split off num_items?
+- Spawn more monsters at certain intervals
 - Spawn items inside rooms and when monsters die
 - Item stats, etc
+- Add XP progress bar to character info
+- BUG: Moving while being attacked by a cone spell is messed up (rubberbands you back to the first spot...other things get out of synch)
 - Status effects
   - Show current effects in character info
-  - Active effect
-    - take an action on intervals
-    - i.e. poison
+  - Clean up status effects when actor dies
   - Passive effect
     - take an action on start and on end
     - i.e. shield
-  - Temporary effect
-    - set duration
-    - i.e poison or shield
   - Persistent effect
     - no set duration, requires some kind of event to activate/deactivate
     - i.e. levitate or curse
-  - XML config?
-  - I/O
-  - Need way to configure color of label (blue/green/red)
-  - Self cast and monster cast

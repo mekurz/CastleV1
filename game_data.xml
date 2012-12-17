@@ -69,6 +69,7 @@
       <Image id="16" src="shield.png"/>
       <Image id="17" src="dimension_door.png"/>
       <Image id="18" src="portal.png"/>
+      <Image id="19" src="poison.png"/>
     </Images>
     <Projectile>
 	    <Spell id="p1" projectile_id="2" toolbar_id="2" level="1">
@@ -77,26 +78,26 @@
 	      <Damage>2</Damage>
 	      <Verb>slams into</Verb>
 	    </Spell>
-	    <Spell id="p2" projectile_id="3" toolbar_id="3" level="2">
+	    <Spell id="p2" projectile_id="3" toolbar_id="3" level="1">
 	      <Description>Lightning Bolt</Description>
 	      <Mana>2</Mana>
 	      <Damage>3</Damage>
 	      <Verb>fries</Verb>
 	    </Spell>
-	    <Spell id="p3" projectile_id="4" toolbar_id="4" level="2">
+	    <Spell id="p3" projectile_id="4" toolbar_id="4" level="1">
 	      <Description>Firebolt</Description>
 	      <Mana>4</Mana>
 	      <Damage>7</Damage>
 	      <Verb>scorches</Verb>
 	    </Spell>
-	    <Spell id="p4" projectile_id="6" toolbar_id="6" level="1">
+	    <Spell id="p4" projectile_id="6" toolbar_id="6" level="999">
 				<Description>Boulder</Description>
 				<Mana>0</Mana>
 				<Damage>4</Damage>
 				<Verb>crashes into</Verb>
 				<Action>hurls</Action>
 	    </Spell>
-	    <Spell id="p5" projectile_id="13" toolbar_id="13" level="2">
+	    <Spell id="p5" projectile_id="13" toolbar_id="13" level="1">
         <Description>Cold Bolt</Description>
         <Mana>4</Mana>
         <Damage>7</Damage>
@@ -119,6 +120,9 @@
         <Action></Action>
       </Spell>
     </Utility>
+    <StatusSpells>
+      <Spell id="e1" effect_id="19" level="999"></Spell>
+    </StatusSpells>
     <AreaEffect>
 	    <Spell id="a1" projectile_id="4" area_id="5" toolbar_id="10" level="1">
 	      <Description>Fireball</Description>
@@ -127,14 +131,14 @@
 	      <Splash>5</Splash>
 	      <Verb>engulfs</Verb>
 	    </Spell>
-	    <Spell id="a2" projectile_id="3" area_id="11" toolbar_id="12" level="2">
+	    <Spell id="a2" projectile_id="3" area_id="11" toolbar_id="12" level="1">
         <Description>Lightning Ball</Description>
         <Mana>4</Mana>
         <Damage>10</Damage>
         <Splash>5</Splash>
         <Verb>fries</Verb>
       </Spell>
-      <Spell id="a3" projectile_id="13" area_id="14" toolbar_id="15" level="2">
+      <Spell id="a3" projectile_id="13" area_id="14" toolbar_id="15" level="1">
         <Description>Cold Ball</Description>
         <Mana>4</Mana>
         <Damage>10</Damage>
@@ -143,7 +147,7 @@
       </Spell>
     </AreaEffect>
     <ConeEffect>
-	    <Spell id="c1" cardinal_id="7" diagonal_id="8" level="2">
+	    <Spell id="c1" cardinal_id="7" diagonal_id="8" level="1">
 	      <Description>Fire Breath</Description>
 	      <Mana>0</Mana>
 	      <Damage>10</Damage>
@@ -159,6 +163,11 @@
       <AC>10</AC>
       <Sight>3</Sight>
       <Melee>1</Melee>
+      <Quality>
+        <Rare min_level="1" max_level="1"/>
+        <Uncommon min_level="2" max_level="2"/>
+        <Common min_level="3" max_level="3"/>
+      </Quality>
     </Monster>
     <Monster id="1" src="hillgiant.png">
       <Description>Hill Giant</Description>
@@ -168,6 +177,11 @@
       <Sight>6</Sight>
       <Melee>4</Melee>
       <SpellCast id="p4"/>
+      <Quality>
+        <Rare min_level="3" max_level="3"/>
+        <Uncommon min_level="4" max_level="5"/>
+        <Common min_level="6"/>
+      </Quality>
     </Monster>
     <Monster id="2" src="slime.png">
       <Description>Disgusting Slime</Description>
@@ -177,8 +191,85 @@
       <Sight>1</Sight>
       <Melee>2</Melee>
       <Behave>2</Behave>
+      <SpellCast id="e1"/>
+      <Quality>
+        <Rare min_level="1" max_level="3"/>
+        <Uncommon min_level="4"/>
+      </Quality>
     </Monster>
+    <Monster id="3" src="giant_rat.png">
+      <Description>Giant Rat</Description>
+      <HP>3</HP>
+      <Mana>0</Mana>
+      <AC>5</AC>
+      <Sight>3</Sight>
+      <Melee>1</Melee>
+      <Quality>
+        <Common min_level="1" max_level="3"/>
+      </Quality>
+    </Monster>
+    <Monster id="4" src="giant_snake.png">
+      <Description>Giant Snake</Description>
+      <HP>6</HP>
+      <Mana>0</Mana>
+      <AC>8</AC>
+      <Sight>3</Sight>
+      <Melee>2</Melee>
+      <Quality>
+        <Common min_level="2" max_level="5"/>
+      </Quality>
+    </Monster>
+    <Monster id="5" src="giant_bat.png">
+      <Description>Giant Bat</Description>
+      <HP>3</HP>
+      <Mana>0</Mana>
+      <AC>15</AC>
+      <Sight>10</Sight>
+      <Melee>2</Melee>
+      <Behave>0</Behave>
+      <Quality>
+        <Uncommon min_level="1" max_level="1"/>
+        <Common min_level="2" max_level="5"/>
+      </Quality>
+    </Monster>
+    <Monster id="6" src="skeleton.png">
+      <Description>Skeleton</Description>
+      <HP>10</HP>
+      <Mana>0</Mana>
+      <AC>10</AC>
+      <Sight>3</Sight>
+      <Melee>3</Melee>
+      <Quality>
+        <Common min_level="2" max_level="4"/>
+        <Uncommon min_level="5"/>
+      </Quality>
+    </Monster>
+<!--    <Monster id="7" src="red_dragon.png">
+      <Description>Red Dragon</Description>
+      <HP>50</HP>
+      <Mana>0</Mana>
+      <AC>10</AC>
+      <Sight>5</Sight>
+      <Melee>5</Melee>
+      <SpellCast id="c1"/>
+      <Quality>
+        <Common min_level="1" max_level="4"/>
+        <Uncommon min_level="5"/>
+      </Quality>
+    </Monster> -->
   </Monsters>
+  <StatusEffects>
+    <StatusEffect id="1" type="0">
+      <Description>Weak Poison</Description>
+      <Damage>1</Damage>
+      <Rounds>6</Rounds>
+    </StatusEffect>
+    <StatusEffect id="2" type="0">
+      <Description>Minor Poison</Description>
+      <Damage>2</Damage>
+      <Rounds>6</Rounds>
+    </StatusEffect>
+  </StatusEffects>
   <Paperdoll>
     <Image id="0" src="base.png"/>
     <Image id="1" src="back1.png"/>

@@ -137,6 +137,10 @@ function create_spell( spell_id, source_actor, target )
       success = add_spell_effect( new SinglePointRotatingFadingSpellEffect( xml.attr("effect_id"), source_actor.location ), new TeleportationSpell( spell_id, source_actor ) );
     }
   }
+  else if( type == "statusspells" ) // Status Effects
+  {
+    success = add_spell_effect( new SinglePointRotatingFadingSpellEffect( xml.attr("effect_id"), target ), new StatusEffectSpell( spell_id, source_actor, target ) );
+  }
   else
   {
     Log.debug( "Unrecognized command." );
@@ -361,6 +365,27 @@ TeleportationSpell.prototype.resolve_hit = function()
   this.teleport();
 };
 
+function StatusEffectSpell( spell_id, source_actor, target_tile )
+{
+  StatusEffectSpell.base_constructor.call( this, spell_id, source_actor, target_tile );
+  
+  this.apply_effect = function()
+  {
+    var target_item = Map.get_target_item_in_tile( this.target_tile );
+    
+    if( target_item.id == "man" || target_item.is_monster )
+    {
+      create_status_effect( parseInt( this.spell_id.substr(1) ), target_item ); // ID of the StatusEffect is part of the spell ID
+    }
+  };
+}
+extend( StatusEffectSpell, Spell );
+
+StatusEffectSpell.prototype.resolve_hit = function()
+{
+  this.apply_effect();
+};
+
 function AreaEffectSpell( spell_id, source_actor, target_tile )
 {
   AreaEffectSpell.base_constructor.call( this, spell_id, source_actor, target_tile );
@@ -461,15 +486,29 @@ ConeEffectSpell.prototype.show_hit_message = function( target_item )
 {
   if( target_item.is_monster )
   {
-    Log.add( "Your " + this.description + " " + this.verb + " the " + target_item.description + "!" );  // Player hits monster
+    if( this.source_actor.is_monster )
+    {
+      Log.add( "The " +  this.source_actor.description + "'s " + this.description + " " + this.verb + " the " + target_item.description + "!" );  // Monster hits monster
+    }
+    else
+    {
+      Log.add( "Your " + this.description + " " + this.verb + " the " + target_item.description + "!" );  // Player hits monster
+    }
   }
   else if( target_item.is_door )
   {
-    Log.add( "Your " + this.description + " blasts open the door!" );
+    if( this.source_actor.is_monster )
+    {
+      Log.add( "The " +  this.source_actor.description + "'s " + this.description + " blasts open the door!" );  // Monster hits door
+    }
+    else
+    {
+      Log.add( "Your " + this.description + " blasts open the door!" );
+    }
   }
   else if( this.source_actor.is_monster )
   {
-    Log.add( "The " + this.source_actor.description + "'s " + this.description + " " + this.verb + "you!" ); // Monster hits player
+    Log.add( "The " + this.source_actor.description + "'s " + this.description + " " + this.verb + " you!" ); // Monster hits player
   }
 };
 

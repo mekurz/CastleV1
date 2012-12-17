@@ -9,6 +9,7 @@ function Level()
   this.stairs_up = new Array();
   this.stairs_down = new Array();
   this.traps = new Array();
+  this.level_ix = null;
   
   this.create_single_monster = function( monster_type, location )
   {
@@ -65,6 +66,42 @@ function Level()
   {
     return this.stairs_down[stair_ix].location;
   };
+  
+  function get_random_monster_quality()
+  {
+    var quality_chance = random_type( 100 );
+    
+    if( quality_chance > 40 )
+    {
+      return "common";
+    }
+    else if( quality_chance > 10 )
+    {
+      return "uncommon";
+    }
+    else
+    {
+      return "rare";
+    }
+  }
+  
+  function get_random_monster_type( level_ix )
+  {
+    var type = Number.NaN;
+    
+    // Keep trying until we find a monster type for this level (sometimes we might come up with a Quality that isn't defined for this level)
+    while( isNaN( type ) )
+    {
+      var quality = get_random_monster_quality();
+      var data = Loader.get_monsters_suitable_for_level( level_ix ).filter( function() {
+                              return Loader.get_monster_quality_for_level( $(this), level_ix ) == quality;
+                           });
+
+      type = parseInt( data.eq( random_type( data.length ) - 1 ).attr("id") );
+    }
+    
+    return type;
+  }
     
   this.spawn_monster = function()
   {
@@ -78,7 +115,7 @@ function Level()
       location = this.rooms[room_ix].get_random_location();
     }
     
-    this.create_single_monster( RATMAN, location );    
+    this.create_single_monster( get_random_monster_type( this.level_ix ), location );
   };
   
   this.initialize = function( num_stairs_up )
@@ -115,6 +152,7 @@ function DungeonManager()
   this.create_level = function( num_stairs_up )
   {
     var new_level = new Level();
+    new_level.level_ix = this.levels.length + 1;
     new_level.initialize( num_stairs_up );
     
     if( this.levels.length == 0 ) // Top level of the dungeon doesn't have stairs up YET
@@ -199,6 +237,21 @@ function DungeonManager()
   {
     var level = this.get_current_level();
     level.monsters.splice( level.get_monster_ix( monster_id ), 1 );
+  };
+  
+  this.get_monster_by_id = function( monster_id )
+  {
+    for( var ix = 0; ix < this.levels.length; ++ix )
+    {
+      var monster_ix = this.levels[ix].get_monster_ix( monster_id );
+      
+      if( monster_ix != -1 )
+      {
+        return this.levels[ix].monsters[monster_ix]; 
+      }
+    }
+    
+    return null;
   };
   
   this.disarm_trap = function( trap_id )

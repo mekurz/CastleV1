@@ -15,10 +15,10 @@ xcopy css\*.* prod\css /e /y
 xcopy html\*.* prod\html /e /y
 xcopy images\*.* prod\images /e /y /exclude:exclude.txt
 
-md prod\test
 copy test\test.prod.html prod\test\test.html
 copy test\qunit.* prod\test
 copy test\tests.js prod\test
+copy MapGen\test.html prod\MapGen
 
 del full.js
 del full.min.js

@@ -98,12 +98,20 @@ Monster.prototype.do_move = function()
     
     if( this.is_location_within_sight( Player.location ) && Map.does_line_of_sight_exist( this.location, Player.location ) )
     {
+      var is_adjacent = this.location.adjacent_to( Player.location );
+      
       // Monsters that can cast spells have a 50% chance to cast it at the Player instead of moving if they are not adjacent to the player
-      if( this.spell != undefined && !this.location.adjacent_to( Player.location ) && chance( 50 ) && MONSTER_SPELLS && this.behave == BEHAVE_AGGRESSIVE )
+      if( this.spell != undefined && !is_adjacent && MONSTER_SPELLS && this.behave == BEHAVE_AGGRESSIVE && chance( 50 ) )
       {
         create_spell( this.spell, this, Player.location );
       }
-      else if( this.behave == BEHAVE_AGGRESSIVE || this.location.adjacent_to( Player.location ) )
+      else if( this.spell != undefined && is_adjacent && MONSTER_SPELLS && this.behave == BEHAVE_INERT && chance( 50 ) )
+      {
+        // Inert monsters have a spell attack against adjacent Players
+        Log.add( "The " + this.description + " lashes out with a hideous appendage!" );
+        create_spell( this.spell, this, Player.location );
+      }
+      else if( this.behave == BEHAVE_AGGRESSIVE || is_adjacent )
       {
         // Aggressive monsters move to attack.
         // Passive/inert only attack when something is adjacent
