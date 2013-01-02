@@ -244,19 +244,19 @@
         <Uncommon min_level="5"/>
       </Quality>
     </Monster>
-<!--    <Monster id="7" src="red_dragon.png">
+    <Monster id="7" src="red_dragon.png">
       <Description>Red Dragon</Description>
       <HP>50</HP>
       <Mana>0</Mana>
       <AC>10</AC>
-      <Sight>5</Sight>
+      <Sight>3</Sight>
       <Melee>5</Melee>
       <SpellCast id="c1"/>
       <Quality>
-        <Common min_level="1" max_level="4"/>
-        <Uncommon min_level="5"/>
+        <Common min_level="5"/>
+        <Uncommon min_level="4"/>
       </Quality>
-    </Monster> -->
+    </Monster>
   </Monsters>
   <StatusEffects>
     <StatusEffect id="1" type="0">

@@ -183,10 +183,10 @@ function draw_spells_for_interval( ctx )
   }
 }
 
-function process_cone_spell( xml, source_actor, target )
+function process_cone_spell( xml, source_actor, orig_target )
 {
-  var vector = source_actor.location.get_unit_vector( target );
-  target.assign( source_actor.location );
+  var vector = source_actor.location.get_unit_vector( orig_target );
+  var target = new Point( source_actor.location );
   target.add_vector( vector );
   
   if( vector.neither_coord_is_zero() )  

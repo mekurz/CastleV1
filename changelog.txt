@@ -580,6 +580,10 @@ Version 76 - 16-Dec-2012
   - For now, all spells are counted as Level 1
   - Fixed some grammar errors with ConeEffectSpell log messages
 
+Version 77 - 02-Jan-2013
+- Spells
+  - Fixed a bug with cone spells that would move the target actor's location to the calculated target of the cone spell
+
 
 TODO
 ============
@@ -608,7 +612,6 @@ TODO
 - Spawn items inside rooms and when monsters die
 - Item stats, etc
 - Add XP progress bar to character info
-- BUG: Moving while being attacked by a cone spell is messed up (rubberbands you back to the first spot...other things get out of synch)
 - Status effects
   - Show current effects in character info
   - Clean up status effects when actor dies
