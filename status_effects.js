@@ -46,6 +46,19 @@ function StatusEffectsManager()
     this.effects.remove( ix );
   };
   
+  this.replace_effect = function( old_effect, new_effect )
+  {
+    for( var ix = 0; ix < this.effects.length; ++ix )
+    {
+      if( this.effects[ix].id == old_effect.id )
+      {
+        new_effect.id = old_effect.id;
+        this.effects[ix] = new_effect;
+        break;
+      }
+    }
+  };
+  
   this.run_effects = function( clock )
   {
     for( var ix = this.effects.length - 1; ix >= 0; --ix )
@@ -59,11 +72,11 @@ function StatusEffectsManager()
     }
   };
   
-  this.get_existing_poison_for_target = function( target_id )
+  this.get_existing_effect_for_target = function( target_id, type )
   {
     for( var ix = 0; ix < this.effects.length; ++ix )
     {
-      if( this.effects[ix].type == STATUS_EFFECT_TYPE_POISON && this.effects[ix].target_id == target_id )
+      if( this.effects[ix].type == type && this.effects[ix].target_id == target_id )
       {
         return this.effects[ix];
       }
@@ -96,37 +109,28 @@ function StatusEffectsManager()
   };
 };
 
-function create_poison_effect( xml, target_actor )
+function create_or_replace_status_effect( xml, target_actor, OBJ_TYPE )
 {
-  var original_effect = StatusEffects.get_existing_poison_for_target( target_actor.id );
-  var new_dmg = parseInt( xml.find("Damage").text() );
+  var old_effect = StatusEffects.get_existing_effect_for_target( target_actor.id, STATUS_EFFECT_TYPE_POISON );
+  var new_effect = new OBJ_TYPE( xml );
+  new_effect.target_id   = target_actor.id;
   
-  if( !original_effect || new_dmg > original_effect.damage )
+  if( !old_effect )
   {
-    // No existing poison on the actor OR the new poison is stronger!
-    var effect = original_effect ? original_effect: new PeriodicStatusEffect( STATUS_EFFECT_TYPE_POISON );
-    
-    effect.damage = new_dmg;
-    effect.finish_time = Time.time + ( parseInt( xml.find("Rounds").text() ) * TIME_STANDARD_MOVE );
-    effect.target_id   = target_actor.id;
-    effect.description = xml.find("Description").text();
-    
-    if( !original_effect )
-    {
-      StatusEffects.add_effect( effect );
-    }
-    else
-    {
-      effect.start();
-      $("#effect" + effect.id).text( effect.description ); // Update the text on the existing label
-      Log.debug( "Upgrading existing poison to stronger version." );
-    }
+    StatusEffects.add_effect( new_effect );
+    Log.debug( "Adding new effect." );
   }
-  else if( original_effect.damage == new_dmg )
+  else if( new_effect.is_stronger( old_effect ) )
   {
-    // Being hit with the same poison, so extend the duration
-    original_effect.finish_time = Time.time + ( parseInt( xml.find("Rounds").text() ) * TIME_STANDARD_MOVE );
-    Log.debug( "Extending duration of existing poison." );
+    StatusEffects.replace_effect( old_effect, new_effect );
+    new_effect.start();
+    $("#effect" + new_effect.id).text( new_effect.description ); // Update the text on the existing label
+    Log.debug( "Upgrading existing effect to stronger version." );
+  }
+  else if( old_effect.status_id == new_effect.status_id )
+  {
+    old_effect.reset_time( xml );
+    Log.debug( "Extending duration of existing effect." );
   }
 }
 
@@ -134,32 +138,37 @@ function create_status_effect( status_id, target_actor )
 {
   var xml = Loader.get_status_effect_data( status_id );
   var type = parseInt( xml.attr("type") );
-  var effect = null;
   
   if( type == STATUS_EFFECT_TYPE_POISON )
   {
-    create_poison_effect( xml, target_actor );
+    create_or_replace_status_effect( xml, target_actor, PeriodicDamageStatusEffect );
   }
   else
   {
-    effect = new StatusEffect( type );
+    var effect = new StatusEffect( xml );
     effect.target_id   = target_actor.id;
-    effect.description = xml.find("Description").text();
     
     StatusEffects.add_effect( effect );
   }
 }
 
-function StatusEffect( type )
+function StatusEffect( xml )
 {
   StatusEffect.base_constructor.call( this );
-    
+  
+  this.reset_time = function( xml )
+  {
+    this.finish_time = xml.has("Rounds").length ? Time.time + ( parseInt( xml.find("Rounds").text() ) * TIME_STANDARD_MOVE ) : Number.MAX_VALUE;
+  };
+  
   this.id          = StatusEffect.max_status_id;
-  this.description = "";
-  this.type        = type;
+  this.status_id   = parseInt( xml.attr("id") );
+  this.description = xml.find("Description").text();
+  this.type        = parseInt( xml.attr("type") );
   this.finish_time = Number.MAX_VALUE;
   this.target_id   = null;
   
+  this.reset_time( xml );
   StatusEffect.max_status_id = Math.max( this.id + 1, StatusEffect.max_status_id + 1 );
 }
 extend( StatusEffect, Serializable );
@@ -169,16 +178,17 @@ StatusEffect.max_status_id = 0;
 StatusEffect.prototype.start  = function() {};
 StatusEffect.prototype.tick   = function() {};
 StatusEffect.prototype.finish = function() {};
+StatusEffect.prototype.is_stronger = function( that ) { return false; };
 
-function PeriodicStatusEffect( type )
+function PeriodicDamageStatusEffect( xml )
 {
-  PeriodicStatusEffect.base_constructor.call( this, type );
+  PeriodicDamageStatusEffect.base_constructor.call( this, xml );
   
-  this.damage = 0;
+  this.damage = parseInt( xml.find("Damage").text() );
 }
-extend( PeriodicStatusEffect, StatusEffect );
+extend( PeriodicDamageStatusEffect, StatusEffect );
 
-PeriodicStatusEffect.prototype.start = function()
+PeriodicDamageStatusEffect.prototype.start = function()
 {
   if( this.target_id == "man" )
   {
@@ -186,7 +196,7 @@ PeriodicStatusEffect.prototype.start = function()
   }
 };
 
-PeriodicStatusEffect.prototype.tick = function()
+PeriodicDamageStatusEffect.prototype.tick = function()
 {
   if( this.target_id == "man" )
   {
@@ -204,10 +214,15 @@ PeriodicStatusEffect.prototype.tick = function()
   }
 };
 
-PeriodicStatusEffect.prototype.finish = function()
+PeriodicDamageStatusEffect.prototype.finish = function()
 {
   if( this.target_id == "man" )
   {
     Log.add( "The effects of the " + this.description + " wear off." );
   }
+};
+
+PeriodicDamageStatusEffect.prototype.is_stronger = function( that )
+{
+  return this.damage > that.damage;
 };

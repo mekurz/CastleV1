@@ -200,8 +200,60 @@ function PlayerActor()
   {
     $("#" + ( id == undefined ? "mana" : id )).text( this.current_mana + "/" + this.max_mana );
   };
+  
+  function is_main_stat( stat )
+  {
+    return stat == "str" || stat == "dex" || stat == "con";
+  }
+  
+  function get_main_stat_ix( stat )
+  {
+    if( stat == "str" )
+      return MAX_STR;
+    else if( stat == "dex" )
+      return MAX_DEX;
+    else
+      return MAX_CON;
+  }
+  
+  function apply_single_stat_change( actor, stat, value, callback )
+  {
+    if( is_main_stat( stat ) )
+    {
+      var stat_ix = get_main_stat_ix( stat );
+      actor.stats[stat_ix] = callback( actor[stat], value );
+      // TODO LIKELY NEED TO MAKE SOME CHANGES HERE TO HANDLE MAX STAT CHANGING (I.E FOR CURSES )
+    }
+    else
+    {
+      actor[stat] = callback( actor[stat], value );
+    }
+  }
+  
+  function apply_stat_changes( actor, xml, callback )
+  {
+    xml.children().each( function() {
+      var $this = $(this);
+      var stat = $this[0].nodeName.toLowerCase();
+      var value = parseInt( $this.text() );
+      apply_single_stat_change( actor, stat, value, callback );
+    });
+  }
+  
+  this.apply_effect = function( xml )
+  {
+    apply_stat_changes( this, xml, add_stat );
+  };
+  
+  this.remove_effect = function( xml )
+  {
+    apply_stat_changes( this, xml, remove_stat );
+  };
 }
 extend( PlayerActor, Actor );
+
+function add_stat   ( a, b ) { return a + b; }
+function remove_stat( a, b ) { return a - b; }
 
 PlayerActor.prototype.load = function( obj )
 {

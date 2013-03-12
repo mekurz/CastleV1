@@ -269,6 +269,13 @@
       <Damage>2</Damage>
       <Rounds>6</Rounds>
     </StatusEffect>
+    <StatusEffect id="3" type="1">
+      <Description>Shield</Description>
+      <Rounds>10</Rounds>
+      <Effect>
+        <ac>3</ac>
+      </Effect>
+    </StatusEffect>
   </StatusEffects>
   <Paperdoll>
     <Image id="0" src="base.png"/>

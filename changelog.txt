@@ -583,6 +583,17 @@ Version 76 - 16-Dec-2012
 Version 77 - 02-Jan-2013
 - Spells
   - Fixed a bug with cone spells that would move the target actor's location to the calculated target of the cone spell
+  
+Version 78 - 11-Mar-2013
+- General
+  - Preliminary setup for applying stat changes to the Player (via items or status effects etc)
+  - Upgraded to QUnit 1.11
+  - Upgraded to jQuery 1.9.1 (and made appropriate changes to DataLoader to handle changes to find() chaining)
+    - Temporarily added jQuery Migrate to the Debug page to provide warning if any deprecated features are used
+- Status Effects
+  - Refactored the way status effects get created/replaced so that the code is more generalized
+  - Made unit tests much more robust (sometimes they were failing on consecutive runs due to Time object not being reset)
+  
 
 
 TODO
@@ -608,6 +619,7 @@ TODO
 - Gold
 - Drag items onto body picture in Inventory to auto-equip
 - Tooltips need to be split into two sections (one for detection and one for seeing/map showing)... split off num_items?
+- Elite monsters (fancy names)
 - Spawn more monsters at certain intervals
 - Spawn items inside rooms and when monsters die
 - Item stats, etc
@@ -618,6 +630,9 @@ TODO
   - Passive effect
     - take an action on start and on end
     - i.e. shield
+    - stat buffs
   - Persistent effect
     - no set duration, requires some kind of event to activate/deactivate
     - i.e. levitate or curse
+ - Complete system for applying stat changes to Actors
+ - Upgrade jQueryUI and Bootstrap

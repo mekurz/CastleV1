@@ -1,3 +1,18 @@
+function MockLogger()
+{
+  this.add = function( str )
+  {
+    console.log( str );
+  };
+  
+  this.debug = function( str )
+  {
+    console.log( str );
+  };
+}
+
+Log = new MockLogger();
+
 function run_unit_tests()
 {
   MAP_HEIGHT = 100;
@@ -23,6 +38,7 @@ function run_unit_tests()
   
   StatusEffectsManager_add_effect();
   StatusEffectsManager_run_effects();
+  StatusEffectsManager_stronger_replaces_weak();
 }
 
 function MapGenerator_allocate_map()
@@ -647,9 +663,12 @@ function GameTime_get_time()
   });
 }
 
+var $EFFECT_XML = $("<StatusEffect id=\"1\" type=\"0\"><Description>Weak Poison</Description><Damage>1</Damage><Rounds>6</Rounds></StatusEffect>");
+var $STRONGER_EFFECT_XML = $("<StatusEffect id=\"2\" type=\"0\"><Description>Strong Poison</Description><Damage>2</Damage><Rounds>6</Rounds></StatusEffect>");
+
 function StatusEffectsManager_add_effect()
 {
-  module( "StatusEffectsManager - add_effect" );
+  module( "StatusEffectsManager - add_effect", { setup: function() { Time = new GameTime(); } } );
   var status_effects = null;
   
   test( "Empty effects list", function()
@@ -661,19 +680,20 @@ function StatusEffectsManager_add_effect()
   test( "One effect", function()
   {
     status_effects = new StatusEffectsManager();
-    var effect = new StatusEffect( 1 );
+    var effect = new StatusEffect( $EFFECT_XML );
     status_effects.add_effect( effect );
     equal( status_effects.effects.length, 1 );
   });
   
   test( "New effects are added to the front", function()
   {
+    StatusEffect.max_status_id = 0;
     status_effects = new StatusEffectsManager();
     add_several_effects( status_effects );
     
     for( var ix = 0; ix < 5; ++ix )
     {
-      equal( status_effects.effects[ix].type, 4 - ix );
+      equal( status_effects.effects[ix].id, 4 - ix );
     }
   });
   
@@ -687,7 +707,7 @@ function StatusEffectsManager_add_effect()
     
     for( var ix = 0; ix < status_effects.effects.length; ++ix )
     {
-      notEqual( status_effects.effects[ix].type, 2, "Confirm the deleted index no longer exists" );
+      notEqual( status_effects.effects[ix].id, 2, "Confirm the deleted index no longer exists" );
     }
     
   });
@@ -697,13 +717,13 @@ function add_several_effects( status_effects )
 {
   for( var ix = 0; ix < 5; ++ix )
   {
-    status_effects.add_effect( new StatusEffect( ix ) );
+    status_effects.add_effect( new StatusEffect( $EFFECT_XML ) );
   }
 }
 
 function MockStatusEffect()
 {
-  MockStatusEffect.base_constructor.call( this, 0 );
+  MockStatusEffect.base_constructor.call( this, $EFFECT_XML );
   
   this.start_count  = 0;
   this.tick_count   = 0;
@@ -717,9 +737,8 @@ MockStatusEffect.prototype.finish = function() { this.finish_count++; };
 
 function StatusEffectsManager_run_effects()
 {
-  module( "StatusEffectsManager - run_effects" );
+  module( "StatusEffectsManager - run_effects", { setup: function() { Time = new GameTime(); } }  );
   var status_effects = new StatusEffectsManager();
-  var time = new GameTime();
   
   test( "Running one effect with 10 ticks", function()
   {
@@ -731,13 +750,66 @@ function StatusEffectsManager_run_effects()
     
     for( var ix = 0; ix < 20; ++ix )
     {
-      time.add_time( TIME_STANDARD_MOVE );
-      status_effects.run_effects( time );
+      Time.add_time( TIME_STANDARD_MOVE );
+      status_effects.run_effects( Time );
     }
     
     equal( status_effects.effects.length, 0, "Confirm size after running effects" );
     equal( effect.start_count, 1, "Confirm number of times start() is called" );
     equal( effect.tick_count, 10, "Confirm number of times tick() is called" );
     equal( effect.finish_count, 1, "Confirm number of times finish() is called" );
+  });
+}
+
+function MockPlayer()
+{
+  this.id = "man";
+  
+  this.damage = function() {};
+}
+
+function StatusEffectsManager_stronger_replaces_weak()
+{
+  module( "StatusEffectsManager - stronger_replaces_weak", { setup: function() { 
+                                                                      Time = new GameTime();
+                                                                      StatusEffects = new StatusEffectsManager();
+                                                                      Player = new MockPlayer();
+                                                                    }
+                                                            } );
+  
+  test( "Replace a weak poison with a stronger poison", function()
+  {
+    create_or_replace_status_effect( $EFFECT_XML, Player, PeriodicDamageStatusEffect );
+    equal( StatusEffects.effects.length, 1, "Confirm size after adding Weak Poison" );
+    equal( StatusEffects.effects[0].status_id, 1, "Confirm effect queue contains Weak Poison" );
+    equal( StatusEffects.effects[0].finish_time, 36, "Confirm finish time for Weak Poison is its own" );
+    
+    // Increment one turn to modify the effect in order to observe extension
+    Time.add_time( TIME_STANDARD_MOVE );
+    StatusEffects.run_effects( Time );
+    
+    create_or_replace_status_effect( $STRONGER_EFFECT_XML, Player, PeriodicDamageStatusEffect );
+    
+    equal( StatusEffects.effects.length, 1, "Confirm size is still 1 after adding Strong Poison" );
+    equal( StatusEffects.effects[0].status_id, 2, "Confirm effect queue contains Strong Poison" );
+    equal( StatusEffects.effects[0].finish_time, 42, "Confirm finish time for Strong Poison is its own" );
+  });
+  
+  test( "Extend an effect", function()
+  {
+    create_or_replace_status_effect( $EFFECT_XML, Player, PeriodicDamageStatusEffect );
+    equal( StatusEffects.effects.length, 1, "Confirm size after adding Weak Poison" );
+    equal( StatusEffects.effects[0].status_id, 1, "Confirm effect queue contains Weak Poison" );
+    equal( StatusEffects.effects[0].finish_time, 36, "Confirm finish time for Weak Poison is its own" );
+    
+    // Increment one turn to modify the effect in order to observe extension
+    Time.add_time( TIME_STANDARD_MOVE );
+    StatusEffects.run_effects( Time );
+    
+    create_or_replace_status_effect( $EFFECT_XML, Player, PeriodicDamageStatusEffect );
+    
+    equal( StatusEffects.effects.length, 1, "Confirm size is still 1 after reapplying Weak Poison" );
+    equal( StatusEffects.effects[0].status_id, 1, "Confirm effect queue contains Weak Poison" );
+    equal( StatusEffects.effects[0].finish_time, 42, "Confirm finish time for Weak Poison has been updated" );
   });
 }

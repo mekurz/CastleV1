@@ -59,6 +59,59 @@
         {
           do_effect();
         });
+      
+      function equip( a, b ) { return a + b; }
+      function unequip( a, b ) { return a - b; }
+      
+      function TestPlayer()
+      {
+        this.str = 0;
+        this.dex = 0;
+        this.con = 0;
+        
+        this.test_fcn = function()
+        {
+          return;
+        };
+        
+        this.apply_item = function( item, callback )
+        {
+          for( stat in item )
+          {
+            var type = typeof( item[stat] );
+            
+            if( type != "object" && type != "function" )
+            {
+              // Initialize any missing stats
+              if( this[stat] == undefined )
+              {
+                this[stat] = 0;
+              }
+              
+              this[stat] = callback( this[stat], item[stat] );
+            }
+          }
+        }
+      }
+      
+      function TestItem()
+      {
+        this.STR = 10;
+        this.dex = -5;
+        this.ac = 20;
+        
+        this.item_fcn = function()
+        {
+          return;
+        }
+      }
+      
+      var Player = new TestPlayer();
+      var Item = new TestItem();
+
+      Player.apply_item( Item, equip );
+      Player.apply_item( Item, unequip );
+      
     </script>  
   </body>
 </html>
