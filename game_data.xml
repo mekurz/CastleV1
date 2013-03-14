@@ -50,26 +50,26 @@
   </Traps>
   <Spells>
     <Images>
-      <Image id="0" src="splat.png"/>
-      <Image id="1" src="fizzle.png"/>
-      <Image id="2" src="missile.png"/>
-      <Image id="3" src="lightning.png"/>
-      <Image id="4" src="firebolt.png"/>
-      <Image id="5" src="fireball.png"/>
-      <Image id="6" src="boulder.png"/>
-      <Image id="7" src="cone_fire.png"/>
-      <Image id="8" src="cone_fire_d.png"/>
-      <Image id="9" src="light.png"/>
-      <Image id="10" src="fireball_mini.png"/>
-      <Image id="11" src="lightning_ball.png"/>
-      <Image id="12" src="lightning_ball_mini.png"/>
-      <Image id="13" src="coldbolt.png"/>
-      <Image id="14" src="coldball.png"/>
-      <Image id="15" src="coldball_mini.png"/>
-      <Image id="16" src="shield.png"/>
-      <Image id="17" src="dimension_door.png"/>
-      <Image id="18" src="portal.png"/>
-      <Image id="19" src="poison.png"/>
+      <SpellImage id="0" src="splat.png"/>
+      <SpellImage id="1" src="fizzle.png"/>
+      <SpellImage id="2" src="missile.png"/>
+      <SpellImage id="3" src="lightning.png"/>
+      <SpellImage id="4" src="firebolt.png"/>
+      <SpellImage id="5" src="fireball.png"/>
+      <SpellImage id="6" src="boulder.png"/>
+      <SpellImage id="7" src="cone_fire.png"/>
+      <SpellImage id="8" src="cone_fire_d.png"/>
+      <SpellImage id="9" src="light.png"/>
+      <SpellImage id="10" src="fireball_mini.png"/>
+      <SpellImage id="11" src="lightning_ball.png"/>
+      <SpellImage id="12" src="lightning_ball_mini.png"/>
+      <SpellImage id="13" src="coldbolt.png"/>
+      <SpellImage id="14" src="coldball.png"/>
+      <SpellImage id="15" src="coldball_mini.png"/>
+      <SpellImage id="16" src="shield.png"/>
+      <SpellImage id="17" src="dimension_door.png"/>
+      <SpellImage id="18" src="portal.png"/>
+      <SpellImage id="19" src="poison.png"/>
     </Images>
     <Projectile>
 	    <Spell id="p1" projectile_id="2" toolbar_id="2" level="1">
@@ -278,38 +278,38 @@
     </StatusEffect>
   </StatusEffects>
   <Paperdoll>
-    <Image id="0" src="base.png"/>
-    <Image id="1" src="back1.png"/>
-    <Image id="2" src="feet1.png"/>
-    <Image id="3" src="head1.png"/>
-    <Image id="4" src="hands1.png"/>
-    <Image id="5" src="weapon1.png"/>
-    <Image id="6" src="weapon2.png"/>
-    <Image id="7" src="shield1.png"/>
-    <Image id="8" src="shield2.png"/>
-    <Image id="9" src="chest1.png"/>
-    <Image id="10" src="legs1.png"/>
+    <DollImage id="0" src="base.png"/>
+    <DollImage id="1" src="back1.png"/>
+    <DollImage id="2" src="feet1.png"/>
+    <DollImage id="3" src="head1.png"/>
+    <DollImage id="4" src="hands1.png"/>
+    <DollImage id="5" src="weapon1.png"/>
+    <DollImage id="6" src="weapon2.png"/>
+    <DollImage id="7" src="shield1.png"/>
+    <DollImage id="8" src="shield2.png"/>
+    <DollImage id="9" src="chest1.png"/>
+    <DollImage id="10" src="legs1.png"/>
   </Paperdoll>
   <Items>
     <Images>
-      <Image id="0" src="amulet1.png"/>
-      <Image id="1" src="amulet2.png"/>
-      <Image id="2" src="armour1.png"/>
-      <Image id="3" src="belt1.png"/>
-      <Image id="4" src="boots1.png"/>
-      <Image id="5" src="boots2.png"/>
-      <Image id="6" src="boots3.png"/>
-      <Image id="7" src="bracers1.png"/>
-      <Image id="8" src="buckler1.png"/>
-      <Image id="9" src="cloak1.png"/>
-      <Image id="10" src="dagger1.png"/>
-      <Image id="11" src="gloves1.png"/>
-      <Image id="12" src="helmet1.png"/>
-      <Image id="13" src="long_sword1.png"/>
-      <Image id="14" src="ring1.png"/>
-      <Image id="15" src="ring2.png"/>
-      <Image id="16" src="shield1.png"/>
-      <Image id="17" src="multiple.png"/>
+      <ItemImage id="0" src="amulet1.png"/>
+      <ItemImage id="1" src="amulet2.png"/>
+      <ItemImage id="2" src="armour1.png"/>
+      <ItemImage id="3" src="belt1.png"/>
+      <ItemImage id="4" src="boots1.png"/>
+      <ItemImage id="5" src="boots2.png"/>
+      <ItemImage id="6" src="boots3.png"/>
+      <ItemImage id="7" src="bracers1.png"/>
+      <ItemImage id="8" src="buckler1.png"/>
+      <ItemImage id="9" src="cloak1.png"/>
+      <ItemImage id="10" src="dagger1.png"/>
+      <ItemImage id="11" src="gloves1.png"/>
+      <ItemImage id="12" src="helmet1.png"/>
+      <ItemImage id="13" src="long_sword1.png"/>
+      <ItemImage id="14" src="ring1.png"/>
+      <ItemImage id="15" src="ring2.png"/>
+      <ItemImage id="16" src="shield1.png"/>
+      <ItemImage id="17" src="multiple.png"/>
     </Images>
     <Back>
       <Item id="back1" img_id="9" doll_id="1">

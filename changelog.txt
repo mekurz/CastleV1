@@ -594,6 +594,12 @@ Version 78 - 11-Mar-2013
   - Refactored the way status effects get created/replaced so that the code is more generalized
   - Made unit tests much more robust (sometimes they were failing on consecutive runs due to Time object not being reset)
   
+Version 79 - 12-Mar-2013
+- General
+  - Worked around a problem with jQuery 1.9.1 and Firefox with preloading images and $.find(). Everything functions in all browsers again.
+  - Upgraded to jQueryUI 1.10.1, Bootstrap 2.3.1 and Chosen 0.9.12
+- Status Effects
+  - Fixed status effects so that they load correctly once again.
 
 
 TODO
@@ -635,4 +641,3 @@ TODO
     - no set duration, requires some kind of event to activate/deactivate
     - i.e. levitate or curse
  - Complete system for applying stat changes to Actors
- - Upgrade jQueryUI and Bootstrap

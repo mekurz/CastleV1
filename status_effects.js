@@ -92,15 +92,15 @@ function StatusEffectsManager()
     
     for( var ix = obj.length - 1; ix >= 0; --ix )
     {
+      var xml = Loader.get_status_effect_data( obj[ix].status_id );
       var effect = null;
-      var type = obj[ix].type;
       
-      switch( type )
+      switch( obj[ix].type )
       {
         case STATUS_EFFECT_TYPE_POISON:
-          effect = new PeriodicStatusEffect( type ); break;
+          effect = new PeriodicDamageStatusEffect( xml ); break;
         default:
-          effect = new StatusEffect( type );
+          effect = new StatusEffect( xml );
       }
       
       effect.load( obj[ix] );

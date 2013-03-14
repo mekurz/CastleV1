@@ -6,7 +6,7 @@ function DataLoader()
   this.initialize = function()
   {
     $.get( "game_data.xml", function( xml ) {
-                  data = $.parseXML( xml );
+                  data = xml;
                   Loader.process_data();
         }).error( function() { 
             Log.debug( "AJAX error encountered!" ); 
@@ -20,10 +20,10 @@ function DataLoader()
     
     Log.debug( "Loading images..." );
     Images.load_tile_images( this.xml.find("Tile") );
-    Images.load_spell_images( this.xml.find("Spells").children("Images").children("Image") );
+    Images.load_spell_images( this.xml.find("SpellImage") );
     Images.load_monster_images( this.xml.find("Monster") );
-    Images.load_item_images( this.xml.find("Items").children("Images").children("Image") );
-    Images.load_paperdoll_images( this.xml.find("Paperdoll").children("Image") );
+    Images.load_item_images( this.xml.find("ItemImage") );
+    Images.load_paperdoll_images( this.xml.find("DollImage") );
   };
   
   this.get_data = function( node, id )
