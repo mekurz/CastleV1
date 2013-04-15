@@ -49,7 +49,7 @@ function cast_spell_by_id( spell )
 
 function get_debug_spellbar()
 {
- return ["p1","p2","p3","u2"]; 
+ return ["p1","p2","p3","e2","e3","e4"]; 
 }
 
 function test_fizzle()
@@ -218,6 +218,12 @@ function test_game_over()
 function setup_debug_level()
 {
   Player.move_to( new Point( 10, 7 ) );
+  
+  for( var stat_ix = 0; stat_ix < MAX_STAT; ++stat_ix )
+  {
+    Player.stats[stat_ix] = 50;
+  }
+  
   Dungeon.levels = new Array();
   create_debug_level();  
   create_debug_monsters();

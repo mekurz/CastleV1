@@ -201,27 +201,31 @@ function PlayerActor()
     $("#" + ( id == undefined ? "mana" : id )).text( this.current_mana + "/" + this.max_mana );
   };
   
-  function is_main_stat( stat )
-  {
-    return stat == "str" || stat == "dex" || stat == "con";
-  }
-  
   function get_main_stat_ix( stat )
   {
     if( stat == "str" )
+      return CUR_STR;
+    else if( stat == "maxstr" )
       return MAX_STR;
     else if( stat == "dex" )
+      return CUR_DEX;
+    else if( stat == "maxdex" )
       return MAX_DEX;
-    else
+    else if( stat == "con" )
+      return CUR_CON;
+    else if( stat == "maxcon" )
       return MAX_CON;
+    else
+      return MAX_STATS;
   }
   
   function apply_single_stat_change( actor, stat, value, callback )
   {
-    if( is_main_stat( stat ) )
+    var stat_ix = get_main_stat_ix( stat );
+    
+    if( stat_ix != MAX_STATS )
     {
-      var stat_ix = get_main_stat_ix( stat );
-      actor.stats[stat_ix] = callback( actor[stat], value );
+      actor.stats[stat_ix] = callback( actor.stats[stat_ix], value );
       // TODO LIKELY NEED TO MAKE SOME CHANGES HERE TO HANDLE MAX STAT CHANGING (I.E FOR CURSES )
     }
     else

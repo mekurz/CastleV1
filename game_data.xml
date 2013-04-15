@@ -70,6 +70,8 @@
       <SpellImage id="17" src="dimension_door.png"/>
       <SpellImage id="18" src="portal.png"/>
       <SpellImage id="19" src="poison.png"/>
+      <SpellImage id="20" src="big_muscles.png"/>
+      <SpellImage id="21" src="weakness.png"/>
     </Images>
     <Projectile>
 	    <Spell id="p1" projectile_id="2" toolbar_id="2" level="1">
@@ -121,7 +123,26 @@
       </Spell>
     </Utility>
     <StatusSpells>
-      <Spell id="e1" effect_id="19" level="999"></Spell>
+      <Spell id="e1" effect_id="19" level="999">
+        <Description>Monster Poison</Description>
+        <Mana>0</Mana>
+        <StatusEffect>1</StatusEffect>
+      </Spell>
+      <Spell id="e2" effect_id="18" toolbar_id="16" self_target="1" level="1">
+        <Description>Shield</Description>
+        <Mana>0</Mana>
+        <StatusEffect>3</StatusEffect>
+      </Spell>
+      <Spell id="e3" effect_id="18" toolbar_id="20" self_target="1" level="1">
+        <Description>Big Muscles</Description>
+        <Mana>1</Mana>
+        <StatusEffect>4</StatusEffect>
+      </Spell>
+      <Spell id="e4" effect_id="18" toolbar_id="21" self_target="1" level="1">
+        <Description>Weakness</Description>
+        <Mana>1</Mana>
+        <StatusEffect>5</StatusEffect>
+      </Spell>
     </StatusSpells>
     <AreaEffect>
 	    <Spell id="a1" projectile_id="4" area_id="5" toolbar_id="10" level="1">
@@ -274,6 +295,20 @@
       <Rounds>10</Rounds>
       <Effect>
         <ac>3</ac>
+      </Effect>
+    </StatusEffect>
+    <StatusEffect id="4" type="1">
+      <Description>Big Muscles!</Description>
+      <Rounds>10</Rounds>
+      <Effect>
+        <str>20</str>
+      </Effect>
+    </StatusEffect>
+    <StatusEffect id="5" type="2">
+      <Description>Weakness</Description>
+      <Rounds>10</Rounds>
+      <Effect>
+        <str>-20</str>
       </Effect>
     </StatusEffect>
   </StatusEffects>

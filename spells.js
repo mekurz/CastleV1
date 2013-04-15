@@ -94,7 +94,7 @@ function cast_spell( btn_ix )
 
 function cast_self_buff( spell_id )
 {
-  if( create_spell( spell_id, Player, Player ) )
+  if( create_spell( spell_id, Player, Player.location ) )
   {
     Time.add_time( TIME_STANDARD_MOVE );
     Player.update_mana();
@@ -139,7 +139,7 @@ function create_spell( spell_id, source_actor, target )
   }
   else if( type == "statusspells" ) // Status Effects
   {
-    success = add_spell_effect( new SinglePointRotatingFadingSpellEffect( xml.attr("effect_id"), target ), new StatusEffectSpell( spell_id, source_actor, target ) );
+    success = add_spell_effect( new SinglePointRotatingFadingSpellEffect( xml.attr("effect_id"), target ), new StatusEffectSpell( spell_id, xml.find("StatusEffect").text(), source_actor, target ) );
   }
   else
   {
@@ -365,9 +365,11 @@ TeleportationSpell.prototype.resolve_hit = function()
   this.teleport();
 };
 
-function StatusEffectSpell( spell_id, source_actor, target_tile )
+function StatusEffectSpell( spell_id, status_id, source_actor, target_tile )
 {
   StatusEffectSpell.base_constructor.call( this, spell_id, source_actor, target_tile );
+  
+  //this.status_id = status_id;
   
   this.apply_effect = function()
   {
@@ -375,7 +377,7 @@ function StatusEffectSpell( spell_id, source_actor, target_tile )
     
     if( target_item.id == "man" || target_item.is_monster )
     {
-      create_status_effect( parseInt( this.spell_id.substr(1) ), target_item ); // ID of the StatusEffect is part of the spell ID
+      create_status_effect( status_id, target_item );
     }
   };
 }

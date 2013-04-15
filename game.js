@@ -282,7 +282,9 @@ function Game()
           if( new Movement().move_on_keypress( evt.keyCode ) )
           {
             document.game.do_turn();
+            evt.preventDefault();
           }
+          return false;
           break;
         case 27: // esc
           cancel_action();

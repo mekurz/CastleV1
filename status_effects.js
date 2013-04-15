@@ -1,6 +1,6 @@
 var STATUS_EFFECT_TYPE_POISON = 0;
 var STATUS_EFFECT_TYPE_PASSIVE_BUFF = 1;
-var STATUS_EFFECT_TYPE_CURSE  = 2;
+var STATUS_EFFECT_TYPE_PASSIVE_DEBUFF = 2;
 
 function StatusEffectsManager()
 {
@@ -10,10 +10,10 @@ function StatusEffectsManager()
   {
     switch( type )
     {
-      case STATUS_EFFECT_TYPE_POISON:       return "label-success";
-      case STATUS_EFFECT_TYPE_CURSE:        return "label-important";
+      case STATUS_EFFECT_TYPE_POISON:         return "label-success";
+      case STATUS_EFFECT_TYPE_PASSIVE_DEBUFF: return "label-important";
       case STATUS_EFFECT_TYPE_PASSIVE_BUFF: 
-      default:                              return "label-info";
+      default:                                return "label-info";
     };
   }
   
@@ -72,11 +72,11 @@ function StatusEffectsManager()
     }
   };
   
-  this.get_existing_effect_for_target = function( target_id, type )
+  this.get_existing_effect_for_target = function( target_id, status_id, type )
   {
     for( var ix = 0; ix < this.effects.length; ++ix )
     {
-      if( this.effects[ix].type == type && this.effects[ix].target_id == target_id )
+      if( this.effects[ix].target_id == target_id && this.effects[ix].type == type && ( type == STATUS_EFFECT_TYPE_POISON || this.effects[ix].status_id == status_id ) )
       {
         return this.effects[ix];
       }
@@ -88,6 +88,7 @@ function StatusEffectsManager()
   this.load = function( obj )
   {
     this.effects = [];
+    $("#effects").empty();
     if( obj == undefined ) return;
     
     for( var ix = obj.length - 1; ix >= 0; --ix )
@@ -99,6 +100,9 @@ function StatusEffectsManager()
       {
         case STATUS_EFFECT_TYPE_POISON:
           effect = new PeriodicDamageStatusEffect( xml ); break;
+        case STATUS_EFFECT_TYPE_PASSIVE_BUFF:
+        case STATUS_EFFECT_TYPE_PASSIVE_DEBUFF:
+          effect = new PassiveStatChangeStatusEffect( xml ); break;
         default:
           effect = new StatusEffect( xml );
       }
@@ -111,8 +115,8 @@ function StatusEffectsManager()
 
 function create_or_replace_status_effect( xml, target_actor, OBJ_TYPE )
 {
-  var old_effect = StatusEffects.get_existing_effect_for_target( target_actor.id, STATUS_EFFECT_TYPE_POISON );
   var new_effect = new OBJ_TYPE( xml );
+  var old_effect = StatusEffects.get_existing_effect_for_target( target_actor.id, new_effect.status_id, new_effect.type );
   new_effect.target_id   = target_actor.id;
   
   if( !old_effect )
@@ -139,16 +143,19 @@ function create_status_effect( status_id, target_actor )
   var xml = Loader.get_status_effect_data( status_id );
   var type = parseInt( xml.attr("type") );
   
-  if( type == STATUS_EFFECT_TYPE_POISON )
+  switch( type )
   {
-    create_or_replace_status_effect( xml, target_actor, PeriodicDamageStatusEffect );
-  }
-  else
-  {
-    var effect = new StatusEffect( xml );
-    effect.target_id   = target_actor.id;
-    
-    StatusEffects.add_effect( effect );
+    case STATUS_EFFECT_TYPE_POISON:
+      create_or_replace_status_effect( xml, target_actor, PeriodicDamageStatusEffect ); break;
+    case STATUS_EFFECT_TYPE_PASSIVE_BUFF:
+    case STATUS_EFFECT_TYPE_PASSIVE_DEBUFF:
+      create_or_replace_status_effect( xml, target_actor, PassiveStatChangeStatusEffect ); break;
+    default:
+    {
+      var effect = new StatusEffect( xml );
+      effect.target_id   = target_actor.id;
+      StatusEffects.add_effect( effect );
+    }
   }
 }
 
@@ -225,4 +232,38 @@ PeriodicDamageStatusEffect.prototype.finish = function()
 PeriodicDamageStatusEffect.prototype.is_stronger = function( that )
 {
   return this.damage > that.damage;
+};
+
+function PassiveStatChangeStatusEffect( xml )
+{
+  PassiveStatChangeStatusEffect.base_constructor.call( this, xml );
+  
+  this.get_effect = function()
+  {
+    return Loader.get_status_effect_data( this.status_id ).find("Effect");
+  };
+}
+extend( PassiveStatChangeStatusEffect, StatusEffect );
+
+PassiveStatChangeStatusEffect.prototype.start = function()
+{
+  if( this.target_id == "man" )
+  {
+    Player.apply_effect( this.get_effect() );
+    Log.add( "You are affected by " + this.description + "!" );
+  }
+};
+
+PassiveStatChangeStatusEffect.prototype.finish = function()
+{
+  if( this.target_id == "man" )
+  {
+    Player.remove_effect( this.get_effect() );
+    Log.add( "The effects of the " + this.description + " wear off." );
+  }
+};
+
+PassiveStatChangeStatusEffect.prototype.is_stronger = function( that )
+{
+  return true;
 };

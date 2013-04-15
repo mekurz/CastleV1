@@ -600,6 +600,13 @@ Version 79 - 12-Mar-2013
   - Upgraded to jQueryUI 1.10.1, Bootstrap 2.3.1 and Chosen 0.9.12
 - Status Effects
   - Fixed status effects so that they load correctly once again.
+  
+Version 80 - 14-Apr-2013
+- General
+  - Prevented movement keys from triggering browser window scroll events.
+- Status Effects
+  - Added PassiveStatChangeStatusEffect with several new spells to demonstrate primary and secondary stat changes.
+  - Completed method for applying stat changes to Actors
 
 
 TODO
@@ -631,13 +638,11 @@ TODO
 - Item stats, etc
 - Add XP progress bar to character info
 - Status effects
+  - Tooltip over status effects to show remaining duration
   - Show current effects in character info
+  - Need to ensure that stat buffs cannot go higher than max or lower than 0
+  - Need to clean up effects after long actions & sleeping/resting
   - Clean up status effects when actor dies
-  - Passive effect
-    - take an action on start and on end
-    - i.e. shield
-    - stat buffs
-  - Persistent effect
+  - Persistent buff/debuff
     - no set duration, requires some kind of event to activate/deactivate
     - i.e. levitate or curse
- - Complete system for applying stat changes to Actors
