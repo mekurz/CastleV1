@@ -68,6 +68,7 @@ Monster.prototype.kill = function()
   document.game.add_splat( this.location );
   
   Dungeon.kill_monster( this.id );
+  StatusEffects.remove_effects_for_target( this.id );
     
   // TODO DROP LOOT, GIVE XP, BLAH BLAH BLAH  
 };

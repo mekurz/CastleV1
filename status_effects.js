@@ -46,6 +46,17 @@ function StatusEffectsManager()
     this.effects.remove( ix );
   };
   
+  this.remove_effects_for_target = function( target_id )
+  {
+    for( var ix = this.effects.length; ix >= 0; --ix )
+    {
+      if( this.effects[ix].target_id == target_id )
+      {
+        this.effects.remove( ix );
+      }
+    }
+  };
+  
   this.replace_effect = function( old_effect, new_effect )
   {
     for( var ix = 0; ix < this.effects.length; ++ix )

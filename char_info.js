@@ -32,11 +32,14 @@ function CharacterInfoDialog()
     set_pct_on_bar( "dex", MAX_DEX );
     set_pct_on_bar( "con", MAX_CON );
     
+    var max_xp = 123456;
+    var xp_pct = Math.round( Player.xp / max_xp * 100 ) + "%" ;
+    $("#ci_xp").text( Player.xp.toCommas() + "/" + max_xp.toCommas() );
+    $("#xp_bar").css( "width", xp_pct ).attr( "title", xp_pct );
+    
     $("#ci_img").attr("src", DrawPlayer.get_data_url() );
     $("#ci_name").text( Player.description );
     $("#ci_lvl").text( Player.level );
-    $("#ci_xp").text( Player.xp.toCommas() );
-    $("#ci_next").text( (1234567).toCommas() ); // TODO THIS NEEDS TO BE CALCULATED
     Player.update_hp("ci_hp");
     Player.update_mana("ci_mana");
     $("#ci_ac").text( Player.ac );

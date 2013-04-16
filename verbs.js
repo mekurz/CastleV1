@@ -197,10 +197,12 @@ function attempt_long_action( rounds )
   
   for( var ix = 0; ix < rounds; ++ ix )
   {
+    var hp_at_start = Player.current_hp;
     Time.add_time( TIME_STANDARD_MOVE );
     document.game.update();
+    StatusEffects.run_effects( Time );
     
-    if( is_interrupted() )
+    if( is_interrupted( hp_at_start ) )
     {      
       Log.add( "You are interrupted!" );
       attempt = ix;
@@ -214,7 +216,7 @@ function attempt_long_action( rounds )
   return attempt;
 }
 
-function is_interrupted()
+function is_interrupted( hp_at_start )
 {
   // Check for adjacent monsters
   var monsters = Dungeon.get_monsters();
@@ -228,6 +230,12 @@ function is_interrupted()
   
   // If the animation queue is not empty, it means a monster cast a spell at the Player
   if( document.game.animation_queue.length > 0 )
+  {
+    return true;
+  }
+  
+  // Player took damage from some source during this turn
+  if( Player.current_hp < hp_at_start )
   {
     return true;
   }
