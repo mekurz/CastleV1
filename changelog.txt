@@ -616,7 +616,9 @@ Version 81 - 15-Apr-2013
   - Status effects will now continue to run while long actions are attempted.
   - Status effects on monsters will be removed when the monster is dead.
 
-
+Version 82 - 24-Apr-2013
+- General
+  - Upgraded to jQuery 2.0.0 (Canvas isn't supported by old versions of IE anyways!)
 
 TODO
 ============
@@ -633,9 +635,9 @@ TODO
 - Option to launch new game
 - Touch events?
 - Add more text options so the log doesn't look so boring
+- Widget animations
 - Props (more widgets for decoration)
 - dynamic sizing of viewport based on window size... needs to have min/max dimensions set
-- Toolbar needs tooltips (alt text)
 - Belts should have utility slots
 - Items in the inventory need detailed tooltips
 - Gold
@@ -647,7 +649,6 @@ TODO
 - Item stats, etc
 - Status effects
   - Tooltip over status effects to show remaining duration
-  - Clean up status effects when actor dies
   - Persistent buff/debuff
     - no set duration, requires some kind of event to activate/deactivate
     - i.e. levitate or curse
