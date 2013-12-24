@@ -3,8 +3,260 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
 VisualStudioVersion = 12.0.21005.1
 MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "css", "css", "{95C282F4-A15C-4EF4-B002-D0E49A4941C8}"
+	ProjectSection(SolutionItems) = preProject
+		css\bootstrap-responsive.css = css\bootstrap-responsive.css
+		css\bootstrap-responsive.min.css = css\bootstrap-responsive.min.css
+		css\bootstrap.css = css\bootstrap.css
+		css\bootstrap.min.css = css\bootstrap.min.css
+		css\chosen-sprite.png = css\chosen-sprite.png
+		css\chosen-sprite@2x.png = css\chosen-sprite@2x.png
+		css\chosen.css = css\chosen.css
+		css\sherwood.ttf = css\sherwood.ttf
+		css\style.css = css\style.css
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "img", "img", "{9D7B7F94-D234-4A87-8AFD-BDD726891F87}"
+	ProjectSection(SolutionItems) = preProject
+		css\img\glyphicons-halflings-white.png = css\img\glyphicons-halflings-white.png
+		css\img\glyphicons-halflings.png = css\img\glyphicons-halflings.png
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "overcast", "overcast", "{F61FB3C3-843F-4746-8598-1C6ECB6D60CA}"
+	ProjectSection(SolutionItems) = preProject
+		css\overcast\jquery-ui-1.10.1.custom.css = css\overcast\jquery-ui-1.10.1.custom.css
+		css\overcast\jquery-ui-1.10.1.custom.min.css = css\overcast\jquery-ui-1.10.1.custom.min.css
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "images", "images", "{750B82BC-71C8-45E9-9561-E008AE01A3E9}"
+	ProjectSection(SolutionItems) = preProject
+		css\overcast\images\animated-overlay.gif = css\overcast\images\animated-overlay.gif
+		css\overcast\images\ui-bg_flat_0_aaaaaa_40x100.png = css\overcast\images\ui-bg_flat_0_aaaaaa_40x100.png
+		css\overcast\images\ui-bg_flat_0_eeeeee_40x100.png = css\overcast\images\ui-bg_flat_0_eeeeee_40x100.png
+		css\overcast\images\ui-bg_flat_55_c0402a_40x100.png = css\overcast\images\ui-bg_flat_55_c0402a_40x100.png
+		css\overcast\images\ui-bg_flat_55_eeeeee_40x100.png = css\overcast\images\ui-bg_flat_55_eeeeee_40x100.png
+		css\overcast\images\ui-bg_glass_100_f8f8f8_1x400.png = css\overcast\images\ui-bg_glass_100_f8f8f8_1x400.png
+		css\overcast\images\ui-bg_glass_35_dddddd_1x400.png = css\overcast\images\ui-bg_glass_35_dddddd_1x400.png
+		css\overcast\images\ui-bg_glass_60_eeeeee_1x400.png = css\overcast\images\ui-bg_glass_60_eeeeee_1x400.png
+		css\overcast\images\ui-bg_inset-hard_75_999999_1x100.png = css\overcast\images\ui-bg_inset-hard_75_999999_1x100.png
+		css\overcast\images\ui-bg_inset-soft_50_c9c9c9_1x100.png = css\overcast\images\ui-bg_inset-soft_50_c9c9c9_1x100.png
+		css\overcast\images\ui-icons_3383bb_256x240.png = css\overcast\images\ui-icons_3383bb_256x240.png
+		css\overcast\images\ui-icons_454545_256x240.png = css\overcast\images\ui-icons_454545_256x240.png
+		css\overcast\images\ui-icons_70b2e1_256x240.png = css\overcast\images\ui-icons_70b2e1_256x240.png
+		css\overcast\images\ui-icons_999999_256x240.png = css\overcast\images\ui-icons_999999_256x240.png
+		css\overcast\images\ui-icons_fbc856_256x240.png = css\overcast\images\ui-icons_fbc856_256x240.png
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "html", "html", "{B3AA2339-27A3-4DC6-B4B8-3CCB2ADFEF0D}"
+	ProjectSection(SolutionItems) = preProject
+		html\character_info.html = html\character_info.html
+		html\inventory.html = html\inventory.html
+		html\new_game.html = html\new_game.html
+		html\shortcuts.html = html\shortcuts.html
+		html\spellbook.html = html\spellbook.html
+		html\storage.html = html\storage.html
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "images", "images", "{6265CEFF-ED68-4AFD-A9AD-7C895AC44A7D}"
+	ProjectSection(SolutionItems) = preProject
+		images\blank.png = images\blank.png
+		images\dash.gif = images\dash.gif
+		images\gear.png = images\gear.png
+		images\inv_arms.png = images\inv_arms.png
+		images\inv_back.png = images\inv_back.png
+		images\inv_chest.png = images\inv_chest.png
+		images\inv_feet.png = images\inv_feet.png
+		images\inv_hands.png = images\inv_hands.png
+		images\inv_head.png = images\inv_head.png
+		images\inv_leftring.png = images\inv_leftring.png
+		images\inv_neck.png = images\inv_neck.png
+		images\inv_rightring.png = images\inv_rightring.png
+		images\inv_shield.png = images\inv_shield.png
+		images\inv_waist.png = images\inv_waist.png
+		images\inv_weapon.png = images\inv_weapon.png
+		images\paperdoll.png = images\paperdoll.png
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "items", "items", "{06F1B97E-EA71-4815-B181-A3BA302053B3}"
+	ProjectSection(SolutionItems) = preProject
+		images\items\amulet1.png = images\items\amulet1.png
+		images\items\amulet2.png = images\items\amulet2.png
+		images\items\armour1.png = images\items\armour1.png
+		images\items\belt1.png = images\items\belt1.png
+		images\items\boots1.png = images\items\boots1.png
+		images\items\boots2.png = images\items\boots2.png
+		images\items\boots3.png = images\items\boots3.png
+		images\items\bracers1.png = images\items\bracers1.png
+		images\items\buckler1.png = images\items\buckler1.png
+		images\items\cloak1.png = images\items\cloak1.png
+		images\items\dagger1.png = images\items\dagger1.png
+		images\items\gloves1.png = images\items\gloves1.png
+		images\items\helmet1.png = images\items\helmet1.png
+		images\items\long_sword1.png = images\items\long_sword1.png
+		images\items\multiple.png = images\items\multiple.png
+		images\items\ring1.png = images\items\ring1.png
+		images\items\ring2.png = images\items\ring2.png
+		images\items\shield1.png = images\items\shield1.png
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "monsters", "monsters", "{283C0A1F-5562-4718-85D2-1B1783D88A6F}"
+	ProjectSection(SolutionItems) = preProject
+		images\monsters\giant_bat.png = images\monsters\giant_bat.png
+		images\monsters\giant_rat.png = images\monsters\giant_rat.png
+		images\monsters\giant_snake.png = images\monsters\giant_snake.png
+		images\monsters\hillgiant.png = images\monsters\hillgiant.png
+		images\monsters\ratman.png = images\monsters\ratman.png
+		images\monsters\red_dragon.png = images\monsters\red_dragon.png
+		images\monsters\skeleton.png = images\monsters\skeleton.png
+		images\monsters\slime.png = images\monsters\slime.png
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "paperdoll", "paperdoll", "{EC498BD5-C153-4C51-892B-AD48F45E7919}"
+	ProjectSection(SolutionItems) = preProject
+		images\paperdoll\back1.png = images\paperdoll\back1.png
+		images\paperdoll\base.png = images\paperdoll\base.png
+		images\paperdoll\chest1.png = images\paperdoll\chest1.png
+		images\paperdoll\feet1.png = images\paperdoll\feet1.png
+		images\paperdoll\hands1.png = images\paperdoll\hands1.png
+		images\paperdoll\head1.png = images\paperdoll\head1.png
+		images\paperdoll\legs1.png = images\paperdoll\legs1.png
+		images\paperdoll\shield1.png = images\paperdoll\shield1.png
+		images\paperdoll\shield2.png = images\paperdoll\shield2.png
+		images\paperdoll\weapon1.png = images\paperdoll\weapon1.png
+		images\paperdoll\weapon2.png = images\paperdoll\weapon2.png
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "spells", "spells", "{56CB0E53-0757-48AF-85C1-588065D41008}"
+	ProjectSection(SolutionItems) = preProject
+		images\spells\big_muscles.png = images\spells\big_muscles.png
+		images\spells\boulder.png = images\spells\boulder.png
+		images\spells\coldball.png = images\spells\coldball.png
+		images\spells\coldball_mini.png = images\spells\coldball_mini.png
+		images\spells\coldbolt.png = images\spells\coldbolt.png
+		images\spells\cone_fire.png = images\spells\cone_fire.png
+		images\spells\cone_fire_d.png = images\spells\cone_fire_d.png
+		images\spells\dimension_door.png = images\spells\dimension_door.png
+		images\spells\fireball.png = images\spells\fireball.png
+		images\spells\fireball_mini.png = images\spells\fireball_mini.png
+		images\spells\firebolt.png = images\spells\firebolt.png
+		images\spells\fizzle.png = images\spells\fizzle.png
+		images\spells\light.png = images\spells\light.png
+		images\spells\lightning.png = images\spells\lightning.png
+		images\spells\lightning_ball.png = images\spells\lightning_ball.png
+		images\spells\lightning_ball_mini.png = images\spells\lightning_ball_mini.png
+		images\spells\missile.png = images\spells\missile.png
+		images\spells\poison.png = images\spells\poison.png
+		images\spells\portal.png = images\spells\portal.png
+		images\spells\shield.png = images\spells\shield.png
+		images\spells\splat.png = images\spells\splat.png
+		images\spells\weakness.png = images\spells\weakness.png
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tiles", "tiles", "{5C9FF225-00C9-4632-B681-F58D70AF335A}"
+	ProjectSection(SolutionItems) = preProject
+		images\tiles\broken_door.png = images\tiles\broken_door.png
+		images\tiles\closed_door.png = images\tiles\closed_door.png
+		images\tiles\dirt.png = images\tiles\dirt.png
+		images\tiles\grass.png = images\tiles\grass.png
+		images\tiles\open_door.png = images\tiles\open_door.png
+		images\tiles\stairs_down.png = images\tiles\stairs_down.png
+		images\tiles\stairs_up.png = images\tiles\stairs_up.png
+		images\tiles\stones.png = images\tiles\stones.png
+		images\tiles\stones2.png = images\tiles\stones2.png
+		images\tiles\stones3.png = images\tiles\stones3.png
+		images\tiles\stones4.png = images\tiles\stones4.png
+		images\tiles\trap_rune.png = images\tiles\trap_rune.png
+		images\tiles\trap_spear.png = images\tiles\trap_spear.png
+		images\tiles\wall.png = images\tiles\wall.png
+		images\tiles\wall2.png = images\tiles\wall2.png
+		images\tiles\wall3.png = images\tiles\wall3.png
+		images\tiles\wall4.png = images\tiles\wall4.png
+		images\tiles\wall5.png = images\tiles\wall5.png
+		images\tiles\wall6.png = images\tiles\wall6.png
+		images\tiles\wall7.png = images\tiles\wall7.png
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "libs", "libs", "{3DB05E1D-F02A-41A3-A630-1A9DDC221EDD}"
+	ProjectSection(SolutionItems) = preProject
+		libs\bootstrap.js = libs\bootstrap.js
+		libs\bootstrap.min.js = libs\bootstrap.min.js
+		libs\chosen.jquery.js = libs\chosen.jquery.js
+		libs\chosen.jquery.min.js = libs\chosen.jquery.min.js
+		libs\jstorage.js = libs\jstorage.js
+		libs\jstorage.min.js = libs\jstorage.min.js
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "TPOC", "TPOC", "{D28B38BF-86D9-4571-83E3-7E41EACA83F8}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "CC-TPOC", "CC-TPOC", "{0EF5792E-D09A-42C9-B1EC-C60B4B4360A8}"
+	ProjectSection(SolutionItems) = preProject
+		TPOC\CC-TPOC\test.html = TPOC\CC-TPOC\test.html
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ItemsTPOC", "ItemsTPOC", "{1D6C113D-20C4-4067-8F4F-887ED6727262}"
+	ProjectSection(SolutionItems) = preProject
+		TPOC\ItemsTPOC\effects.js = TPOC\ItemsTPOC\effects.js
+		TPOC\ItemsTPOC\test.html = TPOC\ItemsTPOC\test.html
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "test", "test", "{72BEF845-8849-4048-88B5-959DB2FBA865}"
+	ProjectSection(SolutionItems) = preProject
+		test\qunit.css = test\qunit.css
+		test\qunit.js = test\qunit.js
+		test\test.html = test\test.html
+		test\test.prod.html = test\test.prod.html
+		test\tests.js = test\tests.js
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "script", "script", "{0D127898-5E62-433D-AB97-F8E3E2C12EAB}"
+	ProjectSection(SolutionItems) = preProject
+		actor.js = actor.js
+		changelog.txt = changelog.txt
+		char_info.js = char_info.js
+		common.js = common.js
+		data_loader.js = data_loader.js
+		debug.js = debug.js
+		exclude.txt = exclude.txt
+		game.js = game.js
+		game_data.xml = game_data.xml
+		image_cache.js = image_cache.js
+		index.html = index.html
+		index.prod.html = index.prod.html
+		inventory.js = inventory.js
+		level.js = level.js
+		logger.js = logger.js
+		melee.js = melee.js
+		minimap.js = minimap.js
+		monsters.js = monsters.js
+		mouse.js = mouse.js
+		movement.js = movement.js
+		new_game.js = new_game.js
+		paperdoll.js = paperdoll.js
+		publish.bat = publish.bat
+		spellbook.js = spellbook.js
+		spells.js = spells.js
+		status_effects.js = status_effects.js
+		storage.js = storage.js
+		traps.js = traps.js
+		verbs.js = verbs.js
+		viewport.js = viewport.js
+		widget.js = widget.js
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{9D7B7F94-D234-4A87-8AFD-BDD726891F87} = {95C282F4-A15C-4EF4-B002-D0E49A4941C8}
+		{F61FB3C3-843F-4746-8598-1C6ECB6D60CA} = {95C282F4-A15C-4EF4-B002-D0E49A4941C8}
+		{750B82BC-71C8-45E9-9561-E008AE01A3E9} = {F61FB3C3-843F-4746-8598-1C6ECB6D60CA}
+		{06F1B97E-EA71-4815-B181-A3BA302053B3} = {6265CEFF-ED68-4AFD-A9AD-7C895AC44A7D}
+		{283C0A1F-5562-4718-85D2-1B1783D88A6F} = {6265CEFF-ED68-4AFD-A9AD-7C895AC44A7D}
+		{EC498BD5-C153-4C51-892B-AD48F45E7919} = {6265CEFF-ED68-4AFD-A9AD-7C895AC44A7D}
+		{56CB0E53-0757-48AF-85C1-588065D41008} = {6265CEFF-ED68-4AFD-A9AD-7C895AC44A7D}
+		{5C9FF225-00C9-4632-B681-F58D70AF335A} = {6265CEFF-ED68-4AFD-A9AD-7C895AC44A7D}
+		{0EF5792E-D09A-42C9-B1EC-C60B4B4360A8} = {D28B38BF-86D9-4571-83E3-7E41EACA83F8}
+		{1D6C113D-20C4-4067-8F4F-887ED6727262} = {D28B38BF-86D9-4571-83E3-7E41EACA83F8}
 	EndGlobalSection
 EndGlobal
