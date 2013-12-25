@@ -620,6 +620,13 @@ Version 82 - 24-Apr-2013
 - General
   - Upgraded to jQuery 2.0.0 (Canvas isn't supported by old versions of IE anyways!)
 
+Version 83 - 25-Dec-2013
+- General
+  - Converted to a Visual Studio 2013 project
+  - Rearranged some of the TPOC folder structure to clean things up
+  - Fixed Kill All Monsters and Test Status Effect debug tests which broke sometime after v78
+  - Upgraded to jQuery 2.0.3
+
 TODO
 ============
 - BUG: Some wall tiles get marked as "too dark to see" based on what's on one side vs the other... need some kind of directional tooltip?

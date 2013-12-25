@@ -339,12 +339,8 @@ function create_debug_level()
 
 function test_status_effect()
 {
-  var effect = new StatusEffect( STATUS_EFFECT_TYPE_PASSIVE_BUFF );
-  effect.description = "TEST " + effect.id;
-  effect.finish_time = Time.time + 36;
-  effect.target_id   = Player.id;
-  StatusEffects.add_effect( effect );
-  Log.debug( "Status effect added lasting 6 rounds." );
+  create_status_effect( 4, Player );
+  Log.debug( "Added BIG MUSCLES lasting 10 rounds." );
 }
 
 function test_poison_effect( effect_id )

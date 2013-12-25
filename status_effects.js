@@ -48,7 +48,7 @@ function StatusEffectsManager()
   
   this.remove_effects_for_target = function( target_id )
   {
-    for( var ix = this.effects.length; ix >= 0; --ix )
+    for( var ix = this.effects.length - 1; ix >= 0; --ix )
     {
       if( this.effects[ix].target_id == target_id )
       {
