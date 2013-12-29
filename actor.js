@@ -41,7 +41,8 @@ Actor.prototype.draw = function( ctx )
       Map.draw_single_tile( view_pos.y, view_pos.x, ctx, true );
     }
     
-    ctx.drawImage( Images.MONSTER_IMAGES[this.img_id], convert_ix_to_raw_coord( view_pos.x ), convert_ix_to_raw_coord( view_pos.y ) );
+    var img_loc = convert_tile_ix_to_point( this.img_id );
+    ctx.drawImage( Images.MONSTER_IMAGES, img_loc.x, img_loc.y, TILE_WIDTH, TILE_WIDTH, convert_ix_to_raw_coord( view_pos.x ), convert_ix_to_raw_coord( view_pos.y ), TILE_WIDTH, TILE_WIDTH );
   }   
 };
 

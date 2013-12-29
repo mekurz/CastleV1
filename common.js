@@ -1,6 +1,7 @@
 var VIEWPORT_WIDTH  = 30;
 var VIEWPORT_HEIGHT = 15;
 var VIEWPORT_SHIFT  = 2;
+var COMBINED_TILE_COLS = 10;
 var MIN_X = 0;
 var MIN_Y = 0;
 var TILE_WIDTH = 32;
@@ -162,6 +163,15 @@ function convert_raw_coord_to_ix( value )
 function convert_ix_to_raw_coord( value )
 {
   return value * TILE_WIDTH;
+}
+
+function convert_tile_ix_to_point( value )
+{
+  var coord = new Point();
+  coord.x = ( value % COMBINED_TILE_COLS ) * TILE_WIDTH;
+  coord.y = Math.floor( value / COMBINED_TILE_COLS ) * TILE_WIDTH;
+
+  return coord;
 }
 
 function extend( sub_class, base_class )

@@ -21,7 +21,8 @@ function Widget( stat_id, pos )
     if( this.should_draw_widget() )
     {
       var view_pos = Map.translate_map_coord_to_viewport( this.location );
-      ctx.drawImage( Images.TILE_IMAGES[this.tile_id], convert_ix_to_raw_coord( view_pos.x ), convert_ix_to_raw_coord( view_pos.y ) ); 
+      var img_loc = convert_tile_ix_to_point( this.tile_id );
+      ctx.drawImage( Images.TILE_IMAGES, img_loc.x, img_loc.y, TILE_WIDTH, TILE_WIDTH,  convert_ix_to_raw_coord( view_pos.x ),  convert_ix_to_raw_coord( view_pos.y ), TILE_WIDTH, TILE_WIDTH );
     }
   };
   

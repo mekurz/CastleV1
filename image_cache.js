@@ -5,11 +5,11 @@ function ImageCache()
   var load_bar = $("#load_bar");
   var load_pct = $("#load_pct");
   
-  this.TILE_IMAGES = new Array();
-  this.MONSTER_IMAGES = new Array();
+  this.TILE_IMAGES = null;
+  this.MONSTER_IMAGES = null;
   this.SPELL_IMAGES = new Array();
-  this.ITEM_IMAGES = new Array();
-  this.PAPERDOLL_IMAGES = new Array();
+  this.ITEM_IMAGES = null;
+  this.PAPERDOLL_IMAGES = null;
   
   this.is_loaded = function()
   {
@@ -47,9 +47,9 @@ function ImageCache()
     });
   }
   
-  this.load_tile_images = function( xml )
+  this.load_tile_images = function()
   {
-    load_images_from_xml( xml, this.TILE_IMAGES, "tiles" ); 
+    this.TILE_IMAGES = load_single_image( "tiles_full.png" );
   };
   
   this.load_spell_images = function( xml )
@@ -59,16 +59,16 @@ function ImageCache()
   
   this.load_monster_images = function( xml )
   {
-    load_images_from_xml( xml, this.MONSTER_IMAGES, "monsters" ); 
+    this.MONSTER_IMAGES = load_single_image( "monsters_full.png" );
   };
   
   this.load_item_images = function( xml )
   {
-    load_images_from_xml( xml, this.ITEM_IMAGES, "items" );
+    this.ITEM_IMAGES = load_single_image( "items_full.png" );
   };
   
   this.load_paperdoll_images = function( xml )
   {
-    load_images_from_xml( xml, this.PAPERDOLL_IMAGES, "paperdoll" );
+    this.PAPERDOLL_IMAGES = load_single_image( "paperdoll_full.png" );
   };
 };

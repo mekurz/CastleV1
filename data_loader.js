@@ -19,11 +19,11 @@ function DataLoader()
     data = null;
     
     Log.debug( "Loading images..." );
-    Images.load_tile_images( this.xml.find("Tile") );
+    Images.load_tile_images();
     Images.load_spell_images( this.xml.find("SpellImage") );
-    Images.load_monster_images( this.xml.find("Monster") );
-    Images.load_item_images( this.xml.find("ItemImage") );
-    Images.load_paperdoll_images( this.xml.find("DollImage") );
+    Images.load_monster_images();
+    Images.load_item_images();
+    Images.load_paperdoll_images();
   };
   
   this.get_data = function( node, id )

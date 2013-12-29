@@ -1,0 +1,120 @@
+<html>
+  <head>
+    <title>BROWSER OF THE WINDS - Item Effect TPOC</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+  </head>
+<body>
+  IMAGE:
+  <select id="type">
+    <option value="0">Tiles</option>
+    <option value="1">Items</option>
+    <option value="2">Paperdoll</option>
+    <option value="3">Monsters</option>
+  </select>
+  <button onclick="combine();">GO!</button>
+  <p>
+    <span id="processing">Processing...</span>
+    <img id="combined" style="border:1px solid black"></img>
+  </p>
+
+  <script type="text/javascript">
+    var NUM_COLUMNS = 10;
+    var TILE_WIDTH = 32;
+
+    var data = null;
+    var need_to_load = 0;
+    var loaded = 0;
+    var IMAGES = null;
+    var load_loop = null;
+
+    function reset_loader() {
+      need_to_load = 0;
+      loaded = 0;
+      IMAGES = new Array();
+      $("#processing").show();
+      $("#combined").hide();
+    }
+
+    function process_images() {
+      if (loaded == need_to_load && need_to_load > 0) {
+        clearInterval(load_loop);
+        load_loop = null;
+
+        var num_rows = Math.ceil(IMAGES.length / NUM_COLUMNS);
+        var num_cols = Math.min(IMAGES.length, NUM_COLUMNS);
+
+        var buffer = document.createElement("canvas");
+        buffer.width = num_cols * TILE_WIDTH;
+        buffer.height = num_rows * TILE_WIDTH;
+        var ctx = buffer.getContext("2d");
+
+        for (var row = 0; row < num_rows; ++row) {
+          for (var col = 0; col < num_cols; ++col) {
+            var ix = (row * num_cols) + col;
+
+            if (ix < IMAGES.length) {
+              ctx.drawImage(IMAGES[(row * num_cols) + col], col * TILE_WIDTH, row * TILE_WIDTH);
+              $("#combined").prop("src", buffer.toDataURL());
+            }
+            else {
+              break;
+            }
+          }
+        }
+
+        $("#combined").prop("src", buffer.toDataURL());
+        $("#processing").hide();
+        $("#combined").show();
+      }
+    }
+
+    function load_single_image(src) {
+      need_to_load++;
+
+      var img = new Image();
+      img.onload = function () {
+        loaded++;
+      };
+      img.src = ""; // Workaround for Chrome
+      img.src = "../../images/" + src;
+
+      return img;
+    }
+
+    function load_images_from_xml(xml, folder) {
+      reset_loader();
+
+      xml.each(function () {
+        IMAGES.push(load_single_image(folder + "/" + $(this).attr("src")));
+      });
+
+      load_loop = setInterval(process_images, 1000);
+    }
+
+    function combine() {
+      var type = parseInt($("#type").val());
+
+      switch (type) {
+        case 0: load_images_from_xml(data.find("Tile"), "tiles"); break;
+        case 1: load_images_from_xml(data.find("ItemImage"), "items"); break;
+        case 2: load_images_from_xml(data.find("DollImage"), "paperdoll"); break;
+        case 3: load_images_from_xml(data.find("Monster"), "monsters"); break;
+      }
+    }
+
+
+    $(document).ready(function () {
+      $("#processing").hide();
+      $("#combined").hide();
+
+      $.get("../../game_data.xml", function (xml) {
+        data = $(xml);
+      });
+    });
+
+
+  </script>
+</body>
+
+</html>

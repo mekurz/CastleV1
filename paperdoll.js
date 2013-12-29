@@ -2,7 +2,7 @@ function Paperdoll()
 {
   var BASE_PLAYER_IMAGE = 0;
   
-  this.layer_order = [ "back", "base", "chest", "feet", "head", "hands", "weapon", "shield" ];
+  this.layer_order = [ "back", "base", "chest", "feet", "hat", "hands", "weapon", "shield" ];
   
   this.buffer = document.createElement("canvas");
   this.buffer.width = TILE_WIDTH;
@@ -24,7 +24,7 @@ function Paperdoll()
     {
       if( this.layer_order[i] == "base" )
       {
-        this.buffer_ctx.drawImage( Images.PAPERDOLL_IMAGES[BASE_PLAYER_IMAGE], 0, 0 );
+        this.buffer_ctx.drawImage( Images.PAPERDOLL_IMAGES, 0, 0, TILE_WIDTH, TILE_WIDTH, 0, 0, TILE_WIDTH, TILE_WIDTH );
       }
       else
       {
@@ -37,12 +37,16 @@ function Paperdoll()
   {
     if( item )
     {
+      var img_loc = null;
+
       if( item.slot == "chest" && item.legs_id )  // Some armour also needs to draw legs.
       {
-        this.buffer_ctx.drawImage( Images.PAPERDOLL_IMAGES[item.legs_id], 0, 0 );
+        img_loc = convert_tile_ix_to_point( item.legs_id );
+        this.buffer_ctx.drawImage( Images.PAPERDOLL_IMAGES, img_loc.x, img_loc.y, TILE_WIDTH, TILE_WIDTH, 0, 0, TILE_WIDTH, TILE_WIDTH );
       }
       
-      this.buffer_ctx.drawImage( Images.PAPERDOLL_IMAGES[item.doll_id], 0, 0 );
+      img_loc = convert_tile_ix_to_point( item.doll_id );
+      this.buffer_ctx.drawImage( Images.PAPERDOLL_IMAGES, img_loc.x, img_loc.y, TILE_WIDTH, TILE_WIDTH, 0, 0, TILE_WIDTH, TILE_WIDTH );
     }
   };
   

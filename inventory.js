@@ -72,17 +72,18 @@ function Item( stat_id, pos )
     if( this.should_draw_item() )
     {
       var view_pos = Map.translate_map_coord_to_viewport( this.location );
-      
+      var img_loc = null;
+
       if( Dungeon.count_items_in_tile( this.location ) > 1 )
       {
-        ctx.drawImage( Images.ITEM_IMAGES[MULTIPLE_IMG], convert_ix_to_raw_coord( view_pos.x ), convert_ix_to_raw_coord( view_pos.y ) );
+        img_loc = convert_tile_ix_to_point( MULTIPLE_IMG );
       }
       else
       {
-        ctx.drawImage( Images.ITEM_IMAGES[this.icon_id], convert_ix_to_raw_coord( view_pos.x ), convert_ix_to_raw_coord( view_pos.y ) );
+        img_loc = convert_tile_ix_to_point( this.icon_id );
       }
-      
-      delete view_pos;
+
+      ctx.drawImage( Images.ITEM_IMAGES, img_loc.x, img_loc.y, TILE_WIDTH, TILE_WIDTH, convert_ix_to_raw_coord( view_pos.x ), convert_ix_to_raw_coord( view_pos.y ), TILE_WIDTH, TILE_WIDTH );
     }   
   };
   
@@ -233,23 +234,32 @@ function InventoryManager()
       if( $("#item" + items[ix].id).size() > 0 ) continue;
       
       section.append( this.create_item_box( items[ix] ) );
+      this.update_item_box_canvas( items[ix] );
+
       $("#item" + items[ix].id).dblclick( function() {
-                                    var sender_id = $(this).parent().attr("id");
-                                    if( sender_id == "floor" || sender_id == "bag" )
-                                    {
-                                      var sender = $(this).parent();
-                                      var receiver = ( sender_id == "floor" ) ? Inventory.bag : Inventory.floor;
-                                      $(this).detach().appendTo( receiver );
-                                      Inventory.move_item_between_collections( $(this).attr("id"), sender, receiver );
-                                    }
-                                 });
+                                            var sender_id = $(this).parent().attr("id");
+                                            if( sender_id == "floor" || sender_id == "bag" )
+                                            {
+                                              var sender = $(this).parent();
+                                              var receiver = ( sender_id == "floor" ) ? Inventory.bag : Inventory.floor;
+                                              $(this).detach().appendTo( receiver );
+                                              Inventory.move_item_between_collections( $(this).attr("id"), sender, receiver );
+                                            }
+                                          });
     } 
+  };
+
+  this.update_item_box_canvas = function( item )
+  {
+    var ctx = $("#item" + item.id + " canvas")[0].getContext("2d");
+    var img_loc = convert_tile_ix_to_point( item.icon_id );
+    ctx.drawImage( Images.ITEM_IMAGES, img_loc.x, img_loc.y, TILE_WIDTH, TILE_WIDTH, 0, 0, TILE_WIDTH, TILE_WIDTH );
   };
      
   this.create_item_box = function( item )
   {
     var html = "<div id=\"item" + item.id +"\" class=\"Item " + item.slot + "\">";
-    html += "<img src=\"" + Images.ITEM_IMAGES[item.icon_id].src + "\"/><br/>";
+    html += "<canvas width=\"" + TILE_WIDTH + "\" height=\"" + TILE_WIDTH + "\"></canvas><br/>";
     html += "<h1>" + item.description + "</h1>";
     html += "</div>";
     return html;

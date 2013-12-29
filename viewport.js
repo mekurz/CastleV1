@@ -211,7 +211,8 @@ function ViewPort()
         
     if( tile.explored || force_draw != undefined )
     {
-      ctx.drawImage( Images.TILE_IMAGES[tile.tile_ix], canvas_x, canvas_y );
+      var img_loc = convert_tile_ix_to_point( tile.tile_ix );
+      ctx.drawImage( Images.TILE_IMAGES, img_loc.x, img_loc.y, TILE_WIDTH, TILE_WIDTH, canvas_x, canvas_y, TILE_WIDTH, TILE_WIDTH );
       
       if( tile.is_darkened() )
       {

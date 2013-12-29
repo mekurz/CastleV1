@@ -627,6 +627,16 @@ Version 83 - 25-Dec-2013
   - Fixed Kill All Monsters and Test Status Effect debug tests which broke sometime after v78
   - Upgraded to jQuery 2.0.3
 
+Version 84 - 29-Dec-2013
+- General
+  - Added ImageCombiner to produce a single image out of any number of smaller images.
+  - Converted everything except for Spell Images to use a single image rather than multiple individual images.
+    - This reduced the number of HTTP requests for images from 80 to 26 during startup.
+    - Updated the appropriate locations to draw a small portion of an image rather than the whole thing.
+- Inventory
+  - Fixed an issue with headgear items not being able to be equipped.
+  - Switched item boxes to use canvas instead of img.
+
 TODO
 ============
 - BUG: Some wall tiles get marked as "too dark to see" based on what's on one side vs the other... need some kind of directional tooltip?

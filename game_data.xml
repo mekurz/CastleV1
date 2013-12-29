@@ -366,11 +366,11 @@
         <Description>Oven Mitt of Doom</Description>
       </Item>
     </Hands>
-    <Head>
+    <Hat>
       <Item id="head1" img_id="12" doll_id="3">
         <Description>Wicked Helmet</Description>
       </Item>
-    </Head>
+    </Hat>
     <Neck>
       <Item id="neck1" img_id="0">
         <Description>Amulet of Protection</Description>

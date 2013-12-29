@@ -509,7 +509,8 @@ function Door( type, cover_ix, row, col )
           break;
       }
 
-      ctx.drawImage( Images.TILE_IMAGES[tile_ix], convert_ix_to_raw_coord( view_pos.x ), convert_ix_to_raw_coord( view_pos.y ) );
+      var img_loc = convert_tile_ix_to_point( tile_ix );
+      ctx.drawImage( Images.TILE_IMAGES, img_loc.x, img_loc.y, TILE_WIDTH, TILE_WIDTH,  convert_ix_to_raw_coord( view_pos.x ),  convert_ix_to_raw_coord( view_pos.y ), TILE_WIDTH, TILE_WIDTH );
     }
   };
   

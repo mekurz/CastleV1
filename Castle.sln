@@ -74,7 +74,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "images", "images", "{6265CE
 		images\inv_shield.png = images\inv_shield.png
 		images\inv_waist.png = images\inv_waist.png
 		images\inv_weapon.png = images\inv_weapon.png
+		images\items_full.png = images\items_full.png
+		images\monsters_full.png = images\monsters_full.png
 		images\paperdoll.png = images\paperdoll.png
+		images\paperdoll_full.png = images\paperdoll_full.png
+		images\tiles_full.png = images\tiles_full.png
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "items", "items", "{06F1B97E-EA71-4815-B181-A3BA302053B3}"
@@ -243,6 +247,11 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "script", "script", "{0D1278
 		widget.js = widget.js
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ImageCombiner", "ImageCombiner", "{F9F60BA0-28B4-45D8-97ED-A138DB5A201D}"
+	ProjectSection(SolutionItems) = preProject
+		TPOC\ImageCombiner\combiner.html = TPOC\ImageCombiner\combiner.html
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -258,5 +267,6 @@ Global
 		{5C9FF225-00C9-4632-B681-F58D70AF335A} = {6265CEFF-ED68-4AFD-A9AD-7C895AC44A7D}
 		{0EF5792E-D09A-42C9-B1EC-C60B4B4360A8} = {D28B38BF-86D9-4571-83E3-7E41EACA83F8}
 		{1D6C113D-20C4-4067-8F4F-887ED6727262} = {D28B38BF-86D9-4571-83E3-7E41EACA83F8}
+		{F9F60BA0-28B4-45D8-97ED-A138DB5A201D} = {D28B38BF-86D9-4571-83E3-7E41EACA83F8}
 	EndGlobalSection
 EndGlobal
