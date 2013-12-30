@@ -27,30 +27,36 @@ function SpellToolbar()
     for( var ix = 0; ix < this.spell_list.length; ++ix )
     {
       var spell_btn = $("#spell"+ix);
-      var html = "";
+      var html = "<canvas width=\"" + TILE_WIDTH + "\" height=\"" + TILE_WIDTH + "\"></canvas>";
       var title = "";
+      var xml = null;
+      var toolbar_img = null;
       
       spell_btn.removeClass("active");
       
       if( this.spell_list[ix] != "" )
       {
-        var xml = Loader.get_spell_data( this.spell_list[ix] );
-        var toolbar_img = parseInt( xml.attr("toolbar_id") );
-        
-        if( !isNaN( toolbar_img ) )
-        {
-          html = "<img src=\"" + Images.SPELL_IMAGES[toolbar_img].src + "\"/>";
-          title = ( ix + 1 ) + " - " + xml.find("Description").text();
-        }
+        xml = Loader.get_spell_data( this.spell_list[ix] );
+        toolbar_img = parseInt( xml.attr("toolbar_id") );
       }
       
-      if( html == "" )
+      if( toolbar_img != null )
       {
-        html = "<img src=\"images/blank.png\"/>";
+        title = ( ix + 1 ) + " - " + xml.find("Description").text();
+      }
+      else
+      {
         spell_btn.button("toggle");
       }
       
       spell_btn.empty().html( html ).attr( "title", title );
+
+      if( toolbar_img != null )
+      {
+        var ctx = spell_btn.find("canvas")[0].getContext("2d");
+        var img_loc = convert_tile_ix_to_point( toolbar_img );
+        ctx.drawImage( Images.SPELL_IMAGES, img_loc.x, img_loc.y, TILE_WIDTH, TILE_WIDTH, 0, 0, TILE_WIDTH, TILE_WIDTH );
+      }
     }
   };
   
@@ -577,7 +583,7 @@ function SpellEffect( spell_id )
   this.spell_id = spell_id;
   this.canvas_x = 0;
   this.canvas_y = 0;
-  this.img = Images.SPELL_IMAGES[spell_id];
+  this.img_loc = convert_tile_ix_to_point( spell_id );
 }
 
 SpellEffect.prototype.set_spell_action = function( spell_action )
@@ -591,7 +597,7 @@ SpellEffect.prototype.draw = function( ctx )
   
   //Log.debug( "Drawing frame for spell " + this.spell_id );
   this.update_frame( ctx );
-  ctx.drawImage( this.img, this.canvas_x, this.canvas_y );
+  ctx.drawImage( Images.SPELL_IMAGES, this.img_loc.x, this.img_loc.y, TILE_WIDTH, TILE_WIDTH, this.canvas_x, this.canvas_y, TILE_WIDTH, TILE_WIDTH );
   
   ctx.restore();
 };
@@ -705,7 +711,7 @@ SinglePointRotatingFadingSpellEffect.prototype.draw = function( ctx )
   ctx.save();
   
   this.update_frame( ctx );
-  ctx.drawImage( this.img, -(TILE_WIDTH/2), -(TILE_WIDTH/2), TILE_WIDTH, TILE_WIDTH );
+  ctx.drawImage( Images.SPELL_IMAGES, this.img_loc.x, this.img_loc.y, TILE_WIDTH, TILE_WIDTH, -(TILE_WIDTH/2), -(TILE_WIDTH/2), TILE_WIDTH, TILE_WIDTH );
   
   ctx.restore();
 };
@@ -840,7 +846,7 @@ ProjectileSpellEffect.prototype.draw = function( ctx )
   ctx.save();
   
   this.update_frame( ctx );
-  ctx.drawImage( this.img, -(TILE_WIDTH/2), -(TILE_WIDTH/2) );
+  ctx.drawImage( Images.SPELL_IMAGES, this.img_loc.x, this.img_loc.y, TILE_WIDTH, TILE_WIDTH, -(TILE_WIDTH/2), -(TILE_WIDTH/2), TILE_WIDTH, TILE_WIDTH );
   
   ctx.restore();
 };
@@ -890,10 +896,11 @@ ProjectileSpellEffect.prototype.has_collided_with_unexpected_obstacle = function
 
 function ScalingRotatingFadingSpellEffect( spell_id, target )
 {
+  ScalingRotatingFadingSpellEffect.base_constructor.call( this, spell_id, target );
+
   this.scale = 0.25;
   this.alpha = 0;
-  
-  ScalingRotatingFadingSpellEffect.base_constructor.call( this, spell_id, target );
+  this.img_loc = convert_big_tile_ix_to_point( spell_id );
 }
 extend( ScalingRotatingFadingSpellEffect, SinglePointRotatingFadingSpellEffect );
 
@@ -917,7 +924,7 @@ ScalingRotatingFadingSpellEffect.prototype.draw = function( ctx )
   ctx.save();
   
   this.update_frame( ctx );
-  ctx.drawImage( this.img, -(AREA_SPELL_WIDTH/2), -(AREA_SPELL_WIDTH/2) );
+  ctx.drawImage( Images.BIG_SPELL_IMAGES, this.img_loc.x, this.img_loc.y, AREA_SPELL_WIDTH, AREA_SPELL_WIDTH, -(AREA_SPELL_WIDTH/2), -(AREA_SPELL_WIDTH/2), AREA_SPELL_WIDTH, AREA_SPELL_WIDTH );
   
   ctx.restore();
 };
@@ -962,6 +969,7 @@ function ConeSpellEffect( spell_id, source, target )
 {
   ConeSpellEffect.base_constructor.call( this, spell_id );
   
+  this.img_loc = convert_big_tile_ix_to_point( spell_id );
   this.GROWTH_RATE = 4;
   
   this.source = new Point( source.x, source.y );
@@ -1038,7 +1046,7 @@ ConeSpellEffect.prototype.draw = function( ctx )
   ctx.save();
   
   this.update_frame( ctx );
-  ctx.drawImage( this.img, -(AREA_SPELL_WIDTH/2), -(AREA_SPELL_WIDTH/2) );
+  ctx.drawImage( Images.BIG_SPELL_IMAGES, this.img_loc.x, this.img_loc.y, AREA_SPELL_WIDTH, AREA_SPELL_WIDTH, -(AREA_SPELL_WIDTH/2), -(AREA_SPELL_WIDTH/2), AREA_SPELL_WIDTH, AREA_SPELL_WIDTH );
  
   ctx.restore();
 };

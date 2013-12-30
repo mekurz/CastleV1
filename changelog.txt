@@ -637,6 +637,14 @@ Version 84 - 29-Dec-2013
   - Fixed an issue with headgear items not being able to be equipped.
   - Switched item boxes to use canvas instead of img.
 
+Version 85 - 30-Dec-2013
+- General
+  - Changed combined image columns from 10 to 12 since it works better for math.
+- Spells
+  - Updated spells to use the new combined image method added for everything else in v84.
+    - This further reduced image load requests from 26 down to 6. New method of loading images seems to have improved page load time by over full second.
+  - Switched spell toolbar to use canvas instead of img.
+
 TODO
 ============
 - BUG: Some wall tiles get marked as "too dark to see" based on what's on one side vs the other... need some kind of directional tooltip?
@@ -646,6 +654,7 @@ TODO
 - BUG: Right-clicking then dragging onto the tooltip and releasing displays the browser's right-click menu and leaves the tooltip displayed
 - BUG: Changes made to monster behaviour do not affect saved games (i.e. spell cast)... probalby need to reload certain stats
 - BUG: Grammar for cone spells is wrong when monster is the source (monster on monster kill)
+- BUG: Dimension door can sometimes pick a spot that is not on the map
 - Setting for random character creation?
 - Quick save feature -- WHAT KEY?
 - Fail gracefully for incompatible browsers

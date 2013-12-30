@@ -11,6 +11,8 @@
     <option value="1">Items</option>
     <option value="2">Paperdoll</option>
     <option value="3">Monsters</option>
+    <option value="4">Spells - Small</option>
+    <option value="5">Spells - Big</option>
   </select>
   <button onclick="combine();">GO!</button>
   <p>
@@ -19,7 +21,7 @@
   </p>
 
   <script type="text/javascript">
-    var NUM_COLUMNS = 10;
+    var NUM_COLUMNS = 12;
     var TILE_WIDTH = 32;
 
     var data = null;
@@ -96,10 +98,21 @@
       var type = parseInt($("#type").val());
 
       switch (type) {
-        case 0: load_images_from_xml(data.find("Tile"), "tiles"); break;
-        case 1: load_images_from_xml(data.find("ItemImage"), "items"); break;
-        case 2: load_images_from_xml(data.find("DollImage"), "paperdoll"); break;
-        case 3: load_images_from_xml(data.find("Monster"), "monsters"); break;
+        case 0:
+        case 1:
+        case 2:
+        case 3:
+        case 4: TILE_WIDTH = 32; NUM_COLUMNS = 12; break;
+        case 5: TILE_WIDTH = 96; NUM_COLUMNS =  3; break;
+      }
+
+      switch (type) {
+        case 0: load_images_from_xml( data.find("Tile"), "tiles" ); break;
+        case 1: load_images_from_xml( data.find("ItemImage"), "items" ); break;
+        case 2: load_images_from_xml( data.find("DollImage"), "paperdoll" ); break;
+        case 3: load_images_from_xml( data.find("Monster"), "monsters" ); break;
+        case 4: load_images_from_xml( data.find("Spells").find("Images").find("Small").find("Image"), "spells" ); break;
+        case 5: load_images_from_xml( data.find("Spells").find("Images").find("Big").find("Image"), "spells" ); break;
       }
     }
 
@@ -109,7 +122,7 @@
       $("#combined").hide();
 
       $.get("../../game_data.xml", function (xml) {
-        data = $(xml);
+        data = $($.parseXML(xml));
       });
     });
 

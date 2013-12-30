@@ -20,7 +20,7 @@ function DataLoader()
     
     Log.debug( "Loading images..." );
     Images.load_tile_images();
-    Images.load_spell_images( this.xml.find("SpellImage") );
+    Images.load_spell_images();
     Images.load_monster_images();
     Images.load_item_images();
     Images.load_paperdoll_images();

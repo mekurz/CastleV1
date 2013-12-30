@@ -13,7 +13,7 @@ copy game_data.xml prod
 copy libs\*.min.js prod\libs
 xcopy css\*.* prod\css /e /y
 xcopy html\*.* prod\html /e /y
-xcopy images\*.* prod\images /e /y /exclude:exclude.txt
+copy images\*.* prod\images
 
 copy test\test.prod.html prod\test\test.html
 copy test\qunit.* prod\test

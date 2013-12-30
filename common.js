@@ -1,7 +1,7 @@
 var VIEWPORT_WIDTH  = 30;
 var VIEWPORT_HEIGHT = 15;
 var VIEWPORT_SHIFT  = 2;
-var COMBINED_TILE_COLS = 10;
+var COMBINED_TILE_COLS = 12;
 var MIN_X = 0;
 var MIN_Y = 0;
 var TILE_WIDTH = 32;
@@ -170,6 +170,15 @@ function convert_tile_ix_to_point( value )
   var coord = new Point();
   coord.x = ( value % COMBINED_TILE_COLS ) * TILE_WIDTH;
   coord.y = Math.floor( value / COMBINED_TILE_COLS ) * TILE_WIDTH;
+
+  return coord;
+}
+
+function convert_big_tile_ix_to_point( value )
+{
+  var coord = new Point();
+  coord.x = ( value % 3 ) * TILE_WIDTH * 3;
+  coord.y = Math.floor( value / 3 ) * TILE_WIDTH * 3;
 
   return coord;
 }

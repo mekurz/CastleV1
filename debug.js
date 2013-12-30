@@ -4,9 +4,9 @@ var MONSTER_SPELLS = 1;       // Allow applicable monsters to cast spells
 var DETECT_MONSTERS = 0;      // Detect all monsters
 
 var MAGIC_MISSILE = 2;
-var FIREBALL = 5;
-var FIRE_BREATH = 7;
-var FIRE_BREATH_D = 8;
+var FIREBALL = 0;
+var FIRE_BREATH = 1;
+var FIRE_BREATH_D = 2;
 
 var RATMAN = 0;
 var HILLGIANT = 1;

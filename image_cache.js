@@ -7,7 +7,8 @@ function ImageCache()
   
   this.TILE_IMAGES = null;
   this.MONSTER_IMAGES = null;
-  this.SPELL_IMAGES = new Array();
+  this.SPELL_IMAGES = null;
+  this.BIG_SPELL_IMAGES = null;
   this.ITEM_IMAGES = null;
   this.PAPERDOLL_IMAGES = null;
   
@@ -52,22 +53,23 @@ function ImageCache()
     this.TILE_IMAGES = load_single_image( "tiles_full.png" );
   };
   
-  this.load_spell_images = function( xml )
+  this.load_spell_images = function()
   {
-    load_images_from_xml( xml, this.SPELL_IMAGES, "spells" ); 
+    this.SPELL_IMAGES = load_single_image( "spells_small.png" );
+    this.BIG_SPELL_IMAGES = load_single_image( "spells_big.png" );
   };
-  
-  this.load_monster_images = function( xml )
+ 
+  this.load_monster_images = function()
   {
     this.MONSTER_IMAGES = load_single_image( "monsters_full.png" );
   };
   
-  this.load_item_images = function( xml )
+  this.load_item_images = function()
   {
     this.ITEM_IMAGES = load_single_image( "items_full.png" );
   };
   
-  this.load_paperdoll_images = function( xml )
+  this.load_paperdoll_images = function()
   {
     this.PAPERDOLL_IMAGES = load_single_image( "paperdoll_full.png" );
   };

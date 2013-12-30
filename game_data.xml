@@ -50,28 +50,32 @@
   </Traps>
   <Spells>
     <Images>
-      <SpellImage id="0" src="splat.png"/>
-      <SpellImage id="1" src="fizzle.png"/>
-      <SpellImage id="2" src="missile.png"/>
-      <SpellImage id="3" src="lightning.png"/>
-      <SpellImage id="4" src="firebolt.png"/>
-      <SpellImage id="5" src="fireball.png"/>
-      <SpellImage id="6" src="boulder.png"/>
-      <SpellImage id="7" src="cone_fire.png"/>
-      <SpellImage id="8" src="cone_fire_d.png"/>
-      <SpellImage id="9" src="light.png"/>
-      <SpellImage id="10" src="fireball_mini.png"/>
-      <SpellImage id="11" src="lightning_ball.png"/>
-      <SpellImage id="12" src="lightning_ball_mini.png"/>
-      <SpellImage id="13" src="coldbolt.png"/>
-      <SpellImage id="14" src="coldball.png"/>
-      <SpellImage id="15" src="coldball_mini.png"/>
-      <SpellImage id="16" src="shield.png"/>
-      <SpellImage id="17" src="dimension_door.png"/>
-      <SpellImage id="18" src="portal.png"/>
-      <SpellImage id="19" src="poison.png"/>
-      <SpellImage id="20" src="big_muscles.png"/>
-      <SpellImage id="21" src="weakness.png"/>
+      <Small>
+        <Image id="0" src="splat.png"/>
+        <Image id="1" src="fizzle.png"/>
+        <Image id="2" src="missile.png"/>
+        <Image id="3" src="lightning.png"/>
+        <Image id="4" src="firebolt.png"/>
+        <Image id="5" src="boulder.png"/>
+        <Image id="6" src="light.png"/>
+        <Image id="7" src="fireball_mini.png"/>
+        <Image id="8" src="lightning_ball_mini.png"/>
+        <Image id="9" src="coldbolt.png"/>
+        <Image id="10" src="coldball_mini.png"/>
+        <Image id="11" src="shield.png"/>
+        <Image id="12" src="dimension_door.png"/>
+        <Image id="13" src="portal.png"/>
+        <Image id="14" src="poison.png"/>
+        <Image id="15" src="big_muscles.png"/>
+        <Image id="16" src="weakness.png"/>
+      </Small>
+      <Big>
+        <Image id="0" src="fireball.png"/>
+        <Image id="1" src="cone_fire.png"/>
+        <Image id="2" src="cone_fire_d.png"/>
+        <Image id="3" src="lightning_ball.png"/>
+        <Image id="4" src="coldball.png"/>
+      </Big>
     </Images>
     <Projectile>
 	    <Spell id="p1" projectile_id="2" toolbar_id="2" level="1">
@@ -92,14 +96,14 @@
 	      <Damage>7</Damage>
 	      <Verb>scorches</Verb>
 	    </Spell>
-	    <Spell id="p4" projectile_id="6" toolbar_id="6" level="999">
+	    <Spell id="p4" projectile_id="5" toolbar_id="5" level="999">
 				<Description>Boulder</Description>
 				<Mana>0</Mana>
 				<Damage>4</Damage>
 				<Verb>crashes into</Verb>
 				<Action>hurls</Action>
 	    </Spell>
-	    <Spell id="p5" projectile_id="13" toolbar_id="13" level="1">
+	    <Spell id="p5" projectile_id="9" toolbar_id="9" level="1">
         <Description>Cold Bolt</Description>
         <Mana>4</Mana>
         <Damage>7</Damage>
@@ -107,14 +111,14 @@
       </Spell>
     </Projectile>
     <Utility>
-      <Spell id="u1" projectile_id="9" toolbar_id="9" level="1">
+      <Spell id="u1" projectile_id="6" toolbar_id="6" level="1">
         <Description>Light</Description>
         <Mana>2</Mana>
         <Damage>0</Damage>
         <Verb></Verb>
         <Action></Action>
       </Spell>
-      <Spell id="u2" effect_id="18" toolbar_id="17" self_target="1" level="1">
+      <Spell id="u2" effect_id="13" toolbar_id="12" self_target="1" level="1">
         <Description>Dimension Door</Description>
         <Mana>0</Mana>
         <Damage>0</Damage>
@@ -123,43 +127,43 @@
       </Spell>
     </Utility>
     <StatusSpells>
-      <Spell id="e1" effect_id="19" level="999">
+      <Spell id="e1" effect_id="14" level="999">
         <Description>Monster Poison</Description>
         <Mana>0</Mana>
         <StatusEffect>1</StatusEffect>
       </Spell>
-      <Spell id="e2" effect_id="18" toolbar_id="16" self_target="1" level="1">
+      <Spell id="e2" effect_id="13" toolbar_id="11" self_target="1" level="1">
         <Description>Shield</Description>
         <Mana>0</Mana>
         <StatusEffect>3</StatusEffect>
       </Spell>
-      <Spell id="e3" effect_id="18" toolbar_id="20" self_target="1" level="1">
+      <Spell id="e3" effect_id="13" toolbar_id="15" self_target="1" level="1">
         <Description>Big Muscles</Description>
         <Mana>1</Mana>
         <StatusEffect>4</StatusEffect>
       </Spell>
-      <Spell id="e4" effect_id="18" toolbar_id="21" self_target="1" level="1">
+      <Spell id="e4" effect_id="13" toolbar_id="16" self_target="1" level="1">
         <Description>Weakness</Description>
         <Mana>1</Mana>
         <StatusEffect>5</StatusEffect>
       </Spell>
     </StatusSpells>
     <AreaEffect>
-	    <Spell id="a1" projectile_id="4" area_id="5" toolbar_id="10" level="1">
+	    <Spell id="a1" projectile_id="4" area_id="0" toolbar_id="7" level="1">
 	      <Description>Fireball</Description>
 	      <Mana>4</Mana>
 	      <Damage>10</Damage>
 	      <Splash>5</Splash>
 	      <Verb>engulfs</Verb>
 	    </Spell>
-	    <Spell id="a2" projectile_id="3" area_id="11" toolbar_id="12" level="1">
+	    <Spell id="a2" projectile_id="3" area_id="3" toolbar_id="8" level="1">
         <Description>Lightning Ball</Description>
         <Mana>4</Mana>
         <Damage>10</Damage>
         <Splash>5</Splash>
         <Verb>fries</Verb>
       </Spell>
-      <Spell id="a3" projectile_id="13" area_id="14" toolbar_id="15" level="1">
+      <Spell id="a3" projectile_id="9" area_id="4" toolbar_id="10" level="1">
         <Description>Cold Ball</Description>
         <Mana>4</Mana>
         <Damage>10</Damage>
@@ -168,7 +172,7 @@
       </Spell>
     </AreaEffect>
     <ConeEffect>
-	    <Spell id="c1" cardinal_id="7" diagonal_id="8" level="1">
+	    <Spell id="c1" cardinal_id="1" diagonal_id="2" level="1">
 	      <Description>Fire Breath</Description>
 	      <Mana>0</Mana>
 	      <Damage>10</Damage>

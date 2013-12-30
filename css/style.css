@@ -22,6 +22,11 @@ body
 	line-height: 32px;
 }
 
+.btn-img
+{
+  height: 42px;
+}
+
 .btn-delete
 {
   width: 22px;
