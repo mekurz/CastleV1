@@ -1,14 +1,24 @@
-<div id="new_save_div">
-  <p>
-    Enter a description for a new saved game or select an existing save to overwrite.<br/>
-    Up to three saved games are allowed.
-  </p>
-  <div class="alert alert-error" id="save_error"></div>
-  <div class="form-inline">
-    <input type="text" id="new_save_desc" maxlength="35" style="width:460px;" placeholder="Enter a description"></input>
-    <button id="new_save_btn" class="btn" onclick="Storage.new_save();">New Save</button>
-  </div>
-  <hr/>
+<div class="modal-header">
+  <button type="button" class="close" data-dismiss="modal">&times;</button>
+  <h4 class="model-title" id="storage_title">Storage</h4>
 </div>
-<ol id="stored_games"></ol>
-<div class="alert alert-info" id="no_games_msg">No saved games are present.</div>
+<div class="modal-body">
+  <div id="new_save_div">
+    <p>
+      Enter a description for a new saved game or select an existing save to overwrite.<br />
+      Up to three saved games are allowed.
+    </p>
+    <div class="alert alert-error" id="save_error"></div>
+    <div class="form-inline">
+      <input type="text" id="new_save_desc" maxlength="35" style="width:460px;" placeholder="Enter a description"></input>
+      <button id="new_save_btn" class="btn" onclick="Storage.new_save();">New Save</button>
+    </div>
+    <hr />
+  </div>
+  <ol id="stored_games"></ol>
+  <div class="alert alert-info" id="no_games_msg">No saved games are present.</div>
+</div>
+<div class="modal-footer">
+  <button class="btn" data-dismiss="modal">Cancel</button>
+  <button id="storage_ok" class="btn btn-primary" onclick="Storage.ok();">Save changes</button>
+</div>

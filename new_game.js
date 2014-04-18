@@ -25,11 +25,11 @@ function NewGameDialog()
                 show: false,
                 remote: "html/new_game.html"
           });
-  this.popup.on( "show", open_dialog );
-  this.popup.on( "shown", function() {
+  this.popup.on( "show.bs.modal", open_dialog );
+  this.popup.on( "shown.bs.modal", function() {
                 NewGame.refresh_ui();
           });
-  this.popup.on( "hide", close_dialog );
+  this.popup.on( "hide.bs.modal", close_dialog );
   
   this.refresh_ui = function()
   {

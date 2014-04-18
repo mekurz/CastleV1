@@ -8,11 +8,11 @@ function CharacterInfoDialog()
                 show: false,
                 remote: "html/character_info.html"
           });
-  this.popup.on( "show", open_dialog );
-  this.popup.on( "shown", function() {
+  this.popup.on( "show.bs.modal", open_dialog );
+  this.popup.on( "shown.bs.modal", function() {
                 CharInfo.refresh_ui();
           });
-  this.popup.on( "hide", close_dialog );
+  this.popup.on( "hide.bs.modal", close_dialog );
   
   function set_pct_on_bar( bar, stat )
   {

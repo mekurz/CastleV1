@@ -8,12 +8,11 @@ function Minimap()
   Log.debug("Initializing Mini-map...");
   
   this.popup.modal({ show: false });
-  this.popup.on( "show", function() { 
+  this.popup.on( "show.bs.modal", function() { 
                 open_dialog();
                 Minimap.draw_map();
           });
-  this.popup.on( "hide", close_dialog );
-  this.popup.css("margin-top", -50);
+  this.popup.on( "hide.bs.modal", close_dialog );
       
   var canvas = $("#minimap");
   

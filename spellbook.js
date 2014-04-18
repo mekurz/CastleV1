@@ -6,11 +6,11 @@ function CustomizeSpellsDialog()
                 show: false,
                 remote: "html/spellbook.html"
           });
-  this.popup.on( "show", open_dialog );
-  this.popup.on( "shown", function() {
+  this.popup.on( "show.bs.modal", open_dialog );
+  this.popup.on( "shown.bs.modal", function() {
                 CustomizeSpellBar.refresh_ui();
           });
-  this.popup.on( "hide", close_dialog );
+  this.popup.on( "hide.bs.modal", close_dialog );
   
   function fill_combos()
   {

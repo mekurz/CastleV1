@@ -46,11 +46,11 @@ function GameStorage()
                 show: false,
                 remote: "html/storage.html"
           });
-  this.popup.on( "show", open_dialog );
-  this.popup.on( "shown", function() {
+  this.popup.on( "show.bs.modal", open_dialog );
+  this.popup.on( "shown.bs.modal", function() {
                 Storage.refresh_ui();
           });
-  this.popup.on( "hide", close_dialog );
+  this.popup.on( "hide.bs.modal", close_dialog );
   
   this.refresh_ui = function()
   {

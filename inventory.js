@@ -129,21 +129,21 @@ function InventoryManager()
                 show: false,
                 remote: "html/inventory.html"
           });
-  this.popup.on( "show", function() { 
+  this.popup.on( "show.bs.modal", function() { 
                 open_dialog();
                 Inventory.is_open = true;
           });
-  this.popup.on( "shown", function() {
+  this.popup.on( "shown.bs.modal", function() {
                 Inventory.refresh_ui();
           });
-  this.popup.on( "hide", function() { 
+  this.popup.on( "hide.bs.modal", function() { 
                 DrawPlayer.construct_paperdoll();
                 close_dialog();
                 Inventory.is_open = false;
                 set_dirty();
                 document.game.draw();
           });
-  this.popup.css("margin-left", -415);
+  //this.popup.css("margin-left", -415);
   
   this.refresh_ui = function()
   {

@@ -1,13 +1,15 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 2013
-VisualStudioVersion = 12.0.21005.1
+VisualStudioVersion = 12.0.30110.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "css", "css", "{95C282F4-A15C-4EF4-B002-D0E49A4941C8}"
 	ProjectSection(SolutionItems) = preProject
-		css\bootstrap-responsive.css = css\bootstrap-responsive.css
-		css\bootstrap-responsive.min.css = css\bootstrap-responsive.min.css
+		css\bootstrap-theme.css = css\bootstrap-theme.css
+		css\bootstrap-theme.css.map = css\bootstrap-theme.css.map
+		css\bootstrap-theme.min.css = css\bootstrap-theme.min.css
 		css\bootstrap.css = css\bootstrap.css
+		css\bootstrap.css.map = css\bootstrap.css.map
 		css\bootstrap.min.css = css\bootstrap.min.css
 		css\chosen-sprite.png = css\chosen-sprite.png
 		css\chosen-sprite@2x.png = css\chosen-sprite@2x.png
@@ -252,6 +254,14 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ImageCombiner", "ImageCombiner", "{F9F60BA0-28B4-45D8-97ED-A138DB5A201D}"
 	ProjectSection(SolutionItems) = preProject
 		TPOC\ImageCombiner\combiner.html = TPOC\ImageCombiner\combiner.html
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "fonts", "fonts", "{91F0D299-9E06-44EB-AD1D-C4C3B6106F32}"
+	ProjectSection(SolutionItems) = preProject
+		fonts\glyphicons-halflings-regular.eot = fonts\glyphicons-halflings-regular.eot
+		fonts\glyphicons-halflings-regular.svg = fonts\glyphicons-halflings-regular.svg
+		fonts\glyphicons-halflings-regular.ttf = fonts\glyphicons-halflings-regular.ttf
+		fonts\glyphicons-halflings-regular.woff = fonts\glyphicons-halflings-regular.woff
 	EndProjectSection
 EndProject
 Global
