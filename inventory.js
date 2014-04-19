@@ -158,6 +158,8 @@ function InventoryManager()
     
     this.floor.empty();
     this.update_floor_items();
+
+    $("#inv_gold").text( (1234567).toCommas() ); // TODO THIS NEEDS TO COME FROM PLAYER
     
     var item_slot_options = { items: ".Item",
                               placeholder: "BlankItemSlot",

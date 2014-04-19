@@ -300,7 +300,7 @@ function GameStorage()
     var saved_time = new GameTime();
     saved_time.time = info.game_time;
     html += "<span class=\"StatName\">Game Time: " + saved_time.get_time() + "</span></div></div>";
-    html += "<button class=\"btn btn-danger btn-delete\" onclick=\"Storage.delete_game(this);\"><i class=\"icon-remove icon-white\"></i></button></li>";
+    html += "<button class=\"btn btn-danger btn-delete\" onclick=\"Storage.delete_game(this);\"><span class=\"glyphicon glyphicon-remove\"></span></button></li>";
 
     return html;
   }
