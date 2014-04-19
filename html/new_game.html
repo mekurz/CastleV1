@@ -2,67 +2,87 @@
   <button type="button" class="close" data-dismiss="modal">&times;</button>
   <h4 class="modal-title">New Game</h4>
 </div>
-<div class="modal-body" style="overflow:visible;">
-  <div id="ng_error" class="alert alert-error hide"></div>
-  <label>
-    Choose a name <input type="text" id="ng_name" maxlength="30" placeholder="Rock McSlab" style="width:250px"></input>
-  </label>
-  <label>
-    Assign character statistics
-  </label>
-  <div style="padding:10px">
-    <div class="StatBar Rounded" style="width:100px;height:170px;">
-      <span class="StatLabel">Remaining<br />Points</span>
-      <div class="v-progress short" style="margin-top:10px;">
-        <div id="ng_pool" title="Remaining Points" class="bar green"></div>
-      </div>
+<div class="modal-body">
+  <div id="ng_error" class="alert alert-danger"></div>
+  <form class="form-inline" role="form">
+    <div class="form-group">
+      <label for="ng_name">
+        1. Choose a name
+      </label>
+      <input type="text" id="ng_name" maxlength="30" placeholder="Rock McSlab" class="form-control" style="width:250px"></input>
     </div>
-    <div class="StatBar">
-      <span class="StatLabel">Strength</span>
-      <div class="StatBarControls">
-        <button class="btn plus" stat="str">+</button>
-        <div class="v-progress short">
-          <div id="ng_str" title="Strength" class="bar green"></div>
+    <div class="form-group" style="margin-top:10px;">
+      <label>2. Assign character statistics</label><br/>
+      <div class="StatBar Rounded" style="width:100px;height:170px;margin-top:20px;margin-left:20px;">
+        <span class="StatLabel">Remaining<br />Points</span>
+        <div class="v-progress short" style="margin-top:10px;">
+          <div id="ng_pool" title="Remaining Points" class="bar green"></div>
         </div>
-        <button class="btn minus" stat="str">&#8722;</button>
       </div>
-    </div>
-    <div class="StatBar">
-      <span class="StatLabel">Intelligence</span>
-      <div class="StatBarControls">
-        <button class="btn plus" stat="int">+</button>
-        <div class="v-progress short">
-          <div id="ng_int" title="Intelligence" class="bar green"></div>
+      <div class="StatBar">
+        <span class="StatLabel">Strength</span>
+        <div class="StatBarControls">
+          <button class="btn btn-default plus" stat="str">
+            <span class="glyphicon glyphicon-plus"></span>
+          </button>
+          <div class="v-progress short">
+            <div id="ng_str" title="Strength" class="bar green"></div>
+          </div>
+          <button class="btn btn-default minus" stat="str">
+            <span class="glyphicon glyphicon-minus"></span>
+          </button>
         </div>
-        <button class="btn minus" stat="int">&#8722;</button>
       </div>
-    </div>
-    <div class="StatBar">
-      <span class="StatLabel">Dexterity</span><br />
-      <div class="StatBarControls">
-        <button class="btn plus" stat="dex">+</button>
-        <div class="v-progress short">
-          <div id="ng_dex" title="Dexterity" class="bar green"></div>
+      <div class="StatBar">
+        <span class="StatLabel">Intelligence</span>
+        <div class="StatBarControls">
+          <button class="btn btn-default plus" stat="int">
+            <span class="glyphicon glyphicon-plus"></span>
+          </button>
+          <div class="v-progress short">
+            <div id="ng_int" title="Intelligence" class="bar green"></div>
+          </div>
+          <button class="btn btn-default minus" stat="int">
+            <span class="glyphicon glyphicon-minus"></span>
+          </button>
         </div>
-        <button class="btn minus" stat="dex">&#8722;</button>
       </div>
-    </div>
-    <div class="StatBar">
-      <span class="StatLabel">Constitution</span><br />
-      <div class="StatBarControls">
-        <button class="btn plus" stat="con">+</button>
-        <div class="v-progress short">
-          <div id="ng_con" title="Constitution" class="bar green"></div>
+      <div class="StatBar">
+        <span class="StatLabel">Dexterity</span><br />
+        <div class="StatBarControls">
+          <button class="btn btn-default plus" stat="dex">
+            <span class="glyphicon glyphicon-plus"></span>
+          </button>
+          <div class="v-progress short">
+            <div id="ng_dex" title="Dexterity" class="bar green"></div>
+          </div>
+          <button class="btn btn-default minus" stat="dex">
+            <span class="glyphicon glyphicon-minus"></span>
+          </button>
         </div>
-        <button class="btn minus" stat="con">&#8722;</button>
+      </div>
+      <div class="StatBar">
+        <span class="StatLabel">Constitution</span><br />
+        <div class="StatBarControls">
+          <button class="btn btn-default plus" stat="con">
+            <span class="glyphicon glyphicon-plus"></span>
+          </button>
+          <div class="v-progress short">
+            <div id="ng_con" title="Constitution" class="bar green"></div>
+          </div>
+          <button class="btn btn-default minus" stat="con">
+            <span class="glyphicon glyphicon-minus"></span>
+          </button>
+        </div>
       </div>
     </div>
-    <div class="clearfix"></div>
-  </div>
-    Choose three spells to learn<br />
-    <select id="ng_spells" class="chzn-select" multiple="multiple" style="width:100%"></select>
+    <div class="form-group" style="width:100%;">
+      <label for="ng_spells">3. Choose three spells to learn</label><br />
+      <select id="ng_spells" class="chosen-select" data-placeholder="Click to choose spells..." multiple="multiple" style="width:100%;"></select>
+    </div>
+  </form>
 </div>
 <div class="modal-footer">
   <button class="btn" data-dismiss="modal">Cancel</button>
-  <button id="storage_ok" class="btn btn-primary" onclick="NewGame.ok();">Start game!</button>
+  <button id="storage_ok" class="btn btn-primary" onclick="NewGame.ok();">Start Game</button>
 </div>

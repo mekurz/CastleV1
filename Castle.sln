@@ -63,7 +63,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "images", "images", "{6265CE
 	ProjectSection(SolutionItems) = preProject
 		images\blank.png = images\blank.png
 		images\dash.gif = images\dash.gif
-		images\gear.png = images\gear.png
 		images\inv_arms.png = images\inv_arms.png
 		images\inv_back.png = images\inv_back.png
 		images\inv_chest.png = images\inv_chest.png

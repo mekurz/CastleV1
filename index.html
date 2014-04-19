@@ -79,10 +79,10 @@
   </select>
   <input type="submit" value="Cast Spell" onclick="cast_spell_by_id( $('#spell_menu').val() );"></input>
   <input type="submit" value="Switch to Random Map" onclick="random_map();"></input>
-  <div id="game_area" style="margin-left:10px;position:relative;line-height:normal;">
-    <div class="btn-toolbar">
+  <div id="game_area" style="margin-left:10px;margin-top:5px;position:relative;">
+    <div id="game_buttons" class="btn-toolbar" role="toolbar">
       <div class="btn-group">
-        <button class="btn btn-text dropdown-toggle" data-toggle="dropdown">Game <b class="caret"></b></button>
+        <button class="btn btn-default dropdown-toggle" data-toggle="dropdown">Game <span class="caret"></span></button>
         <ul class="dropdown-menu">
           <li><a href="#new_game" role="button" data-toggle="modal">New Game...</a></li>
           <li class="divider"></li>
@@ -95,12 +95,12 @@
         </ul>
       </div>
       <div id="verbs_bar" class="btn-group">
-        <button id="btn_inventory" class="btn btn-text" onclick="Inventory.open();">Inventory</button>
-        <button id="btn_map" class="btn btn-text" onclick="Minimap.open();">Map</button>
-        <button id="btn_search" class="btn btn-text" onclick="perform_action('search');">Search</button>
-        <button id="btn_disarm" class="btn btn-text" onclick="perform_action('disarm');">Disarm</button>
-        <button id="btn_take" class="btn btn-text" onclick="perform_action('take');">Take</button>
-        <button id="btn_verbs" class="btn btn-text dropdown-toggle" data-toggle="dropdown">More <b class="caret"></b></button>
+        <button id="btn_inventory" class="btn btn-default" onclick="Inventory.open();">Inventory</button>
+        <button id="btn_map" class="btn btn-default" onclick="Minimap.open();">Map</button>
+        <button id="btn_search" class="btn btn-default" onclick="perform_action('search');">Search</button>
+        <button id="btn_disarm" class="btn btn-default" onclick="perform_action('disarm');">Disarm</button>
+        <button id="btn_take" class="btn btn-default" onclick="perform_action('take');">Take</button>
+        <button id="btn_verbs" class="btn btn-default dropdown-toggle" data-toggle="dropdown">More <b class="caret"></b></button>
         <ul id="other_actions_menu" class="dropdown-menu pull-right">
           <li><a href="#" onclick="perform_action('open');">Open</a></li>
           <li><a href="#" onclick="perform_action('close');">Close</a></li>
@@ -111,25 +111,27 @@
         </ul>
       </div>
       <div id="spell_bar" class="btn-group">
-        <button id="spell0" class="btn btn-img" onclick="cast_spell(0);"></button>
-        <button id="spell1" class="btn btn-img" onclick="cast_spell(1);"></button>
-        <button id="spell2" class="btn btn-img" onclick="cast_spell(2);"></button>
-        <button id="spell3" class="btn btn-img" onclick="cast_spell(3);"></button>
-        <button id="spell4" class="btn btn-img" onclick="cast_spell(4);"></button>
-        <button id="spell5" class="btn btn-img" onclick="cast_spell(5);"></button>
-        <button id="spell6" class="btn btn-img" onclick="cast_spell(6);"></button>
-        <button class="btn btn-img dropdown-toggle" data-toggle="dropdown"><img src="images/gear.png" /> <b class="caret"></b></button>
+        <button id="spell0" class="btn btn-default" onclick="cast_spell(0);"></button>
+        <button id="spell1" class="btn btn-default" onclick="cast_spell(1);"></button>
+        <button id="spell2" class="btn btn-default" onclick="cast_spell(2);"></button>
+        <button id="spell3" class="btn btn-default" onclick="cast_spell(3);"></button>
+        <button id="spell4" class="btn btn-default" onclick="cast_spell(4);"></button>
+        <button id="spell5" class="btn btn-default" onclick="cast_spell(5);"></button>
+        <button id="spell6" class="btn btn-default" onclick="cast_spell(6);"></button>
+        <button class="btn btn-default dropdown-toggle" data-toggle="dropdown">
+          <span class="glyphicon glyphicon-cog"></span> <span class="caret"></span>
+        </button>
         <ul id="other_actions_menu" class="dropdown-menu pull-right">
           <li><a href="#char_info" role="button" data-toggle="modal">Character Info...</a></li>
           <li><a href="#customize_spells" role="button" data-toggle="modal">Customize Spell Menu...</a></li>
         </ul>
       </div>
     </div>
-    <canvas id="map" width="960" height="480" style="border:1px solid black;" oncontextmenu="return false;">
+    <canvas id="map" width="960" height="480" style="border:1px solid black;margin:0px;" oncontextmenu="return false;">
       Canvas not supported. You must be using Internet Explorer 9, Firefox 4+, Chrome or Safari.
     </canvas>
     <div id="log" class="Information" style="width:810px;height:150px;"></div>
-    <div id="stats" class="Information" style="width:143px;height:144px;border-left-width:0px;padding:3px;">
+    <div id="stats" class="Information" style="width:152px;height:150px;border-left-width:0px;padding:3px;">
       <div style="height:60px;">
         <span class="StatName">Hit Points</span>
         <span id="hp" class="Stat"></span><br />

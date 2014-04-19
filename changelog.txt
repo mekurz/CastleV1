@@ -647,8 +647,9 @@ Version 85 - 30-Dec-2013
 
 Version 86 - 18-Apr-2014
 - General
-  - Upgraded to jQuery 2.1.0, jQueryUI 1.10.4 and QUnit 1.14.0
+  - Upgraded to jQuery 2.1.0, jQueryUI 1.10.4, Chosen 1.1.0 and QUnit 1.14.0
   - Upgraded to Bootstrap 3.1.1 and consequently had to rearrange a lot of popup work. Much more CSS work is still required.
+  - Updated ImageCombiner to prevent a GET operation when loading the XML file for game data. Apparently Image triggers some kind of extra processing in jQuery or the browser.
 
 TODO
 ============

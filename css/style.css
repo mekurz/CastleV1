@@ -6,25 +6,9 @@
   src: url("sherwood.ttf");
 }
 
-body
+#game_buttons .btn
 {
-  font-family: Verdana;
-  font-size: 10pt;
-}
-
-.btn a
-{
-  text-decoration:none;
-}
-
-.btn-text
-{
-	line-height: 32px;
-}
-
-.btn-img
-{
-  height: 42px;
+	height: 42px;
 }
 
 .btn-delete
@@ -69,7 +53,7 @@ body
   font-size: 8pt;
   float: left;
   position:relative;
-  top: -3px;
+  top: -5px;
 }
 
 .StatName
@@ -326,15 +310,6 @@ body
   filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#62c462', endColorstr='#57a957', GradientType=0);
 }
 
-.plus, .minus
-{
-  padding: 0px;
-  width: 36px;
-  font-size:20pt;
-  color: #444444;
-  text-shadow: 0 1px 0 rgba(0, 0, 0, 0.25);
-}
-
 .minus
 {
   margin-top: -1px;
@@ -356,7 +331,7 @@ body
 .StatLabel
 {
 	font-size: 10pt;
-	font-weight: bold;
+  font-weight: bold;
 }
 
 .label

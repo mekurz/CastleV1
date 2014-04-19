@@ -59,10 +59,7 @@ function NewGameDialog()
     this.error.hide();
     this.fill_combos();
     
-    this.spells
-        .trigger("liszt:updated")
-        .attr( "data-placeholder", "Select three spells..." )
-        .chosen();
+    this.spells.chosen();
     
     $(".plus").each( function() {
         hold_it( $(this), NewGame.plus );
