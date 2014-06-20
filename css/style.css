@@ -59,6 +59,20 @@
   float: left;
   position:relative;
   top: -5px;
+  overflow: hidden;
+}
+
+#effects
+{
+  overflow-y: auto;
+  height: 85px;
+}
+
+#effects .label
+{
+  font-weight: normal;
+  font-size: 100%;
+  display: block;
 }
 
 .StatName

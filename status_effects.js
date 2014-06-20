@@ -11,7 +11,7 @@ function StatusEffectsManager()
     switch( type )
     {
       case STATUS_EFFECT_TYPE_POISON:         return "label-success";
-      case STATUS_EFFECT_TYPE_PASSIVE_DEBUFF: return "label-important";
+      case STATUS_EFFECT_TYPE_PASSIVE_DEBUFF: return "label-danger";
       case STATUS_EFFECT_TYPE_PASSIVE_BUFF: 
       default:                                return "label-info";
     };
@@ -19,7 +19,7 @@ function StatusEffectsManager()
   
   function create_label( div, effect )
   {
-    $(div).prepend( "<span id=\"effect" + effect.id + "\" class=\"label " + get_label_color( effect.type ) + "\">" + effect.description + "</span>" ); 
+    $(div).prepend( "<div id=\"effect" + effect.id + "\" class=\"label " + get_label_color( effect.type ) + "\">" + effect.description + "</div>" ); 
   }
   
   this.add_effect_no_start = function( effect )
@@ -127,7 +127,7 @@ function StatusEffectsManager()
 function create_or_replace_status_effect( xml, target_actor, OBJ_TYPE )
 {
   var new_effect = new OBJ_TYPE( xml );
-  var old_effect = StatusEffects.get_existing_effect_for_target( target_actor.id, new_effect.status_id, new_effect.type );
+  var old_effect = null; StatusEffects.get_existing_effect_for_target( target_actor.id, new_effect.status_id, new_effect.type );
   new_effect.target_id   = target_actor.id;
   
   if( !old_effect )

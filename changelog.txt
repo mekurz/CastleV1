@@ -651,6 +651,10 @@ Version 86 - 18-Apr-2014
   - Upgraded to Bootstrap 3.1.1 and consequently had to rearrange a lot of popup work. Much more CSS work is still required.
   - Updated ImageCombiner to prevent a GET operation when loading the XML file for game data. Apparently Image triggers some kind of extra processing in jQuery or the browser.
 
+Version 87 - 19-Jun-2014
+- Status Effects
+  - Fixed layout due to changes in Bootstrap 3.1.1
+
 TODO
 ============
 - BUG: Some wall tiles get marked as "too dark to see" based on what's on one side vs the other... need some kind of directional tooltip?
