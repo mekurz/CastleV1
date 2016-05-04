@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 2013
-VisualStudioVersion = 12.0.30110.0
+# Visual Studio 14
+VisualStudioVersion = 14.0.25123.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "css", "css", "{95C282F4-A15C-4EF4-B002-D0E49A4941C8}"
 	ProjectSection(SolutionItems) = preProject
@@ -164,6 +164,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tiles", "tiles", "{5C9FF225
 		images\tiles\broken_door.png = images\tiles\broken_door.png
 		images\tiles\closed_door.png = images\tiles\closed_door.png
 		images\tiles\dirt.png = images\tiles\dirt.png
+		images\tiles\flame1.png = images\tiles\flame1.png
+		images\tiles\flame2.png = images\tiles\flame2.png
 		images\tiles\grass.png = images\tiles\grass.png
 		images\tiles\open_door.png = images\tiles\open_door.png
 		images\tiles\stairs_down.png = images\tiles\stairs_down.png

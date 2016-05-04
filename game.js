@@ -216,6 +216,7 @@ function Game()
     this.draw_collection( level.stairs_up, ctx );
     this.draw_collection( level.stairs_down, ctx );
     this.draw_collection( level.traps, ctx );
+    this.draw_collection( level.widgets, ctx );
     
     this.draw_collection( level.items, ctx );     // Second layer: Items
     

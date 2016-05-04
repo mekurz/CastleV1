@@ -1,6 +1,6 @@
 function Trap( stat_id, pos )
 {
-  Trap.base_constructor.call( this, stat_id, pos );
+  Trap.base_constructor.call( this, undefined, undefined );
   this.stat_id = stat_id;
   this.found = false;
   this.tripped = false;
@@ -10,7 +10,7 @@ function Trap( stat_id, pos )
     this.location = new Point( pos.x, pos.y );
     
     var data = Loader.get_trap_data( this.stat_id );
-    this.tile_id = data.attr("tile_id");
+    this.tile_id = [].concat( data.attr("tile_id") );
     this.description = data.find("Description").text();
     this.damage = data.find("Damage").text();
     this.reset = data.find("Reset").text();

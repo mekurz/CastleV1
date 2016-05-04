@@ -229,6 +229,7 @@ function setup_debug_level()
   create_debug_monsters();
   create_debug_items();
   create_debug_traps();
+  create_debug_widgets();
 }
 
 function create_debug_monsters()
@@ -270,6 +271,12 @@ function create_debug_traps()
   var level = Dungeon.get_current_level();
   level.traps.push( new Trap( 1, new Point( 4, 11 ) ) );    // Spear
   level.traps.push( new Trap( 2, new Point( 10, 18 ) ) );   // Rune (resets)
+}
+
+function create_debug_widgets()
+{
+  var level = Dungeon.get_current_level();
+  level.widgets.push( new Widget( 2, new Point( 4, 12 ) ) );  // Firepit
 }
 
 function create_debug_level()

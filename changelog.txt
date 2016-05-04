@@ -655,8 +655,18 @@ Version 87 - 19-Jun-2014
 - Status Effects
   - Fixed layout due to changes in Bootstrap 3.1.1
 
+Version 88 - 03-May-2016
+- General
+  - Updated publishing script for Windows 10 environment
+  - Updated Prod index.html layout due to Bootstrap 3.1.1 changes
+- Widgets
+  - Fixed a constructor conflict between Traps and Widget
+  - Added animated widgets. Image will cycle to the next frame in the list on each turn. Long-term, this will be a constant animation.
+
+
 TODO
 ============
+- BUG: Clicking a toggle button (i.e. a spell) then clicking Inventory will leave the button in a toggled state permanently... need to cancel button in open_dialog?
 - BUG: Some wall tiles get marked as "too dark to see" based on what's on one side vs the other... need some kind of directional tooltip?
 - BUG: Appears to be some problems with tooltips deciding if it's too dark or not for Widgets
 - BUG: Monsters can spawn ontop of the Player
@@ -688,3 +698,5 @@ TODO
   - Persistent buff/debuff
     - no set duration, requires some kind of event to activate/deactivate
     - i.e. levitate or curse
+- Passable flag on widgets to stop player from walking through them
+- Random widgets in rooms

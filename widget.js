@@ -3,6 +3,7 @@ function Widget( stat_id, pos )
   Widget.base_constructor.call( this );
   this.stat_id = stat_id;  
   this.location = null;
+  this.frame_ix = 0;
   
   if( pos != undefined )
   {
@@ -12,8 +13,9 @@ function Widget( stat_id, pos )
   if( stat_id != undefined )
   {
     var data = Loader.get_widget_data( this.stat_id );
-    this.tile_id = data.attr("tile_id");
     this.description = data.find("Description").text();
+
+    this.tile_id = data.attr("tile_id").split(",");
   }
     
   this.draw = function( ctx )
@@ -21,8 +23,10 @@ function Widget( stat_id, pos )
     if( this.should_draw_widget() )
     {
       var view_pos = Map.translate_map_coord_to_viewport( this.location );
-      var img_loc = convert_tile_ix_to_point( this.tile_id );
+      var img_loc = convert_tile_ix_to_point( this.tile_id[this.frame_ix] );
       ctx.drawImage( Images.TILE_IMAGES, img_loc.x, img_loc.y, TILE_WIDTH, TILE_WIDTH,  convert_ix_to_raw_coord( view_pos.x ),  convert_ix_to_raw_coord( view_pos.y ), TILE_WIDTH, TILE_WIDTH );
+
+      this.advance_frame();
     }
   };
   
@@ -54,6 +58,19 @@ Widget.prototype.get_tooltip_text = function()
 {
   return "<li>" + this.description + "</li>";
 };
+
+Widget.prototype.advance_frame = function()
+{
+  if( this.tile_id.length > 1 )
+  {
+    this.frame_ix++;
+
+    if( this.frame_ix >= this.tile_id.length )
+    {
+      this.frame_ix = 0;
+    }
+  }
+}
 
 Widget.prototype.load = function( obj )
 {

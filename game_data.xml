@@ -21,6 +21,8 @@
     <Tile id="18" src="stairs_down.png"/>
     <Tile id="19" src="trap_spear.png"/>
     <Tile id="20" src="trap_rune.png"/>
+    <Tile id="21" src="flame1.png"/>
+    <Tile id="22" src="flame2.png"/>
   </Tiles>
   <Textures>
     <Texture id="1">
@@ -34,6 +36,9 @@
     </Widget>
     <Widget id="1" tile_id="18">
       <Description>Stairs down</Description>
+    </Widget>
+    <Widget id="2" tile_id="21,22">
+      <Description>Firepit</Description>
     </Widget>
   </Widgets>
   <Traps>

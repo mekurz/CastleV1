@@ -9,6 +9,7 @@ function Level()
   this.stairs_up = new Array();
   this.stairs_down = new Array();
   this.traps = new Array();
+  this.widgets = new Array();
   this.level_ix = null;
   
   this.create_single_monster = function( monster_type, location )
@@ -142,6 +143,7 @@ Level.prototype.load = function( obj )
   this.stairs_up = Storage.load_collection( obj.stairs_up, Widget );
   this.stairs_down = Storage.load_collection( obj.stairs_down, Widget );
   this.traps = Storage.load_collection( obj.traps, Trap );
+  this.widgets = Storage.load_collection( obj.widgets, Widget );
 };
 
 function DungeonManager()

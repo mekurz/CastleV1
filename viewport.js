@@ -88,6 +88,7 @@ function Tooltip()
     this.fill_tooltip_from_collection( level.stairs_up, location );
     this.fill_tooltip_from_collection( level.stairs_down, location );
     this.fill_tooltip_from_collection( level.traps, location );
+    this.fill_tooltip_from_collection( level.widgets, location );
   };
   
   this.fill_tooltip_from_collection = function( collection, location )
