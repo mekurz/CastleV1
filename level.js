@@ -44,10 +44,24 @@ function Level()
   {
     return get_single_item_at_location( this.traps, location );
   };
+
+  this.get_widget_in_tile = function( location )
+  {
+    return get_single_item_at_location( this.widgets, location );
+  };
   
   this.get_stair_ix_at_location = function( collection, location )
   {
     return get_single_item_ix_by_location( collection, location );
+  };
+
+  this.is_location_occupied = function( location )
+  {
+    return this.get_trap_in_tile( location ) != null
+        || this.get_widget_in_tile( location ) != null
+        || this.get_stair_ix_at_location( this.stairs_up, location ) != -1
+        || this.get_stair_ix_at_location( this.stairs_down, location ) != -1
+        ;
   };
   
   this.get_starting_location = function( stair_ix )
@@ -225,6 +239,11 @@ function DungeonManager()
   {
     return this.get_current_level().get_trap_in_tile( location );
   };
+
+  this.get_widget_in_tile = function( location )
+  {
+    return this.get_current_level().get_widget_in_tile( location );
+  };
   
   this.trigger_traps_in_tile = function( location )
   {
@@ -359,7 +378,7 @@ function DungeonManager()
     var level = this.get_current_level();
     return get_single_item_at_location( level.doors, location );
   };
-  
+
   this.go_down = function( stair_ix )
   {
     if( this.level_ix + 2 > this.levels.length )

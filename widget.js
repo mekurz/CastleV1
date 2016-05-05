@@ -4,6 +4,7 @@ function Widget( stat_id, pos )
   this.stat_id = stat_id;  
   this.location = null;
   this.frame_ix = 0;
+  this.passable = true;
   
   if( pos != undefined )
   {
@@ -14,8 +15,14 @@ function Widget( stat_id, pos )
   {
     var data = Loader.get_widget_data( this.stat_id );
     this.description = data.find("Description").text();
+    this.passable = ( parseInt( data.find("Passable").text() ) == 1 );
 
     this.tile_id = data.attr("tile_id").split(",");
+
+    if( this.tile_id.length > 1 )
+    {
+      this.frame_ix = Math.floor( Math.random() * this.tile_id.length );
+    }
   }
     
   this.draw = function( ctx )

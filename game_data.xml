@@ -23,22 +23,55 @@
     <Tile id="20" src="trap_rune.png"/>
     <Tile id="21" src="flame1.png"/>
     <Tile id="22" src="flame2.png"/>
+    <Tile id="23" src="flame3.png"/>
+    <Tile id="24" src="flame4.png"/>
+    <Tile id="25" src="altar1.png"/>
+    <Tile id="26" src="altar2.png"/>
+    <Tile id="27" src="altar3.png"/>
+    <Tile id="28" src="altar4.png"/>
   </Tiles>
   <Textures>
     <Texture id="1">
       <Floor value="2,2,2,2,2,4,4,4,4,4,9,9,9,16,16"/>
       <Walls value="3,3,3,3,3,3,3,3,3,3,3,3,3,3,3,10,11,12,13,14,15"/>
+      <Widgets value="3,4,5,6"/>
     </Texture>
   </Textures>
   <Widgets>
     <Widget id="0" tile_id="17">
       <Description>Stairs up</Description>
+      <Passable>1</Passable>
+      <LightSource>0</LightSource>
     </Widget>
     <Widget id="1" tile_id="18">
       <Description>Stairs down</Description>
+      <Passable>1</Passable>
+      <LightSource>0</LightSource>
     </Widget>
-    <Widget id="2" tile_id="21,22">
-      <Description>Firepit</Description>
+    <Widget id="2" tile_id="21,22,23,24">
+      <Description>a blazing firepit</Description>
+      <Passable>0</Passable>
+      <LightSource>1</LightSource>
+    </Widget>
+    <Widget id="3" tile_id="25">
+      <Description>an empty altar</Description>
+      <Passable>0</Passable>
+      <LightSource>0</LightSource>
+    </Widget>
+    <Widget id="4" tile_id="26">
+      <Description>a creepy altar</Description>
+      <Passable>0</Passable>
+      <LightSource>0</LightSource>
+    </Widget>
+    <Widget id="5" tile_id="27">
+      <Description>an ugly altar</Description>
+      <Passable>0</Passable>
+      <LightSource>0</LightSource>
+    </Widget>
+    <Widget id="6" tile_id="28">
+      <Description>a pile of skulls</Description>
+      <Passable>0</Passable>
+      <LightSource>0</LightSource>
     </Widget>
   </Widgets>
   <Traps>

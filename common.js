@@ -331,6 +331,11 @@ function random_type( max_id )
   return Math.floor( Math.random() * max_id ) + 1;
 }
 
+function random_index( max_ix )
+{
+  return Math.floor( Math.random() * max_ix );
+}
+
 function GameTime()
 {
   this.time = 0;

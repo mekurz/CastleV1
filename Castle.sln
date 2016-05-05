@@ -234,6 +234,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "script", "script", "{0D1278
 		inventory.js = inventory.js
 		level.js = level.js
 		logger.js = logger.js
+		MapGen\mapgen.js = MapGen\mapgen.js
 		melee.js = melee.js
 		minimap.js = minimap.js
 		monsters.js = monsters.js
@@ -263,6 +264,14 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "fonts", "fonts", "{91F0D299
 		fonts\glyphicons-halflings-regular.svg = fonts\glyphicons-halflings-regular.svg
 		fonts\glyphicons-halflings-regular.ttf = fonts\glyphicons-halflings-regular.ttf
 		fonts\glyphicons-halflings-regular.woff = fonts\glyphicons-halflings-regular.woff
+	EndProjectSection
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{CEEE79EB-7465-4D7C-B2CE-96AD542CC448}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "MapGen", "MapGen", "{0A07740F-98ED-4B82-A844-9ED5C7FB14AD}"
+	ProjectSection(SolutionItems) = preProject
+		MapGen\mapgen.js = MapGen\mapgen.js
+		MapGen\test.html = MapGen\test.html
 	EndProjectSection
 EndProject
 Global

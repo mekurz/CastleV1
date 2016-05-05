@@ -663,10 +663,22 @@ Version 88 - 03-May-2016
   - Fixed a constructor conflict between Traps and Widget
   - Added animated widgets. Image will cycle to the next frame in the list on each turn. Long-term, this will be a constant animation.
 
+Version 89 - 04-May-2016
+- General
+  - Switched to CDN for Bootstrap CSS to avoid permissions problem with Win10 font files
+- Widgets
+  - Animated widgets will start on a random frame (added 2 more firepit frames for variety)
+  - Added support for widgets that cannot be walked through
+  - Added a lot more widgets
+- Map Generator
+  - Added random widgets to rooms.
+
 
 TODO
 ============
+- BUG: !!!! Creating a new game closes the dialog randomly when clicking the +/- buttons for stats
 - BUG: Clicking a toggle button (i.e. a spell) then clicking Inventory will leave the button in a toggled state permanently... need to cancel button in open_dialog?
+- BUG: Status effects not extending existing effect of the same type (you can get more than one poison from the same ooze)
 - BUG: Some wall tiles get marked as "too dark to see" based on what's on one side vs the other... need some kind of directional tooltip?
 - BUG: Appears to be some problems with tooltips deciding if it's too dark or not for Widgets
 - BUG: Monsters can spawn ontop of the Player
@@ -681,7 +693,7 @@ TODO
 - Option to launch new game
 - Touch events?
 - Add more text options so the log doesn't look so boring
-- Widget animations
+- constant Widget animations
 - Props (more widgets for decoration)
 - dynamic sizing of viewport based on window size... needs to have min/max dimensions set
 - Belts should have utility slots
@@ -698,5 +710,3 @@ TODO
   - Persistent buff/debuff
     - no set duration, requires some kind of event to activate/deactivate
     - i.e. levitate or curse
-- Passable flag on widgets to stop player from walking through them
-- Random widgets in rooms

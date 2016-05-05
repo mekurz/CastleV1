@@ -9,6 +9,8 @@ var SOUTH = new Point(  1,  0 );
 var EAST  = new Point(  0, -1 );
 var WEST  = new Point(  0,  1 );
 
+var LIGHT_SOURCES = [ 2 ];  // Widget IDs for things that count as light sources
+
 function Cell()
 {
   this.blocked = false;
@@ -70,6 +72,7 @@ function Room()
   this.height = this.generate_random_dimension();
   this.width  = this.generate_random_dimension();
   this.room_id = -1;
+  this.is_lit = false;
   
   this.contains_point = function( x, y )
   {
@@ -129,14 +132,14 @@ function Room()
   
   this.fill_room = function( map )
   {
-    var light_room = should_room_be_lit();
+    this.is_lit = should_room_be_lit();
     
     for( var row = 0; row < this.height; row++ )
     {
       for( var col = 0; col < this.width; col++ )
       {
         map[row + this.top_left.y][col + this.top_left.x].room_id = this.room_id;
-        map[row + this.top_left.y][col + this.top_left.x].is_lit = light_room;
+        map[row + this.top_left.y][col + this.top_left.x].is_lit = this.is_lit;
       }
     }
   };
@@ -588,10 +591,11 @@ function Texture()
   var data = Loader.get_texture( 1 );   // TODO: change up how we get textures based on level ranges
   this.walls = init_tile_indexes( data, "Walls" );
   this.floor = init_tile_indexes( data, "Floor" );
+  this.widgets = init_tile_indexes( data, "Widgets" );
   
   function get_random_index( array )
   {
-    return array[Math.floor( Math.random() * array.length )];
+    return array[random_index(array.length)];
   }
   
   this.get_wall_ix = function()
@@ -602,6 +606,11 @@ function Texture()
   this.get_floor_ix = function()
   {
     return get_random_index( this.floor );
+  };
+
+  this.get_widget_id = function()
+  {
+    return get_random_index( this.widgets );
   };
 }
 
@@ -785,6 +794,91 @@ function MapGenerator()
       }
     }
   };
+
+  this.is_widget_location_allowed = function( level, location )
+  {
+    var allowed = false;
+
+    // Is the tile already occupied?
+    if( !level.is_location_occupied( location ) )
+    {
+      allowed = true;
+
+      // Are we adjacent to a visible door?
+      for( var ix = 0; ix < level.doors.length; ++ix )
+      {
+        if( location.adjacent_to( level.doors[ix].location ) )
+        {
+          allowed = false;
+          break;
+        }
+      }
+    }
+     
+    return allowed;
+  };
+
+  this.add_light_source = function( level, room )
+  {
+    var location = null;
+    var attempts = 0;
+      
+    // Look for a free tile. Give up after 10 attempts.
+    while( attempts < 10 && ( location == null || !this.is_widget_location_allowed( level, location ) ) )
+    {
+      location = room.get_random_location();
+      attempts++;
+    }
+
+    if( attempts <= 10 )
+    {
+      var source_ix = random_index(LIGHT_SOURCES.length);
+      level.widgets.push( new Widget( LIGHT_SOURCES[source_ix], location ) );
+    }
+  };
+
+  this.generate_widgets = function( level )
+  {
+    var texture = new Texture();
+
+    // Consider adding some widgets to each room
+    for( var room_ix = 0; room_ix < level.rooms.length; ++room_ix )
+    {
+      var room = level.rooms[room_ix];
+
+      // If room is already lit, we should always include at least one light source (over and above any other widgets)
+      if( room.is_lit )
+      {
+        this.add_light_source( level, room );
+      }
+
+      // 50% chance to add random widgets
+      if( chance( 50 ) )
+      {
+        // Number of widgets based on room size
+        // Density is 1 per minimum room size (5x5) of area
+        var num_widgets = random_type( room.height * room.width / ( MIN_ROOM_SIZE * MIN_ROOM_SIZE ) );
+
+        for( var ix = 0; ix < num_widgets; ++ix )
+        {
+          var location = null;
+          var attempts = 0;
+      
+          // Look for a free tile. Give up after 10 attempts.
+          while( attempts < 10 && ( location == null || !this.is_widget_location_allowed( level, location ) ) )
+          {
+            location = room.get_random_location();
+            attempts++;
+          }
+
+          if( attempts <= 10 )
+          {
+            level.widgets.push( new Widget( texture.get_widget_id(), location ) );
+          }
+        }
+      }
+    }
+  };
   
   this.create_new_level = function( level, num_stairs_up )
   {
@@ -797,5 +891,6 @@ function MapGenerator()
     this.generate_stairs( level.stairs_down, STAIRS_DOWN, num_stairs_down );
     
     this.generate_traps( level, this.rooms_list.length );
+    this.generate_widgets( level );
   };
 }

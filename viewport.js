@@ -260,6 +260,13 @@ function ViewPort()
           return false;
         }
       }
+
+      // Some widgets cannot be stepped on
+      var widget = Dungeon.get_widget_in_tile( location );
+      if( widget && !widget.passable )
+      {
+        return false;
+      }
       
       return true;
     }
