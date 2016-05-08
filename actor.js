@@ -143,15 +143,11 @@ Actor.prototype.get_melee_damage = function()
   return this.melee_damage;
 };
 
-var MAX_STR = 0;
-var CUR_STR = 1;
-var MAX_INT = 2;
-var CUR_INT = 3;
-var MAX_DEX = 4;
-var CUR_DEX = 5;
-var MAX_CON = 6;
-var CUR_CON = 7;
-var MAX_STATS = 8; 
+var STR = 0;
+var INT = 1;
+var DEX = 2;
+var CON = 3;
+var NUM_STATS = 4;
 
 function PlayerActor()
 {
@@ -163,8 +159,8 @@ function PlayerActor()
   this.level = 1;
   this.xp    = 12345;  // TODO TEMP VALUE
   this.ac    = 100;    // TODO TEMP VALUE
-  this.stats = new Array(MAX_STATS);
-  
+  this.stats = [ new CharStat(), new CharStat(), new CharStat(), new CharStat() ];
+    
   // TODO: THESE ARE TEMPORARY SETTINGS
   this.max_hp = 10;
   this.current_hp = this.max_hp;
@@ -205,33 +201,28 @@ function PlayerActor()
   function get_main_stat_ix( stat )
   {
     if( stat == "str" )
-      return CUR_STR;
-    else if( stat == "maxstr" )
-      return MAX_STR;
+      return STR;
+    if( stat == "int" )
+      return INT;
     else if( stat == "dex" )
-      return CUR_DEX;
-    else if( stat == "maxdex" )
-      return MAX_DEX;
+      return DEX;
     else if( stat == "con" )
-      return CUR_CON;
-    else if( stat == "maxcon" )
-      return MAX_CON;
+      return CON;
     else
-      return MAX_STATS;
+    {
+      Log.debug( "Invalid stat requested: " + stat );
+      return NUM_STATS; // Error case
+    }
   }
   
   function apply_single_stat_change( actor, stat, value, callback )
   {
     var stat_ix = get_main_stat_ix( stat );
     
-    if( stat_ix != MAX_STATS )
+    if( stat_ix != NUM_STATS )
     {
-      actor.stats[stat_ix] = callback( actor.stats[stat_ix], value );
+      actor.stats[stat_ix].current_value = callback( actor.stats[stat_ix].current_value, value );
       // TODO LIKELY NEED TO MAKE SOME CHANGES HERE TO HANDLE MAX STAT CHANGING (I.E FOR CURSES )
-    }
-    else
-    {
-      actor[stat] = callback( actor[stat], value );
     }
   }
   
@@ -265,4 +256,10 @@ PlayerActor.prototype.load = function( obj )
   PlayerActor.super_class.load.call( this, obj );
   this.bag = Storage.load_collection( obj.bag, Item );
 };
+
+function CharStat()
+{
+  this.current_value = 0;  // Current value (base stat +/- effects)
+  this.base_value    = 0;  // Base stat (remains constant except when levelling up)
+}
 

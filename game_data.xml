@@ -343,14 +343,14 @@
       <Description>Big Muscles!</Description>
       <Rounds>10</Rounds>
       <Effect>
-        <str>20</str>
+        <str>4</str>
       </Effect>
     </StatusEffect>
     <StatusEffect id="5" type="2">
       <Description>Weakness</Description>
       <Rounds>10</Rounds>
       <Effect>
-        <str>-20</str>
+        <str>-4</str>
       </Effect>
     </StatusEffect>
   </StatusEffects>

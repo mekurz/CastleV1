@@ -127,7 +127,7 @@ function StatusEffectsManager()
 function create_or_replace_status_effect( xml, target_actor, OBJ_TYPE )
 {
   var new_effect = new OBJ_TYPE( xml );
-  var old_effect = null; StatusEffects.get_existing_effect_for_target( target_actor.id, new_effect.status_id, new_effect.type );
+  var old_effect = StatusEffects.get_existing_effect_for_target( target_actor.id, new_effect.status_id, new_effect.type );
   new_effect.target_id   = target_actor.id;
   
   if( !old_effect )

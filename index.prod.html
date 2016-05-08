@@ -7,21 +7,21 @@
     <link rel="shortcut icon" href="http://members.shaw.ca/achimp/botw/images/monsters/ratman.png" />
 		<link rel="image_src" href="http://members.shaw.ca/achimp/botw/images/monsters/ratman.png" />
     <link href="css/overcast/jquery-ui-1.10.1.custom.min.css" rel="stylesheet" type="text/css"/>
-    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-7tY7Dc2Q8WQTKGz2Fa0vC4dWQo07N4mJjKvHfIGnxuC4vPqFGFQppd9b3NWpf18/" crossorigin="anonymous" />
-    <link href="css/chosen.css" rel="stylesheet" type="text/css" />
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-1q8mTJOASx8j1Au+a5WDVnPi2lkFfwwEAa8hDDdjZlpLegxhjVME1fgjWPGmkzs7" crossorigin="anonymous">
+    <link href="css/chosen.min.css" rel="stylesheet" type="text/css" />
     <link href="css/style.css" rel="stylesheet" type="text/css" />
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jquery/2.1.0/jquery.min.js"></script>
     <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.10.4/jquery-ui.min.js"></script>
-    <script type="text/javascript" src="libs/bootstrap.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js" integrity="sha384-0mSbJDEHialfmuBBQP6A4Qrprq5OVfW37PRR3j5ELqxss1yVqOtnepnHVP9aJ7xS" crossorigin="anonymous"></script>
     <script type="text/javascript" src="libs/chosen.jquery.min.js"></script>
     <script type="text/javascript" src="libs/jstorage.min.js"></script>
-    <script type="text/javascript" src="full.min.js"></script>
+    <script type="text/javascript" src="full.js"></script>
   </head>
-  <body style="margin:0px;">
-    Use arrows or num pad to move, OR click and drag the man to move. Click on RAT MANS or bump into them to attack! Select a spell from the menu, click Cast and then click a tile!<br />
-    <input type="hidden" id="processing" value="0"></input>
-    <input type="hidden" id="command" value="0"></input>
-    <a href="changelog.txt">Change Log</a> | <a href="MapGen/test.html">Map Generator</a> | <a href="test/test.html">Unit Tests</a> | <a href="TPOC/ItemsTPOC/test.html">Item Effect TPOC</a> | <a href="TPOC/ImageCombiner/combiner.html">Combiner</a> |
+  <body style="margin:3px;">
+    Use arrows or num pad to move, OR click and drag the man to move. Click on MONSTERS or bump into them to attack! Select a spell from the menu, click Cast and then click a tile!<br />
+    <input type="hidden" id="processing" value="0"/>
+    <input type="hidden" id="command" value="0"/>
+    <a href="changelog.txt">Change Log</a> | <a href="MapGen/test.html">Map Generator</a> | <a href="test/test.html">Unit Tests</a> | 
     TEST: <select id="test_menu">
       <option value="0">TEST FIZZLES</option>
       <option value="1">TEST SPLAT</option>
@@ -54,8 +54,8 @@
       <option value="u1">LIGHT</option>
       <option value="u2">DIMENSION DOOR</option>
     </select>
-    <input type="submit" value="Cast Spell" onclick="cast_spell_by_id( $('#spell_menu').val() );"></input>
-    <input type="submit" value="Switch to Debug Map" onclick="switch_to_debug();"></input>
+    <input type="submit" value="Cast Spell" onclick="cast_spell_by_id( $('#spell_menu').val() );"/>
+    <input type="submit" value="Switch to Debug Map" onclick="switch_to_debug();"/>
     <div id="game_area" style="margin-left:10px;margin-top:5px;position:relative;">
       <div id="game_buttons" class="btn-toolbar" role="toolbar">
         <div class="btn-group">
@@ -104,22 +104,24 @@
           </ul>
         </div>
       </div>
-      <canvas id="map" width="960" height="480" style="border:1px solid black;margin:0px;" oncontextmenu="return false;">
-        Canvas not supported. You must be using Internet Explorer 9, Firefox 4+, Chrome or Safari.
-      </canvas>
-      <div id="log" class="Information" style="width:810px;height:150px;"></div>
-      <div id="stats" class="Information" style="width:152px;height:150px;border-left-width:0px;padding:3px;">
-        <div style="height:60px;">
-          <span class="StatName">Hit Points</span>
-          <span id="hp" class="Stat"></span><br />
-          <span class="StatName">Mana</span>
-          <span id="mana" style="float:right;color:blue;"></span><br />
-          <span class="StatName">Time</span>
-          <span id="time" class="Stat"></span>
-          <span class="StatName">Dungeon Level</span>
-          <span id="level" class="Stat"></span>
+      <div style="position:relative;">
+        <canvas id="map" width="960" height="480" style="border:1px solid black;margin:0px;" oncontextmenu="return false;">
+          Canvas not supported. You must be using Internet Explorer 9, Firefox 4+, Chrome or Safari.
+        </canvas>
+        <div id="log" class="Information" style="width:810px;overflow-y:scroll;"></div>
+        <div id="stats" class="Information" style="width:152px;left:810px;border-left-width:0px;padding:3px;">
+          <div style="height:60px;">
+            <span class="StatName">Hit Points</span>
+            <span id="hp" class="Stat"></span><br />
+            <span class="StatName">Mana</span>
+            <span id="mana" style="float:right;color:blue;"></span><br />
+            <span class="StatName">Time</span>
+            <span id="time" class="Stat"></span>
+            <span class="StatName">Dungeon Level</span>
+            <span id="level" class="Stat"></span>
+          </div>
+          <div id="effects" class="clearfix"></div>
         </div>
-        <div id="effects" class="clearfix"></div>
       </div>
       <div id="load_div">
         Loading...

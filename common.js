@@ -43,6 +43,7 @@ var OPEN_DIALOGS = 0;
 
 function open_dialog()
 {
+  cancel_action();
   OPEN_DIALOGS++;
 }
 

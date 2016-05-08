@@ -221,7 +221,6 @@ function GameStorage()
   {
     if( !is_processing() )
     {
-      set_command( NO_COMMAND );
       Storage.saved_games = $.jStorage.get("game") || [];
       Storage.action = action;
       Storage.selected_game = -1;

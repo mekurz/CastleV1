@@ -1,5 +1,5 @@
-var MAX_STAT_BAR = 0;
-var CUR_STAT_BAR = 1;
+var BASE_STAT_BAR = 0;
+var CUR_STAT_BAR  = 1;
 
 function CharacterInfoDialog()
 {
@@ -14,23 +14,18 @@ function CharacterInfoDialog()
           });
   this.popup.on( "hide.bs.modal", close_dialog );
   
-  function set_pct_on_bar( bar, stat )
+  function set_value_on_bar( bar, stat )
   {
-    $("#ci_" + bar + "_max").css( "height", Player.stats[stat] + "%" );
-    $("#ci_" + bar + "_current").css( "height", Player.stats[stat+1] + "%" );
-  }
-  
-  function get_bar_value( bar )
-  {
-    return parseInt( bar.css( "height" ) );
+    $("#ci_" + bar + "_base").css( "height", ( Player.stats[stat].base_value / MAX_STAT * 100 ) + "%" );
+    $("#ci_" + bar + "_current").css( "height", ( Player.stats[stat].current_value / MAX_STAT * 100 ) + "%" );
   }
   
   this.refresh_ui = function()
   {
-    set_pct_on_bar( "str", MAX_STR );
-    set_pct_on_bar( "int", MAX_INT );
-    set_pct_on_bar( "dex", MAX_DEX );
-    set_pct_on_bar( "con", MAX_CON );
+    set_value_on_bar( "str", STR );
+    set_value_on_bar( "int", INT );
+    set_value_on_bar( "dex", DEX );
+    set_value_on_bar( "con", CON );
     
     var max_xp = 123456;
     var xp_pct = Math.round( Player.xp / max_xp * 100 ) + "%" ;

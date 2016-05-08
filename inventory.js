@@ -215,7 +215,6 @@ function InventoryManager()
   {
     if( !is_processing() )
     {
-      set_command( NO_COMMAND );
       this.popup.modal("show");
     }
   };

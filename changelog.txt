@@ -673,20 +673,27 @@ Version 89 - 04-May-2016
 - Map Generator
   - Added random widgets to rooms.
 
+Version 90 - 06-May-2016
+- General
+  - Upgraded to Bootstrap 3.3.6 and switched to full Bootstrap CDN usage
+  - Fixed some CSS related to Bootstrap update
+  - FIXED: Creating a new game closes the dialog randomly when clicking the +/- buttons for stats. Seems like upgrading Boostrap fixed the issue, as well as removing the holdit() method.
+  - Redesigned character stats to be more like a d20 system.
+  - FIXED: Clicking a toggle button (i.e. a spell) then clicking Inventory will leave the button in a toggled state permanently. Current action is now cancelled in open_dialog().
+  - FIXED: Dimension door can sometimes pick a spot that is not on the map. Location inbounds check was using maximum map dimensions instead of actual map dimensions.
+  - FIXED: Status effects not extending existing effect of the same type (you can get more than one poison from the same ooze). Test code from Version 87 was not undone.
+  - CLOSED: Grammar for cone spells is wrong when monster is the source (monster on monster kill). Doesn't appear to be an issue?
+  - FIXED: Maximizing the window makes the page layout weird
 
 TODO
 ============
-- BUG: !!!! Creating a new game closes the dialog randomly when clicking the +/- buttons for stats
-- BUG: Clicking a toggle button (i.e. a spell) then clicking Inventory will leave the button in a toggled state permanently... need to cancel button in open_dialog?
-- BUG: Status effects not extending existing effect of the same type (you can get more than one poison from the same ooze)
+- FEATURE: Need to redesign New Game popup. Something about buttons makes it act weird and keep refreshing the page (Bootstrap class stuff??)
 - BUG: Some wall tiles get marked as "too dark to see" based on what's on one side vs the other... need some kind of directional tooltip?
 - BUG: Appears to be some problems with tooltips deciding if it's too dark or not for Widgets
 - BUG: Monsters can spawn ontop of the Player
 - BUG: Monsters going through doors that have been explored but are not within sight appear to magically open... need a way to hide this
 - BUG: Right-clicking then dragging onto the tooltip and releasing displays the browser's right-click menu and leaves the tooltip displayed
 - BUG: Changes made to monster behaviour do not affect saved games (i.e. spell cast)... probalby need to reload certain stats
-- BUG: Grammar for cone spells is wrong when monster is the source (monster on monster kill)
-- BUG: Dimension door can sometimes pick a spot that is not on the map
 - Setting for random character creation?
 - Quick save feature -- WHAT KEY?
 - Fail gracefully for incompatible browsers
@@ -705,6 +712,7 @@ TODO
 - Spawn more monsters at certain intervals
 - Spawn items inside rooms and when monsters die
 - Item stats, etc
+- Double click to auto-equip item if slot is empty
 - Status effects
   - Tooltip over status effects to show remaining duration
   - Persistent buff/debuff

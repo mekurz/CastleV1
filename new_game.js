@@ -1,21 +1,21 @@
-var MAX_STAT = 75;
-var MIN_STAT = 25;
-var DEFAULT_STAT = 32;
+var MAX_STAT = 20;
+var MIN_STAT = 6;
+var DEFAULT_STAT = 8;
 
-function set_pct_on_bar( bar, pct )
+function set_value_on_bar( bar, value )
 {
-  bar.css( "height", pct + "%" );
+  bar.css( "height", ( value / MAX_STAT * 100 ) + "%" );
 }
 
 function get_bar_value( bar )
 {
-  return parseInt( bar.css( "height" ) );
+  return parseInt( bar.css( "height" ) ) / 100 * MAX_STAT;
 }
 
 function assign_player_stat( bar, stat )
 {
   var value = get_bar_value( bar );
-  Player.stats[stat] = Player.stats[stat+1] = value;
+  Player.stats[stat].base_value = Player.stats[stat].current_value = value;
 }
 
 function NewGameDialog()
@@ -48,12 +48,12 @@ function NewGameDialog()
   this.initialize = function()
   {
     this.known_spells = [];
-    this.pool = 100;
-    set_pct_on_bar( this.pool_bar, this.pool );
-    set_pct_on_bar( this.str_bar, DEFAULT_STAT );
-    set_pct_on_bar( this.int_bar, DEFAULT_STAT );
-    set_pct_on_bar( this.dex_bar, DEFAULT_STAT );
-    set_pct_on_bar( this.con_bar, DEFAULT_STAT );
+    this.pool = 10;
+    set_value_on_bar( this.pool_bar, this.pool );
+    set_value_on_bar( this.str_bar, DEFAULT_STAT );
+    set_value_on_bar( this.int_bar, DEFAULT_STAT );
+    set_value_on_bar( this.dex_bar, DEFAULT_STAT );
+    set_value_on_bar( this.con_bar, DEFAULT_STAT );
     
     this.name.val("");
     this.error.hide();
@@ -61,12 +61,14 @@ function NewGameDialog()
     
     this.spells.chosen();
     
-    $(".plus").each( function() {
-        hold_it( $(this), NewGame.plus );
+    $(".plus").click( function( evt ) {
+        NewGame.plus( $(this).attr("stat") );
+        evt.stopPropagation();
       });
     
-    $(".minus").each( function() {
-        hold_it( $(this), NewGame.minus );
+    $(".minus").click( function( evt ) {
+        NewGame.minus( $(this).attr("stat") );
+        evt.stopPropagation();
       });
   };
   
@@ -102,8 +104,8 @@ function NewGameDialog()
     if( NewGame.pool > 0 && value < MAX_STAT )
     {
       NewGame.pool--;
-      set_pct_on_bar( NewGame.pool_bar, NewGame.pool );
-      set_pct_on_bar( bar, value + 1 );
+      set_value_on_bar( NewGame.pool_bar, NewGame.pool );
+      set_value_on_bar( bar, value + 1 );
     }
   };
   
@@ -112,11 +114,11 @@ function NewGameDialog()
     var bar = NewGame.get_bar( bar_id );
     var value = get_bar_value( bar );
     
-    if( NewGame.pool < 100 && value > MIN_STAT ) // Don't let the user go below the min stat value
+    if( NewGame.pool <= MAX_STAT && value > MIN_STAT ) // Don't let the user go below the min stat value
     {
       NewGame.pool++;
-      set_pct_on_bar( NewGame.pool_bar, NewGame.pool );
-      set_pct_on_bar( bar, value - 1 );
+      set_value_on_bar( NewGame.pool_bar, NewGame.pool );
+      set_value_on_bar( bar, value - 1 );
     }
   };
   
@@ -166,10 +168,10 @@ function NewGameDialog()
       Player = new PlayerActor();
       Player.description = this.name.val();
       Player.spellbook = this.known_spells.slice();
-      assign_player_stat( this.str_bar, MAX_STR );
-      assign_player_stat( this.int_bar, MAX_INT );
-      assign_player_stat( this.dex_bar, MAX_DEX );
-      assign_player_stat( this.con_bar, MAX_CON );
+      assign_player_stat( this.str_bar, STR );
+      assign_player_stat( this.int_bar, INT );
+      assign_player_stat( this.dex_bar, DEX );
+      assign_player_stat( this.con_bar, CON );
       
       default_inventory();
       
@@ -194,24 +196,3 @@ function default_inventory()
   weapon.equipped = "weapon";
   Player.bag.push( weapon );
 }
-
-function hold_it( btn, action )
-{
-  var t = 0;
-  var start = 250; 
-  
-  var repeat = function () {
-      action( btn.attr("stat") );
-      t = setTimeout(repeat, start);
-      start = Math.max( start / 2, 20 );
-  };
-
-  btn.off()
-     .mousedown( function() {
-       start = 250;
-       repeat();
-     })
-     .on( "mouseup mouseleave", function() {
-       clearTimeout( t );
-     });
-};

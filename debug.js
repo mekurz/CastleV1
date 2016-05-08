@@ -160,7 +160,11 @@ function random_map()
 
 function switch_to_debug()
 {
+  Player = new PlayerActor();
   setup_debug_level();
+  learn_all_spells();
+  SpellBar.update_list( get_debug_spellbar() );
+  SpellBar.update_toolbar();
   Dungeon.explore_at_location( Player.location );
   Map.center_map_on_location( Player.location );
   document.game.draw();
@@ -219,9 +223,10 @@ function setup_debug_level()
 {
   Player.move_to( new Point( 10, 7 ) );
   
-  for( var stat_ix = 0; stat_ix < MAX_STAT; ++stat_ix )
+  for( var stat_ix = 0; stat_ix < NUM_STATS; ++stat_ix )
   {
-    Player.stats[stat_ix] = 50;
+    Player.stats[stat_ix].base_value    = 10;
+    Player.stats[stat_ix].current_value = 10;
   }
   
   Dungeon.levels = new Array();

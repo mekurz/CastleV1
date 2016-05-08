@@ -14,7 +14,6 @@ md prod\libs
 md prod\css
 md prod\html
 md prod\images
-md prod\fonts
 md prod\test
 md prod\MapGen
 
@@ -22,7 +21,6 @@ copy libs\*.min.js prod\libs\
 xcopy css\*.* prod\css\ /e /y
 xcopy html\*.* prod\html\ /e /y
 copy images\*.* prod\images\
-copy fonts\*.* prod\fonts\
 
 copy test\test.prod.html prod\test\test.html
 copy test\qunit.* prod\test

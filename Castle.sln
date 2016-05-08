@@ -5,12 +5,6 @@ VisualStudioVersion = 14.0.25123.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "css", "css", "{95C282F4-A15C-4EF4-B002-D0E49A4941C8}"
 	ProjectSection(SolutionItems) = preProject
-		css\bootstrap-theme.css = css\bootstrap-theme.css
-		css\bootstrap-theme.css.map = css\bootstrap-theme.css.map
-		css\bootstrap-theme.min.css = css\bootstrap-theme.min.css
-		css\bootstrap.css = css\bootstrap.css
-		css\bootstrap.css.map = css\bootstrap.css.map
-		css\bootstrap.min.css = css\bootstrap.min.css
 		css\chosen-sprite.png = css\chosen-sprite.png
 		css\chosen-sprite@2x.png = css\chosen-sprite@2x.png
 		css\chosen.css = css\chosen.css
@@ -187,8 +181,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tiles", "tiles", "{5C9FF225
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "libs", "libs", "{3DB05E1D-F02A-41A3-A630-1A9DDC221EDD}"
 	ProjectSection(SolutionItems) = preProject
-		libs\bootstrap.js = libs\bootstrap.js
-		libs\bootstrap.min.js = libs\bootstrap.min.js
 		libs\chosen.jquery.js = libs\chosen.jquery.js
 		libs\chosen.jquery.min.js = libs\chosen.jquery.min.js
 		libs\jstorage.js = libs\jstorage.js
@@ -257,16 +249,6 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "ImageCombiner", "ImageCombi
 	ProjectSection(SolutionItems) = preProject
 		TPOC\ImageCombiner\combiner.html = TPOC\ImageCombiner\combiner.html
 	EndProjectSection
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "fonts", "fonts", "{91F0D299-9E06-44EB-AD1D-C4C3B6106F32}"
-	ProjectSection(SolutionItems) = preProject
-		fonts\glyphicons-halflings-regular.eot = fonts\glyphicons-halflings-regular.eot
-		fonts\glyphicons-halflings-regular.svg = fonts\glyphicons-halflings-regular.svg
-		fonts\glyphicons-halflings-regular.ttf = fonts\glyphicons-halflings-regular.ttf
-		fonts\glyphicons-halflings-regular.woff = fonts\glyphicons-halflings-regular.woff
-	EndProjectSection
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{CEEE79EB-7465-4D7C-B2CE-96AD542CC448}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "MapGen", "MapGen", "{0A07740F-98ED-4B82-A844-9ED5C7FB14AD}"
 	ProjectSection(SolutionItems) = preProject

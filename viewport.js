@@ -293,7 +293,9 @@ function ViewPort()
   
   this.is_location_inbounds = function ( point )
   {
-    return point.x >= 0 && point.y >= 0 && point.x < MAP_WIDTH && point.y < MAP_HEIGHT;
+    var map_tiles = Dungeon.get_map_tiles();
+
+    return point.x >= 0 && point.y >= 0 && point.x < map_tiles[0].length && point.y < map_tiles.length;
   };
   
   this.is_location_visible = function( point )
