@@ -685,6 +685,10 @@ Version 90 - 06-May-2016
   - CLOSED: Grammar for cone spells is wrong when monster is the source (monster on monster kill). Doesn't appear to be an issue?
   - FIXED: Maximizing the window makes the page layout weird
 
+Version 91 - 16-May-2016
+- General
+  - Added static animations for widgets! Speed can be controlled via XML settings.
+
 TODO
 ============
 - FEATURE: Need to redesign New Game popup. Something about buttons makes it act weird and keep refreshing the page (Bootstrap class stuff??)
@@ -693,15 +697,16 @@ TODO
 - BUG: Monsters can spawn ontop of the Player
 - BUG: Monsters going through doors that have been explored but are not within sight appear to magically open... need a way to hide this
 - BUG: Right-clicking then dragging onto the tooltip and releasing displays the browser's right-click menu and leaves the tooltip displayed
+       Tooltip should move with mouse cursor
 - BUG: Changes made to monster behaviour do not affect saved games (i.e. spell cast)... probalby need to reload certain stats
+- BUG: Widgets need to be displayed on the minimap
+- BUG: Widgets will load all their settings from the save, but certain ones should come from XML (like animation speed)... likely applies to everything
 - Setting for random character creation?
 - Quick save feature -- WHAT KEY?
 - Fail gracefully for incompatible browsers
 - Option to launch new game
 - Touch events?
 - Add more text options so the log doesn't look so boring
-- constant Widget animations
-- Props (more widgets for decoration)
 - dynamic sizing of viewport based on window size... needs to have min/max dimensions set
 - Belts should have utility slots
 - Items in the inventory need detailed tooltips

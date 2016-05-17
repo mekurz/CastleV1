@@ -2,6 +2,7 @@ function Game()
 {
   this.ANIMATION_INTERVAL = 50;
   this.interval_loop = null;
+  this.widget_loop = null;
   this.animation_queue = new Array();
   this.splat_queue = new Array();
   this.dragging = false;
@@ -121,6 +122,8 @@ function Game()
     SpellBar.update_toolbar();
     Map.center_map_on_location( Player.location );
     Dungeon.update_level();
+
+    document.game.widget_loop = setInterval( this.draw_widgets_loop, this.ANIMATION_INTERVAL );
     
     this.draw();
     set_dirty();
@@ -143,7 +146,7 @@ function Game()
       
       clearInterval( document.game.interval_loop );
       document.game.interval_loop = null;
-      
+            
       set_finished();
       set_command( NO_COMMAND );
       
@@ -216,7 +219,6 @@ function Game()
     this.draw_collection( level.stairs_up, ctx );
     this.draw_collection( level.stairs_down, ctx );
     this.draw_collection( level.traps, ctx );
-    this.draw_collection( level.widgets, ctx );
     
     this.draw_collection( level.items, ctx );     // Second layer: Items
     
@@ -231,7 +233,12 @@ function Game()
       return;
     }*/
     
-    this.draw_map( this.buffer_ctx );    
+    this.draw_map( this.buffer_ctx );
+    this.spell_ctx.drawImage( this.buffer, 0, 0 );  // Backup of map image without any animated elements
+
+    // Draw animated elements
+    this.draw_widgets( this.buffer_ctx, false );
+
     this.map_ctx.drawImage( this.buffer, 0, 0 );
   };
   
@@ -242,6 +249,16 @@ function Game()
       collection[i].draw( ctx );
     } 
   };
+
+  this.draw_widgets = function( ctx, increment_frame )
+  {
+    var collection = Dungeon.get_current_level().widgets;
+
+    for( var i = 0; i < collection.length; ++i )
+    {
+      collection[i].draw( ctx, increment_frame );
+    } 
+  }
   
   this.key_handler = function( evt )
   {
@@ -452,18 +469,29 @@ function Game()
     if( this.animation_queue.length > 0 )
     {
       set_processing();
-      
-      // Make a backup copy of what the canvas looks like so we can draw spell effects over top without having to always redraw the viewport.
-      this.spell_ctx.drawImage( canvas[0], 0, 0 );
       document.game.interval_loop = setInterval( this.draw_spells_interval_loop, this.ANIMATION_INTERVAL );
+    }
+  };
+
+  this.draw_widgets_loop = function()
+  {
+    if( !is_processing() && OPEN_DIALOGS == 0 )
+    {
+      document.game.buffer_ctx.drawImage( document.game.spell_buffer, 0, 0 );
+      document.game.draw_widgets( document.game.buffer_ctx, true );
+      document.game.map_ctx.drawImage( document.game.buffer, 0, 0 );
     }
   };
   
   this.draw_spells_interval_loop = function()
   {
     //Log.debug( "Running spell animation interval..." );
-    document.game.buffer_ctx.drawImage( document.game.spell_buffer, 0, 0 );    // Draw the backup of the map without any spell effects.
+    document.game.buffer_ctx.drawImage( document.game.spell_buffer, 0, 0 );    // Draw the backup of the map without any animated effects.
+
+    // Draw animated elements
+    document.game.draw_widgets( document.game.buffer_ctx, true );
     draw_spells_for_interval( document.game.buffer_ctx );
+
     document.game.map_ctx.drawImage( document.game.buffer, 0, 0 );
     
     if( document.game.animation_queue.length == 0 && document.game.is_player_move )

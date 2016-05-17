@@ -52,6 +52,7 @@
       <Description>a blazing firepit</Description>
       <Passable>0</Passable>
       <LightSource>1</LightSource>
+      <Speed>2</Speed>
     </Widget>
     <Widget id="3" tile_id="25">
       <Description>an empty altar</Description>

@@ -132,7 +132,7 @@ function NewGameDialog()
     
     if( this.pool != 0 )
     {
-      this.error.html("You must assign all remaining points to Strengh, Intelligence,<br/>Dexterity and Constitution.").show();
+      this.error.html("You must assign all remaining points to Strength, Intelligence,<br/>Dexterity and Constitution.").show();
       return false;
     }
     

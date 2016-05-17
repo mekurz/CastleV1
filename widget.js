@@ -5,6 +5,8 @@ function Widget( stat_id, pos )
   this.location = null;
   this.frame_ix = 0;
   this.passable = true;
+  this.speed = 0;
+  this.speed_counter = 0;
   
   if( pos != undefined )
   {
@@ -22,10 +24,11 @@ function Widget( stat_id, pos )
     if( this.tile_id.length > 1 )
     {
       this.frame_ix = Math.floor( Math.random() * this.tile_id.length );
+      this.speed = parseInt( data.find("Speed").text() );
     }
   }
     
-  this.draw = function( ctx )
+  this.draw = function( ctx, increment_frame )
   {
     if( this.should_draw_widget() )
     {
@@ -33,7 +36,10 @@ function Widget( stat_id, pos )
       var img_loc = convert_tile_ix_to_point( this.tile_id[this.frame_ix] );
       ctx.drawImage( Images.TILE_IMAGES, img_loc.x, img_loc.y, TILE_WIDTH, TILE_WIDTH,  convert_ix_to_raw_coord( view_pos.x ),  convert_ix_to_raw_coord( view_pos.y ), TILE_WIDTH, TILE_WIDTH );
 
-      this.advance_frame();
+      if( increment_frame )
+      {
+        this.advance_frame();
+      }
     }
   };
   
@@ -70,11 +76,17 @@ Widget.prototype.advance_frame = function()
 {
   if( this.tile_id.length > 1 )
   {
-    this.frame_ix++;
+    this.speed_counter++;
 
-    if( this.frame_ix >= this.tile_id.length )
+    if( this.speed_counter >= this.speed )
     {
-      this.frame_ix = 0;
+      this.speed_counter = 0;
+      this.frame_ix++;
+
+      if( this.frame_ix >= this.tile_id.length )
+      {
+        this.frame_ix = 0;
+      }
     }
   }
 }
